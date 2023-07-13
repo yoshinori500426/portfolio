@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<title>Dring Sale System</title>
+<link rel="stylesheet" href="css/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="css/bootstrap/css/bootstrap-theme.min.css">
+<link rel="stylesheet" href="css/style.css">
+<script type="text/javascript">
+	function doExecute(action) {
+		var f = document.forms[0];
+		f.submit();
+	}
+</script>
+</head>
+
+<body onload="doExecute()">
+    <div class="box">
+<!-- document.forms[0]; -->
+        <form action="action/Main.action" name="form1" method="POST">
+            <p>販売画面を表示します。</p>
+        </form>
+    </div>
+</body>
+
+</html>

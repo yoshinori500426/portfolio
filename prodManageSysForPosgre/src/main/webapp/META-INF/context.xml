@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration>
+<Context reloadable="true">
+
+<!-- ORACLE -->
+<!-- <Resource
+	name = "jdbc/yaoya"
+	auth = "Container"
+	type = "javax.sql.DataSource"
+	driverClassName = "oracle.jdbc.driver.OracleDriver"
+	url = "jdbc:oracle:thin:@192.168.0.2:1521:xe"
+	username = "Yaoya"
+	password = "Yaoya"
+/> -->
+
+<!-- MySQL -->
+<Resource
+	name = "jdbc/yaoya"
+	auth = "Container"
+	type = "javax.sql.DataSource"
+	driverClassName = "com.mysql.cj.jdbc.Driver"
+	url = "jdbc:mysql://localhost:3306/ex"
+	username = "yoshinori"
+	password = "takehiro"
+/>
+
+</Context>
