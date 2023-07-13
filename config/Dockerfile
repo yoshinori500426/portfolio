@@ -52,19 +52,19 @@ RUN mv /prodManageSysForPosgre.zip /prodManageSysForPosgre.war
 # ========================================================================================================================================
 # Linux(ubuntu)イメージで作成したwarファイルのデプロイ
 
-# イメージ｢tomcat｣を使用する場合の処理
-# Linux(ubuntu)イメージで作成したwarファイルをイメージ｢tomcat｣のコンテナにデプロイする
-FROM tomcat:8.5
-# 以下､イメージ｢tomee｣から生成されるコンテナ｢Tomcat｣のTomcatトップページが表示されない不具合対応
-RUN cd $CATALINA_HOME/
-RUN mv webapps webapps2
-RUN mv webapps.dist webapps
-# 以下､イメージ｢tomcat｣から生成されるコンテナ｢Tomcat｣の管理マネージャ(Tomcat Manager Application)操作用ファイル(設定ファイル)のコピー
-COPY ./config/settings.xml $CATALINA_HOME/conf/
-COPY ./config/tomcat-users.xml $CATALINA_HOME/conf/
-# 以下､Linux(ubuntu)イメージで作成したwarファイルのサーブレットコンテナへの配備
-COPY --from=forMakeWAR /drinkSaleSysForPosgre.war $CATALINA_HOME/webapps/
-COPY --from=forMakeWAR /prodManageSysForPosgre.war $CATALINA_HOME/webapps/
+# # イメージ｢tomcat｣を使用する場合の処理
+# # Linux(ubuntu)イメージで作成したwarファイルをイメージ｢tomcat｣のコンテナにデプロイする
+# FROM tomcat:8.5
+# # 以下､イメージ｢tomee｣から生成されるコンテナ｢Tomcat｣のTomcatトップページが表示されない不具合対応
+# RUN cd $CATALINA_HOME/
+# RUN mv webapps webapps2
+# RUN mv webapps.dist webapps
+# # 以下､イメージ｢tomcat｣から生成されるコンテナ｢Tomcat｣の管理マネージャ(Tomcat Manager Application)操作用ファイル(設定ファイル)のコピー
+# COPY ./config/settings.xml $CATALINA_HOME/conf/
+# COPY ./config/tomcat-users.xml $CATALINA_HOME/conf/
+# # 以下､Linux(ubuntu)イメージで作成したwarファイルのサーブレットコンテナへの配備
+# COPY --from=forMakeWAR /drinkSaleSysForPosgre.war $CATALINA_HOME/webapps/
+# COPY --from=forMakeWAR /prodManageSysForPosgre.war $CATALINA_HOME/webapps/
 
 
 # COPY ./drinkSaleSysForPosgre/drinkSaleSysForPosgre.war $CATALINA_HOME/webapps/
@@ -72,14 +72,14 @@ COPY --from=forMakeWAR /prodManageSysForPosgre.war $CATALINA_HOME/webapps/
 
 
 
-# # イメージ｢tomee｣を使用する場合の処理
-# # Linux(ubuntu)イメージで作成したwarファイルをイメージ｢tomee｣のコンテナにデプロイする
-# FROM tomee:webprofile
-# # 以下､イメージ｢tomee｣から生成されるコンテナ｢Tomcat｣の管理マネージャ(Tomcat Manager Application)操作用ファイル(設定ファイル)のコピー
-# COPY ./config/settings.xml /usr/local/tomee/conf
-# COPY ./config/tomcat-users.xml /usr/local/tomee/conf
-# # 以下､Linux(ubuntu)イメージで作成したwarファイルのサーブレットコンテナへの配備
-# COPY --from=forMakeWAR /drinkSaleSysForPosgre.war /usr/local/tomee/webapps/
-# COPY --from=forMakeWAR /prodManageSysForPosgre.war /usr/local/tomee/webapps/
+# イメージ｢tomee｣を使用する場合の処理
+# Linux(ubuntu)イメージで作成したwarファイルをイメージ｢tomee｣のコンテナにデプロイする
+FROM tomee:webprofile
+# 以下､イメージ｢tomee｣から生成されるコンテナ｢Tomcat｣の管理マネージャ(Tomcat Manager Application)操作用ファイル(設定ファイル)のコピー
+COPY ./config/settings.xml /usr/local/tomee/conf
+COPY ./config/tomcat-users.xml /usr/local/tomee/conf
+# 以下､Linux(ubuntu)イメージで作成したwarファイルのサーブレットコンテナへの配備
+COPY --from=forMakeWAR /drinkSaleSysForPosgre.war /usr/local/tomee/webapps/
+COPY --from=forMakeWAR /prodManageSysForPosgre.war /usr/local/tomee/webapps/
 
 
