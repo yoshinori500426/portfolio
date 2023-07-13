@@ -22,6 +22,8 @@ COPY ./config/war/prodManageSysForPosgre.war /usr/local/tomee/webapps/
 COPY ./config/settings.xml /usr/local/tomee/conf
 COPY ./config/tomcat-users.xml /usr/local/tomee/conf
 
+
+
 # # ========================================================================================================================================
 # # 以下､動作不安定の為､使用しない
 # # マルチステージビルドを利用し､Linux(ubuntu)/Tomcatの2つのイメージを使用
