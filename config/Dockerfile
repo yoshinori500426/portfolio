@@ -41,8 +41,7 @@ RUN mv /usr/src/prodManageSysForPosgre/src/main/webapp /usr/src/prodManageSysFor
 RUN mv /usr/src/prodManageSysForPosgre/src/main/prodManageSysForPosgre /
 
 # Javaホルダ圧縮(WARファイル作成)の為､zipコマンドをインストール
-# RUN apt update && apt install -y zip
-RUN sudo apt-get install -y zip unzip
+RUN apt update && apt install -y zip unzip
 # ディレクトリ｢drinkSaleSysForPosgre｣をzipファイルに圧縮し､拡張子をzipからwarに変更
 RUN zip -r /drinkSaleSysForPosgre.zip /drinkSaleSysForPosgre
 RUN mv /drinkSaleSysForPosgre.zip /drinkSaleSysForPosgre.war
