@@ -1,5 +1,6 @@
 # マルチステージビルドを利用し､Linux(ubuntu)/Tomcatの2つのイメージを使用している
 
+# ========================================================================================================================================
 # Linux(ubuntu)イメージを使用し､Javaホルダから､WARファイルを作成する
 FROM ubuntu:mantic-20230624 as forMakeWAR
 
@@ -49,6 +50,7 @@ RUN mv /drinkSaleSysForPosgre.zip /drinkSaleSysForPosgre.war
 RUN zip -r /prodManageSysForPosgre.zip /prodManageSysForPosgre
 RUN mv /prodManageSysForPosgre.zip /prodManageSysForPosgre.war
 
+# ========================================================================================================================================
 # Linux(ubuntu)イメージで作成したwarファイルのデプロイ
 
 # イメージ｢tomcat｣を使用する場合の処理
@@ -59,11 +61,11 @@ RUN cd $CATALINA_HOME/
 RUN mv webapps webapps2
 RUN mv webapps.dist webapps
 # 以下､イメージ｢tomcat｣から生成されるコンテナ｢Tomcat｣の管理マネージャ(Tomcat Manager Application)操作用ファイル(設定ファイル)のコピー
-COPY settings.xml $CATALINA_HOME/conf/
-COPY tomcat-users.xml $CATALINA_HOME/conf/
+COPY ./config/settings.xml $CATALINA_HOME/conf/
+COPY ./config/tomcat-users.xml $CATALINA_HOME/conf/
 # 以下､Linux(ubuntu)イメージで作成したwarファイルのサーブレットコンテナへの配備
-COPY --from=forMakeWAR /usr/src/drinkSaleSysForPosgre/src/main/webapp/drinkSaleSysForPosgre.war $CATALINA_HOME/webapps/
-COPY --from=forMakeWAR /usr/src/prodManageSysForPosgre/src/main/webapp/prodManageSysForPosgre.war $CATALINA_HOME/webapps/
+COPY --from=forMakeWAR /drinkSaleSysForPosgre.war $CATALINA_HOME/webapps/
+COPY --from=forMakeWAR /prodManageSysForPosgre.war $CATALINA_HOME/webapps/
 
 
 # COPY ./drinkSaleSysForPosgre/drinkSaleSysForPosgre.war $CATALINA_HOME/webapps/
@@ -75,8 +77,8 @@ COPY --from=forMakeWAR /usr/src/prodManageSysForPosgre/src/main/webapp/prodManag
 # # Linux(ubuntu)イメージで作成したwarファイルをイメージ｢tomee｣のコンテナにデプロイする
 # FROM tomee:webprofile
 # # 以下､イメージ｢tomee｣から生成されるコンテナ｢Tomcat｣の管理マネージャ(Tomcat Manager Application)操作用ファイル(設定ファイル)のコピー
-# COPY settings.xml /usr/local/tomee/conf
-# COPY tomcat-users.xml /usr/local/tomee/conf
+# COPY ./config/settings.xml /usr/local/tomee/conf
+# COPY ./config/tomcat-users.xml /usr/local/tomee/conf
 # # 以下､Linux(ubuntu)イメージで作成したwarファイルのサーブレットコンテナへの配備
 # COPY --from=forMakeWAR /drinkSaleSysForPosgre.war /usr/local/tomee/webapps/
 # COPY --from=forMakeWAR /prodManageSysForPosgre.war /usr/local/tomee/webapps/
