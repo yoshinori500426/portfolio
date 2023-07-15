@@ -20,7 +20,7 @@ services:
   - type: web
     name: portfolio_staticSite
     runtime: static
-    buildCommand: yarn build
+    # buildCommand: yarn build
     staticPublishPath: ./shigaTouristAttractionsInformation
 
 databases:
