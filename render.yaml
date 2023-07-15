@@ -16,6 +16,13 @@ services:
           name: dbForOperationCheck
           property: connectionString
 
+  # static site
+  - type: web
+    name: portfolio_staticSite
+    runtime: static
+    buildCommand: yarn build
+    staticPublishPath: ./shigaTouristAttractionsInformation
+
 databases:
   # db
   - name: dbForOperationCheck

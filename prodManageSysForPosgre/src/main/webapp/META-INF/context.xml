@@ -3,7 +3,8 @@
 <Context reloadable="true">
 
 <!-- ORACLE -->
-<!-- <Resource
+<!-- 
+<Resource
 	name = "jdbc/yaoya"
 	auth = "Container"
 	type = "javax.sql.DataSource"
@@ -11,9 +12,11 @@
 	url = "jdbc:oracle:thin:@192.168.0.2:1521:xe"
 	username = "Yaoya"
 	password = "Yaoya"
-/> -->
+/> 
+-->
 
 <!-- MySQL -->
+<!-- 
 <Resource
 	name = "jdbc/yaoya"
 	auth = "Container"
@@ -23,5 +26,30 @@
 	username = "yoshinori"
 	password = "takehiro"
 />
+-->
+
+<!-- PostgreSQL(ローカルPC用) -->
+<Resource 
+	name="jdbc/yaoya"
+	auth="Container" 
+	type="javax.sql.DataSource"
+	driverClassName="org.postgresql.Driver"
+	url="jdbc:postgresql://localhost:5432/yourDatabaseName"
+	username="postgres"
+	password="postgres"
+/> 
+
+<!-- PostgreSQL(公開用) -->
+<!-- 
+<Resource 
+	name="jdbc/yaoya"
+	auth="Container" 
+	type="javax.sql.DataSource"
+	driverClassName="org.postgresql.Driver"
+	url="jdbc:postgresql://postgres://free_db_7own_oo74_user:0QeTJ5CViRui6Tn5Ujr1PUSmbMdYUx2J@dpg-cino9h5gkuvudi9noilg-a/free_db_7own_oo74"
+	username="free_db_7own_oo74_user"
+	password="0QeTJ5CViRui6Tn5Ujr1PUSmbMdYUx2J"
+/> 
+-->
 
 </Context>
