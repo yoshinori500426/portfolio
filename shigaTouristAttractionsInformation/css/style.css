@@ -1,0 +1,524 @@
+/* ====================================================================== */
+
+/* 全てのマージンを0にする ==================================*/
+
+* {
+    margin: 0;
+}
+
+/* ページ内リンクのスクロールをなめらかにする ==================================*/
+
+html {
+    scroll-behavior: smooth;
+}
+
+/* 共通設定 ==================================*/
+
+body {
+    font-family: 'Noto Sans JP', 'Noto Sans', sans-serif, sans-serif;
+    color: rgb(51, 51, 51);
+    background-color: rgba(79, 175, 217, .3);
+}
+
+h2 {
+    padding: 24px;
+    border-left: 15px solid rgb(45, 73, 145);
+    border-bottom: 2px solid rgb(45, 73, 145);
+    border-left: 5%;
+}
+
+h6 {
+    font-size: 20px;
+    color: rgb(51, 51, 51);
+    height: 100px;
+    margin: 0;
+}
+
+p {
+    font-size: 17px;
+}
+
+#ChangeBtn {
+    background-color: rgb(79, 175, 217);
+    color: white;
+    border: 1px, solid, rgb(45, 73, 145);
+    border-radius: 10px;
+    margin: 0 auto;
+    padding: 10px;
+    height: 50%;
+}
+
+nav {
+    height: 50%;
+    margin: 0 auto;
+}
+
+.List li a, #Contents ol a {
+    cursor: default;
+    text-decoration: none;
+    color: rgb(51, 51, 51);
+}
+
+.List li:hover, #Contents ol a:hover {
+    text-decoration: underline;
+    text-decoration-color: rgb(51, 51, 51);
+}
+
+ol li, ul li {
+    font-size: 24px;
+    margin: 5px 0;
+    letter-spacing: 1px;
+}
+
+ol {
+    margin: 0 0 0 5%;
+}
+
+.breadcrumb.li {
+    font-size: 24px;
+}
+
+div.anchor {
+    display: block;
+    padding-top: 100px;
+    margin-top: -100px;
+}
+
+.Dummy {
+    width: 100%;
+    height: 20px;
+    margin: 0;
+}
+
+/* 表示/非表示動作用 ==================================*/
+
+.HeaderMiddle, .List {
+    display: none;
+}
+
+.List[data-on-off-flg="true"] {
+    display: block;
+    animation-name: displayBlock;
+    animation-fill-mode: forwards;
+    animation-duration: 1.5s;
+    animation-timing-function: ease;
+}
+
+@keyframes displayBlock {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+.List[data-on-off-flg="false"] {
+    animation-name: displayNone;
+    animation-fill-mode: forwards;
+    animation-duration: 1.5s;
+    animation-timing-function: ease;
+}
+
+@keyframes displayNone {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        display: none;
+    }
+}
+
+/* header ==================================*/
+
+.HeaderTop {
+    background-color: white;
+    position: fixed;
+    z-index: 10000;
+    height: 100px;
+    width: 100vw;
+}
+
+.Symbol h1 {
+    font-size: 38px;
+    font-weight: 700;
+    color: rgb(51, 51, 51);
+}
+
+.ImgTopWrap {
+    position: relative;
+    margin: 0 auto;
+}
+
+.ImgTop {
+    display: block;
+    height: 90px;
+}
+
+.ImgTopWd {
+    position: absolute;
+    top: 0;
+}
+
+.HeaderTopLink {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+.HeaderTopBtnSet {
+    height: 100px;
+    font-size: 14px;
+    text-align: center;
+}
+
+.HeaderTopBtnSet a, .Symbol a {
+    cursor: default;
+}
+
+.Btn {
+    background-color: white;
+    border: 2px solid white;
+    padding: 0;
+    margin: 0;
+    height: 100px;
+}
+
+.Btn:hover, .ImgTopWrap:hover {
+    animation-name: shadowImgTopWrap;
+    animation-fill-mode: forwards;
+    animation-duration: 1.5s;
+    animation-timing-function: ease;
+}
+
+@keyframes shadowImgTopWrap {
+    0% {
+        /* box-shadow: X軸の距離 Y軸の距離 ぼかしの長さ 広がりの長さ 色; */
+        box-shadow: inset 0 0 0 0 white;
+        border: 2px solid white;
+    }
+    100% {
+        /* box-shadow:inset X軸の距離 Y軸の距離 ぼかしの長さ 広がりの長さ 色; */
+        box-shadow: inset 0 0 10px 10px rgba(79, 175, 217, .3);
+        border: 2px solid rgba(79, 175, 217, .8);
+    }
+}
+
+.Btn a {
+    text-decoration: none;
+}
+
+.BtnPointer {
+    width: 70%;
+    height: 5%;
+    margin: 0 auto;
+    background-color: rgb(79, 175, 217);
+}
+
+.HeaderMiddle {
+    width: 100vw;
+    background-color: white;
+}
+
+.SelectBlock, .ContentsMain {
+    margin-top: 100px;
+}
+
+.MapShiga {
+    max-width: 300px;
+}
+
+.Circle {
+    height: 100px;
+    width: 100px;
+    border-radius: 100%;
+    background-color: transparent;
+    border: 3px double rgb(79, 175, 217);
+}
+
+.SelectBlock .Circle:hover {
+    animation-name: shadowSelectBlock;
+    animation-fill-mode: forwards;
+    animation-duration: .8s;
+    animation-timing-function: ease;
+}
+
+@keyframes shadowSelectBlock {
+    0% {
+        /* box-shadow:inset X軸の距離 Y軸の距離 ぼかしの長さ 広がりの長さ 色; */
+        box-shadow: inset 0 0 0 0 transparent;
+        border: 3px double rgb(79, 175, 217);
+    }
+    100% {
+        /* box-shadow:inset X軸の距離 Y軸の距離 ぼかしの長さ 広がりの長さ 色; */
+        box-shadow: inset 0 0 40px 40px rgba(79, 175, 217, .6);
+        border: 3px double rgb(45, 73, 145);
+    }
+}
+
+#CircleBtn1 {
+    position: absolute;
+    top: 260px;
+    left: 180px;
+}
+
+#CircleBtn2 {
+    position: absolute;
+    top: 340px;
+    left: 60px;
+}
+
+#CircleBtn3 {
+    position: absolute;
+    top: 100px;
+    left: 200px;
+}
+
+#CircleBtn4 {
+    position: absolute;
+    top: 120px;
+    left: 40px;
+}
+
+.HeaderMiddle {
+    position: fixed;
+    z-index: 100;
+}
+
+.List {
+    margin-top: 100px;
+}
+
+.List h3, .List ul {
+    text-align: left;
+    margin-left: 0;
+    padding-left: 0;
+    list-style-type: none;
+}
+
+/* main ==================================*/
+
+.SlideShowItems {
+    list-style: none;
+    position: relative;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.SlideShowItems img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.MainContents {
+    background-color: white;
+}
+
+.Items {
+    padding: 10px 0;
+    background-color: rgb(226, 227, 229);
+    width: 80%;
+    margin-left: 10%;
+}
+
+.ContentImgComentTop {
+    margin: 20px 0;
+}
+
+.ContentImgComentTop .ContentImg img {
+    display: block;
+    margin: 0 auto;
+    width: 90%;
+}
+
+.ContentImgComentTop p {
+    margin: 30px auto 0 auto;
+    width: 90%;
+}
+
+/* footer ==================================*/
+
+.Footer {
+    width: 100vw;
+    background-color: rgb(45, 73, 145);
+}
+
+.Footer .Wrapper {
+    margin-top: 30px;
+    margin-bottom: 100px;
+}
+
+.FooterList h3 {
+    font-size: 15px;
+    color: white;
+    margin: 0;
+    padding: 30px 0 10px 0;
+    border-bottom: 1.5px solid white;
+}
+
+.FooterList li a {
+    cursor: default;
+    text-decoration: none;
+    font-size: 15px;
+    color: white;
+}
+
+.FooterList li:hover {
+    text-decoration: underline;
+    text-decoration-color: white;
+}
+
+.FooterList ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.FooterList li {
+    padding: 0;
+    line-height: .8;
+}
+
+/* slick実装 ==================================*/
+
+.slider-2 .slick-slide {
+    width: 600px;
+    height: 400px;
+    margin: 0 40px;
+    position: relative;
+    overflow: hidden;
+}
+
+.slider-2 .slick-slide img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.slider-2 .slick-arrow {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: #fff;
+    cursor: pointer;
+    border: none;
+    outline: none;
+    font-size: 0;
+    position: absolute;
+    top: 180px;
+    z-index: 1;
+    filter: drop-shadow(0px 3px 6px rgba(0, 0, 0, 0.16));
+}
+
+.slider-2 .slick-arrow::before {
+    content: '';
+    display: block;
+    width: 12px;
+    height: 12px;
+    border: 1px solid #09000d;
+    border-width: 3px 3px 0 0;
+    position: absolute;
+    top: 24px;
+    transform: rotate(45deg);
+}
+
+.slider-2 .slick-next {
+    right: 0;
+}
+
+.slider-2 .slick-prev {
+    left: 0;
+}
+
+.slider-2 .slick-next::before {
+    left: 20px;
+}
+
+.slider-2 .slick-prev::before {
+    border-width: 0 0 3px 3px;
+    right: 22px;
+}
+
+.dots-2 .slick-dots {
+    text-align: center;
+}
+
+.dots-2 .slick-dots li {
+    display: inline-block;
+}
+
+.dots-2 .slick-dots button {
+    display: block;
+    width: 10px;
+    height: 10px;
+    margin: 6px;
+    font-size: 0;
+    padding: 0;
+    border: 0;
+    outline: none;
+    cursor: pointer;
+    background: #bcbcbc;
+    border-radius: 50%;
+}
+
+.dots-2 .slick-dots .slick-active button {
+    background: #0a467d;
+}
+
+.dots-2 {
+    position: unset;
+}
+
+.slick-dots li button:before {
+    font-size: 20px;
+}
+
+.slick-dots li {
+    width: 25px;
+}
+
+.slick-dots {
+    bottom: -30px;
+}
+
+/* 各地区 ==================================*/
+
+.ContentImgComent {
+    margin: 20px 0;
+}
+
+.ContentImg img {
+    display: block;
+    width: 100%;
+}
+
+.ContentTable th {
+    width: 100px;
+}
+
+/* レスポンシブ対応 ==================================*/
+
+@media only screen and (max-width: 991px) {
+    .SelectBlock, .ContentsMain {
+        margin-top: 200px;
+    }
+    div.anchor {
+        display: block;
+        padding-top: 200px;
+        margin-top: -200px;
+    }
+    .List {
+        margin-top: 20px;
+    }
+    .Footer .Wrapper {
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }
+}
