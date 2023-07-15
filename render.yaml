@@ -16,17 +16,17 @@ services:
           name: dbForOperationCheck
           property: connectionString
 
-  # static site
-  - type: web
-    name: portfolio_staticSite
-    runtime: static
-    # buildCommand: yarn build
-    staticPublishPath: ./shigaTouristAttractionsInformation
-    repo: https://github.com/yoshinori500426/portfolio.git
-    branch: main
-    rootDir: .
-    region: singapore
-    plan: free
+  # # static site
+  # - type: web
+  #   name: portfolio_staticSite
+  #   runtime: static
+  #   # buildCommand: yarn build
+  #   staticPublishPath: ./shigaTouristAttractionsInformation
+  #   repo: https://github.com/yoshinori500426/portfolio.git
+  #   branch: main
+  #   rootDir: .
+  #   region: singapore
+  #   plan: free
 
 databases:
   # db
