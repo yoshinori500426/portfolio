@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>滋賀県の観光名所</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100;300;400;500;700;900&family=Noto+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="css/bootstrap-5.0.2-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="js/slick-1.8.1/slick/slick.css">
+    <link rel="stylesheet" href="js/slick-1.8.1/slick/slick-theme.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <!--==========================Header==========================-->
+    <div class="position-relative Header">
+        <header>
+            <!-- div要素を固定し､最前面に表示させる -->
+            <!-- ======================HOMEシンボル/パンくずリスト/ヘッダボタン====================== -->
+            <div class="HeaderTop">
+                <!-- 親要素の高さに合わせる､グリッドを使用する -->
+                <div class="row h-100 Wrapper">
+                    <!-- ======================HOMEシンボル====================== -->
+                    <div class="col-lg-2 col-6 h-100 ImgTopWrap">
+                        <div class="Symbol">
+                            <a href="index.html">
+                                <div>
+                                    <img class="ImgTop" src="img/HeaderImg.jpg" alt="琵琶湖画像">
+                                    <h1 class="ImgTopWd">滋賀県の<br>観光名所</h1>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <!-- ======================パンくずリスト/背景切替ボタン====================== -->
+                    <div class="row col-lg-2 col-6 d-flex align-items-end HeaderTopLink">
+                        <button class="col-12" id="ChangeBtn">背景切替</button>
+                        <nav class="col-12" aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item">Home</li>
+                            </ol>
+                        </nav>
+                    </div>
+                    <!-- ======================ヘッダボタン====================== -->
+                    <div class="row col-lg-8 col-12 h-100 HeaderTopBtnSet">
+                        <!-- ======================トップページ====================== -->
+                        <div class="col h-100 position-relative Btn" id="HeaderBtn0">
+                            <a href="index.html">
+                                <div>
+                                    <h6 class="mx-auto"><br><br>トップページ</h6>
+                                    <div
+                                        class="rounded-pill position-absolute bottom-0 start-50 translate-middle BtnPointer">
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <!-- ======================湖東地区====================== -->
+                        <div class="col h-100 position-relative Btn" id="HeaderBtn1">
+                            <a href="kotou.html">
+                                <div>
+                                    <h6 class="mx-auto"><br><br>湖東地区</h6>
+                                    <div
+                                        class="rounded-pill position-absolute bottom-0 start-50 translate-middle BtnPointer">
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <!-- ======================湖南地区====================== -->
+                        <div class="col h-100 position-relative Btn" id="HeaderBtn2">
+                            <a href="konan.html">
+                                <div>
+                                    <h6 class="mx-auto"><br><br>湖南地区</h6>
+                                    <div
+                                        class="rounded-pill position-absolute bottom-0 start-50 translate-middle BtnPointer">
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <!--======================湖北地区======================-->
+                        <div class="col h-100 position-relative Btn" id="HeaderBtn3">
+                            <a href="kohoku.html">
+                                <div>
+                                    <h6 class="mx-auto"><br><br>湖北地区</h6>
+                                    <div
+                                        class="rounded-pill position-absolute bottom-0 start-50 translate-middle BtnPointer">
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <!--======================湖西地区======================-->
+                        <div class="col h-100 position-relative Btn" id="HeaderBtn4">
+                            <a href="kosei.html">
+                                <div>
+                                    <h6 class="mx-auto"><br><br>湖西地区</h6>
+                                    <div
+                                        class="rounded-pill position-absolute bottom-0 start-50 translate-middle BtnPointer">
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- ======================ボタンセレクト画面====================== -->
+            <div class="HeaderMiddle">
+                <div class="container">
+                    <div class="SelectBlock">
+                        <div class="row">
+                            <div class="col-lg-3 col-3"></div>
+                            <!-- ======================CircleBtn====================== -->
+                            <div class="position-relative col-lg-3 col-9">
+                                <img src="img/MapShiga.jpg" alt="滋賀県地図" class="MapShiga">
+                                <!-- ======================湖東地区====================== -->
+                                <a href="kotou.html">
+                                    <div class="Circle" id="CircleBtn1">
+                                    </div>
+                                </a>
+                                <!-- ======================湖南地区====================== -->
+                                <a href="konan.html">
+                                    <div class="Circle" id="CircleBtn2">
+                                    </div>
+                                </a>
+                                <!--======================湖北地区======================-->
+                                <a href="kohoku.html">
+                                    <div class="Circle" id="CircleBtn3">
+                                    </div>
+                                </a>
+                                <!--======================湖西地区======================-->
+                                <a href="kosei.html">
+                                    <div class="Circle" id="CircleBtn4">
+                                    </div>
+                                </a>
+                            </div>
+                            <!-- ======================成形用ダミー====================== -->
+                            <div class="col-lg-1 col-5"></div>
+                            <!-- ======================各地区_各アイテムリスト====================== -->
+                            <div class="col-lg-5 col-7 row justify-content-center">
+                                <!-- ======================トップページ====================== -->
+                                <div class="List" id="List0" data-on-off-flg="false">
+                                    <h3>Home</h3>
+                                    <ul>
+                                        <li><a href="index.html#Contents1">1. 名所写真</a></li>
+                                        <li><a href="index.html#Contents2">2. 滋賀県の特徴</a></li>
+                                        <li><a href="index.html#Contents3">3. 湖東地区/湖東エリア<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;(彦根市/愛荘町/豊郷町/多賀町/甲良町)</a></li>
+                                        <li><a href="index.html#Contents4">4. 湖東地区/東近江エリア<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;(近江八幡市/東近江市/竜王町/日野町)</a></li>
+                                        <li><a href="index.html#Contents5">5. 湖南地区/大津エリア<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;(大津市)</a></li>
+                                        <li><a href="index.html#Contents6">6. 湖南地区/湖南エリア<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;(草津市/栗東市/守山市/野洲市)</a></li>
+                                        <li><a href="index.html#Contents7">7. 湖南地区/甲賀エリア<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;(湖南市/甲賀市)</a></li>
+                                        <li><a href="index.html#Contents8">8. 湖北地区/湖北エリア<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;(長浜市/米原市)</a></li>
+                                        <li><a href="index.html#Contents9">9. 湖西地区/湖西エリア<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;(高島市)</a></li>
+                                    </ul>
+                                </div>
+                                <!-- ======================湖東地区====================== -->
+                                <div class="List" id="List1" data-on-off-flg="false">
+                                    <h3>湖東地区</h3>
+                                    <ul>
+                                        <li><a href="kotou.html#Contents1">1. 彦根城</a></li>
+                                        <li><a href="kotou.html#Contents2">2. ラコリーナ近江八幡</a></li>
+                                        <li><a href="kotou.html#Contents3">3. 八幡堀</a></li>
+                                        <li><a href="kotou.html#Contents4">4. 三井アウトレットパーク滋賀竜王</a></li>
+                                        <li><a href="kotou.html#Contents5">5. 玄宮園</a></li>
+                                    </ul>
+                                </div>
+                                <!-- ======================湖南地区====================== -->
+                                <div class="List" id="List2">
+                                    <h3>湖南地区</h3>
+                                    <ul>
+                                        <li><a href="konan.html#Contents1">1. 延暦寺</a></li>
+                                        <li><a href="konan.html#Contents2">2. びわ湖テラス</a></li>
+                                        <li><a href="konan.html#Contents3">3. びわ湖バレイ</a></li>
+                                        <li><a href="konan.html#Contents4">4. 石山寺</a></li>
+                                        <li><a href="konan.html#Contents5">5. 三井寺</a></li>
+                                    </ul>
+                                </div>
+                                <!--======================湖北地区======================-->
+                                <div class="List" id="List3">
+                                    <h3>湖北地区</h3>
+                                    <ul>
+                                        <li><a href="kohoku.html#Contents1">1. 黒壁スクエア</a></li>
+                                        <li><a href="kohoku.html#Contents2">2. 伊吹山</a></li>
+                                        <li><a href="kohoku.html#Contents3">3. 竹生島</a></li>
+                                        <li><a href="kohoku.html#Contents4">4. 余呉湖</a></li>
+                                        <li><a href="kohoku.html#Contents5">5. 青岸寺</a></li>
+                                    </ul>
+                                </div>
+                                <!--======================湖西地区======================-->
+                                <div class="List" id="List4">
+                                    <h3>湖西地区</h3>
+                                    <ul>
+                                        <li><a href="kosei.html#Contents1">1. 白鬚神社</a></li>
+                                        <li><a href="kosei.html#Contents2">2. メタセコイア並木</a></li>
+                                        <li><a href="kosei.html#Contents3">3. マキノ農業公園マキノピックランド</a></li>
+                                        <li><a href="kosei.html#Contents4">4. グリーンパーク想い出の森</a></li>
+                                        <li><a href="kosei.html#Contents5">5. マキノ高原・マキノ高原温泉さらさ</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+    </div>
+    <!--==========================Main(スライドショー/目次/コンテンツ)==========================-->
+    <div class="Main">
+        <main>
+            <!-- ======================スライドショー by setInterval('slidesshow()', 2000);====================== -->
+            <div class="MainImgWrap">
+                <div class="SlideShowItems" id="SlideShow">
+                    <img src="img/滋賀写真/滋賀写真_Main01.jpg" alt="滋賀写真01">
+                    <img src="img/滋賀写真/滋賀写真_Main02.jpg" alt="滋賀写真02">
+                    <img src="img/滋賀写真/滋賀写真_Main03.jpg" alt="滋賀写真03">
+                    <img src="img/滋賀写真/滋賀写真_Main04.jpg" alt="滋賀写真04">
+                    <img src="img/滋賀写真/滋賀写真_Main05.jpg" alt="滋賀写真05">
+                    <img src="img/滋賀写真/滋賀写真_Main06.jpg" alt="滋賀写真06">
+                    <img src="img/滋賀写真/滋賀写真_Main07.jpg" alt="滋賀写真07">
+                    <img src="img/滋賀写真/滋賀写真_Main08.jpg" alt="滋賀写真08">
+                    <img src="img/滋賀写真/滋賀写真_Main09.jpg" alt="滋賀写真09">
+                    <img src="img/滋賀写真/滋賀写真_Main10.jpg" alt="滋賀写真10">
+                    <img src="img/滋賀写真/滋賀写真_Main11.jpg" alt="滋賀写真11">
+                    <img src="img/滋賀写真/滋賀写真_Main12.jpg" alt="滋賀写真12">
+                    <img src="img/滋賀写真/滋賀写真_Main13.jpg" alt="滋賀写真13">
+                    <img src="img/滋賀写真/滋賀写真_Main14.jpg" alt="滋賀写真14">
+                    <img src="img/滋賀写真/滋賀写真_Main15.jpg" alt="滋賀写真15">
+                </div>
+            </div>
+            <div class="container">
+                <div class="Wrapper">
+                    <div class="MainContents">
+                        <!-- ======================目次====================== -->
+                        <div id="Contents" class="anchor">
+                            <h2>目次</h2>
+                            <div class="Items">
+                                <ol type="1">
+                                    <a href="#Contents1">
+                                        <li>名所写真</li>
+                                    </a>
+                                    <a href="#Contents2">
+                                        <li>滋賀県の特徴</li>
+                                    </a>
+                                    <a href="#Contents3">
+                                        <li>湖東地区/湖東エリア(彦根市/愛荘町/豊郷町/多賀町/甲良町)</li>
+                                    </a>
+                                    <a href="#Contents4">
+                                        <li>湖東地区/東近江エリア(近江八幡市/東近江市/竜王町/日野町)</li>
+                                    </a>
+                                    <a href="#Contents5">
+                                        <li>湖南地区/大津エリア(大津市)</li>
+                                    </a>
+                                    <a href="#Contents6">
+                                        <li>湖南地区/湖南エリア(草津市/栗東市/守山市/野洲市)</li>
+                                    </a>
+                                    <a href="#Contents7">
+                                        <li>湖南地区/甲賀エリア(湖南市/甲賀市)</li>
+                                    </a>
+                                    <a href="#Contents8">
+                                        <li>湖北地区/湖北エリア(長浜市/米原市)</li>
+                                    </a>
+                                    <a href="#Contents9">
+                                        <li>湖西地区/湖西エリア(高島市)</li>
+                                    </a>
+                                </ol>
+                            </div>
+                        </div>
+                        <div class="ContentsAll">
+                            <!-- ======================Contents1 スライドショー by slick====================== -->
+                            <div class="Contents anchor" id="Contents1">
+                                <div class="Dummy"></div>
+                                <h2>1. 名所写真</h2>
+                                <ul class="slider-2" id="SlideShowSlider">
+                                    <!-- ======================湖東地区====================== -->
+                                    <li><a href="kotou.html#Contents1"><img src="img/湖東地区/彦根城.jpg" alt="彦根城"></a>
+                                    </li>
+                                    <li><a href="kotou.html#Contents2"><img src="img/湖東地区/ラコリーナ近江八幡.jpg"
+                                                alt="ラコリーナ近江八幡"></a></li>
+                                    <li><a href="kotou.html#Contents3"><img src="img/湖東地区/八幡堀.jpg" alt="八幡堀"></a>
+                                    </li>
+                                    <li><a href="kotou.html#Contents4"><img src="img/湖東地区/三井アウト.jpg"
+                                                alt="三井アウトレットパーク滋賀竜王"></a>
+                                    </li>
+                                    <li><a href="kotou.html#Contents5"><img src="img/湖東地区/玄宮園.jpg" alt="玄宮園"></a>
+                                    </li>
+                                    <!-- ======================湖南地区====================== -->
+                                    <li><a href="konan.html#Contents1"><img src="img/湖南地区/延暦寺.jpg" alt="延暦寺"></a>
+                                    </li>
+                                    <li><a href="konan.html#Contents2"><img src="img/湖南地区/びわ湖テラ.jpg"
+                                                alt="びわ湖テラス"></a></li>
+                                    <li><a href="konan.html#Contents3"><img src="img/湖南地区/びわ湖バレ.jpg"
+                                                alt="びわ湖バレイ"></a></li>
+                                    <li><a href="konan.html#Contents4"><img src="img/湖南地区/石山寺.jpg" alt="石山寺"></a>
+                                    </li>
+                                    <li><a href="konan.html#Contents5"><img src="img/湖南地区/三井寺.jpg" alt="三井寺"></a>
+                                    </li>
+                                    <!--======================湖北地区======================-->
+                                    <li><a href="kohoku.html#Contents1"><img src="img/湖北地区/黒壁スクエア.jpg"
+                                                alt="黒壁スクエア"></a></li>
+                                    <li><a href="kohoku.html#Contents2"><img src="img/湖北地区/伊吹山.jpg" alt="伊吹山"></a>
+                                    </li>
+                                    <li><a href="kohoku.html#Contents3"><img src="img/湖北地区/竹生島.jpg" alt="竹生島"></a>
+                                    </li>
+                                    <li><a href="kohoku.html#Contents4"><img src="img/湖北地区/余呉湖.jpg" alt="余呉湖"></a>
+                                    </li>
+                                    <li><a href="kohoku.html#Contents5"><img src="img/湖北地区/青岸寺.jpeg"
+                                                alt="青岸寺"></a>
+                                    </li>
+                                    <!--======================湖西地区======================-->
+                                    <li><a href="kosei.html#Contents1"><img src="img/湖西地区/白鬚神社.jpg"
+                                                alt="白鬚神社"></a>
+                                    </li>
+                                    <li><a href="kosei.html#Contents2"><img src="img/湖西地区/メタセコイア並木.jpg"
+                                                alt="メタセコイア並木"></a></li>
+                                    <li><a href="kosei.html#Contents3"><img src="img/湖西地区/マキノ農業公園.JPG"
+                                                alt="マキノ農業公園マキノピックランド"></a></li>
+                                    <li><a href="kosei.html#Contents4"><img src="img/湖西地区/グリーンパーク.jpg"
+                                                alt="グリーンパーク想い出の森"></a></li>
+                                    <li><a href="kosei.html#Contents5"><img src="img/湖西地区/マキノ高原温泉さらさ.JPG"
+                                                alt="マキノ高原・マキノ高原温泉さらさ"></a></li>
+                                </ul>
+                                <div class="ToItems">
+                                    <p style="text-align: right;"><a href="#Contents"><br>&#9651
+                                            目次へ戻る</a></p>
+                                </div>
+                            </div>
+                            <!-- ======================Contents2====================== -->
+                            <div class="Contents anchor" id="Contents2">
+                                <div class="Dummy"></div>
+                                <h2>2. 滋賀県の特徴</h2>
+                                <div class="row ContentImgComent">
+                                    <div class="col-12 col-md-6 ContentImg">
+                                        <img src="img/滋賀の特徴.jpg" alt="滋賀県の特徴">
+                                    </div>
+                                    <div class="col-12 col-md-6 ContentComment">
+                                        <p>日本のほぼ真ん中に位置する滋賀県。<br>
+                                            県土の約６分の１を占める日本最大の湖・琵琶湖を抱え、水と緑の豊かな自然にふれ合うことができます。<br>
+                                            雄大さと変化に富んだ風景は、「琵琶湖八景」や「近江八景」として風光明媚な景色を紹介しています。<br>
+                                            古くから文化・経済の先進地として栄えたこの地には、歴史ある寺社や戦国時代をはじめとする英傑たちの足跡など、奥深い歴史文化があり、今もなお大切に守り伝えられています。
+                                        </p>
+                                        <div class="ToItems">
+                                            <p style="text-align: right;"><a href="#Contents">&#9651 目次へ戻る</a></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- ======================Contents3====================== -->
+                            <div class="Contents anchor" id="Contents3">
+                                <div class="Dummy"></div>
+                                <h2>3. 湖東地区/湖東エリア(彦根市/愛荘町/豊郷町/多賀町/甲良町)</h2>
+                                <div class="ContentImgComentTop">
+                                    <div class="ContentImg">
+                                        <img src="img/湖東_湖東.jpg"
+                                            alt="湖東地区/湖東エリア(彦根市/愛荘町/豊郷町/多賀町/甲良町)">
+                                    </div>
+                                    <p>堂々たる三重の天守が美しい天下の名城、国宝・彦根城。大名庭園やお堀めぐりでお殿様気分を味わい、城下町を再現した夢京橋キャッスルロードで町並み散策が楽しめます。<br>
+                                        彦根からひと足伸ばせば、「お多賀さん」で親しまれる延命長寿＆縁結びの多賀大社、秋には彩り鮮やかな天台宗の３名刹・湖東三山。また、アニメの聖地として有名なヴォーリズ建築の豊郷小学校旧校舎群。<br>
+                                        苔むした石垣、四季折々の花、歴史ある建築物、木々の狭間から望む琵琶湖。湖東平野に広がる風景は、まさに近江の感動絵巻です。</p>
+                                    <div class="ToItems">
+                                        <p style="text-align: right;"><a href="#Contents">&#9651 目次へ戻る</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- ======================Contents4====================== -->
+                            <div class="Contents anchor" id="Contents4">
+                                <div class="Dummy"></div>
+                                <h2>4. 湖東地区/東近江エリア(近江八幡市/東近江市/竜王町/日野町)</h2>
+                                <div class="ContentImgComentTop">
+                                    <div class="ContentImg">
+                                        <img src="img/湖東_東近江.jpg"
+                                            alt="湖東地区/東近江エリア(近江八幡市/東近江市/竜王町/日野町)">
+                                    </div>
+                                    <p>豊臣秀次の城下町・近江八幡。風情漂う八幡掘りを囲むように、商人屋敷やヴォーリズ建築が立ち並び、レトロな町並みが人気のスポット。近江商人のふるさと、近江八幡、日野、五個荘では、商人たちが残した足跡と、活気あふれる町の賑わいが偲ばれます。<br>
+                                        さらに、戦国の覇王・織田信長が、天下統一の拠点とした安土。万葉ロマンにひたる蒲生野。聖徳太子ゆかりの古代信仰の地・太郎坊宮、そして、日本三大和牛の一つ「近江牛」のふるさと。ここには幾重もの時代の表情と、人びとの歴史が息づいています。
+                                    </p>
+                                    <div class="ToItems">
+                                        <p style="text-align: right;"><a href="#Contents">&#9651 目次へ戻る</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- ======================Contents5====================== -->
+                            <div class="Contents anchor" id="Contents5">
+                                <div class="Dummy"></div>
+                                <h2>5. 湖南地区/大津エリア(大津市)</h2>
+                                <div class="ContentImgComentTop">
+                                    <div class="ContentImg">
+                                        <img src="img/湖南_大津.jpg" alt="湖南地区/大津エリア">
+                                    </div>
+                                    <p>万葉の昔から志賀の都としてひらけ、東海道の宿場町・湖上交通の要衝として栄えた大津は、近江八景で知られる風光明媚の地。<br>
+                                        比良、比叡の連山を背に、延暦寺、三井寺、西教寺の天台三総本山をはじめ、日吉大社、石山寺など、荘厳な社寺に感動を覚えます。<br>
+                                        大津港では、花噴水のお出迎え。湖上遊覧に出かけるもよし、湖畔をのんびり散策するもよし。<br>
+                                        また、北部に行けば、雄大な比良山系や白砂青松の美しい湖岸線など、豊かな自然が、四季折々の趣で楽しむことができます。 </p>
+                                    <div class="ToItems">
+                                        <p style="text-align: right;"><a href="#Contents">&#9651 目次へ戻る</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- ======================Contents6====================== -->
+                            <div class="Contents anchor" id="Contents6">
+                                <div class="Dummy"></div>
+                                <h2>6. 湖南地区/湖南エリア(草津市/栗東市/守山市/野洲市)</h2>
+                                <div class="ContentImgComentTop">
+                                    <div class="ContentImg">
+                                        <img src="img/湖南_湖南.jpg"
+                                            alt="湖南地区/湖南エリア(草津市/栗東市/守山市/野洲市)">
+                                    </div>
+                                    <p>東海道と中山道の宿場町として栄えた湖南エリア。今も残る草津宿本陣が当時の繁栄を偲ばせます。<br>
+                                        美しい円錐形の姿から「近江富士」と呼ばれる三上山、平安時代の狛坂磨崖仏や奇岩・怪岩を見ることができる金勝山ではハイキング客で賑わい、湖岸に出れば、琵琶湖博物館やハスの群生地、なぎさ公園など、水辺のリゾートエリアが広がります。<br>
+                                        人気のレストランやカフェなど、バラエティ豊かな飲食店も数多く、おしゃれなランチ・ディナーも楽しめます。</p>
+                                    <div class="ToItems">
+                                        <p style="text-align: right;"><a href="#Contents">&#9651 目次へ戻る</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- ======================Contents7====================== -->
+                            <div class="Contents anchor" id="Contents7">
+                                <div class="Dummy"></div>
+                                <h2>7. 湖南地区/甲賀エリア(湖南市/甲賀市)</h2>
+                                <div class="ContentImgComentTop">
+                                    <div class="ContentImg">
+                                        <img src="img/湖南_甲賀.jpg" alt="湖南地区/甲賀エリア(湖南市/甲賀市)">
+                                    </div>
+                                    <p>紅葉狩りが楽しめる国宝の堂宇を有す湖南三山。<br>
+                                        宿場町のたたずまいを残す水口・土山では往時を偲び、戦国の動乱を駆け巡った甲賀忍者の里では、忍びになりきり体験。<br>
+                                        自然に包まれた山里に、無数の狸が出迎える陶器のまち・信楽で、お気に入りのうつわを探す窯元散策。<br>
+                                        どれもこれも都会に忘れられた土の香りと自然のぬくもりを残して、人びとの心をやさしく包み込んでくれます。</p>
+                                    <div class="ToItems">
+                                        <p style="text-align: right;"><a href="#Contents">&#9651 目次へ戻る</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- ======================Contents8====================== -->
+                            <div class="Contents anchor" id="Contents8">
+                                <div class="Dummy"></div>
+                                <h2>8. 湖北地区/湖北エリア(長浜市/米原市)</h2>
+                                <div class="ContentImgComentTop">
+                                    <div class="ContentImg">
+                                        <img src="img/湖北_湖北.jpg" alt="湖北地区/湖北エリア(長浜市/米原市)">
+                                    </div>
+                                    <p>豊臣秀吉が築き、北国街道の宿場町としても栄えた長浜。ノスタルジックな町並みの黒壁スクエアは人気の観光スポットとして知られます。また、名だたる武将たちの熱き戦いに思いを馳せる賤ヶ岳・姉川の古戦場。やすらぎに包まれる観音の里やびわ湖に浮かぶパワースポット「竹生島」、日本百名山の一つ「伊吹山」など、県内屈指の観光エリアは、訪れる人びとを湖国旅情へと誘います。
+                                    </p>
+                                    <div class="ToItems">
+                                        <p style="text-align: right;"><a href="#Contents">&#9651 目次へ戻る</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- ======================Contents9====================== -->
+                            <div class="Contents anchor" id="Contents9">
+                                <div class="Dummy"></div>
+                                <h2>9. 湖西地区/湖西エリア(高島市)</h2>
+                                <div class="ContentImgComentTop">
+                                    <div class="ContentImg">
+                                        <img src="img/湖西_湖西.jpg" alt="湖西地区/湖西エリア(高島市)">
+                                    </div>
+                                    <p>比良の山並みと紺碧の琵琶湖。美しい自然が広がる高島。<br>
+                                        湖中に大鳥居がそびえ立つ白鬚神社をはじめ、桜の名所・海津大崎やメタセコイヤ並木、畑の棚田など、滋賀を代表する名勝・景勝地の数々。<br>
+                                        夏はウォータースポーツやハイキングで賑わい、冬は雪山ゲレンデに若者の声が響きます。<br>
+                                        湖国の自然をそのまま残した心なごむ緑豊かな大空間が、訪れる人びとをやさしく包み込んでくれます。 </p>
+                                    <div class="ToItems">
+                                        <p style="text-align: right;"><a href="#Contents">&#9651 目次へ戻る</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <!--==========================Footer==========================-->
+    <div class="Footer">
+        <footer>
+            <div class="row">
+                <div class="row col-8 offset-2">
+                    <!-- ======================トップページのみ====================== -->
+                    <div class="col-lg-4 col-12 Wrapper">
+                        <!-- ======================トップページ====================== -->
+                        <div class="FooterList">
+                            <h3>Home</h3>
+                            <ul>
+                                <li><a href="index.html#Contents1">1. 名所写真</a></li>
+                                <li><a href="index.html#Contents2">2. 滋賀県の特徴</a></li>
+                                <li><a href="index.html#Contents3">3. 湖東地区/湖東エリア<br>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;(彦根市/愛荘町/豊郷町/多賀町/甲良町)</a></li>
+                                <li><a href="index.html#Contents4">4. 湖東地区/東近江エリア<br>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;(近江八幡市/東近江市/竜王町/日野町)</a></li>
+                                <li><a href="index.html#Contents5">5. 湖南地区/大津エリア<br>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;(大津市)</a></li>
+                                <li><a href="index.html#Contents6">6. 湖南地区/湖南エリア<br>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;(草津市/栗東市/守山市/野洲市)</a></li>
+                                <li><a href="index.html#Contents7">7. 湖南地区/甲賀エリア<br>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;(湖南市/甲賀市)</a></li>
+                                <li><a href="index.html#Contents8">8. 湖北地区/湖北エリア<br>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;(長浜市/米原市)</a></li>
+                                <li><a href="index.html#Contents9">9. 湖西地区/湖西エリア<br>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;(高島市)</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- ======================湖東地区/湖北地区====================== -->
+                    <div class="col-lg-4 col-12 Wrapper">
+                        <!-- ======================湖東地区====================== -->
+                        <div class="FooterList">
+                            <h3>湖東地区</h3>
+                            <ul>
+                                <li><a href="kotou.html#Contents1">1. 彦根城</a></li>
+                                <li><a href="kotou.html#Contents2">2. ラコリーナ近江八幡</a></li>
+                                <li><a href="kotou.html#Contents3">3. 八幡堀</a></li>
+                                <li><a href="kotou.html#Contents4">4. 三井アウトレットパーク滋賀竜王</a></li>
+                                <li><a href="kotou.html#Contents5">5. 玄宮園</a></li>
+                            </ul>
+                        </div>
+                        <!--======================湖北地区======================-->
+                        <div class="FooterList">
+                            <h3>湖北地区</h3>
+                            <ul>
+                                <li><a href="kohoku.html#Contents1">1. 黒壁スクエア</a></li>
+                                <li><a href="kohoku.html#Contents2">2. 伊吹山</a></li>
+                                <li><a href="kohoku.html#Contents3">3. 竹生島</a></li>
+                                <li><a href="kohoku.html#Contents4">4. 余呉湖</a></li>
+                                <li><a href="kohoku.html#Contents5">5. 青岸寺</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- ======================湖南地区/湖西地区====================== -->
+                    <div class="col-lg-4 col-12 Wrapper">
+                        <!-- ======================湖南地区====================== -->
+                        <div class="FooterList">
+                            <h3>湖南地区</h3>
+                            <ul>
+                                <li><a href="konan.html#Contents1">1. 延暦寺</a></li>
+                                <li><a href="konan.html#Contents2">2. びわ湖テラス</a></li>
+                                <li><a href="konan.html#Contents3">3. びわ湖バレイ</a></li>
+                                <li><a href="konan.html#Contents4">4. 石山寺</a></li>
+                                <li><a href="konan.html#Contents5">5. 三井寺</a></li>
+                            </ul>
+                        </div>
+                        <!--======================湖西地区======================-->
+                        <div class="FooterList">
+                            <h3>湖西地区</h3>
+                            <ul>
+                                <li><a href="kosei.html#Contents1">1. 白鬚神社</a></li>
+                                <li><a href="kosei.html#Contents2">2. メタセコイア並木</a></li>
+                                <li><a href="kosei.html#Contents3">3. マキノ農業公園マキノピックランド</a></li>
+                                <li><a href="kosei.html#Contents4">4. グリーンパーク想い出の森</a></li>
+                                <li><a href="kosei.html#Contents5">5. マキノ高原・マキノ高原温泉さらさ</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+    <script type="text/javascript" src="js/jquery-3.6.4.min.js"></script>
+    <script type="text/javascript" src="js/jquery-ui-1.13.2/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="js/slick-1.8.1/slick/slick.min.js"></script>
+    <!-- ======================script====================== -->
+    <script>
+        function colorChange() {
+            $('#ChangeBtn').animate({ backgroundColor: 'rgb(45, 73, 145)' }, 1000, 'linear').animate({ backgroundColor: 'rgb(79, 175, 217)' }, 1000, 'linear');
+            $('body').animate({ backgroundColor: 'rgba(45, 73, 145, .3)' }, 1000, 'linear').animate({ backgroundColor: 'rgba(79, 175, 217, .3)' }, 1000, 'linear');
+            $('.Footer').animate({ backgroundColor: 'rgb(79, 175, 217)' }, 1000, 'linear').animate({ backgroundColor: 'rgb(45, 73, 145)' }, 1000, 'linear');
+        }
+        var setIntrvalID;
+        var result;
+        $('#ChangeBtn').on('click', function () {
+            result = window.confirm("画面背景を変更しますか？\r\n  「OK」：通常画面\r\n  「キャンセル」：アニメーション");
+            if (result === true) {
+                clearInterval(setIntrvalID);
+                $('#ChangeBtn').css('background-color', 'rgb(79, 175, 217)');
+                $('body').css('background-color', 'rgba(79, 175, 217, .3)');
+                $('.Footer').css('background-color', 'rgb(45, 73, 145)');
+            } else {
+                setIntrvalID = setInterval('colorChange()', 2000);
+            }
+        });
+        //MainImg1クラスの画像を画面の高さいっぱいに表示させる
+        // $(function () {
+        //     $('#SlideShow').outerHeight($(window).height());
+        //     $(window).on('resize', function () {
+        //         var winH = $(window).height();
+        //         $('#SlideShow').outerHeight(winH);
+        //     })
+        // });
+
+        //スライドショーで表示させたい画像をfindメソッドを使って要素(下記ではimgタグ)を取得し、変数に格納する
+        // findメソッドは、選択した要素の子孫要素を検索して条件に当てはまる要素を見つけるメソッドです
+        // ｢$('#SlideShow').find('img');｣では、「#SlideShowの中のimgタグ」を探して取得している
+        // lengthプロパティは、文字列の長さや配列の要素数を取得するプロパティ
+        const slides = $('#SlideShow').find('img');
+        const slideLength = slides.length;
+        //hideメソッドは要素を非表示にするメソッド
+        //showメソッドは要素を表示するメソッド
+        //fadeOutメソッドは、要素を徐々に非表示にするメソッド
+        //fadeInメソッドは、徐々に要素を表示させるメソッド
+        //fadeOut/fadeInの引数に合わせ､表示/非表示の動作が行われる
+        //eq()メソッドは、インデックス番号の要素を取得するメソッド
+        //→｢.eq(0).show();｣は1番目(最初の要素)を表示させるという意味
+        let now = 0; //初期状態
+        let next = 1;
+        const fade = 1500;
+        function slidesshow() {
+            slides.eq(now % slideLength).fadeOut(fade); // fadeOutの()に変数をいれる
+            slides.eq(next % slideLength).fadeIn(fade); // fadeInの()に変数をいれる
+            now++
+            next++
+        };
+        window.addEventListener('load', function () {
+            setInterval('slidesshow()', 2000);
+        });
+
+        //スライダーのプラグイン導入
+        $('#SlideShowSlider').slick({
+            autoplay: true,
+            autoplaySpeed: 1000,
+            arrows: true, // 前・次のボタンを表示する
+            dots: true, // ドットナビゲーションを表示する
+            speed: 500, // スライドさせるスピード（ミリ秒）
+            slidesToShow: 1, // 表示させるスライド数
+            centerMode: true, // slidesToShowが奇数のとき、現在のスライドを中央に表示する
+            variableWidth: true, // スライド幅の自動計算を無効化
+            infinite: true, // 無限スライド
+        });
+
+        //クラス｢Header｣にマウスカーソルが重なった際の動作
+        $('.Header').hover(
+            function () {
+                //マウスカーソルが重なった時の処理
+                //要素｢HeaderMiddle｣を表示させる
+                $('.HeaderMiddle').fadeIn(800);
+            },
+            function () {
+                //マウスカーソルが離れた時の処理
+                //要素｢HeaderMiddle｣を非表示にする
+                $('.HeaderMiddle').fadeOut(800);
+            }
+        );
+
+        //id｢HeaderBtn0｣にマウスカーソルが重なった際の動作
+        $('#HeaderBtn0').hover(
+            function () {
+                //マウスカーソルが重なった時の処理
+                //全ての属性｢data-on-off-flg｣を｢false｣にする
+                $('.List[data-on-off-flg="true"]').attr('data-on-off-flg', 'false');
+                //要素｢#HeaderBtn0｣に対応する要素の属性｢data-on-off-flg｣を｢true｣にする
+                $('#List0').attr('data-on-off-flg', 'true');
+            }
+        );
+
+        //id｢HeaderBtn1｣｢CircleBtn1｣にマウスカーソルが重なった際の動作
+        $('#HeaderBtn1,#CircleBtn1').hover(
+            function () {
+                //マウスカーソルが重なった時の処理
+                //全ての属性｢data-on-off-flg｣を｢false｣にする
+                $('.List[data-on-off-flg="true"]').attr('data-on-off-flg', 'false');
+                //要素｢#HeaderBtn0｣に対応する要素の属性｢data-on-off-flg｣を｢true｣にする
+                $('#List1').attr('data-on-off-flg', 'true');
+            }
+        );
+
+        //id｢HeaderBtn2｣｢CircleBtn2｣にマウスカーソルが重なった際の動作
+        $('#HeaderBtn2,#CircleBtn2').hover(
+            function () {
+                //マウスカーソルが重なった時の処理
+                //全ての属性｢data-on-off-flg｣を｢false｣にする
+                $('.List[data-on-off-flg="true"]').attr('data-on-off-flg', 'false');
+                //要素｢#HeaderBtn0｣に対応する要素の属性｢data-on-off-flg｣を｢true｣にする
+                $('#List2').attr('data-on-off-flg', 'true');
+            }
+        );
+
+        //id｢HeaderBtn3｣｢CircleBtn3｣にマウスカーソルが重なった際の動作
+        $('#HeaderBtn3,#CircleBtn3').hover(
+            function () {
+                //マウスカーソルが重なった時の処理
+                //全ての属性｢data-on-off-flg｣を｢false｣にする
+                $('.List[data-on-off-flg="true"]').attr('data-on-off-flg', 'false');
+                //要素｢#HeaderBtn0｣に対応する要素の属性｢data-on-off-flg｣を｢true｣にする
+                $('#List3').attr('data-on-off-flg', 'true');
+            }
+        );
+
+        //id｢HeaderBtn4｣｢CircleBtn4｣にマウスカーソルが重なった際の動作
+        $('#HeaderBtn4,#CircleBtn4').hover(
+            function () {
+                //マウスカーソルが重なった時の処理
+                //全ての属性｢data-on-off-flg｣を｢false｣にする
+                $('.List[data-on-off-flg="true"]').attr('data-on-off-flg', 'false');
+                //要素｢#HeaderBtn0｣に対応する要素の属性｢data-on-off-flg｣を｢true｣にする
+                $('#List4').attr('data-on-off-flg', 'true');
+            }
+        );
+    </script>
+</body>
+
+</html>

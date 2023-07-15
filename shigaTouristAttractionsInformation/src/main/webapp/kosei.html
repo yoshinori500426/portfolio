@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>湖西地区</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100;300;400;500;700;900&family=Noto+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="css/bootstrap-5.0.2-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="js/slick-1.8.1/slick/slick.css">
+    <link rel="stylesheet" href="js/slick-1.8.1/slick/slick-theme.css">
+    <link rel="preconnect" href="js/slick-1.8.1/slick/fonts/slick.eot">
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+    <!--==========================Header==========================-->
+    <div class="position-relative Header">
+        <header>
+            <!-- div要素を固定し､最前面に表示させる -->
+            <!-- ======================HOMEシンボル/パンくずリスト/ヘッダボタン====================== -->
+            <div class="HeaderTop">
+                <!-- 親要素の高さに合わせる､グリッドを使用する -->
+                <div class="row h-100 Wrapper">
+                    <!-- ======================HOMEシンボル====================== -->
+                    <div class="col-lg-2 col-6 h-100 ImgTopWrap">
+                        <div class="Symbol">
+                            <a href="index.html">
+                                <div>
+                                    <img class="ImgTop" src="img/HeaderImg.jpg" alt="琵琶湖画像">
+                                    <h1 class="ImgTopWd">滋賀県の<br>観光名所</h1>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <!-- ======================パンくずリスト====================== -->
+                    <div class="row col-lg-2 col-6 d-flex align-items-end HeaderTopLink">
+                        <button class="col-12" id="ChangeBtn">背景切替</button>
+                        <nav class="col-12" aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                                <li class="breadcrumb-item">湖西地区</li>
+                            </ol>
+                        </nav>
+                    </div>
+                    <!-- ======================ヘッダボタン====================== -->
+                    <div class="row col-lg-8 col-12 h-100 HeaderTopBtnSet">
+                        <!-- ======================トップページ====================== -->
+                        <div class="col h-100 position-relative Btn" id="HeaderBtn0">
+                            <a href="index.html">
+                                <div>
+                                    <h6 class="mx-auto"><br><br>トップページ</h6>
+                                    <div
+                                        class="rounded-pill position-absolute bottom-0 start-50 translate-middle BtnPointer">
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <!-- ======================湖東地区====================== -->
+                        <div class="col h-100 position-relative Btn" id="HeaderBtn1">
+                            <a href="kotou.html">
+                                <div>
+                                    <h6 class="mx-auto"><br><br>湖東地区</h6>
+                                    <div
+                                        class="rounded-pill position-absolute bottom-0 start-50 translate-middle BtnPointer">
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <!-- ======================湖南地区====================== -->
+                        <div class="col h-100 position-relative Btn" id="HeaderBtn2">
+                            <a href="konan.html">
+                                <div>
+                                    <h6 class="mx-auto"><br><br>湖南地区</h6>
+                                    <div
+                                        class="rounded-pill position-absolute bottom-0 start-50 translate-middle BtnPointer">
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <!--======================湖北地区======================-->
+                        <div class="col h-100 position-relative Btn" id="HeaderBtn3">
+                            <a href="kohoku.html">
+                                <div>
+                                    <h6 class="mx-auto"><br><br>湖北地区</h6>
+                                    <div
+                                        class="rounded-pill position-absolute bottom-0 start-50 translate-middle BtnPointer">
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <!--======================湖西地区======================-->
+                        <div class="col h-100 position-relative Btn" id="HeaderBtn4">
+                            <a href="kosei.html">
+                                <div>
+                                    <h6 class="mx-auto"><br><br>湖西地区</h6>
+                                    <div
+                                        class="rounded-pill position-absolute bottom-0 start-50 translate-middle BtnPointer">
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- ======================ボタンセレクト画面====================== -->
+            <div class="HeaderMiddle">
+                <div class="container">
+                    <div class="SelectBlock">
+                        <div class="row">
+                            <div class="col-lg-3 col-3"></div>
+                            <!-- ======================CircleBtn====================== -->
+                            <div class="position-relative col-lg-3 col-9">
+                                <img src="img/MapShiga.jpg" alt="滋賀県地図" class="MapShiga">
+                                <!-- ======================湖東地区====================== -->
+                                <a href="kotou.html">
+                                    <div class="Circle" id="CircleBtn1">
+                                    </div>
+                                </a>
+                                <!-- ======================湖南地区====================== -->
+                                <a href="konan.html">
+                                    <div class="Circle" id="CircleBtn2">
+                                    </div>
+                                </a>
+                                <!--======================湖北地区======================-->
+                                <a href="kohoku.html">
+                                    <div class="Circle" id="CircleBtn3">
+                                    </div>
+                                </a>
+                                <!--======================湖西地区======================-->
+                                <a href="kosei.html">
+                                    <div class="Circle" id="CircleBtn4">
+                                    </div>
+                                </a>
+                            </div>
+                            <!-- ======================成形用ダミー====================== -->
+                            <div class="col-lg-1 col-5"></div>
+                            <!-- ======================各地区_各アイテムリスト====================== -->
+                            <div class="col-lg-5 col-7 row justify-content-center">
+                                <!-- ======================トップページ====================== -->
+                                <div class="List" id="List0" data-on-off-flg="false">
+                                    <h3>Home</h3>
+                                    <ul>
+                                        <li><a href="index.html#Contents1">1. 名所写真</a></li>
+                                        <li><a href="index.html#Contents2">2. 滋賀県の特徴</a></li>
+                                        <li><a href="index.html#Contents3">3. 湖東地区/湖東エリア<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;(彦根市/愛荘町/豊郷町/多賀町/甲良町)</a></li>
+                                        <li><a href="index.html#Contents4">4. 湖東地区/東近江エリア<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;(近江八幡市/東近江市/竜王町/日野町)</a></li>
+                                        <li><a href="index.html#Contents5">5. 湖南地区/大津エリア<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;(大津市)</a></li>
+                                        <li><a href="index.html#Contents6">6. 湖南地区/湖南エリア<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;(草津市/栗東市/守山市/野洲市)</a></li>
+                                        <li><a href="index.html#Contents7">7. 湖南地区/甲賀エリア<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;(湖南市/甲賀市)</a></li>
+                                        <li><a href="index.html#Contents8">8. 湖北地区/湖北エリア<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;(長浜市/米原市)</a></li>
+                                        <li><a href="index.html#Contents9">9. 湖西地区/湖西エリア<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;(高島市)</a></li>
+                                    </ul>
+                                </div>
+                                <!-- ======================湖東地区====================== -->
+                                <div class="List" id="List1" data-on-off-flg="false">
+                                    <h3>湖東地区</h3>
+                                    <ul>
+                                        <li><a href="kotou.html#Contents1">1. 彦根城</a></li>
+                                        <li><a href="kotou.html#Contents2">2. ラコリーナ近江八幡</a></li>
+                                        <li><a href="kotou.html#Contents3">3. 八幡堀</a></li>
+                                        <li><a href="kotou.html#Contents4">4. 三井アウトレットパーク滋賀竜王</a></li>
+                                        <li><a href="kotou.html#Contents5">5. 玄宮園</a></li>
+                                    </ul>
+                                </div>
+                                <!-- ======================湖南地区====================== -->
+                                <div class="List" id="List2">
+                                    <h3>湖南地区</h3>
+                                    <ul>
+                                        <li><a href="konan.html#Contents1">1. 延暦寺</a></li>
+                                        <li><a href="konan.html#Contents2">2. びわ湖テラス</a></li>
+                                        <li><a href="konan.html#Contents3">3. びわ湖バレイ</a></li>
+                                        <li><a href="konan.html#Contents4">4. 石山寺</a></li>
+                                        <li><a href="konan.html#Contents5">5. 三井寺</a></li>
+                                    </ul>
+                                </div>
+                                <!--======================湖北地区======================-->
+                                <div class="List" id="List3">
+                                    <h3>湖北地区</h3>
+                                    <ul>
+                                        <li><a href="kohoku.html#Contents1">1. 黒壁スクエア</a></li>
+                                        <li><a href="kohoku.html#Contents2">2. 伊吹山</a></li>
+                                        <li><a href="kohoku.html#Contents3">3. 竹生島</a></li>
+                                        <li><a href="kohoku.html#Contents4">4. 余呉湖</a></li>
+                                        <li><a href="kohoku.html#Contents5">5. 青岸寺</a></li>
+                                    </ul>
+                                </div>
+                                <!--======================湖西地区======================-->
+                                <div class="List" id="List4">
+                                    <h3>湖西地区</h3>
+                                    <ul>
+                                        <li><a href="kosei.html#Contents1">1. 白鬚神社</a></li>
+                                        <li><a href="kosei.html#Contents2">2. メタセコイア並木</a></li>
+                                        <li><a href="kosei.html#Contents3">3. マキノ農業公園マキノピックランド</a></li>
+                                        <li><a href="kosei.html#Contents4">4. グリーンパーク想い出の森</a></li>
+                                        <li><a href="kosei.html#Contents5">5. マキノ高原・マキノ高原温泉さらさ</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+    </div>
+    <!--==========================目次/コンテンツ==========================-->
+    <div class="ContentsMain">
+        <main>
+            <div class="container">
+                <div class="MainContents">
+                    <div class="Wrapper">
+                        <!--==========================目次==========================-->
+                        <div id="Contents" class="anchor">
+                            <h2>目次：湖西地区</h2>
+                            <div class="Items">
+                                <ol type="1">
+                                    <a href="#Contents1">
+                                        <li>白鬚神社</li>
+                                    </a>
+                                    <a href="#Contents2">
+                                        <li>メタセコイア並木</li>
+                                    </a>
+                                    <a href="#Contents3">
+                                        <li>マキノ農業公園マキノピックランド</li>
+                                    </a>
+                                    <a href="#Contents4">
+                                        <li>グリーンパーク想い出の森</li>
+                                    </a>
+                                    <a href="#Contents5">
+                                        <li>マキノ高原・マキノ高原温泉さらさ</li>
+                                    </a>
+                                </ol>
+                            </div>
+                        </div>
+                        <div class="ContentsAll">
+                            <!--==========================1項目==========================-->
+                            <div class="Contents anchor" id="Contents1">
+                                <div class="Dummy"></div>
+                                <h2>1. 白鬚神社</h2>
+                                <div class="row ContentImgComent">
+                                    <div class="col-12 col-md-6 ContentImg">
+                                        <img src="img/湖西地区/白鬚神社.jpg" alt="白鬚神社">
+                                    </div>
+                                    <div class="col-12 col-md-6 ContentComment">
+                                        <p>日本一大きな湖「琵琶湖」のほとりに佇む「白鬚神社」は、全国にある白鬚（白髭・白髯）神社の総本宮。祭神は猿田彦命で、長生きの神様として知られているほか、縁結びや子授け、交通安全、開運招福などさまざまなご利益があります。「白鬚神社」といえば、琵琶湖にポツリと浮かぶ鳥居が有名ですが、毎年9月5日や土日、大晦日、お正月には鳥居のライトアップも実施されます。
+                                        </p>
+                                        <p>近年はパワースポットとしても人気ですが、白髭神社の社殿背後には山の上までつづく古墳群があります。その古墳のひとつである石室が岩戸社として祀られており、その隣ある磐座（神の御座所）が白髭神社の最大のパワースポットであると言われています。
+                                        </p>
+                                        <div class="ToItems">
+                                            <p style="text-align: right;"><a href="#Contents">&#9651 目次へ戻る</a></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <table class="table table-secondary">
+                                    <tbody>
+                                        <tr class="ContentTable">
+                                            <th>時間</th>
+                                            <td>営業時間 09:00～17:00</td>
+                                        </tr>
+                                        <tr class="ContentTable">
+                                            <th>料金</th>
+                                            <td>境内無料</td>
+                                        </tr>
+                                        <tr class="ContentTable">
+                                            <th>アクセス</th>
+                                            <td>〒520-1122 滋賀県高島市鵜川２１５番地<br>
+                                                京都・大阪方面より<br>
+                                                京都東ＩＣから湖西道路・国道１６１号を北上 ４０㎞<br>
+                                                東京・名古屋方面より<br>
+                                                米原ＪＣで北陸道へ、木之本ＩＣから国道８号・３０３号・１６１号を南下 ４５㎞ </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!--==========================2項目==========================-->
+                            <div class="Contents anchor" id="Contents2">
+                                <div class="Dummy"></div>
+                                <h2>2. メタセコイア並木</h2>
+                                <div class="row ContentImgComent">
+                                    <div class="col-12 col-md-6 ContentImg">
+                                        <img src="img/湖西地区/メタセコイア並木.jpg" alt="メタセコイア並木">
+                                    </div>
+                                    <div class="col-12 col-md-6 ContentComment">
+                                        <p>マキノ高原につづく道路沿い、全長2.4kmに渡ってまっすぐと伸びる、約500本のメタセコイアの並木道。爽快で美しい景観は「新・日本の街路樹百景」にも選ばれています。新緑の季節には青々とした清々しさ、紅葉の季節にはロマンチックな雰囲気を醸し出し、そして冬には雪化粧をした幻想的な光景で私たちを楽しませてくれます。
+                                        </p>
+                                        <div class="ToItems">
+                                            <p style="text-align: right;"><a href="#Contents">&#9651 目次へ戻る</a></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <table class="table table-secondary">
+                                    <tbody>
+                                        <tr class="ContentTable">
+                                            <th>時間</th>
+                                            <td>営業時間 24時間散策可能<br>
+                                                <img src="img/湖西地区/メタセコイア並木時間.jpg" alt="時間" style="width: 60%;">
+                                            </td>
+                                        </tr>
+                                        <tr class="ContentTable">
+                                            <th>料金</th>
+                                            <td>無料</td>
+                                        </tr>
+                                        <tr class="ContentTable">
+                                            <th>アクセス</th>
+                                            <td>〒520-1834滋賀県高島市マキノ町寺久保835-1<br>
+                                                <img src="img/湖西地区/メタセコイア並木アクセス.jpg" alt="アクセス"
+                                                    style="width: 60%;">
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!--==========================3項目==========================-->
+                            <div class="Contents anchor" id="Contents3">
+                                <div class="Dummy"></div>
+                                <h2>3. マキノ農業公園マキノピックランド</h2>
+                                <div class="row ContentImgComent">
+                                    <div class="col-12 col-md-6 ContentImg">
+                                        <img src="img/湖西地区/マキノ農業公園.JPG" alt="">
+                                    </div>
+                                    <div class="col-12 col-md-6 ContentComment">
+                                        <p>旬の果物狩りが楽しめる農業公園です。マキノピックランドは大きく3つのゾーンから構成されています。<br>
+                                            ○果樹園ゾーン／関西圏ではめずらしい初夏のサクランボからブルーベリー、ぶどう、くり、さつまいも、りんごと旬の果物の収穫体験ができます。<br>
+                                            ○沿道修景ゾーン／果樹園を一直線に抜けるメタセコイア並木は、読売新聞社が選定する「新・日本街路樹百景」にも選ばれ、春夏秋冬訪れる人々を魅了します。<br>
+                                            ○パークゾーン／施設を総合的に管理するセンターハウスを中心に、カフェ、レストラン、芝生広場、グラウンドゴルフ場などが整備され、世代を問わずお楽しみいただけます。センターハウス内ではお土産や手作りジェラートアイスの販売もしています。
+                                        </p>
+                                        <div class="ToItems">
+                                            <p style="text-align: right;"><a href="#Contents">&#9651 目次へ戻る</a></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <table class="table table-secondary">
+                                    <tbody>
+                                        <tr class="ContentTable">
+                                            <th>時間</th>
+                                            <td>観光果樹園:09:00～16:00<br>
+                                                レストラン:11:00～15:00<br>
+                                                カフェ:10:00～16:00 </td>
+                                        </tr>
+                                        <tr class="ContentTable">
+                                            <th>料金</th>
+                                            <td>公園内入園無料。<br>
+                                                果樹園入園料(さくらんぼ・ブルーベリー・ぶどう・栗・りんご)<br>
+                                                幼児(3歳～就学前) 500～900円。<br>
+                                                小学生 900～1,300円<br>
+                                                おとな(中学生以上) 1,300～1,800円。<br>
+                                                ※果樹園は、お楽しみいただく味覚狩り、時期により料金が異なります。</td>
+                                        </tr>
+                                        <tr class="ContentTable">
+                                            <th>アクセス</th>
+                                            <td>〒520-1834 滋賀県高島市マキノ町蛭口1632<br>
+                                                マキノ駅からバスで10分</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!--==========================4項目==========================-->
+                            <div class="Contents anchor" id="Contents4">
+                                <div class="Dummy"></div>
+                                <h2>4. グリーンパーク想い出の森</h2>
+                                <div class="row ContentImgComent">
+                                    <div class="col-12 col-md-6 ContentImg">
+                                        <img src="img/湖西地区/グリーンパーク.jpg" alt="">
+                                    </div>
+                                    <div class="col-12 col-md-6 ContentComment">
+                                        <p>緑豊かな樹林の中のリフレッシュパーク。落ち着いた雰囲気の「山荘くつき（和室・洋室）」やバンガローでの宿泊が出来ます。屋内プールやテニス、サッカーなどで汗を流した後は、「くつき温泉てんくう」でリフレッシュ。昔、朽木の山野を駆けめぐっていたといわれる天狗伝説に由来します。神経痛、疲労回復などに効果があり、天狗の露天風呂やきのこサウナ等もお楽しみいただけます。また、地元「宝牧場」のソフトクリームは入浴後に人気のデザートです。「里山レストラン天空」ではゆっくりお食事もお楽しみいただけます。
+                                        </p>
+                                        <div class="ToItems">
+                                            <p style="text-align: right;"><a href="#Contents">&#9651 目次へ戻る</a></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <table class="table table-secondary">
+                                    <tbody>
+                                        <tr class="ContentTable">
+                                            <th>時間</th>
+                                            <td>営業時間 10:00～19:00(お風呂ゾーン10:00～21:00)</td>
+                                        </tr>
+                                        <tr class="ContentTable">
+                                            <th>料金</th>
+                                            <td><img src="img/湖西地区/グリーンパーク料金.jpg" alt="料金"
+                                                    style="width:65%"></td>
+                                        </tr>
+                                        <tr class="ContentTable">
+                                            <th>アクセス</th>
+                                            <td>〒520-1415 滋賀県高島市朽木柏341-3<br>
+                                                【公共交通機関】<br>
+                                                JR湖西線「安曇川」駅より江若バス・シャトルバスで約30分<br>
+                                                【お車】<br>
+                                                <img src="img/湖西地区/グリーンパークアクセス.jpg" alt="アクセス"
+                                                    style="width:65%">
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!--==========================5項目==========================-->
+                            <div class="Contents anchor" id="Contents5">
+                                <div class="Dummy"></div>
+                                <h2>5. マキノ高原・マキノ高原温泉さらさ</h2>
+                                <div class="row ContentImgComent">
+                                    <div class="col-12 col-md-6 ContentImg">
+                                        <img src="img/湖西地区/マキノ高原温泉さらさ.JPG" alt="">
+                                    </div>
+                                    <div class="col-12 col-md-6 ContentComment">
+                                        <p>赤坂山の麓にあり、冬は真っ白なゲレンデ、春・秋は緑のじゅうたんが広がりオールシーズン楽しめるマキノ高原。マキノ林間スポーツセンターや、農業公園マキノピックランド、マキノ高原民宿村など周辺施設も充実しているので、林間学校やスポーツ合宿等のベース地としても最適です。
+                                            高原内でのキャンプはもちろん、併設されたクヌギ林の中にある林間サイトには、約100組収容できるキャンプサイトがあります。場内を流れる石積みのきれいなヨキトギ川では、水遊びや、魚つかみを楽しむこともできます。
+                                        </p>
+                                        <p>花の百名山(山と渓谷社)に選ばれている赤坂山への登山ルートの起点でもあり、登山やハイキングも楽しむことができ、森林浴にも最適です。また、高原テニスコートやレンタサイクルなどのスポーツも楽しめ、琵琶湖岸のマキノサニーピーチまでは車で約10分と近く、一日では遊び切れないほどの自然が一杯です。
+                                            アウトドアで体を動かした後は併設のマキノ高原温泉｢さらさ｣でリフレッシュしてください。</p>
+                                        <div class="ToItems">
+                                            <p style="text-align: right;"><a href="#Contents">&#9651 目次へ戻る</a></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <table class="table table-secondary">
+                                    <tbody>
+                                        <tr class="ContentTable">
+                                            <th>時間</th>
+                                            <td>営業時間 10:00～21:00※最終受付は各30分前</td>
+                                        </tr>
+                                        <tr class="ContentTable">
+                                            <th>料金</th>
+                                            <td><img src="img/湖西地区/マキノ高原温泉さらさ料金.jpg" alt="料金" style="width:50%">
+                                            </td>
+                                        </tr>
+                                        <tr class="ContentTable">
+                                            <th>アクセス</th>
+                                            <td>滋賀県高島市マキノ町牧野931番地-3<br>
+                                                【公共交通機関】<br>
+                                                JR湖西線「マキノ駅」下車 ⇒バス「マキノ高原温泉さらさ」前<br>
+                                                【お車】<br>
+                                                ●名神高速「京都東」I.C⇒「西大津」BP⇒湖西道路⇒国道161号線経由（80分）<br>
+                                                ●北陸自動車道「木之本」I.C⇒国道8号線⇒国道303号線経由（30分）<br>
+                                                「敦賀」I.C⇒国道8号線⇒国道161号線経由（40分）</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <!--==========================Footer==========================-->
+    <div class="Footer">
+        <footer>
+            <div class="row">
+                <div class="row col-8 offset-2">
+                    <!-- ======================トップページのみ====================== -->
+                    <div class="col-lg-4 col-12 Wrapper">
+                        <!-- ======================トップページ====================== -->
+                        <div class="FooterList">
+                            <h3>Home</h3>
+                            <ul>
+                                <li><a href="index.html#Contents1">1. 名所写真</a></li>
+                                <li><a href="index.html#Contents2">2. 滋賀県の特徴</a></li>
+                                <li><a href="index.html#Contents3">3. 湖東地区/湖東エリア<br>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;(彦根市/愛荘町/豊郷町/多賀町/甲良町)</a></li>
+                                <li><a href="index.html#Contents4">4. 湖東地区/東近江エリア<br>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;(近江八幡市/東近江市/竜王町/日野町)</a></li>
+                                <li><a href="index.html#Contents5">5. 湖南地区/大津エリア<br>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;(大津市)</a></li>
+                                <li><a href="index.html#Contents6">6. 湖南地区/湖南エリア<br>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;(草津市/栗東市/守山市/野洲市)</a></li>
+                                <li><a href="index.html#Contents7">7. 湖南地区/甲賀エリア<br>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;(湖南市/甲賀市)</a></li>
+                                <li><a href="index.html#Contents8">8. 湖北地区/湖北エリア<br>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;(長浜市/米原市)</a></li>
+                                <li><a href="index.html#Contents9">9. 湖西地区/湖西エリア<br>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;(高島市)</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- ======================湖東地区/湖北地区====================== -->
+                    <div class="col-lg-4 col-12 Wrapper">
+                        <!-- ======================湖東地区====================== -->
+                        <div class="FooterList">
+                            <h3>湖東地区</h3>
+                            <ul>
+                                <li><a href="kotou.html#Contents1">1. 彦根城</a></li>
+                                <li><a href="kotou.html#Contents2">2. ラコリーナ近江八幡</a></li>
+                                <li><a href="kotou.html#Contents3">3. 八幡堀</a></li>
+                                <li><a href="kotou.html#Contents4">4. 三井アウトレットパーク滋賀竜王</a></li>
+                                <li><a href="kotou.html#Contents5">5. 玄宮園</a></li>
+                            </ul>
+                        </div>
+                        <!--======================湖北地区======================-->
+                        <div class="FooterList">
+                            <h3>湖北地区</h3>
+                            <ul>
+                                <li><a href="kohoku.html#Contents1">1. 黒壁スクエア</a></li>
+                                <li><a href="kohoku.html#Contents2">2. 伊吹山</a></li>
+                                <li><a href="kohoku.html#Contents3">3. 竹生島</a></li>
+                                <li><a href="kohoku.html#Contents4">4. 余呉湖</a></li>
+                                <li><a href="kohoku.html#Contents5">5. 青岸寺</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- ======================湖南地区/湖西地区====================== -->
+                    <div class="col-lg-4 col-12 Wrapper">
+                        <!-- ======================湖南地区====================== -->
+                        <div class="FooterList">
+                            <h3>湖南地区</h3>
+                            <ul>
+                                <li><a href="konan.html#Contents1">1. 延暦寺</a></li>
+                                <li><a href="konan.html#Contents2">2. びわ湖テラス</a></li>
+                                <li><a href="konan.html#Contents3">3. びわ湖バレイ</a></li>
+                                <li><a href="konan.html#Contents4">4. 石山寺</a></li>
+                                <li><a href="konan.html#Contents5">5. 三井寺</a></li>
+                            </ul>
+                        </div>
+                        <!--======================湖西地区======================-->
+                        <div class="FooterList">
+                            <h3>湖西地区</h3>
+                            <ul>
+                                <li><a href="kosei.html#Contents1">1. 白鬚神社</a></li>
+                                <li><a href="kosei.html#Contents2">2. メタセコイア並木</a></li>
+                                <li><a href="kosei.html#Contents3">3. マキノ農業公園マキノピックランド</a></li>
+                                <li><a href="kosei.html#Contents4">4. グリーンパーク想い出の森</a></li>
+                                <li><a href="kosei.html#Contents5">5. マキノ高原・マキノ高原温泉さらさ</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+    <script type="text/javascript" src="js/jquery-3.6.4.min.js"></script>
+    <script type="text/javascript" src="js/jquery-ui-1.13.2/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="js/slick-1.8.1/slick/slick.min.js"></script>
+    <!-- ======================script====================== -->
+    <script>
+        function colorChange() {
+            $('#ChangeBtn').animate({ backgroundColor: 'rgb(45, 73, 145)' }, 1000, 'linear').animate({ backgroundColor: 'rgb(79, 175, 217)' }, 1000, 'linear');
+            $('body').animate({ backgroundColor: 'rgba(45, 73, 145, .3)' }, 1000, 'linear').animate({ backgroundColor: 'rgba(79, 175, 217, .3)' }, 1000, 'linear');
+            $('.Footer').animate({ backgroundColor: 'rgb(79, 175, 217)' }, 1000, 'linear').animate({ backgroundColor: 'rgb(45, 73, 145)' }, 1000, 'linear');
+        }
+        var setIntrvalID;
+        var result;
+        $('#ChangeBtn').on('click', function () {
+            result = window.confirm("画面背景を変更しますか？\r\n  「OK」：通常画面\r\n  「キャンセル」：アニメーション");
+            if (result === true) {
+                clearInterval(setIntrvalID);
+                $('#ChangeBtn').css('background-color', 'rgb(79, 175, 217)');
+                $('body').css('background-color', 'rgba(79, 175, 217, .3)');
+                $('.Footer').css('background-color', 'rgb(45, 73, 145)');
+            } else {
+                setIntrvalID = setInterval('colorChange()', 2000);
+            }
+        });
+        //MainImg1クラスの画像を画面の高さいっぱいに表示させる
+        // $(function () {
+        //     $('#SlideShow').outerHeight($(window).height());
+        //     $(window).on('resize', function () {
+        //         var winH = $(window).height();
+        //         $('#SlideShow').outerHeight(winH);
+        //     })
+        // });
+
+        //スライドショーで表示させたい画像をfindメソッドを使って要素(下記ではimgタグ)を取得し、変数に格納する
+        // findメソッドは、選択した要素の子孫要素を検索して条件に当てはまる要素を見つけるメソッドです
+        // ｢$('#SlideShow').find('img');｣では、「#SlideShowの中のimgタグ」を探して取得している
+        // lengthプロパティは、文字列の長さや配列の要素数を取得するプロパティ
+        const slides = $('#SlideShow').find('img');
+        const slideLength = slides.length;
+        //hideメソッドは要素を非表示にするメソッド
+        //showメソッドは要素を表示するメソッド
+        //fadeOutメソッドは、要素を徐々に非表示にするメソッド
+        //fadeInメソッドは、徐々に要素を表示させるメソッド
+        //fadeOut/fadeInの引数に合わせ､表示/非表示の動作が行われる
+        //eq()メソッドは、インデックス番号の要素を取得するメソッド
+        //→｢.eq(0).show();｣は1番目(最初の要素)を表示させるという意味
+        let now = 0; //初期状態
+        let next = 1;
+        const fade = 1500;
+        function slidesshow() {
+            slides.eq(now % slideLength).fadeOut(fade); // fadeOutの()に変数をいれる
+            slides.eq(next % slideLength).fadeIn(fade); // fadeInの()に変数をいれる
+            now++
+            next++
+        };
+        window.addEventListener('load', function () {
+            setInterval('slidesshow()', 2000);
+        });
+
+        //スライダーのプラグイン導入
+        $('#SlideShowSlider').slick({
+            autoplay: true,
+            autoplaySpeed: 1000,
+            arrows: true, // 前・次のボタンを表示する
+            dots: true, // ドットナビゲーションを表示する
+            speed: 500, // スライドさせるスピード（ミリ秒）
+            slidesToShow: 1, // 表示させるスライド数
+            centerMode: true, // slidesToShowが奇数のとき、現在のスライドを中央に表示する
+            variableWidth: true, // スライド幅の自動計算を無効化
+            infinite: true, // 無限スライド
+        });
+
+        //クラス｢Header｣にマウスカーソルが重なった際の動作
+        $('.Header').hover(
+            function () {
+                //マウスカーソルが重なった時の処理
+                //要素｢HeaderMiddle｣を表示させる
+                $('.HeaderMiddle').fadeIn(800);
+            },
+            function () {
+                //マウスカーソルが離れた時の処理
+                //要素｢HeaderMiddle｣を非表示にする
+                $('.HeaderMiddle').fadeOut(800);
+            }
+        );
+
+        //id｢HeaderBtn0｣にマウスカーソルが重なった際の動作
+        $('#HeaderBtn0').hover(
+            function () {
+                //マウスカーソルが重なった時の処理
+                //全ての属性｢data-on-off-flg｣を｢false｣にする
+                $('.List[data-on-off-flg="true"]').attr('data-on-off-flg', 'false');
+                //要素｢#HeaderBtn0｣に対応する要素の属性｢data-on-off-flg｣を｢true｣にする
+                $('#List0').attr('data-on-off-flg', 'true');
+            }
+        );
+
+        //id｢HeaderBtn1｣｢CircleBtn1｣にマウスカーソルが重なった際の動作
+        $('#HeaderBtn1,#CircleBtn1').hover(
+            function () {
+                //マウスカーソルが重なった時の処理
+                //全ての属性｢data-on-off-flg｣を｢false｣にする
+                $('.List[data-on-off-flg="true"]').attr('data-on-off-flg', 'false');
+                //要素｢#HeaderBtn0｣に対応する要素の属性｢data-on-off-flg｣を｢true｣にする
+                $('#List1').attr('data-on-off-flg', 'true');
+            }
+        );
+
+        //id｢HeaderBtn2｣｢CircleBtn2｣にマウスカーソルが重なった際の動作
+        $('#HeaderBtn2,#CircleBtn2').hover(
+            function () {
+                //マウスカーソルが重なった時の処理
+                //全ての属性｢data-on-off-flg｣を｢false｣にする
+                $('.List[data-on-off-flg="true"]').attr('data-on-off-flg', 'false');
+                //要素｢#HeaderBtn0｣に対応する要素の属性｢data-on-off-flg｣を｢true｣にする
+                $('#List2').attr('data-on-off-flg', 'true');
+            }
+        );
+
+        //id｢HeaderBtn3｣｢CircleBtn3｣にマウスカーソルが重なった際の動作
+        $('#HeaderBtn3,#CircleBtn3').hover(
+            function () {
+                //マウスカーソルが重なった時の処理
+                //全ての属性｢data-on-off-flg｣を｢false｣にする
+                $('.List[data-on-off-flg="true"]').attr('data-on-off-flg', 'false');
+                //要素｢#HeaderBtn0｣に対応する要素の属性｢data-on-off-flg｣を｢true｣にする
+                $('#List3').attr('data-on-off-flg', 'true');
+            }
+        );
+
+        //id｢HeaderBtn4｣｢CircleBtn4｣にマウスカーソルが重なった際の動作
+        $('#HeaderBtn4,#CircleBtn4').hover(
+            function () {
+                //マウスカーソルが重なった時の処理
+                //全ての属性｢data-on-off-flg｣を｢false｣にする
+                $('.List[data-on-off-flg="true"]').attr('data-on-off-flg', 'false');
+                //要素｢#HeaderBtn0｣に対応する要素の属性｢data-on-off-flg｣を｢true｣にする
+                $('#List4').attr('data-on-off-flg', 'true');
+            }
+        );
+    </script>
+</body>
+
+</html>
