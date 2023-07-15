@@ -18,6 +18,7 @@ FROM tomee:webprofile
 # warファイルのサーブレットコンテナへの配備
 COPY ./config/war/drinkSaleSysForPosgre.war /usr/local/tomee/webapps/
 COPY ./config/war/prodManageSysForPosgre.war /usr/local/tomee/webapps/
+COPY ./config/war/shigaTouristAttractionsInformation.war /usr/local/tomee/webapps/
 # 以下､イメージ｢tomee｣から生成されるコンテナ｢Tomcat｣の管理マネージャ(Tomcat Manager Application)操作用ファイル(設定ファイル)のコピー
 COPY ./config/settings.xml /usr/local/tomee/conf
 COPY ./config/tomcat-users.xml /usr/local/tomee/conf
