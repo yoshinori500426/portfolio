@@ -14,7 +14,8 @@ import javax.servlet.annotation.WebFilter;
  * Servlet Filter implementation class EncodingFilter
  */
 //｢@WebFilter("/*")｣と指定すると､css/jQuery/JavaScript等の外部読込みがエラーとなる
-@WebFilter(urlPatterns = { "/action/*", "/bean/*", "/dao/*", "/tool/*", "/WEB-INF/*" })
+@WebFilter(urlPatterns = { "/InputOutputScreen", "/Earnings", "/Inventory", "/Login", "/Logout", "/ProductMaster",
+		"/Purchase", "/Sales", "/UserRegister" })
 public class EncodingFilter implements Filter {
 	/**
 	 * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)

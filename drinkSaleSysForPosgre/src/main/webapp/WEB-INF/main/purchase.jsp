@@ -30,7 +30,7 @@ Alart
     <header>
         <div class="main">
 <%-- document.forms[1]; --%>
-            <form action="Main.action" method="post">
+            <form action="InputOutputScreen" method="post">
                 <input type="hidden" name="toAction">
                 <div class="row">
                     <div class="col-sm-8 col-xs-12">
@@ -49,14 +49,14 @@ Alart
     <div>
         <div>
 <%-- document.forms[2]; --%>
-            <form action="Purchase.action" method="post">
+            <form action="Purchase" method="post">
                 <input type="hidden" name="toAction">
                 <div class="row">
                     <div class="col-sm-4 col-xs-12">
                         <label for="jan">JANコード&nbsp;<span class="label label-danger">必須</span></label>
                     </div>
                     <div class="col-sm-8 col-xs-12">
-                        <p>：<input type="text" name="jan" style="width: 200px" placeholder="13桁の整数(ハイフン不要)"
+                        <p>：<input type="text" id="jan" name="jan" style="width: 200px" placeholder="13桁の整数(ハイフン不要)"
                         onChange="doExecute2('janCodeCheck')" value =
 																    <c:choose>
 																		<c:when test="${empty productDrink.janCode}">"${G_purchase.janCode}"</c:when>
@@ -119,7 +119,7 @@ Alart
                         <label for="pcs">個数&nbsp;<span class="label label-danger">必須</span></label>
                     </div>
                     <div class="col-sm-8 col-xs-12">
-                        <p>：<input type="text" name="pcs" style="width: 80px" placeholder="個数"
+                        <p>：<input type="text" id="pcs" name="pcs" style="width: 120px" placeholder="個数"
                         onChange="doExecute2('pcsCheck')" value =
 															    <c:choose>
 																	<c:when test="${empty gr.nyukoPCS}">"${G_purchase.pcs}"</c:when>
@@ -134,7 +134,7 @@ Alart
                         <label for="price">仕入単価&nbsp;<span class="label label-danger">必須</span></label>
                     </div>
                     <div class="col-sm-8 col-xs-12">
-                        <p>：<input type="text" name="price" style="width: 80px" placeholder="仕入単価"
+                        <p>：<input type="text" id="price" name="price" style="width: 120px" placeholder="単価(1-999999)"
                         onChange="doExecute2('priceCheck')" value =
 																    <c:choose>
 																		<c:when test="${empty gr.unitPrice}">"${G_purchase.price}"</c:when>
@@ -158,6 +158,26 @@ Alart
             </form>
         </div>
     </div>
+    <br>
+    <br>
+    <hr>
+    <h1 class="h5">登録済みJanコード(動作確認用)</h1>
+	<table class="table table-bordered table-hover">
+		<thead class="thead-dark">
+			<tr>
+				<th scope="col">JANコード</th>
+				<th scope="col">商品名</th>
+			</tr>
+		</thead>
+		<c:forEach var="pdPF" items="${pdListPF}">
+			<tbody>
+				<tr>
+					<td>${pdPF.janCode}</td>
+					<td>${pdPF.name}</td>
+				</tr>
+			</tbody>
+		</c:forEach>
+	</table>
 </div>
 
 <%@ include file="../footer.jsp" %>

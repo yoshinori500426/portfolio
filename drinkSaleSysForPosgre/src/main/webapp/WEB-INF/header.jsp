@@ -6,12 +6,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta charset="UTF-8">
 <title>Dring Sale System</title>
-<link type="text/css" rel="stylesheet" href="../css/bootstrap/css/bootstrap.min.css">
-<link type="text/css" rel="stylesheet" href="../css/bootstrap/css/bootstrap-theme.min.css">
-<link type="text/css" rel="stylesheet" href="../css/style.css">
-<script type="text/javascript" src="../js/jquery-3.6.4.min.js"></script>
+<link type="text/css" rel="stylesheet" href="css/bootstrap/css/bootstrap.min.css">
+<link type="text/css" rel="stylesheet" href="css/bootstrap/css/bootstrap-theme.min.css">
+<link type="text/css" rel="stylesheet" href="css/style.css">
+<script type="text/javascript" src="js/jquery-3.6.4.min.js"></script>
 <script>
 window.addEventListener('load', function() {
+	var scrollY=window.sessionStorage.getItem(['scrollY']);
+	 if(scrollY!=null){
+		scrollTo(0, scrollY);
+	 }
     var btn = document.getElementById('logout');
 	 if('${user.userID}'==''){
 		 btn.style.visibility = 'hidden';
@@ -21,16 +25,16 @@ window.addEventListener('load', function() {
 	 if('${state}'!=''){
 		 alert('${state}');
 	 }
-	 if('${nextJsp}'=='/WEB-INF/main/index.jsp' && '${toAction}'=='salesProcess'){
+	 if('${nextJsp}'=='/WEB-INF/main/sales.jsp' && '${process}'=='salesProcess'){
 		 doExecute2('salesProcessAft');
 	 }
-	 if('${nextJsp}'=='/WEB-INF/main/purchase.jsp' && '${toAction}'=='storingProcess'){
+	 if('${nextJsp}'=='/WEB-INF/main/purchase.jsp' && '${process}'=='storingProcess'){
 		 doExecute2('storingProcessAft');
 	 }
-	 if('${nextJsp}'=='/WEB-INF/main/productMaster.jsp' && '${toAction}'=='productRecordProcess'){
+	 if('${nextJsp}'=='/WEB-INF/main/productMaster.jsp' && '${process}'=='productRecordProcess'){
 		 doExecute2('productRecordProcessAft');
 	 }
-	 if(('${nextJsp}'=='/WEB-INF/main/userRegisterLogin.jsp'||'${nextJsp}'=='/WEB-INF/main/userRegister.jsp') && ('${toAction}'=='execute_updateInsert'||'${toAction}'=='execute_delete')){
+	 if(('${nextJsp}'=='/WEB-INF/main/userRegisterLogin.jsp'||'${nextJsp}'=='/WEB-INF/main/userRegister.jsp') && ('${process}'=='execute_updateInsert'||'${process}'=='execute_delete')){
 		 doExecute2('executeAft');
 	 }
 	 if('${nextJsp}'=='/WEB-INF/main/productMaster.jsp'){
@@ -53,6 +57,8 @@ window.addEventListener('load', function() {
 	 }
 	 if('${nextJsp}'=='/WEB-INF/main/inventory.jsp'){
 		if('${storeProductLists}'==''){
+			var positionY = window.pageYOffset;
+			window.sessionStorage.setItem(['scrollY'],[positionY]);
 			var form = document.forms[2];
 			form.submit();
 		}
@@ -109,6 +115,8 @@ function activate() {
 			 for(i=3;i<form.elements.length;i++){
 				 	form.elements[i].removeAttribute('disabled');
 				 }
+			var positionY = window.pageYOffset;
+			window.sessionStorage.setItem(['scrollY'],[positionY]);
 			form.submit();
 	 	}
 	 }else{
@@ -136,16 +144,22 @@ function userDeleteExecute(){
  //　→formタグの属性actionでActionクラスを指定し､
  //　　リクエストパラメータに動作内容を指定する事で､複雑な動作を行わせる
  function doExecute0(atype) {
+	var positionY = window.pageYOffset;
+	window.sessionStorage.setItem(['scrollY'],[positionY]);
 	var form = document.forms[0];
     form.toAction.value = atype;
 	form.submit();
  }
  function doExecute1(atype) {
+	var positionY = window.pageYOffset;
+	window.sessionStorage.setItem(['scrollY'],[positionY]);
 	var form = document.forms[1];
     form.toAction.value = atype;
 	form.submit();
  }
  function doExecute2(atype) {
+	var positionY = window.pageYOffset;
+	window.sessionStorage.setItem(['scrollY'],[positionY]);
 	var form = document.forms[2];
 	if('${nextJsp}'=='/WEB-INF/main/productMaster.jsp'){
 		 form.elements[2].removeAttribute('disabled');
@@ -154,6 +168,8 @@ function userDeleteExecute(){
 	form.submit();
  }
  function doExecute3(atype) {
+	var positionY = window.pageYOffset;
+	window.sessionStorage.setItem(['scrollY'],[positionY]);
 	var form = document.forms[3];
     form.toAction.value = atype;
 	form.submit();
@@ -168,7 +184,7 @@ function userDeleteExecute(){
             </div>
             <div class="col-sm-4 col-xs-12 text-right">
 <%-- document.forms[0]; --%>
-                <form action="Logout.action" method="post">
+                <form action="Logout" method="post">
                     <input type="hidden" name="toAction">
                     <a href="javascript:logout()" id="logout">ログアウト</a>
                 </form>

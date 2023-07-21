@@ -19,7 +19,7 @@ Alart
     <header>
         <div class="main">
 <%-- document.forms[1]; --%>
-            <form action="Main.action" method="post">
+            <form action="InputOutputScreen" method="post">
                 <input type="hidden" name="toAction">
                 <div class="row">
                     <div class="col-sm-8 col-xs-12">
@@ -38,14 +38,14 @@ Alart
     <div>
         <div onload="doExecute2()">
 <%-- document.forms[2]; --%>
-            <form action="Earnings.action" method="post">
+            <form action="Earnings" method="post">
                 <input type="hidden" name="toAction">
                 <div class="row">
 	                <div class="col-sm-5 col-xs-12">
 	                    <label for="year">年を選択&nbsp;<span class="label label-danger">必須</span></label>
 	                </div>
 	                <div class="col-sm-7 col-xs-12">
-		                <p>：<select name="year" style="width: 100px" onChange="doExecute2('earningsCheckYear')">
+		                <p>：<select id="year" name="year" style="width: 100px" onChange="doExecute2('earningsCheckYear')">
 										<c:forEach var="i" begin="1999" end="2023" varStatus="status">
 											<c:choose>
 												<c:when test="${i==1999}">
@@ -65,7 +65,7 @@ Alart
 	                    <label for="month">月を選択&nbsp;<span class="label label-danger">必須</span></label>
 	                </div>
 	                <div class="col-sm-7 col-xs-12">
-		                <p>：<select name="month" style="width: 100px" onChange="doExecute2('earningsCheckMonth')">
+		                <p>：<select id="month" name="month" style="width: 100px" onChange="doExecute2('earningsCheckMonth')">
 										<c:forEach var="i" begin="0" end="12" >
 											<c:choose>
 												<c:when test="${i==0}">
@@ -81,68 +81,70 @@ Alart
 	                </div>
                 </div>
             </form>
-                <table class="table table-bordered table-hover">
-                    <thead class="thead-dark">
-                        <tr>
-                            <th scope="col">JANコード</th>
-                            <th scope="col">出庫日</th>
-                            <th scope="col">出庫数</th>
-                            <th scope="col">単価</th>
-                            <th scope="col">合計金額</th>
-                        </tr>
-                    </thead>
-	                <c:forEach var="earnings" items="${earningsList}">
-	                    <tbody>
+			<c:choose>
+				<c:when test="${empty earningsEtc.year and empty earningsEtc.month}"></c:when>
+				<c:when test="${earningsEtc.year!='1999' and earningsEtc.month!='0'}">
+	                <table class="table table-bordered table-hover">
+	                    <thead class="thead-dark">
 	                        <tr>
-								<td>${earnings.janCode}</td>
-								<td>${earnings.syukoYMD}</td>
-								<td>${earnings.syukoPCS}</td>
-								<td>${earnings.unitPrice}</td>
-								<td>${earnings.totalPrice}</td>
+	                            <th scope="col">JANコード</th>
+	                            <th scope="col">出庫日</th>
+	                            <th scope="col">出庫数</th>
+	                            <th scope="col">単価</th>
+	                            <th scope="col">合計金額</th>
 	                        </tr>
-	                    </tbody>
-	                </c:forEach>
-                </table>
-            </form>
+	                    </thead>
+		                <c:forEach var="earnings" items="${earningsList}">
+		                    <tbody>
+		                        <tr>
+									<td>${earnings.janCode}</td>
+									<td>${earnings.syukoYMD}</td>
+									<td>${earnings.syukoPCS}</td>
+									<td>${earnings.unitPrice}</td>
+									<td>${earnings.totalPrice}</td>
+		                        </tr>
+		                    </tbody>
+		                </c:forEach>
+	                </table>
+				    <hr>
+				    <div class="row">
+				        <div class="col-md-2 col-xs-12">
+				        	<p>月合計</p>
+				        </div>
+				        <div class="row col-md-10 col-xs-12">
+					        <div class="row col-md-6 col-xs-12">
+						        <div class="col-md-6 col-xs-12">
+						            <p>個数</p>
+						        </div>
+						        <div class="col-md-6 col-xs-12">
+						            <p>:
+				   						<c:choose>
+											<c:when test="${earningsEtc.year=='1999' or earningsEtc.month=='0'}"></c:when>
+											<c:otherwise>${earningsEtc.sumSyukoPcs}</c:otherwise>
+										</c:choose>
+									</p>
+						        </div>
+					        </div>
+					        <div class="row col-md-6 col-xs-12">
+						        <div class="col-md-6 col-xs-12">
+						            <p>売上金額</p>
+						        </div>
+						        <div class="col-md-6 col-xs-12">
+						            <p>:
+										<c:choose>
+											<c:when test="${earningsEtc.year=='1999' or earningsEtc.month=='0'}"></c:when>
+											<c:otherwise>${earningsEtc.sumTotalPirce}</c:otherwise>
+										</c:choose>
+									</p>
+						        </div>
+					        </div>
+				        </div>
+				    </div>
+				</c:when>
+			</c:choose>
         </div>
     </div>
 
-    <hr>
-    <div class="row">
-        <div class="col-md-2 col-xs-12">
-        	<p>月合計</p>
-        </div>
-        <div class="row col-md-10 col-xs-12">
-	        <div class="row col-md-6 col-xs-12">
-		        <div class="col-md-6 col-xs-12">
-		            <p>個数</p>
-		        </div>
-		        <div class="col-md-6 col-xs-12">
-		            <p>:
-   						<c:choose>
-							<c:when test="${earningsEtc.year=='1999' or earningsEtc.month=='0'}"></c:when>
-							<c:otherwise>${earningsEtc.sumSyukoPcs}</c:otherwise>
-						</c:choose>
-					</p>
-		        </div>
-	        </div>
-	        <div class="row col-md-6 col-xs-12">
-		        <div class="col-md-6 col-xs-12">
-		            <p>売上金額</p>
-		        </div>
-		        <div class="col-md-6 col-xs-12">
-		            <p>:
-						<c:choose>
-							<c:when test="${earningsEtc.year=='1999' or earningsEtc.month=='0'}"></c:when>
-							<c:otherwise>${earningsEtc.sumTotalPirce}</c:otherwise>
-						</c:choose>
-					</p>
-		            </p>
-		        </div>
-
-	        </div>
-        </div>
-    </div>
 </div>
 
 <%@ include file="../footer.jsp" %>

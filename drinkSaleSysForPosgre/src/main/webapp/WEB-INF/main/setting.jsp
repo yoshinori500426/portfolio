@@ -8,7 +8,7 @@
     <header>
         <div class="main">
 <%-- document.forms[1]; --%>
-            <form action="Main.action" method="post">
+            <form action="InputOutputScreen" method="post">
                 <input type="hidden" name="toAction">
                 <div class="row">
                     <div class="col-sm-8 col-xs-12">
@@ -27,7 +27,7 @@
     <div>
         <div>
 <%-- document.forms[2]; --%>
-            <form action="ProductMaster.action" method="post">
+            <form action="InputOutputScreen" method="post">
                 <input type="hidden" name="toAction">
                 <div class="row">
                     <div class="col-sm-5 col-xs-12">
@@ -61,6 +61,9 @@
             </form>
         </div>
     </div>
+    <br>
+    <hr>
+    <h1 class="h5">この画面は､表示のみです｡(動作はしません｡)</h1>
 </div>
 
 <%@ include file="../footer.jsp" %>

@@ -61,7 +61,7 @@ public class GoodsIssueDAO extends DAO {
 	 * @return GoodsIssueビーン 「null：失敗」「インスタンス有：成功」←出庫リストを元にしたテーブル用リスト
 	 *               リストの合計個数/合計額は、セッション属性の「totalSyukoPcs」「totalSyukoPrice」で渡す
 	 */
-	public List<Earnings>  searchGoodsIssueBySyukoYM(HttpServletRequest request, HttpServletResponse response, EarningsEtc earningsEtc) {
+	public List<bean.Earnings> searchGoodsIssueBySyukoYM(HttpServletRequest request, HttpServletResponse response, EarningsEtc earningsEtc) {
 		// チェック結果アウトプット準備
 		HttpSession session = request.getSession();
 
@@ -107,14 +107,14 @@ public class GoodsIssueDAO extends DAO {
 			//➁リストの合計個数/金額取得
 			st = con.prepareStatement("SELECT "
 																	+ "SUM(SYUKO_PCS) AS \"SUM_SYUKO_PCS\", "
-																	+ "SUM(TOTAL_PRICE) AS \"SUM_TOTAL_PRICE\" "
+																	+ "SUM(\"TOTAL_PRICE\") AS \"SUM_TOTAL_PRICE\" "
 															+ "FROM (SELECT "
 																					+ "GI.SYUKO_PCS, "
 																					+ "GI.SYUKO_PCS*PD.UNIT_PRICE AS \"TOTAL_PRICE\" "
 																			+ "FROM GOODS_ISSUE GI "
 																					+ "INNER JOIN PRODUCT_DRINK PD "
 																					+ "ON GI.JAN_CODE = PD.JAN_CODE "
-																			+ "WHERE SYUKO_YMD LIKE ?)");
+																			+ "WHERE SYUKO_YMD LIKE ?) AS \"TABLE\"");
 			st.setString(1, yymm);
 			rs = st.executeQuery();
 			//リストから取得した、合計個数/金額を参照渡ししたインスタンス「earningsEtc」に格納し、

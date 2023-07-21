@@ -22,7 +22,7 @@ Alart
     <header>
         <div class="main">
 <%-- document.forms[1]; --%>
-            <form action="Main.action" method="post">
+            <form action="InputOutputScreen" method="post">
                 <input type="hidden" name="toAction">
                 <div class="row">
                     <div class="col-sm-8 col-xs-12">
@@ -41,7 +41,7 @@ Alart
     <div>
         <div>
 <%-- document.forms[2]; --%>
-            <form action="Inventory.action" method="post">
+            <form action="Inventory" method="post">
                 <input type="hidden" name="toAction">
                 <table class="table table-bordered table-hover">
                     <thead class="thead-dark">

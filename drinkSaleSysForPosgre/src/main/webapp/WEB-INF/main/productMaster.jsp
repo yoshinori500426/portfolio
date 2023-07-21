@@ -38,7 +38,7 @@ Alart
     <header>
         <div class="main">
 <%-- document.forms[1]; --%>
-            <form action="Main.action" method="post">
+            <form action="InputOutputScreen" method="post">
                 <input type="hidden" name="toAction">
                 <div class="row">
                     <div class="col-sm-8 col-xs-12">
@@ -57,7 +57,7 @@ Alart
     <div>
         <div>
 <%-- document.forms[2]; --%>
-            <form action="ProductMaster.action" method="post">
+            <form action="ProductMaster" method="post">
                 <input type="hidden" name="toAction">
                 <input type="hidden" name="register">
                 <div class="row">
@@ -65,7 +65,7 @@ Alart
                         <label for="jan">JANコード&nbsp;<span class="label label-danger">必須</span></label>
                     </div>
                     <div class="col-sm-7 col-xs-12">
-                        <p>：<input type="text" name="jan" style="width: 200px" placeholder="13桁の整数(ハイフン不要)"
+                        <p>：<input type="text" id="jan" name="jan" style="width: 200px" placeholder="13桁の整数(ハイフン不要)"
                         onChange="doExecute2('janCodeCheck')" value =
 																    <c:choose>
 																		<c:when test="${register=='NG' and !empty productDrink.janCode}">"${productDrink.janCode}"</c:when>
@@ -81,7 +81,7 @@ Alart
                         <label for="name">商品名&nbsp;<span class="label label-danger">必須</span></label>
                     </div>
                     <div class="col-sm-7 col-xs-12">
-                        <p>：<input type="text" name="name" style="width: 200px" placeholder="商品名"
+                        <p>：<input type="text" id="name" name="name" style="width: 200px" placeholder="商品名(1-100文字)"
                         onChange="doExecute2('nameCheck')" value =
 																	<c:choose>
 																		<c:when test="${register=='NG'}">"${productDrink.name}"</c:when>
@@ -96,7 +96,7 @@ Alart
                         <label for="maker">メーカー&nbsp;<span class="label label-danger">必須</span></label>
                     </div>
                     <div class="col-sm-7 col-xs-12">
-                        <p>：<input type="text" name="maker" style="width: 200px" placeholder="メーカ名"
+                        <p>：<input type="text" id="maker" name="maker" style="width: 200px" placeholder="メーカ名(1-50文字)"
                         onChange="doExecute2('makerCheck')" value =
 																	<c:choose>
 																		<c:when test="${register=='NG'}">"${productDrink.maker}"</c:when>
@@ -108,10 +108,10 @@ Alart
                 </div>
                 <div class="row">
                     <div class="col-sm-5 col-xs-12">
-                        <label for="maker">内容量&nbsp;<span class="label label-danger">必須</span></label>
+                        <label for="contents">内容量&nbsp;<span class="label label-danger">必須</span></label>
                     </div>
                     <div class="col-sm-7 col-xs-12">
-                        <p>：<input type="text" name="contents" style="width: 80px" placeholder="内容量"
+                        <p>：<input type="text" id="contents" name="contents" style="width: 150px" placeholder="内容量(1-99999)"
                         onChange="doExecute2('contentsCheck')" value =
 																	<c:choose>
 																		<c:when test="${register=='NG'}">"${productDrink.contents}"</c:when>
@@ -123,10 +123,10 @@ Alart
                 </div>
                 <div class="row">
                     <div class="col-sm-5 col-xs-12">
-                        <label for="maker">分類&nbsp;<span class="label label-danger">必須</span></label>
+                        <label for="dept">分類&nbsp;<span class="label label-danger">必須</span></label>
                     </div>
                     <div class="col-sm-7 col-xs-12">
-                        <p>：<input type="text" name="dept" style="width: 80px" placeholder="分類"
+                        <p>：<input type="text" id="dept" name="dept" style="width: 150px" placeholder="分類(1-50文字)"
                         onChange="doExecute2('deptCheck')" value =
 																	<c:choose>
 																		<c:when test="${register=='NG'}">"${productDrink.dept}"</c:when>
@@ -138,10 +138,10 @@ Alart
                 </div>
                 <div class="row">
                     <div class="col-sm-5 col-xs-12">
-                        <label for="maker">単位&nbsp;<span class="label label-danger">必須</span></label>
+                        <label for="unit">単位&nbsp;<span class="label label-danger">必須</span></label>
                     </div>
                     <div class="col-sm-7 col-xs-12">
-                        <p>：<input type="text" name="unit" style="width: 80px" placeholder="単位(mlなど)"
+                        <p>：<input type="text" id="unit" name="unit" style="width: 150px" placeholder="単位(mlなど､1-5文字)"
                         onChange="doExecute2('unitCheck')" value =
 																	<c:choose>
 																		<c:when test="${register=='NG'}">"${productDrink.unit}"</c:when>
@@ -156,7 +156,7 @@ Alart
                         <label for="price">標準単価&nbsp;<span class="label label-danger">必須</span></label>
                     </div>
                     <div class="col-sm-7 col-xs-12">
-                        <p>：<input type="text" name="price" style="width: 80px" placeholder="標準単価"
+                        <p>：<input type="text" id="price" name="price" style="width: 150px" placeholder="単価(1-9999)"
                         onChange="doExecute2('priceCheck')" value =
                         											<c:choose>
 																		<c:when test="${register=='NG'}">"${productDrink.unitPrice}"</c:when>
@@ -183,6 +183,26 @@ Alart
             </form>
         </div>
     </div>
+    <br>
+    <br>
+    <hr>
+    <h1 class="h5">登録済みJanコード(動作確認用)</h1>
+	<table class="table table-bordered table-hover">
+		<thead class="thead-dark">
+			<tr>
+				<th scope="col">JANコード</th>
+				<th scope="col">商品名</th>
+			</tr>
+		</thead>
+		<c:forEach var="pdPF" items="${pdListPF}">
+			<tbody>
+				<tr>
+					<td>${pdPF.janCode}</td>
+					<td>${pdPF.name}</td>
+				</tr>
+			</tbody>
+		</c:forEach>
+	</table> 
 </div>
 
 <%@ include file="../footer.jsp" %>

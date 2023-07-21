@@ -19,7 +19,7 @@ Alart
     <header>
         <div class="main">
 <%-- document.forms[1]; --%>
-            <form action="Main.action" method="post">
+            <form action="InputOutputScreen" method="post">
                 <input type="hidden" name="toAction">
                 <div class="row">
                     <div class="col-sm-8 col-xs-12">
@@ -38,7 +38,7 @@ Alart
     <div>
         <div>
 <%-- document.forms[2]; --%>
-            <form action="UserRegister.action" method="post">
+            <form action="UserRegister" method="post">
 	            <input type="hidden" name="userID" value="${G_userRegister.userID}">
 	            <input type="hidden" name="userName" value="${G_userRegister.userName}">
 	            <input type="hidden" name="password" value="${G_userRegister.password}">
@@ -48,7 +48,7 @@ Alart
 	            <input type="hidden" name="toAction" value="execute_${G_userRegister.toAction}">
                 <div class="row">
                     <div class="col-sm-5 col-xs-12">
-                        <label for="userID">ログイン名&nbsp;<span class="label label-danger">必須</span></label>
+                        <label for="userID">ログイン名</label>
                     </div>
                     <div class="col-sm-7 col-xs-12">
                         <p>：${G_userRegisterLogin.userID}</p>
@@ -59,7 +59,7 @@ Alart
                         <label for="passwordForRegister">パスワード&nbsp;<span class="label label-danger">必須</span></label>
                     </div>
                     <div class="col-sm-7 col-xs-12">
-                        <p>：<input type="password" name="passwordForRegister" style="width: 200px"
+                        <p>：<input type="password" id="passwordForRegister" name="passwordForRegister" style="width: 200px"
                         value="${G_userRegisterLogin.password}"> ${alart[0]}</p>
                     </div>
                 </div>

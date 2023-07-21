@@ -3,7 +3,9 @@ package dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import bean.StoreProduct;
@@ -55,7 +57,7 @@ public class StoreProductDAO extends DAO {
 		try {
 			Connection con = getConnection();
 
-			//My SQL
+			// My SQL
 //			PreparedStatement st = con.prepareStatement("SELECT "
 //					+ "SP.JAN_CODE, "
 //					+ "SP.STOCK_PCS, "
@@ -69,27 +71,64 @@ public class StoreProductDAO extends DAO {
 //					+ "ON SP.JAN_CODE = GR.JAN_CODE "
 //				+ "ORDER BY JAN_CODE ASC");
 
-			//ORACLE
-			PreparedStatement st = con.prepareStatement("SELECT "
-															+ "SP.JAN_CODE, "
-															+ "SP.STOCK_PCS, "
-															+ "PD.NAME, "
-															+ "PD.MAKER, "
-															+ "GR.UNIT_PRICE "
-														+ "FROM STORE_PRODUCT SP "
-															+ "INNER JOIN PRODUCT_DRINK PD "
-															+ "ON SP.JAN_CODE = PD.JAN_CODE "
-															+ "INNER JOIN GOODS_RECEIPT GR "
-															+ "ON SP.JAN_CODE = GR.JAN_CODE "
-														+ "ORDER BY JAN_CODE ASC");
+			// ORACLE_PostgreSQL
+			PreparedStatement st = con.prepareStatement("SELECT " + "SP.JAN_CODE, " + "SP.STOCK_PCS, " + "PD.NAME, "
+					+ "PD.MAKER, " + "GR.UNIT_PRICE, " + "GR.NYUKO_YMD " + "FROM STORE_PRODUCT SP "
+					+ "LEFT OUTER JOIN PRODUCT_DRINK PD " + "ON SP.JAN_CODE = PD.JAN_CODE "
+					+ "LEFT OUTER JOIN GOODS_RECEIPT GR " + "ON SP.JAN_CODE = GR.JAN_CODE " + "ORDER BY JAN_CODE ASC");
 			ResultSet rs = st.executeQuery();
+
+			SimpleDateFormat sdFormat = new SimpleDateFormat("yyyy/MM/dd");
+			String JanNew = "";
+			String Jan = "";
+			Date NyukoYmdNew = null;
+			Date NyukoYmd = null;
+			StoreProductList storeProductList = null;
 			while (rs.next()) {
-				StoreProductList storeProductList = new StoreProductList();
-				storeProductList.setJanCode(rs.getString("JAN_CODE"));
-				storeProductList.setStockPCS(rs.getInt("STOCK_PCS"));
-				storeProductList.setName(rs.getString("NAME"));
-				storeProductList.setMaker(rs.getString("MAKER"));
-				storeProductList.setPrice(rs.getInt("UNIT_PRICE"));
+				Jan = rs.getString("JAN_CODE");
+				if (rs.getString("NYUKO_YMD") == null) {
+					if (storeProductList != null && !storeProductList.getJanCode().equals("")) {
+						storeProductLists.add(storeProductList);
+						storeProductList = null;
+					}
+					storeProductList = new StoreProductList();
+					JanNew = "";
+					storeProductList.setJanCode(Jan);
+					storeProductList.setStockPCS(rs.getInt("STOCK_PCS"));
+					storeProductList.setName(rs.getString("NAME"));
+					storeProductList.setMaker(rs.getString("MAKER"));
+					storeProductList.setPrice(rs.getInt("UNIT_PRICE"));
+					storeProductLists.add(storeProductList);
+					storeProductList = null;
+				} else {
+					NyukoYmd = sdFormat.parse(rs.getString("NYUKO_YMD"));
+					if (JanNew.equals("") || !JanNew.equals(Jan)) {
+						if (!JanNew.equals("") && !JanNew.equals(Jan)) {
+							storeProductLists.add(storeProductList);
+							storeProductList = null;
+						}
+						storeProductList = new StoreProductList();
+						NyukoYmdNew = NyukoYmd;
+						JanNew = Jan;
+						storeProductList.setJanCode(JanNew);
+						storeProductList.setStockPCS(rs.getInt("STOCK_PCS"));
+						storeProductList.setName(rs.getString("NAME"));
+						storeProductList.setMaker(rs.getString("MAKER"));
+						storeProductList.setPrice(rs.getInt("UNIT_PRICE"));
+					} else if (NyukoYmd.after(NyukoYmdNew)) {
+						NyukoYmdNew = NyukoYmd;
+						JanNew = Jan;
+						storeProductList.setJanCode(JanNew);
+						storeProductList.setStockPCS(rs.getInt("STOCK_PCS"));
+						storeProductList.setName(rs.getString("NAME"));
+						storeProductList.setMaker(rs.getString("MAKER"));
+						storeProductList.setPrice(rs.getInt("UNIT_PRICE"));
+					}
+				}
+			}
+			// ｢while (rs.next())｣では､最後のjanコードの登録ができない為､
+			// 最後のjanコード登録用に以下Stepを加える
+			if (storeProductList != null && !storeProductList.getJanCode().equals("")) {
 				storeProductLists.add(storeProductList);
 			}
 			st.close();
