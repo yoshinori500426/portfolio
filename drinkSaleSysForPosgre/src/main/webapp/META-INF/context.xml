@@ -50,7 +50,7 @@
 	auth="Container" 
 	type="javax.sql.DataSource"
 	driverClassName="org.postgresql.Driver"
-	url="jdbc:postgresql://postgres://free_db_7own_oo74_user:0QeTJ5CViRui6Tn5Ujr1PUSmbMdYUx2J@dpg-cino9h5gkuvudi9noilg-a/free_db_7own_oo74"
+	url="jdbc:postgresql://dpg-cino9h5gkuvudi9noilg-a:5432/free_db_7own_oo74"
 	username="free_db_7own_oo74_user"
 	password="0QeTJ5CViRui6Tn5Ujr1PUSmbMdYUx2J"
 /> 
