@@ -74,8 +74,9 @@ public class AmountCalcDAO extends DAO {
 						"progress-bar-info", "1");
 				// データベース情報取得
 				st = con.prepareStatement(
-						"SELECT ACA.* , SUM(FOR_SUM_QTY) OVER (ORDER BY DATE_FOR_SORT, PO_NO, ORDER_NO ASC) CUMULATIVE_QTY "
-								+ "FROM AMOUNT_CALC_ALL ACA WHERE PRODUCT_NO = ? ORDER BY DATE_FOR_SORT ASC");
+						"SELECT ACA.* , SUM(\"FOR_SUM_QTY\") OVER (ORDER BY \"DATE_FOR_SORT\", \"PO_NO\", \"ORDER_NO\" ASC) CUMULATIVE_QTY "
+						+ "FROM AMOUNT_CALC_ALL ACA WHERE \"PRODUCT_NO\" = ? ORDER BY \"DATE_FOR_SORT\" ASC");
+
 				st.setString(1, productMaster.getProductNo());
 				// スレッド割り込み時､例外を投げた際､正常に終了させる為の細工
 				session.setAttribute("st", st);
@@ -306,8 +307,8 @@ public class AmountCalcDAO extends DAO {
 
 			// データベース情報取得
 			st = con.prepareStatement(
-					"SELECT ACA.* , SUM(FOR_SUM_QTY) OVER (ORDER BY DATE_FOR_SORT, PO_NO, ORDER_NO ASC) AS CUMULATIVE_QTY "
-							+ "FROM AMOUNT_CALC_ALL ACA WHERE PRODUCT_NO = ? ORDER BY DATE_FOR_SORT ASC");
+					"SELECT ACA.* , SUM(\"FOR_SUM_QTY\") OVER (ORDER BY \"DATE_FOR_SORT\", \"PO_NO\", \"ORDER_NO\" ASC) CUMULATIVE_QTY "
+					+ "FROM AMOUNT_CALC_ALL ACA WHERE \"PRODUCT_NO\" = ? ORDER BY \"DATE_FOR_SORT\" ASC");
 			st.setString(1, productNo);
 			rs = st.executeQuery();
 

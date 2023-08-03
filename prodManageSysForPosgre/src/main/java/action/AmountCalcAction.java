@@ -200,7 +200,7 @@ public class AmountCalcAction extends Action implements Runnable {
 					session.setAttribute("state", "処理が正常に終了しました｡");
 				} else {
 					con.rollback();
-					session.setAttribute("state", "処理中に異常が発生しました｡<br>処理は行われていません｡");
+					session.setAttribute("state", "処理中に異常が発生しました｡/n処理は行われていません｡");
 				}
 				// トランザクション処理終了
 				con.setAutoCommit(true);

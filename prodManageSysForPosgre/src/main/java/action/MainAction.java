@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 
 import bean.UserMaster;
 import dao.AmountCalcDAO;
+import dao.CreateTableDAO;
 import tool.Action;
 
 public class MainAction extends Action {
@@ -17,13 +18,34 @@ public class MainAction extends Action {
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		HttpSession session = request.getSession();
 
-		// 画面「amountCalc.jsp」「amountCalcOrder.jsp」「user_y.jsp」に遷移時の処理
-		crearAttributeForAmountCalcAndUser(session);
+		// 画面遷移時の接触属性クリア処理
+		crearAttributeForScreenChange(session);
 
 		String toAction = request.getParameter("toAction");
 		int loginStatusCheck = new MainAction().loginStatusCheck(request, response);
 
-		if (loginStatusCheck == 0 && toAction != null && !toAction.equals("main/login.jsp")) {
+		if (toAction.equals("fromIndex")) {
+			toAction = "/WEB-INF/main/login.jsp";
+			// ログイン情報削除
+			session.setAttribute("user", null);
+			session.setAttribute("loginState", null);
+			// 動作確認用テーブル作成
+			CreateTableDAO ctDAO = new CreateTableDAO();
+			int line = 0;
+			line += ctDAO.createTable();
+			line += ctDAO.createSequence();
+			line += ctDAO.inserUserMasterTable();
+			line += ctDAO.insertProductMasterTable();
+			line += ctDAO.insertCustomerMasterTable();
+			line += ctDAO.insertSupplierMasterTable();
+			line += ctDAO.insertPurchaseOrderTable();
+			line += ctDAO.insertPuroductStockTable();
+			line += ctDAO.insertEntryExitInfoTable();
+			line += ctDAO.insertOrderTable();
+			if (line != (9 + 7 + 10 + 8 + 10 + 8 + 32 + 16 + 15 + 32)) {
+				session.setAttribute("state", "動作確認用テーブルが正常に作成されていません｡\\n再度､生産管理システムに入り直して下さい｡");
+			}
+		} else if (loginStatusCheck == 0 && toAction != null && !toAction.equals("main/login.jsp")) {
 			session.setAttribute("message", "セッション切れの為､ログイン画面に移動しました｡");
 			toAction = "/WEB-INF/main/login.jsp";
 		} else if (loginStatusCheck == 0 && (toAction == null || toAction.equals("main/login.jsp"))) {
@@ -47,11 +69,11 @@ public class MainAction extends Action {
 		int judge = 0;
 
 		HttpSession session = request.getSession();
-		UserMaster um = (UserMaster) session.getAttribute("user");
-		if (um == null) {
+		UserMaster user = (UserMaster) session.getAttribute("user");
+		if (user == null) {
 			session.setAttribute("loginState", null);
-		} else if (um != null) {
-			session.setAttribute("loginState", um.getName());
+		} else if (user != null) {
+			session.setAttribute("loginState", "ようこそ、" + user.getName() + "さん");
 			judge++;
 		}
 		return judge;
@@ -74,29 +96,30 @@ public class MainAction extends Action {
 	}
 
 	/**
-	 * 画面「amountCalc.jsp」「amountCalcOrder.jsp」「user_y.jsp」に遷移時にセッション属性をクリアするメソッド
-	 *
+	 * セッション属性をクリアするメソッド
+	 * 
 	 * @param HttpSession session(セッション属性操作用インスタンス)
 	 * @return 戻り値無し
 	 */
-	private void crearAttributeForAmountCalcAndUser(HttpSession session) {
+	public void crearAttributeForScreenChange(HttpSession session) {
 		String nextJsp = (String) session.getAttribute("nextJsp");
-		// 画面「amountCalc.jsp」「amountCalcOrder.jsp」「user_y.jsp」に遷移時の処理
-		if (nextJsp != null && (nextJsp.equals("/WEB-INF/main/amountCalc.jsp")
-				|| nextJsp.equals("/WEB-INF/main/amountCalcOrder.jsp") || nextJsp.equals("/WEB-INF/main/user_y.jsp"))) {
-			//画面「amountCalc.jsp」「amountCalcOrder.jsp」で使用したセッション属性のnullクリア
-			session.setAttribute("therad", null);
-			session.setAttribute("G_AmountCalcOrder", null);
-			session.setAttribute("amountCalcOrderMSG1", null);
-			session.setAttribute("state", null);
-			new AmountCalcDAO().outPutMSG(session, null, null, null, null);
-			new AmountCalcDAO().changeAttribute(session, null, null);
-			//画面「user_y.jsp」で使用したセッション属性のnullクリア
-			session.setAttribute("alert", null);
-			session.setAttribute("message", null);
-			session.setAttribute("btnSelect", null);
-			session.setAttribute("userForChange", null);
-			session.setAttribute("G_UserMaster", null);
-		}
+
+		// メッセージ･アラート･状態表示関係削除
+		session.setAttribute("alert", null);
+		session.setAttribute("message", null);
+		session.setAttribute("state", null);
+		session.setAttribute("toAction", null);
+		// 画面入力値削除
+		session.setAttribute("G_UserMaster", null);
+		session.setAttribute("G_AmountCalcOrder", null);
+		// 画面「amountCalc.jsp」「amountCalcOrder.jsp」で使用したセッション属性のnullクリア
+		session.setAttribute("therad", null);
+		session.setAttribute("amountCalcOrderMSG1", null);
+		new AmountCalcDAO().outPutMSG(session, null, null, null, null);
+		new AmountCalcDAO().changeAttribute(session, null, null);
+		// 画面「user_y.jsp」で使用したセッション属性のnullクリア
+		session.setAttribute("btnSelect", null);
+		session.setAttribute("userForChange", null);
+
 	}
 }

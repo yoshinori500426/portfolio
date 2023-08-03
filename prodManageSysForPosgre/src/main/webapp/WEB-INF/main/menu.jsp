@@ -4,8 +4,6 @@
 <%--
 
 --%>
-	    <br>
-
         <div class="box">
             <header>
                 <div class="main">

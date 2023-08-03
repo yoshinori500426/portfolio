@@ -137,7 +137,7 @@ public class OrderTableDAO extends DAO {
 			//ORDER_NO作成
 			do {
 				//注文番号のシーケンス値取得
-				st = con.prepareStatement("SELECT ORDER_NO.NEXTVAL FROM DUAL");
+				st = con.prepareStatement("SELECT NEXTVAL('ORDER_NO')");
 				rs = st.executeQuery();
 				while (rs.next()) {
 					ORDER_NO = String.valueOf(rs.getInt("NEXTVAL"));
