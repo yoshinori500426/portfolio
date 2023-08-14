@@ -11,12 +11,8 @@
                         <form action="Logout.action" method="post">
                             <input type="hidden" name="toAction">
                             <div class="row">
-                                <div class="col-sm-8 col-xs-12">
-                                    <h1 class="h2">マスタ登録画面</h1>
-                                </div>
-                                <div class="col-sm-4 col-xs-12 text-right">
-                                    <a href="javascript:logout()" >ログアウト</a>
-                                </div>
+                                <h1 class="h2 col-xs-8">マスタ登録画面</h1>
+                                <div class="col-xs-4 text-right"><a href="javascript:logout()" >ログアウト</a></div>
                             </div>
                         </form>
                 </div>
@@ -30,26 +26,18 @@
                         <form action="Main.action" method="post">
                             <input type="hidden" name="toAction">
                             <div class="row">
-                                <div class="col-sm-6 col-xs-12">
-                                    <p><button type="button" class="btn btn-primary btn-block"
-                                            onclick="doExecute2('main/productMaster.jsp')"> 品番マスタ</button></p>
-                                </div>
-                                <div class="col-sm-6 col-xs-12">
-                                    <p><button type="button" class="btn btn-primary btn-block"
-                                            onclick="doExecute2('main/customer.jsp')">顧客先マスタ</button></p>
-                                </div>
+                                <div class="col-xs-6"><button type="button" class="btn btn-primary btn-block" onclick="doExecute2('main/productMaster.jsp')"> 品番マスタ</button></div>
+                                <div class="col-xs-6"><button type="button" class="btn btn-primary btn-block" onclick="doExecute2('main/customerMaster.jsp')">顧客先マスタ</button></div>
                             </div>
                             <br>
+                            <div class="row">
+                                <div class="col-xs-6"><button type="button" class="btn btn-primary btn-block" onclick="doExecute2('main/supplierMaster.jsp')">仕入先マスタ</button></div>
+                                <div class="col-xs-6"><button type="button" class="btn btn-primary btn-block" onclick="doExecute2('main/userMaster.jsp')">ユーザマスタ</button></div>
+                            </div>
                             <br>
                             <div class="row">
-                                <div class="col-sm-6 col-xs-12">
-                                    <p><button type="button" class="btn btn-primary btn-block"
-                                            onclick="doExecute2('main/supplierMaster.jsp')">仕入先マスタ</button></p>
-                                </div>
-                                <div class="col-sm-6 col-xs-12">
-                                    <p><button type="button" class="btn btn-primary btn-block"
-                                            onclick="doExecute2('main/user_y.jsp')">ユーザマスタ</button></p>
-                                </div>
+                                <div class="col-xs-6"></div>
+                                <div class="col-xs-6"><button type="button" class="btn btn-success btn-block" onclick="doExecute2('main/menu.jsp')">メニュー</button></div>
                             </div>
                         </form>
                 </div>

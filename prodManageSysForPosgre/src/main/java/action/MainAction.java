@@ -119,7 +119,6 @@ public class MainAction extends Action {
 		new AmountCalcDAO().changeAttribute(session, null, null);
 		// 画面「user_y.jsp」で使用したセッション属性のnullクリア
 		session.setAttribute("btnSelect", null);
-		session.setAttribute("userForChange", null);
 
 	}
 }

@@ -20,7 +20,7 @@ public class LoginAction extends Action {
 
 		// 画面情報取得
 		G_UserMaster G_UserMaster = new G_UserMaster();
-		G_UserMaster.setUserId(request.getParameter("userID"));
+		G_UserMaster.setUserId(request.getParameter("userId"));
 		G_UserMaster.setPassword(request.getParameter("password"));
 		session.setAttribute("G_UserMaster", G_UserMaster);
 
@@ -40,6 +40,8 @@ public class LoginAction extends Action {
 				session.setAttribute("loginState", "ようこそ、" + user.getName() + "さん");
 				return "/WEB-INF/main/menu.jsp";
 			}
+			break;
+		case "dummy":
 			break;
 		case "cancel":
 		default:

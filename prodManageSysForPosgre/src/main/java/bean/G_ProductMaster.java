@@ -1,18 +1,16 @@
 package bean;
 
-public class ProductMaster {
+public class G_ProductMaster {
 	private String productNo;
 	private String productName;
 	private String supplierNo;
-	private int unitPrice;
-	private int sellingPrice;
-	private int leadTime;
-	private int lot;
+	private String unitPrice;
+	private String sellingPrice;
+	private String leadTime;
+	private String lot;
 	private String location;
-	private int baseStock;
+	private String baseStock;
 	private String etc;
-	private String registDate;
-	private String registUser;
 
 	public String getProductNo() {
 		return productNo;
@@ -38,35 +36,35 @@ public class ProductMaster {
 		this.supplierNo = supplierNo;
 	}
 
-	public int getUnitPrice() {
+	public String getUnitPrice() {
 		return unitPrice;
 	}
 
-	public void setUnitPrice(int unitPrice) {
+	public void setUnitPrice(String unitPrice) {
 		this.unitPrice = unitPrice;
 	}
 
-	public int getSellingPrice() {
+	public String getSellingPrice() {
 		return sellingPrice;
 	}
 
-	public void setSellingPrice(int sellingPrice) {
+	public void setSellingPrice(String sellingPrice) {
 		this.sellingPrice = sellingPrice;
 	}
 
-	public int getLeadTime() {
+	public String getLeadTime() {
 		return leadTime;
 	}
 
-	public void setLeadTime(int leadTime) {
+	public void setLeadTime(String leadTime) {
 		this.leadTime = leadTime;
 	}
 
-	public int getLot() {
+	public String getLot() {
 		return lot;
 	}
 
-	public void setLot(int lot) {
+	public void setLot(String lot) {
 		this.lot = lot;
 	}
 
@@ -78,11 +76,11 @@ public class ProductMaster {
 		this.location = location;
 	}
 
-	public int getBaseStock() {
+	public String getBaseStock() {
 		return baseStock;
 	}
 
-	public void setBaseStock(int baseStock) {
+	public void setBaseStock(String baseStock) {
 		this.baseStock = baseStock;
 	}
 
@@ -92,21 +90,5 @@ public class ProductMaster {
 
 	public void setEtc(String etc) {
 		this.etc = etc;
-	}
-
-	public String getRegistDate() {
-		return registDate;
-	}
-
-	public void setRegistDate(String registDate) {
-		this.registDate = registDate;
-	}
-
-	public String getRegistUser() {
-		return registUser;
-	}
-
-	public void setRegistUser(String registUser) {
-		this.registUser = registUser;
 	}
 }

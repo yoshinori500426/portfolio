@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ include file="../header.jsp"%>
 <%--
 
@@ -121,111 +121,6 @@ label {
 }
 </style>
 </header>
-
-
-	<div class="box">
-		<header>
-			<div class="main">
-				<%-- document.forms[1]; --%>
-				<form action="Logout.action" method="post">
-					<input type="hidden" name="toAction">
-					<div class="row">
-						<div class="col-sm-8 col-xs-12">
-							<h2>品番マスタ・登録・更新</h2>
-						</div>
-						<div class="col-sm-8 col-xs-12 text-right">
-							<label>状態：</label><input readonly="readonly" value=""
-								id="jyoutai"
-								style="border: none; border-bottom: 1px solid #999; width: 120px; background-color: azure;">
-						</div>
-						<div class="col-sm-4 col-xs-12 text-right">
-							<a href="javascript:logout()"></a>
-						</div>
-					</div>
-				</form>
-			</div>
-		</header>
-
-		<hr>
-
-		<div>
-			<div>
-				<%-- document.forms[2]; --%>
-				<form action="ProductMaster.action" method="post">
-					<input type="hidden" name="toAction" value=""> <input
-						type="hidden" name="dousa" value="${dousa}" id="dousa">
-					<div class="row">
-						<div class="col-sm-5 col-xs-12">
-							<div class="col-sm-5 col-xs-12">
-								<p>
-									<button type="button" onClick="sinki()"
-										class="btn-warning btn-block">登録</button>
-								</p>
-							</div>
-							<div class="col-sm-5 col-xs-12">
-								<p>
-									<button type="button" onClick="kousin()"
-										class="btn-success btn-block">更新</button>
-								</p>
-							</div>
-							<br>
-							<hr>
-							<label> 品番 　　　　　　<input type="text" name="Number"
-								placeholder="(例)0000000100" id="ProductNo"
-								onchange="doExecute('searchNo')" value="${Number}" disabled>
-							</label> <label> 品名 　　　　　　<input type="text" name="name"
-								placeholder="(例)トマト" id="ProductName" value="${Name}" disabled>
-							</label> <label> 仕入先コード　　 <input type="text" name="Code"
-								placeholder="(例)000100" id="SupplierNo"
-								onchange="doExecute('siire')" value="${Code}" disabled>
-							</label> <label> 仕入先名　　　　 <input type="text" name="CodeName"
-								id="SupplierName" value="${CodeName}" disabled>
-							</label> <label> 仕入単価 　　　　<input type="text" name="Price"
-								placeholder="(例)100" id="UnitPrice" value="${Price}" disabled>
-							</label> <label> 売価 　　　　　　<input type="text" name="SellingPrice"
-								placeholder="(例)240" id="SellingPrice" value="${SellingPrice}"
-								disabled>
-							</label> <label> 購買リードタイム <input type="text" name="leadTime"
-								placeholder="(例)2" id="Leadtime" value="${leadTime}" disabled>
-							</label> <label> 購買ロット 　　　<input type="text" name="purchaseLot"
-								placeholder="(例)3" id="Lot" value="${purchaseLot}" disabled>
-							</label> <label> 在庫ロケーション <input type="text" name="stockLocation"
-								placeholder="(例)B-01-3" id="Location" value="${stockLocation}"
-								disabled>
-							</label> <label> 基本在庫　　　　 <input type="text" name="backStock"
-								placeholder="(例)50" id="BaseStock" value="${backStock}" disabled>
-							</label> <label> 備考 　　　　　　<input type="text" name="remarks" id="Etc"
-								placeholder="(例)新鮮" value="${Etc}" disabled>
-							</label>
-							<hr>
-
-						</div>
-
-						<div class="col-sm-5 col-xs-12"></div>
-					</div>
-					<div class="row">
-						<div class="col-sm-5 col-xs-12">
-							<div class="col-sm-5 col-xs-12">
-								<p>
-									<button type="button" onclick="doExecute()"
-										class="btn-danger btn-block">登録・更新</button>
-								</p>
-							</div>
-							<div class="col-sm-5 col-xs-12">
-								<p>
-									<button type="button"
-										onclick="doExecute2('main/productMaster.jsp')"
-										class="btn-primary btn-block">キャンセル</button>
-								</p>
-							</div>
-							<div class="col-sm-5 col-xs-12">
-								<p></p>
-							</div>
-						</div>
-					</div>
-				</form>
-			</div>
-		</div>
 		<script>
 			document.addEventListener('DOMContentLosaded', messageAlert());
 			function messageAlert() {
@@ -251,4 +146,127 @@ label {
 
 			}
 		</script>
+		
+<%--
+
+"(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8, }"
+--%>
+	<div class="box">
+		<header>
+			<div class="main">
+				<%-- document.forms[1]; --%>
+				<form action="Logout.action" method="post">
+					<input type="hidden" name="toAction">
+					<div class="row">
+						<h1 class="h2 col-xs-6">品番マスタ画面</h1>
+						<h1 class="h3 col-xs-4 text-left">
+							<c:choose>
+									<c:when test="${empty btnSelect}">
+											<span class="label label-primary">状態：未選択</span>
+									</c:when>
+									<c:when test="${btnSelect=='insert'}">
+											<span class="label label-warning">状態：登録</span>
+									</c:when>
+									<c:when test="${btnSelect=='update'}">
+											<span class="label label-success">状態：更新</span>
+									</c:when>
+							</c:choose>
+						</h1>
+						<div class="col-xs-2"><a href="javascript:logout()"></a></div>
+					</div>
+				</form>
+			</div>
+		</header>
+
+	<hr>
+
+		<div>
+			<%-- document.forms[2]; --%>
+			<form action="ProductMaster.action" method="post">
+			    <input type="hidden" name="toAction">
+				<input type="hidden" name="btnSelect" value="${btnSelect}" >
+				<input type="hidden" name="reload">
+				<div class="row">
+					<div class="col-xs-1"></div>
+					<div class="col-xs-5"><button type="button" class="btn btn-warning btn-block" name="insert" onClick="productBtnChange('insert')">登録</button></div>
+					<div class="col-xs-5"><button type="button" class="btn btn-success btn-block" name="update" onClick="productBtnChange('update')">更新</button></div>
+					<div class="col-xs-1"></div>
+				</div>
+		<hr>
+				<div class="row">
+					<div class="col-xs-2"></div>
+					<label class="form-label col-xs-3 text-left" for="productNo">品番</label>
+					<p class="col-xs-7">：<input type="number" style="width: 300px;" name="productNo" id="productNo" min="0" max="9999999999" oninput="javascript: this.value = this.value.slice(0, 10);" placeholder="10桁数字" onchange="doExecute2('searchProductNo')" value="${G_ProductMaster.productNo}"></p>
+				</div>
+				<div class="row">
+					<div class="col-xs-2"></div>
+					<label class="form-label col-xs-3 text-left" for="productName">品名&nbsp;<span class="label label-danger">必須</span></label>
+					<p class="col-xs-7">：<input type="text"  style="width: 300px;"name="productName" id="productName" maxlength="100" placeholder="1−100文字" value="${G_ProductMaster.productName}">&nbsp;${alert[0]}</p>
+				</div>
+				<div class="row">
+					<div class="col-xs-2"></div>
+					<label class="form-label col-xs-3 text-left" for="supplierNo">仕入先コード&nbsp;<span class="label label-danger">必須</span></label>
+					<p class="col-xs-7">：<input type="number" style="width: 300px;" name="supplierNo" id="supplierNo" min="0" max="999999" oninput="javascript: this.value = this.value.slice(0, 6);" placeholder="6桁数字" onchange="doExecute2('searchSupplierNo')" value="${G_ProductMaster.supplierNo}">&nbsp;${alert[1]}</p>
+				</div>
+				<div class="row">
+					<div class="col-xs-2"></div>
+					<label class="form-label col-xs-3 text-left" for="supplierName">仕入先名</label>
+					<p class="col-xs-7">：<input type="text" style="width: 300px;" name="supplierName" id="supplierName" placeholder="表示のみ(入力不可)" value="${SupplierMaster.supplierName}" disabled></p>
+				</div>
+				<div class="row">
+					<div class="col-xs-2"></div>
+					<label class="form-label col-xs-3 text-left" for="unitPrice">仕入単価&nbsp;<span class="label label-danger">必須</span></label>
+					<p class="col-xs-7">：<input type="text" style="width: 300px;" name="unitPrice" id="unitPrice" placeholder="0.01-999999.99" onkeydown="befValue=value;" onkeyup="value=((value<=999999.99)&&(value*100%1===0))?value:befValue;" value="${G_ProductMaster.unitPrice}">&nbsp;${alert[2]}</p>
+				</div>
+				<div class="row">
+					<div class="col-xs-2"></div>
+					<label class="form-label col-xs-3 text-left" for="sellingPrice">売価</label>
+					<p class="col-xs-7">：<input type="text" style="width: 300px;" name="sellingPrice" id="sellingPrice" step="0.01" placeholder="0.01-999999.99(入力任意)" onkeydown="befValue=value;" onkeyup="value=((value<=999999.99)&&(value*100%1===0))?value:befValue;" value="${G_ProductMaster.sellingPrice}"></p>
+				</div>
+				<div class="row">
+					<div class="col-xs-2"></div>
+					<label class="form-label col-xs-3 text-left" for="leadTime">購買リードタイム&nbsp;<span class="label label-danger">必須</span></label>
+					<p class="col-xs-7">：<input type="number" style="width: 300px;" name="leadTime" id="leadTime" min="0" max="999" oninput="javascript: this.value = this.value.slice(0, 3);" placeholder="1-999" value="${G_ProductMaster.leadTime}">&nbsp;${alert[3]}</p>
+				</div>
+				<div class="row">
+					<div class="col-xs-2"></div>
+					<label class="form-label col-xs-3 text-left" for="lot">購買ロット&nbsp;<span class="label label-danger">必須</span></label>
+					<p class="col-xs-7">：<input type="number" style="width: 300px;" name="lot" id="lot" min="0" max="999999" oninput="javascript: this.value = this.value.slice(0, 6);" placeholder="1-999999" value="${G_ProductMaster.lot}">&nbsp;${alert[4]}</p>
+				</div>
+				<div class="row">
+					<div class="col-xs-2"></div>
+					<label class="form-label col-xs-3 text-left" for="location">在庫ロケーション&nbsp;<span class="label label-danger">必須</span></label>
+					<p class="col-xs-7">：<input type="text" style="width: 300px;" name="location" id="location" maxlength="6" placeholder="1-6文字(例:B-01-3)" value="${G_ProductMaster.location}">&nbsp;${alert[5]}</p>
+				</div>
+				<div class="row">
+					<div class="col-xs-2"></div>
+					<label class="form-label col-xs-3 text-left" for="baseStock">基本在庫&nbsp;<span class="label label-danger">必須</span></label>
+					<p class="col-xs-7">：<input type="number" style="width: 300px;" name="baseStock" id="baseStock" min="0" max="999999" oninput="javascript: this.value = this.value.slice(0, 6);" placeholder="1-999999" value="${G_ProductMaster.baseStock}">&nbsp;${alert[6]}</p>
+				</div>
+				<div class="row">
+					<div class="col-xs-2"></div>
+					<label class="form-label col-xs-3 text-left" for="etc">備考</label>
+					<p class="col-xs-7">：<textarea rows="2" style="width: 300px;" name="etc" id="etc" placeholder="0−120文字">${G_ProductMaster.etc}</textarea></p>
+				</div>
+		<hr>
+				<div class="row">
+					<div class="col-xs-1"></div>
+					<div class="col-xs-5">
+						<c:choose>
+								<c:when test="${empty btnSelect}">
+										<button type="button" class="btn btn-primary btn-block" disabled>未選択</button>
+								</c:when>
+								<c:when test="${btnSelect=='insert'}">
+										<button type="button" class="btn btn-warning btn-block" onClick="doExecute2('doBTNExecute')">登録</button>
+								</c:when>
+								<c:when test="${btnSelect=='update'}">
+										<button type="button" class="btn btn-success btn-block" onClick="doExecute2('doBTNExecute')">更新</button>
+								</c:when>
+						</c:choose>
+					</div>
+					<div class="col-xs-5"><button type="button" class="btn btn-primary btn-block" onClick="doExecute2('cancel')">リセット</button></div>
+					<div class="col-xs-1"></div>
+				</div>
+			</form>
+		</div>
 		<%@ include file="../footer.jsp"%>

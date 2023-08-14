@@ -13,7 +13,7 @@ import dao.CustomerMasterDAO;
 import dao.ZipDAO;
 import tool.Action;
 
-public class CustomerAction extends Action {
+public class CustomerMasterAction extends Action {
 
 	public String execute(
 			HttpServletRequest request, HttpServletResponse response) {
@@ -36,9 +36,6 @@ public class CustomerAction extends Action {
 
 		//追記★
 		request.setAttribute("nakami", nakami);
-
-		System.out.println(nakami);
-		System.out.println(request.getAttribute("End"));
 
 		//画面の入力内容をBean cm　に格納する
 		cm.setCustomerNo(request.getParameter("CustomerNo"));
@@ -194,7 +191,7 @@ public class CustomerAction extends Action {
 		}
 
 		request.setAttribute("dousa", getdousa);
-		return "/WEB-INF/main/customer.jsp";
+		return "/WEB-INF/main/customerMaster.jsp";
 
 	}
 

@@ -30,6 +30,7 @@
 
 <!-- PostgreSQL(ローカルPC用) -->
 <!-- 
+ -->
 	password="postgres"
 <Resource 
 	name="jdbc/yaoya"
@@ -39,11 +40,9 @@
 	url="jdbc:postgresql://localhost:5432/portfolio"
 	username="T.Yoshinori"
 /> 
- -->
 
 <!-- PostgreSQL(公開用) -->
 <!-- 
--->
 <Resource 
 	name="jdbc/yaoya"
 	auth="Container" 
@@ -53,5 +52,6 @@
 	username="free_db_7own_oo74_user"
 	password="0QeTJ5CViRui6Tn5Ujr1PUSmbMdYUx2J"
 /> 
+-->
 
 </Context>

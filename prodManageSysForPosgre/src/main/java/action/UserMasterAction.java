@@ -12,7 +12,7 @@ import bean.UserMaster;
 import dao.UserMasterDAO;
 import tool.Action;
 
-public class UserYAction extends Action {
+public class UserMasterAction extends Action {
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -25,10 +25,9 @@ public class UserYAction extends Action {
 		// セッション切れ処理
 		if (loginStatusCheck == 0) {
 			request.setAttribute("message", "セッション切れの為､ログイン画面に移動しました｡");
-			// 画面「user_y.jsp」で使用したセッション属性のnullクリア
+			// 画面「userMaster.jsp」で使用したセッション属性のnullクリア
 			session.setAttribute("alert", null);
 			session.setAttribute("btnSelect", null);
-			session.setAttribute("userForChange", null);
 			session.setAttribute("G_UserMaster", null);
 
 			session.setAttribute("nextJsp", "/WEB-INF/main/login.jsp");
@@ -54,7 +53,7 @@ public class UserYAction extends Action {
 
 		// 画面情報取得
 		G_UserMaster G_UserMaster = new G_UserMaster();
-		if (request.getParameter("userId").length() <= 6) {
+		if (request.getParameter("userId") != null && request.getParameter("userId").length() <= 6) {
 			if (request.getParameter("userId").equals("")) {
 				G_UserMaster.setUserId(request.getParameter("userId"));
 			} else {
@@ -78,11 +77,10 @@ public class UserYAction extends Action {
 			// 不要セッション属性をnullクリア
 			session.setAttribute("alert", null);
 			session.setAttribute("message", null);
-			session.setAttribute("userForChange", null);
 			session.setAttribute("G_UserMaster", null);
 			break;
 		case "searchUserID":
-			// 画面「user_y.jsp」で使用したセッション属性のnullクリア
+			// 画面「userMaster.jsp」で使用したセッション属性のnullクリア
 			session.setAttribute("alert", null);
 			session.setAttribute("message", null);
 			// 正規表現判定
@@ -90,6 +88,7 @@ public class UserYAction extends Action {
 			// String regEx = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$";
 			regEx = "^\\d{6}$";
 			judge = false;
+			checkParam = G_UserMaster.getUserId();
 			if (checkParam == null || checkParam.equals("")) {
 				userIdErrorHandling(request, response, judge);
 				break;
@@ -108,8 +107,11 @@ public class UserYAction extends Action {
 				userIdErrorHandling(request, response, judge);
 				break;
 			}
-			userForChange.setPassword("");
-			session.setAttribute("userForChange", userForChange);
+			G_UserMaster.setName(userForChange.getName());
+			G_UserMaster.setDept(userForChange.getDept());
+			G_UserMaster.setEtc(userForChange.getEtc());
+			G_UserMaster.setHireDate(userForChange.getHireDate());
+			session.setAttribute("G_UserMaster", G_UserMaster);
 			break;
 		case "doBTNExecute":
 			if (btnSelect == null || btnSelect.equals("")) {
@@ -117,13 +119,13 @@ public class UserYAction extends Action {
 			}
 			message = (String) session.getAttribute("message");
 			if (message != null) {
-				session.setAttribute("nextJsp", "/WEB-INF/main/user_y.jsp");
-				return "/WEB-INF/main/user_y.jsp";
+				session.setAttribute("nextJsp", "/WEB-INF/main/userMaster.jsp");
+				return "/WEB-INF/main/userMaster.jsp";
 			}
 			// 入力値チェック
 			// 対象は以下
 			// ➀ユーザ名：空文字NG
-			// ➁パスワード：8文字以上、英数構成、英字大文字小文字１以上
+			// ➁パスワード：8-20文字(英数構成、大文字1以上)
 			// ➂パスワード(確認用)：パスワードとパスワード(確認用)の同一を確認
 			// ➃分類：空文字NG
 			// ➄入社日：YYYY/MM/DD
@@ -153,7 +155,7 @@ public class UserYAction extends Action {
 			} else if (checkParam != null && !checkParam.equals("")) {
 				judge = new MainAction().inputValueCheck(checkParam, regEx);
 				if (judge == false) {
-					message = massageCreate(message, "パスワードが入力基準8文字以上、英数構成、大文字1以上を満たしていません。");
+					message = massageCreate(message, "パスワードが入力基準､｢8-20文字(英数構成、大文字1以上)｣を満たしていません。");
 					judgeRegEx = false;
 					alert[1] = "<span class=\"label label-danger\">確認</span>";
 				}
@@ -182,7 +184,7 @@ public class UserYAction extends Action {
 				// 正規表現確認
 				judge = new MainAction().inputValueCheck(checkParam, regEx);
 				if (judge == false) {
-					message = massageCreate(message, "入社日が入力基準YYYY/MM/DDを満たしていません。");
+					message = massageCreate(message, "入社日が入力基準､｢YYYY/MM/DD｣を満たしていません。");
 					judgeRegEx = false;
 					alert[4] = "<span class=\"label label-danger\">確認</span>";
 				} else if (judge == true) {
@@ -227,7 +229,6 @@ public class UserYAction extends Action {
 					session.setAttribute("message", "処理が正常に終了しました｡");
 					session.setAttribute("alert", null);
 					session.setAttribute("btnSelect", null);
-					session.setAttribute("userForChange", null);
 					session.setAttribute("G_UserMaster", null);
 				} else {
 					con.rollback();
@@ -238,9 +239,10 @@ public class UserYAction extends Action {
 			}
 			break;
 		case "dummy":
-			umDAO = new UserMasterDAO();
-			userForChange = umDAO.searchByID(G_UserMaster);
-			session.setAttribute("userForChange", userForChange);
+			// 要削除
+			// umDAO = new UserMasterDAO();
+			// userForChange = umDAO.searchByID(G_UserMaster);
+			// session.setAttribute("G_UserMaster", userForChange);
 			session.setAttribute("message", null);
 			break;
 		case "cancel":
@@ -249,12 +251,11 @@ public class UserYAction extends Action {
 			session.setAttribute("alert", null);
 			session.setAttribute("message", null);
 			session.setAttribute("btnSelect", null);
-			session.setAttribute("userForChange", null);
 			session.setAttribute("G_UserMaster", null);
 			break;
 		}
-		session.setAttribute("nextJsp", "/WEB-INF/main/user_y.jsp");
-		return "/WEB-INF/main/user_y.jsp";
+		session.setAttribute("nextJsp", "/WEB-INF/main/userMaster.jsp");
+		return "/WEB-INF/main/userMaster.jsp";
 	}
 
 	// 以下､メソッド=================================================================
@@ -269,7 +270,6 @@ public class UserYAction extends Action {
 	private void userIdErrorHandling(HttpServletRequest request, HttpServletResponse response, boolean judge) {
 		// 処理準備
 		HttpSession session = request.getSession();
-		session.setAttribute("userForChange", null);
 		session.setAttribute("G_UserMaster", null);
 		G_UserMaster G_UserMaster = new G_UserMaster();
 		if (judge == false) {
@@ -304,7 +304,6 @@ public class UserYAction extends Action {
 	private void doBTNExecuteErrorHandling(HttpServletRequest request, HttpServletResponse response) {
 		// 処理準備
 		HttpSession session = request.getSession();
-		session.setAttribute("userForChange", null);
 		G_UserMaster G_UserMaster = (G_UserMaster) session.getAttribute("G_UserMaster");
 		G_UserMaster.setPassword("");
 		G_UserMaster.setPasswordForCheck("");

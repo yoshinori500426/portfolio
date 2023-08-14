@@ -10,12 +10,8 @@
 					<form action="Main.action" method="post">
 						<input type="hidden" name="toAction" value="">
 						<div class="row">
-							<div class="col-sm-8 col-xs-12">
-								<h2>ログイン画面</h2>
-							</div>
-							<div class="col-sm-4 col-xs-12 text-right">
-								<a href="javascript:logout2()">終了する</a>
-							</div>
+							<h1 class="h2 col-xs-8">ログイン画面</h1>
+							<div class="col-xs-4 text-right"><a href="javascript:logout2()">終了する</a></div>
 						</div>
 					</form>
 				</div>
@@ -29,47 +25,23 @@
 					<form action="Login.action" method="post">
 						<input type="hidden" name="toAction" value="">
 						<div class="row">
-							<div class="col-sm-2 col-xs-12">
-							</div>
-							<div class="col-sm-4 col-xs-12">
-								<label for="userID">ログインID&nbsp;<span class="label label-danger">必須</span></label>
-							</div>
-							<div class="col-sm-5 col-xs-12">
-								<p>
-									：<input type="text" name="userID" style="width: 250px" value="${G_UserMaster.userId}">
-								</p>
-							</div>
-							<div class="col-sm-1 col-xs-12">
-							</div>
+							<div class="col-xs-2"></div>
+							<label class="form-label col-xs-4" for="userId">ログインID&nbsp;<span class="label label-danger">必須</span></label>
+							<p class="col-xs-5">：<input type="number" style="width: 250px" name="userId" id="userId" min="0" max="999999" step="1" oninput="javascript: this.value = this.value==0?'':('00000000'+this.value).slice(-6);" placeholder="6桁数字" value="${G_UserMaster.userId}"></p>
+							<div class="col-xs-1"></div>
 						</div>
 						<div class="row">
-							<div class="col-sm-2 col-xs-12">
-							</div>
-							<div class="col-sm-4 col-xs-12">
-								<label for="password">パスワード&nbsp;<span	class="label label-danger">必須</span></label>
-							</div>
-							<div class="col-sm-5 col-xs-12">
-								<p>
-									：<input type="password" name="password" style="width: 250px">
-								</p>
-							</div>
-							<div class="col-sm-1 col-xs-12">
-							</div>
+							<div class="col-xs-2"></div>
+							<label class="form-label col-xs-4" for="password">パスワード&nbsp;<span class="label label-danger">必須</span></label>
+							<p class="col-xs-5">：<input type="password" style="width: 250px" name="password" id="password" placeholder="8-20文字(英数構成、大文字1以上)"></p>
+							<div class="col-xs-1"></div>
 						</div>
-						
 						<br>
-						
 						<div class="row">
-							<div class="col-sm-1 col-xs-12">
-							</div>
-							<div class="col-sm-5 col-xs-12">
-								<button type="button" class="btn btn-primary btn-block" onClick="doExecute2('logIn')">ログイン</button>
-							</div>
-							<div class="col-sm-5 col-xs-12">
-								<button type="button" class="btn btn-warning btn-block" onClick="doExecute2('cancel')">キャンセル</button>
-							</div>
-							<div class="col-sm-1 col-xs-12">
-							</div>
+							<div class="col-xs-1"></div>
+							<div class="col-xs-5"><button type="button" class="btn btn-primary btn-block" onClick="doExecute2('logIn')">ログイン</button></div>
+							<div class="col-xs-5"><button type="button" class="btn btn-warning btn-block" onClick="doExecute2('cancel')">キャンセル</button></div>
+							<div class="col-xs-1"></div>
 						</div>
 					</form>
 				</div>
@@ -78,9 +50,8 @@
 		    <br>
 		    <hr>
 			<div class="row">
-				<div class="col-sm-1 col-xs-12">
-				</div>
-				<div class="col-sm-10 col-xs-12">
+				<div class="col-xs-1"></div>
+				<div class="col-xs-10">
 				    <h1 class="h5">登録済みユーザ(動作確認用)</h1>
 					<table class="table table-bordered table-hover">
 						<thead class="thead-dark">
@@ -99,8 +70,7 @@
 						</c:forEach>
 					</table>
 				</div>
-				<div class="col-sm-1 col-xs-12">
-				</div>
+				<div class="col-xs-1"></div>
 			</div>
 		</div>
 		

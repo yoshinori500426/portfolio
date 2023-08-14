@@ -28,7 +28,7 @@ window.addEventListener('load', function(){
 			doExecute2('dummy');
 	 	}
 	}
-	if('${nextJsp}'=='/WEB-INF/main/user_y.jsp'){
+	if('${nextJsp}'=='/WEB-INF/main/userMaster.jsp'){
 		var form = document.forms[2];
 		var btnSelect = form.elements['btnSelect'].value;
 		if(btnSelect=='insert'){
@@ -43,7 +43,7 @@ window.addEventListener('load', function(){
 			form.elements['dept'].removeAttribute('disabled');
 			form.elements['etc'].removeAttribute('disabled');
 			form.elements['hireDate'].removeAttribute('disabled');
-		}else if(btnSelect=='update' && '${userForChange.userId}'!=''){
+		}else if(btnSelect=='update' && '${G_UserMaster.userId}'!=''){
 			//ボタン有効/無効切り替え
 			form.elements['insert'].removeAttribute('disabled');
 			form.elements['update'].setAttribute('disabled','disabled');
@@ -55,7 +55,7 @@ window.addEventListener('load', function(){
 			form.elements['dept'].removeAttribute('disabled');
 			form.elements['etc'].removeAttribute('disabled');
 			form.elements['hireDate'].removeAttribute('disabled');
-		}else if(btnSelect=='update' && '${userForChange.userId}'==''){
+		}else if(btnSelect=='update' && '${G_UserMaster.userId}'==''){
 			//ボタン有効/無効切り替え
 			form.elements['insert'].removeAttribute('disabled');
 			form.elements['update'].setAttribute('disabled','disabled');
@@ -133,7 +133,103 @@ window.addEventListener('load', function(){
 		}
 	}
 })
-function btnChange(atype) {
+function productBtnChange(atype) {
+	var form = document.forms[2];
+	if(atype=='insert'){
+			if(form.elements['btnSelect'].value != 'insert'){
+					form.elements['btnSelect'].value = 'insert';
+					//値クリア
+					form.elements['userId'].value='';
+					form.elements['userName'].value='';
+					form.elements['password'].value='';
+					form.elements['passwordForCheck'].value='';
+					form.elements['dept'].value='';
+					form.elements['etc'].value='';
+					form.elements['hireDate'].value='';
+					//表示処理
+					doExecute2('btnSelect');
+			}
+	}else if(atype=='update'){
+			if(form.elements['btnSelect'].value != 'update'){
+					form.elements['btnSelect'].value = 'update';
+					//値クリア
+					form.elements['userId'].value='';
+					form.elements['userName'].value='';
+					form.elements['password'].value='';
+					form.elements['passwordForCheck'].value='';
+					form.elements['dept'].value='';
+					form.elements['etc'].value='';
+					form.elements['hireDate'].value='';
+					//表示処理
+					doExecute2('btnSelect');
+			}
+	}
+}
+function customerBtnChange(atype) {
+	var form = document.forms[2];
+	if(atype=='insert'){
+			if(form.elements['btnSelect'].value != 'insert'){
+					form.elements['btnSelect'].value = 'insert';
+					//値クリア
+					form.elements['userId'].value='';
+					form.elements['userName'].value='';
+					form.elements['password'].value='';
+					form.elements['passwordForCheck'].value='';
+					form.elements['dept'].value='';
+					form.elements['etc'].value='';
+					form.elements['hireDate'].value='';
+					//表示処理
+					doExecute2('btnSelect');
+			}
+	}else if(atype=='update'){
+			if(form.elements['btnSelect'].value != 'update'){
+					form.elements['btnSelect'].value = 'update';
+					//値クリア
+					form.elements['userId'].value='';
+					form.elements['userName'].value='';
+					form.elements['password'].value='';
+					form.elements['passwordForCheck'].value='';
+					form.elements['dept'].value='';
+					form.elements['etc'].value='';
+					form.elements['hireDate'].value='';
+					//表示処理
+					doExecute2('btnSelect');
+			}
+	}
+}
+function supplierBtnChange(atype) {
+	var form = document.forms[2];
+	if(atype=='insert'){
+			if(form.elements['btnSelect'].value != 'insert'){
+					form.elements['btnSelect'].value = 'insert';
+					//値クリア
+					form.elements['userId'].value='';
+					form.elements['userName'].value='';
+					form.elements['password'].value='';
+					form.elements['passwordForCheck'].value='';
+					form.elements['dept'].value='';
+					form.elements['etc'].value='';
+					form.elements['hireDate'].value='';
+					//表示処理
+					doExecute2('btnSelect');
+			}
+	}else if(atype=='update'){
+			if(form.elements['btnSelect'].value != 'update'){
+					form.elements['btnSelect'].value = 'update';
+					//値クリア
+					form.elements['userId'].value='';
+					form.elements['userName'].value='';
+					form.elements['password'].value='';
+					form.elements['passwordForCheck'].value='';
+					form.elements['dept'].value='';
+					form.elements['etc'].value='';
+					form.elements['hireDate'].value='';
+					//表示処理
+					doExecute2('btnSelect');
+			}
+	}
+}
+function userBtnChange(atype) {
 	var form = document.forms[2];
 	if(atype=='insert'){
 			if(form.elements['btnSelect'].value != 'insert'){
@@ -198,7 +294,7 @@ function doExecute1(atype) {
 	commonDoExecute(1,atype);
 }
 function doExecute2(atype) {
-	if('${nextJsp}'=='/WEB-INF/main/user_y.jsp'){
+	if('${nextJsp}'=='/WEB-INF/main/productMaster.jsp' || '${nextJsp}'=='/WEB-INF/main/customerMaster.jsp' || '${nextJsp}'=='/WEB-INF/main/supplierMaster.jsp' || '${nextJsp}'=='/WEB-INF/main/userMaster.jsp'){
 		var form = document.forms[2];
 		form.elements['userId'].removeAttribute('disabled');
 		form.elements['userName'].removeAttribute('disabled');
@@ -219,10 +315,8 @@ function doExecute3(atype) {
 <body>
 	<div class="box">
 		<div class="row">
-			<div class="col-sm-8 col-xs-12 text-left">
-				<p class="h1">在庫管理システム</p>
-			</div>
-			<div class="col-sm-4 col-xs-12 text-left">
+			<p class="h1 col-xs-8 text-left">在庫管理システム</p>
+			<div class="col-xs-4 text-left">
 				<c:choose>
 					<c:when test="${nextJsp!='/WEB-INF/main/login.jsp'}">
 						<p class="text-right">${loginState}</p>
@@ -230,11 +324,17 @@ function doExecute3(atype) {
 				</c:choose>
 				<%-- document.forms[0]; --%>
 				<form action="Main.action" method="post" class="text-right">
-						<c:choose>
-							<c:when test="${nextJsp!='/WEB-INF/main/login.jsp' && nextJsp!='/WEB-INF/main/menu.jsp'}">
-								<input type="hidden" name="toAction" > <a href="javascript:doExecute0('main/menu.jsp')" >メニューに戻る</a>
-							</c:when>
-						</c:choose>
+					<input type="hidden" name="toAction">
+					<c:choose>
+						<c:when test="${nextJsp=='/WEB-INF/main/login.jsp' || nextJsp=='/WEB-INF/main/menu.jsp'}">
+						</c:when>
+						<c:when test="${nextJsp=='/WEB-INF/main/productMaster.jsp' || nextJsp=='/WEB-INF/main/customerMaster.jsp' || nextJsp=='/WEB-INF/main/supplierMaster.jsp' || nextJsp=='/WEB-INF/main/userMaster.jsp'}">
+							 <a href="javascript:doExecute0('main/menuMaster.jsp')" >マスタ登録画面に戻る</a>
+						</c:when>
+						<c:otherwise>
+							 <a href="javascript:doExecute0('main/menu.jsp')" >メニュー画面に戻る</a>
+						</c:otherwise>
+					</c:choose>
 				</form>
 			</div>
 		</div>

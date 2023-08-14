@@ -4,19 +4,30 @@ body {
 	background-color: azure;
 }
 
+input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-inner-spin-button
+	{
+	-webkit-appearance: none;
+	margin: 0;
+}
+
+input[type="number"] {
+	-moz-appearance: textfield;
+}
+
 .box {
 	width: 800px;
 	margin: 0px auto;
 }
 
-.enextable{
-    border: 1px solid black;
-    text-align: center;
+.enextable {
+	border: 1px solid black;
+	text-align: center;
 }
-.enexthead{
+
+.enexthead {
 	border-bottom: solid 1px;
 }
 
-tr,th{
-	padding:0px 20px;
+tr, th {
+	padding: 0px 20px;
 }
