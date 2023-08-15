@@ -52,33 +52,33 @@ ${btnSelect}
 
 				<div class="row">
 					<div class="col-xs-2"></div>
-					<label class="form-label col-xs-3 text-left" for="userId"> ユーザID</label>
-					<p class="col-xs-7">：<input type="number"  style="width: 300px;" name="userId" id="userId" min="0" max="999999" oninput="javascript: this.value = this.value.slice(0, 6);" placeholder="6桁数字" onchange="doExecute2('searchUserID')" value="${G_UserMaster.userId}"></p>
+					<label class="form-label col-xs-3 text-left" for="userId">ユーザID</label>
+					<p class="col-xs-7">：<input type="number"  style="width: 300px;" name="userId" id="userId" min="0" max="999999" step="1" onkeyup="javascript: this.value = this.value.slice(0, 6);" onchange="javascript: this.value = this.value==0?'':('000000'+this.value).slice(-6);" placeholder="6桁数字" onchange="doExecute2('searchUserID')" value="${G_UserMaster.userId}"></p>
 				</div>
 				<div class="row">
 					<div class="col-xs-2"></div>
 					<label class="form-label col-xs-3 text-left" for="userName">ユーザ名&nbsp;<span class="label label-danger">必須</span></label>
-					<p class="col-xs-7">：<input type="text"  style="width: 300px;" name="userName" id="userName" maxlength="50" placeholder="1-50文字" value="${G_UserMaster.name}">&nbsp;${alert[0]}</p>
+					<p class="col-xs-7">：<input type="text"  style="width: 300px;" name="userName" id="userName" class="inputRequired" data-inputRequired="false" maxlength="50" placeholder="1-50文字" value="${G_UserMaster.name}">&nbsp;${alert[0]}</p>
 				</div>
 				<div class="row">
 					<div class="col-xs-2"></div>
 					<label class="form-label col-xs-3 text-left" for="password">パスワード&nbsp;<span class="label label-danger">必須</span></label>
-					<p class="col-xs-7">：<input type="password" style="width: 300px;" name="password" id="password" placeholder="8-20文字(英数構成、大文字1以上)" value="${G_UserMaster.password}">&nbsp;${alert[1]}</p>
+					<p class="col-xs-7">：<input type="password" style="width: 300px;" name="password" id="password" class="inputRequired" data-inputRequired="false" placeholder="8-20文字(英数構成、大文字1以上)" value="${G_UserMaster.password}">&nbsp;${alert[1]}</p>
 				</div>
 				<div class="row">
 					<div class="col-xs-2"></div>
 					<label class="form-label col-xs-3 text-left" for="passwordForCheck">パスワード(確認用)&nbsp;<span class="label label-danger">必須</span></label>
-					<p class="col-xs-7">：<input type="password" style="width: 300px;" name="passwordForCheck" id="passwordForCheck" placeholder="8-20文字(英数構成、大文字1以上)" value="${G_UserMaster.passwordForCheck}">&nbsp;${alert[2]}</p>
+					<p class="col-xs-7">：<input type="password" style="width: 300px;" name="passwordForCheck" id="passwordForCheck" class="inputRequired" data-inputRequired="false" placeholder="8-20文字(英数構成、大文字1以上)" value="${G_UserMaster.passwordForCheck}">&nbsp;${alert[2]}</p>
 				</div>
 				<div class="row">
 					<div class="col-xs-2"></div>
 					<label class="form-label col-xs-3 text-left" for="dept">分類&nbsp;<span class="label label-danger">必須</span></label>
-					<p class="col-xs-7">：<input type="text" style="width: 300px;" name="dept" id="dept" maxlength="50" placeholder="1-50文字" value="${G_UserMaster.dept}">&nbsp;${alert[3]}</p>
+					<p class="col-xs-7">：<input type="text" style="width: 300px;" name="dept" id="dept" class="inputRequired" data-inputRequired="false" maxlength="50" placeholder="1-50文字" value="${G_UserMaster.dept}">&nbsp;${alert[3]}</p>
 				</div>
 				<div class="row">
 					<div class="col-xs-2"></div>
 					<label class="form-label col-xs-3 text-left" for="hireDate">入社日&nbsp;<span class="label label-danger">必須</span></label>
-					<p class="col-xs-7">：<input type="text" style="width: 300px;" name="hireDate" id="hireDate" maxlength="10" placeholder="YYYY/MM/DD"  value="${G_UserMaster.hireDate}">&nbsp;${alert[4]}</p>
+					<p class="col-xs-7">：<input type="text" style="width: 300px;" name="hireDate" id="hireDate" class="inputRequired" data-inputRequired="false" maxlength="10" placeholder="YYYY/MM/DD" value="${G_UserMaster.hireDate}">&nbsp;${alert[4]}</p>
 				</div>
 				<div class="row">
 					<div class="col-xs-2"></div>

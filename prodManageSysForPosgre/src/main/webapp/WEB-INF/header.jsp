@@ -11,7 +11,9 @@
 <link type="text/css" rel="stylesheet" href="../css/style.css">
 <script type="text/javascript" src="../js/jquery-3.6.4.min.js"></script>
 <script>
+var form = document.forms[2];
 window.addEventListener('load', function(){
+	//共通動作(全jsp load用) ============================================================================================================
 	var scrollY=window.sessionStorage.getItem(['scrollY']);
 	if(scrollY!=null){
 		scrollTo(0, scrollY);
@@ -28,8 +30,8 @@ window.addEventListener('load', function(){
 			doExecute2('dummy');
 	 	}
 	}
+	//'userMaster.jsp' load用 ============================================================================================================
 	if('${nextJsp}'=='/WEB-INF/main/userMaster.jsp'){
-		var form = document.forms[2];
 		var btnSelect = form.elements['btnSelect'].value;
 		if(btnSelect=='insert'){
 			//ボタン有効/無効切り替え
@@ -81,8 +83,8 @@ window.addEventListener('load', function(){
 			form.elements['hireDate'].setAttribute('disabled','disabled');
 		}
 	}
+	//'amountCalc.jsp' load用 ============================================================================================================
 	if('${nextJsp}'=='/WEB-INF/main/amountCalc.jsp'){
-		var form = document.forms[2];
 		 //「amountCalcProgFlg」は、
 		 //   0:途中終了、1:処理中、2:異常なし終了、3:異常あり終了
 		 if('${amountCalcProgFlg}' != '' && '${amountCalcProgFlg}' != '0' && '${amountCalcProgFlg}' != '2'){
@@ -100,8 +102,8 @@ window.addEventListener('load', function(){
 		 	form.elements[2].setAttribute('disabled','disabled');
 		 }
 	 }
-	 if('${nextJsp}'=='/WEB-INF/main/amountCalcOrder.jsp'){
-		 var form = document.forms[2];
+	//'amountCalcOrder.jsp' load用 ============================================================================================================
+	if('${nextJsp}'=='/WEB-INF/main/amountCalcOrder.jsp'){
 		 var productNo = document.forms[2].elements['gProductNo'];
 		 var orderLotNum = document.forms[2].elements['gOrderLotNum'];
 		 for(var i=0;i<productNo.length;i++){
@@ -133,8 +135,8 @@ window.addEventListener('load', function(){
 		}
 	}
 })
+//'productMaster.jsp'用 ============================================================================================================
 function productBtnChange(atype) {
-	var form = document.forms[2];
 	if(atype=='insert'){
 			if(form.elements['btnSelect'].value != 'insert'){
 					form.elements['btnSelect'].value = 'insert';
@@ -165,8 +167,8 @@ function productBtnChange(atype) {
 			}
 	}
 }
+//'customerMaster.jsp'用 ============================================================================================================
 function customerBtnChange(atype) {
-	var form = document.forms[2];
 	if(atype=='insert'){
 			if(form.elements['btnSelect'].value != 'insert'){
 					form.elements['btnSelect'].value = 'insert';
@@ -197,8 +199,8 @@ function customerBtnChange(atype) {
 			}
 	}
 }
+//'supplierMaster.jsp'用 ============================================================================================================
 function supplierBtnChange(atype) {
-	var form = document.forms[2];
 	if(atype=='insert'){
 			if(form.elements['btnSelect'].value != 'insert'){
 					form.elements['btnSelect'].value = 'insert';
@@ -229,8 +231,8 @@ function supplierBtnChange(atype) {
 			}
 	}
 }
+//'userMaster.jsp'用 ============================================================================================================
 function userBtnChange(atype) {
-	var form = document.forms[2];
 	if(atype=='insert'){
 			if(form.elements['btnSelect'].value != 'insert'){
 					form.elements['btnSelect'].value = 'insert';
@@ -261,6 +263,7 @@ function userBtnChange(atype) {
 			}
 	}
 }
+//'login.jsp'用 ============================================================================================================
 function winClose() {
 	open('about:blank', '_self').close();
 }
@@ -271,12 +274,14 @@ function logout2() {
 		session.invalidate();
 	}
 }
+//'menu.jsp''menuMaster.jsp'用 ============================================================================================================
 function logout() {
 	 var judge = window.confirm('ログアウトしますか? \nログアウトするとログイン画面に移動します。');
 	 if(judge==true){
 		 doExecute1();
 	 }
 }
+//共通動作(全jsp用) ============================================================================================================
 // Actionクラストリガー用メソッド
 //　→formタグの属性actionでActionクラスを指定し､
 //　　リクエストパラメータに動作内容を指定する事で､複雑な動作を行わせる
@@ -294,8 +299,8 @@ function doExecute1(atype) {
 	commonDoExecute(1,atype);
 }
 function doExecute2(atype) {
-	if('${nextJsp}'=='/WEB-INF/main/productMaster.jsp' || '${nextJsp}'=='/WEB-INF/main/customerMaster.jsp' || '${nextJsp}'=='/WEB-INF/main/supplierMaster.jsp' || '${nextJsp}'=='/WEB-INF/main/userMaster.jsp'){
-		var form = document.forms[2];
+	//'${nextJsp}'=='/WEB-INF/main/productMaster.jsp' || '${nextJsp}'=='/WEB-INF/main/customerMaster.jsp' || '${nextJsp}'=='/WEB-INF/main/supplierMaster.jsp' || 
+	if('${nextJsp}'=='/WEB-INF/main/userMaster.jsp'){
 		form.elements['userId'].removeAttribute('disabled');
 		form.elements['userName'].removeAttribute('disabled');
 		form.elements['password'].removeAttribute('disabled');

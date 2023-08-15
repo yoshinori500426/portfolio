@@ -152,12 +152,12 @@
 				<div class="row">
 					<div class="col-xs-2"></div>
 					<label class="form-label col-xs-3 text-left" for="supplierNo">仕入先コード</label>
-					<p class="col-xs-7">：<input type="number" style="width: 300px;" name="supplierNo" id="supplierNo" max="999999" oninput="javascript: this.value = this.value.slice(0, 6);" placeholder="6桁数字" onchange="doExecute('searchNo')" value="${G_SupplierMaster.supplierNo}"></p>
+					<p class="col-xs-7">：<input type="number" style="width: 300px;" name="supplierNo" id="supplierNo"  min="0" max="999999" onkeyup="javascript: this.value = this.value.slice(0, 6);" onchange="javascript: this.value = this.value==0?'':('000000'+this.value).slice(-6);doExecute2('searchSupplierNo');" placeholder="6桁数字" value="${G_SupplierMaster.supplierNo}"></p>
 				</div>
 				<div class="row">
 					<div class="col-xs-2"></div>
 					<label class="form-label col-xs-3 text-left" for="supplierName">会社名&nbsp;<span class="label label-danger">必須</span></label>
-					<p class="col-xs-7">：<input type="text" style="width: 300px;" name="supplierName" id="supplierName" maxlength="100" placeholder="1−100文字" value="${G_SupplierMaster.supplierName}">&nbsp;${alert[0]}</p>
+					<p class="col-xs-7">：<input type="text" style="width: 300px;" name="supplierName" id="supplierName" class="inputRequired" data-inputRequired="false" maxlength="100" placeholder="1−100文字" value="${G_SupplierMaster.supplierName}">&nbsp;${alert[0]}</p>
 				</div>
 				<div class="row">
 					<div class="col-xs-2"></div>
@@ -167,7 +167,7 @@
 				<div class="row">
 					<div class="col-xs-2"></div>
 					<label class="form-label col-xs-3 text-left" for="zipNo">郵便番号</label>
-					<p class="col-xs-7">：<input type="number" style="width: 300px;" name="zipNo" id="zipNo" max="9999999" oninput="javascript: this.value = this.value.slice(0, 7);" placeholder="7桁数字('-'なし)" onchange="doExecute('zipno')" value="${G_SupplierMaster.zipNo}"></p>
+					<p class="col-xs-7">：<input type="number" style="width: 300px;" name="zipNo" id="zipNo" max="9999999" onkeyup="javascript: this.value = this.value.slice(0, 7);" placeholder="7桁数字('-'なし)" onchange="doExecute('zipno')" value="${G_SupplierMaster.zipNo}"></p>
 				</div>
 				<div class="row">
 					<div class="col-xs-2"></div>
@@ -187,12 +187,12 @@
 				<div class="row">
 					<div class="col-xs-2"></div>
 					<label class="form-label col-xs-3 text-left" for="tel">電話番号&nbsp;<span class="label label-danger">必須</span></label>
-					<p class="col-xs-7">：<input type="number" style="width: 300px;" name="tel" id="tel" max="999999999999999" oninput="javascript: this.value = this.value.slice(0, 15);" placeholder="9-15桁数字('-'なし)" value="${G_SupplierMaster.tel}">&nbsp;${alert[1]}</p>
+					<p class="col-xs-7">：<input type="number" style="width: 300px;" name="tel" id="tel" class="inputRequired" data-inputRequired="false" max="999999999999999" onkeyup="javascript: this.value = this.value.slice(0, 15);" placeholder="9-15桁数字('-'なし)" value="${G_SupplierMaster.tel}">&nbsp;${alert[1]}</p>
 				</div>
 				<div class="row">
 					<div class="col-xs-2"></div>
 					<label class="form-label col-xs-3 text-left" for="fax">FAX番号</label>
-					<p class="col-xs-7">：<input type="number" style="width: 300px;" name="fax" id="fax" max="999999999999999" oninput="javascript: this.value = this.value.slice(0, 15);" placeholder="9-15桁数字('-'なし)" value="${G_SupplierMaster.fax}"></p>
+					<p class="col-xs-7">：<input type="number" style="width: 300px;" name="fax" id="fax" max="999999999999999" onkeyup="javascript: this.value = this.value.slice(0, 15);" placeholder="9-15桁数字('-'なし)" value="${G_SupplierMaster.fax}"></p>
 				</div>
 				<div class="row">
 					<div class="col-xs-2"></div>

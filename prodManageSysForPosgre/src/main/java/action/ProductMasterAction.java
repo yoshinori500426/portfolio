@@ -36,7 +36,7 @@ public class ProductMasterAction extends Action {
 			pro.setSellingPrice(Integer.parseInt(request.getParameter("SellingPrice")));
 		}
 		if (request.getParameter("leadTime") != null && !request.getParameter("leadTime").isEmpty()) {
-			pro.setLeadtime(Integer.parseInt(request.getParameter("leadTime")));
+//			pro.setLeadtime(Integer.parseInt(request.getParameter("leadTime")));
 		}
 		if (request.getParameter("purchaseLot") != null && !request.getParameter("purchaseLot").isEmpty()) {
 			pro.setLot(Integer.parseInt(request.getParameter("purchaseLot")));
@@ -53,7 +53,7 @@ public class ProductMasterAction extends Action {
 		HttpSession session = request.getSession();
 		session.getAttribute("user");
 		UserMaster um = (UserMaster) session.getAttribute("user");
-		pro.setRegistUser(um.getUserId());
+//		pro.setRegistUser(um.getUserId());
 
 		//EL式で処理
 		switch (nakami) {
@@ -69,7 +69,7 @@ public class ProductMasterAction extends Action {
 				request.setAttribute("Code", prod.getSupplierNo());
 				request.setAttribute("Price", prod.getUnitPrice());
 				request.setAttribute("SellingPrice", prod.getSellingPrice());
-				request.setAttribute("leadTime", prod.getLeadtime());
+//				request.setAttribute("leadTime", prod.getLeadtime());
 				request.setAttribute("purchaseLot", prod.getLot());
 				request.setAttribute("stockLocation", prod.getLocation());
 				request.setAttribute("backStock", prod.getBaseStock());

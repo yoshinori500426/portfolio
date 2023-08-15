@@ -249,12 +249,12 @@
 				<div class="row">
 					<div class="col-xs-2"></div>
 					<label class="form-label col-xs-3 text-left" for="customerNo">顧客コード</label>
-					<p class="col-xs-7">：<input type="text" style="width: 300px;" name="customerNo" id="customerNo" maxlength="5" placeholder="5文字(例:A0100)" onchange="doExecute('searchNo')"	value="${G_CustomerMaster.customerNo}"></p>
+					<p class="col-xs-7">：<input type="text" style="width: 300px;" name="customerNo" id="customerNo" maxlength="5" onkeydown="befValue=this.value;" onkeyup="this.value=(befValue==''&&this.value.match(/^[A-Za-z]+$/))?this.value.toUpperCase():(befValue!=''&&(this.value.match(/^[A-Za-z][0-9]*$/)||this.value==''))?this.value:befValue;" onchange="this.value=(this.value.substr(0,1).match(/^[A-Za-z]+$/)&&this.value.substr(1)==0)?this.value.substr(0,1):(this.value.substr(0,1).match(/^[A-Za-z]+$/)&&this.value.substr(1)!='')?this.value.substr(0,1)+('0000'+this.value.substr(1)).slice(-4):this.value;doExecute2('searchCustomerNo');" placeholder="5文字(例:A0100)" value="${G_CustomerMaster.customerNo}"></p>
 				</div>
 				<div class="row">
 					<div class="col-xs-2"></div>
 					<label class="form-label col-xs-3 text-left" for="customerName">会社名&nbsp;<span class="label label-danger">必須</span></label>
-					<p class="col-xs-7">：<input type="text" style="width: 300px;" name="customerName" id="customerName" maxlength="100" placeholder="1−100文字" onblur="doExecute('customerNameCheck')" value="${G_CustomerMaster.customerName}">&nbsp;${alert[0]}</p>
+					<p class="col-xs-7">：<input type="text" style="width: 300px;" name="customerName" id="customerName" class="inputRequired" data-inputRequired="false" maxlength="100" placeholder="1−100文字" value="${G_CustomerMaster.customerName}">&nbsp;${alert[0]}</p>
 				</div>
 				<div class="row">
 					<div class="col-xs-2"></div>
@@ -264,7 +264,7 @@
 				<div class="row">
 					<div class="col-xs-2"></div>
 					<label class="form-label col-xs-3 text-left" for="zipNo">郵便番号</label>
-					<p class="col-xs-7">：<input type="number" style="width: 300px;" name="zipNo" id="zipNo" max="9999999" oninput="javascript: this.value = this.value.slice(0, 7);" placeholder="7桁数字('-'なし)" onchange="docheck('zip')" value="${G_CustomerMaster.zipNo}"></p>
+					<p class="col-xs-7">：<input type="number" style="width: 300px;" name="zipNo" id="zipNo" max="9999999" onkeyup="javascript: this.value = this.value.slice(0, 7);" placeholder="7桁数字('-'なし)" onchange="docheck('zip')" value="${G_CustomerMaster.zipNo}"></p>
 				</div>
 				<div class="row">
 					<div class="col-xs-2"></div>
@@ -284,12 +284,12 @@
 				<div class="row">
 					<div class="col-xs-2"></div>
 					<label class="form-label col-xs-3 text-left" for="tel">電話番号&nbsp;<span class="label label-danger">必須</span></label>
-					<p class="col-xs-7">：<input type="number" style="width: 300px;" name="tel" id="tel" max="999999999999999" oninput="javascript: this.value = this.value.slice(0, 15);" placeholder="9-15桁数字('-'なし)" onblur="docheck('tel')" value="${G_CustomerMaster.tel}">&nbsp;${alert[1]}</p>
+					<p class="col-xs-7">：<input type="number" style="width: 300px;" name="tel" id="tel" class="inputRequired" data-inputRequired="false" max="999999999999999" onkeyup="javascript: this.value = this.value.slice(0, 15);" placeholder="9-15桁数字('-'なし)" onblur="docheck('tel')" value="${G_CustomerMaster.tel}">&nbsp;${alert[1]}</p>
 				</div>
 				<div class="row">
 					<div class="col-xs-2"></div>
 					<label class="form-label col-xs-3 text-left" for="fax">FAX番号</label>
-					<p class="col-xs-7">：<input type="number" style="width: 300px;" name="fax" id="fax" max="999999999999999" oninput="javascript: this.value = this.value.slice(0, 15);" placeholder="9-15桁数字('-'なし)" onchange="docheck('fax')" value="${G_CustomerMaster.fax}"></p>
+					<p class="col-xs-7">：<input type="number" style="width: 300px;" name="fax" id="fax" max="999999999999999" onkeyup="javascript: this.value = this.value.slice(0, 15);" placeholder="9-15桁数字('-'なし)" onchange="docheck('fax')" value="${G_CustomerMaster.fax}"></p>
 				</div>
 				<div class="row">
 					<div class="col-xs-2"></div>
@@ -299,7 +299,7 @@
 				<div class="row">
 					<div class="col-xs-2"></div>
 					<label class="form-label col-xs-3 text-left" for="delivaryLeadtime">輸送リードタイム&nbsp;<span class="label label-danger">必須</span></label>
-					<p class="col-xs-7">：<input type="number" style="width: 300px;" name="delivaryLeadtime" id="delivaryLeadtime" min="1" max="999" oninput="javascript: this.value = this.value.slice(0, 3);" placeholder="1-999" onkeydown="return event.keyCode !== 69" onblur="doExecute('DelivaryLeadTimeCheck')" oninput="javascript:if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" value="${G_CustomerMaster.delivaryLeadtime}">&nbsp;${alert[2]}</p>
+					<p class="col-xs-7">：<input type="number" style="width: 300px;" name="delivaryLeadtime" id="delivaryLeadtime" class="inputRequired" data-inputRequired="false" min="1" max="999" onkeyup="javascript: this.value = this.value.slice(0, 3);" placeholder="1-999" onkeydown="return event.keyCode !== 69" onblur="doExecute('DelivaryLeadTimeCheck')" onkeyup="javascript:if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" value="${G_CustomerMaster.delivaryLeadtime}">&nbsp;${alert[2]}</p>
 				</div>
 				<div class="row">
 					<div class="col-xs-2"></div>

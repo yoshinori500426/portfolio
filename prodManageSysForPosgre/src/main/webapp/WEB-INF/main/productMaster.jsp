@@ -196,17 +196,17 @@ label {
 				<div class="row">
 					<div class="col-xs-2"></div>
 					<label class="form-label col-xs-3 text-left" for="productNo">品番</label>
-					<p class="col-xs-7">：<input type="number" style="width: 300px;" name="productNo" id="productNo" min="0" max="9999999999" oninput="javascript: this.value = this.value.slice(0, 10);" placeholder="10桁数字" onchange="doExecute2('searchProductNo')" value="${G_ProductMaster.productNo}"></p>
+					<p class="col-xs-7">：<input type="number" style="width: 300px;" name="productNo" id="productNo" min="0" max="9999999999" onkeyup="javascript: this.value = this.value.slice(0, 10);" onchange="javascript: this.value = this.value==0?'':('0000000000'+this.value).slice(-10);doExecute2('searchProductNo');" placeholder="10桁数字" value="${G_ProductMaster.productNo}"></p>
 				</div>
 				<div class="row">
 					<div class="col-xs-2"></div>
 					<label class="form-label col-xs-3 text-left" for="productName">品名&nbsp;<span class="label label-danger">必須</span></label>
-					<p class="col-xs-7">：<input type="text"  style="width: 300px;"name="productName" id="productName" maxlength="100" placeholder="1−100文字" value="${G_ProductMaster.productName}">&nbsp;${alert[0]}</p>
+					<p class="col-xs-7">：<input type="text"  style="width: 300px;"name="productName" id="productName" class="inputRequired" data-inputRequired="false" maxlength="100" placeholder="1−100文字" value="${G_ProductMaster.productName}">&nbsp;${alert[0]}</p>
 				</div>
 				<div class="row">
 					<div class="col-xs-2"></div>
 					<label class="form-label col-xs-3 text-left" for="supplierNo">仕入先コード&nbsp;<span class="label label-danger">必須</span></label>
-					<p class="col-xs-7">：<input type="number" style="width: 300px;" name="supplierNo" id="supplierNo" min="0" max="999999" oninput="javascript: this.value = this.value.slice(0, 6);" placeholder="6桁数字" onchange="doExecute2('searchSupplierNo')" value="${G_ProductMaster.supplierNo}">&nbsp;${alert[1]}</p>
+					<p class="col-xs-7">：<input type="number" style="width: 300px;" name="supplierNo" id="supplierNo" class="inputRequired" data-inputRequired="false" min="0" max="999999" onkeyup="javascript: this.value = this.value.slice(0, 6);" onchange="javascript: this.value = this.value==0?'':('000000'+this.value).slice(-6);doExecute2('searchSupplierNo');" placeholder="6桁数字" value="${G_ProductMaster.supplierNo}">&nbsp;${alert[1]}</p>
 				</div>
 				<div class="row">
 					<div class="col-xs-2"></div>
@@ -216,32 +216,32 @@ label {
 				<div class="row">
 					<div class="col-xs-2"></div>
 					<label class="form-label col-xs-3 text-left" for="unitPrice">仕入単価&nbsp;<span class="label label-danger">必須</span></label>
-					<p class="col-xs-7">：<input type="text" style="width: 300px;" name="unitPrice" id="unitPrice" placeholder="0.01-999999.99" onkeydown="befValue=value;" onkeyup="value=((value<=999999.99)&&(value*100%1===0))?value:befValue;" value="${G_ProductMaster.unitPrice}">&nbsp;${alert[2]}</p>
+					<p class="col-xs-7">：<input type="text" style="width: 300px;" name="unitPrice" id="unitPrice" class="inputRequired" data-inputRequired="false" onkeydown="befValue=value;" onkeyup="value=((value<=999999.99)&&(value*100%1===0))?value:befValue;" onchange="value=(value=='')?'':(value==0)?0.01:value" placeholder="0.01-999999.99" value="${G_ProductMaster.unitPrice}">&nbsp;${alert[2]}</p>
 				</div>
 				<div class="row">
 					<div class="col-xs-2"></div>
 					<label class="form-label col-xs-3 text-left" for="sellingPrice">売価</label>
-					<p class="col-xs-7">：<input type="text" style="width: 300px;" name="sellingPrice" id="sellingPrice" step="0.01" placeholder="0.01-999999.99(入力任意)" onkeydown="befValue=value;" onkeyup="value=((value<=999999.99)&&(value*100%1===0))?value:befValue;" value="${G_ProductMaster.sellingPrice}"></p>
+					<p class="col-xs-7">：<input type="text" style="width: 300px;" name="sellingPrice" id="sellingPrice" onkeydown="befValue=value;" onkeyup="value=((value<=999999.99)&&(value*100%1===0))?value:befValue;" onchange="value=(value=='')?'':(value==0)?0.01:value" placeholder="0.01-999999.99(入力任意)" value="${G_ProductMaster.sellingPrice}"></p>
 				</div>
 				<div class="row">
 					<div class="col-xs-2"></div>
 					<label class="form-label col-xs-3 text-left" for="leadTime">購買リードタイム&nbsp;<span class="label label-danger">必須</span></label>
-					<p class="col-xs-7">：<input type="number" style="width: 300px;" name="leadTime" id="leadTime" min="0" max="999" oninput="javascript: this.value = this.value.slice(0, 3);" placeholder="1-999" value="${G_ProductMaster.leadTime}">&nbsp;${alert[3]}</p>
+					<p class="col-xs-7">：<input type="number" style="width: 300px;" name="leadTime" id="leadTime" class="inputRequired" data-inputRequired="false" min="0" max="999" onkeyup="javascript: this.value = this.value.slice(0, 3);" placeholder="1-999" value="${G_ProductMaster.leadTime}">&nbsp;${alert[3]}</p>
 				</div>
 				<div class="row">
 					<div class="col-xs-2"></div>
 					<label class="form-label col-xs-3 text-left" for="lot">購買ロット&nbsp;<span class="label label-danger">必須</span></label>
-					<p class="col-xs-7">：<input type="number" style="width: 300px;" name="lot" id="lot" min="0" max="999999" oninput="javascript: this.value = this.value.slice(0, 6);" placeholder="1-999999" value="${G_ProductMaster.lot}">&nbsp;${alert[4]}</p>
+					<p class="col-xs-7">：<input type="number" style="width: 300px;" name="lot" id="lot" class="inputRequired" data-inputRequired="false" min="0" max="999999" onkeyup="javascript: this.value = this.value.slice(0, 6);" placeholder="1-999999" value="${G_ProductMaster.lot}">&nbsp;${alert[4]}</p>
 				</div>
 				<div class="row">
 					<div class="col-xs-2"></div>
 					<label class="form-label col-xs-3 text-left" for="location">在庫ロケーション&nbsp;<span class="label label-danger">必須</span></label>
-					<p class="col-xs-7">：<input type="text" style="width: 300px;" name="location" id="location" maxlength="6" placeholder="1-6文字(例:B-01-3)" value="${G_ProductMaster.location}">&nbsp;${alert[5]}</p>
+					<p class="col-xs-7">：<input type="text" style="width: 300px;" name="location" id="location" class="inputRequired" data-inputRequired="false" maxlength="6" placeholder="1-6文字(例:B-01-3)" value="${G_ProductMaster.location}">&nbsp;${alert[5]}</p>
 				</div>
 				<div class="row">
 					<div class="col-xs-2"></div>
 					<label class="form-label col-xs-3 text-left" for="baseStock">基本在庫&nbsp;<span class="label label-danger">必須</span></label>
-					<p class="col-xs-7">：<input type="number" style="width: 300px;" name="baseStock" id="baseStock" min="0" max="999999" oninput="javascript: this.value = this.value.slice(0, 6);" placeholder="1-999999" value="${G_ProductMaster.baseStock}">&nbsp;${alert[6]}</p>
+					<p class="col-xs-7">：<input type="number" style="width: 300px;" name="baseStock" id="baseStock" class="inputRequired" data-inputRequired="false" min="0" max="999999" onkeyup="javascript: this.value = this.value.slice(0, 6);" placeholder="1-999999" value="${G_ProductMaster.baseStock}">&nbsp;${alert[6]}</p>
 				</div>
 				<div class="row">
 					<div class="col-xs-2"></div>

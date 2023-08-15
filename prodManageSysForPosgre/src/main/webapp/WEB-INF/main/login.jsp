@@ -26,14 +26,14 @@
 						<input type="hidden" name="toAction" value="">
 						<div class="row">
 							<div class="col-xs-2"></div>
-							<label class="form-label col-xs-4" for="userId">ログインID&nbsp;<span class="label label-danger">必須</span></label>
-							<p class="col-xs-5">：<input type="number" style="width: 250px" name="userId" id="userId" min="0" max="999999" step="1" oninput="javascript: this.value = this.value==0?'':('00000000'+this.value).slice(-6);" placeholder="6桁数字" value="${G_UserMaster.userId}"></p>
+							<label class="form-label col-xs-4" for="userId">ユーザID&nbsp;<span class="label label-danger">必須</span></label>
+							<p class="col-xs-5">：<input type="number" style="width: 250px" name="userId" id="userId" class="inputRequired" data-inputRequired="false" min="0" max="999999" step="1" onkeyup="javascript: this.value = this.value.slice(0, 6);" onchange="javascript: this.value = this.value==0?'':('000000'+this.value).slice(-6);" placeholder="6桁数字" value="${G_UserMaster.userId}"></p>
 							<div class="col-xs-1"></div>
 						</div>
 						<div class="row">
 							<div class="col-xs-2"></div>
 							<label class="form-label col-xs-4" for="password">パスワード&nbsp;<span class="label label-danger">必須</span></label>
-							<p class="col-xs-5">：<input type="password" style="width: 250px" name="password" id="password" placeholder="8-20文字(英数構成、大文字1以上)"></p>
+							<p class="col-xs-5">：<input type="password" style="width: 250px" name="password" id="password" class="inputRequired" data-inputRequired="false" placeholder="8-20文字(英数構成、大文字1以上)"></p>
 							<div class="col-xs-1"></div>
 						</div>
 						<br>
