@@ -74,57 +74,7 @@
 
 			}
 		}
-		function docheck(hikisu) {
-			var form = document.forms[2];
-			var zip = document.getElementById("ZipNo").value.trim();
-			var tel = document.getElementById("Tel").value.trim();
-			var fax = document.getElementById("Fax").value.trim();
-			switch (hikisu) {
-			case "zip":
-				if (zip.length < 7) {
-					alert("７文字の入力をしてください");
-					return;
-				}
-				var reg = new RegExp(/^[0-9]*$/);
-				var res = reg.test(zip);
-				if (res != true) {
-					alert("整数値での入力を行ってください");
-					return;
-				}
-				doExecute("getZip");
-				break;
 
-			case "tel":
-				if (tel.length < 8) {
-					alert("8文字以上での入力をしてください");
-				}
-				var reg = new RegExp(/^[0-9]*$/);
-				var res = reg.test(tel);
-				if (res != true) {
-					alert("整数値での入力を行ってください");
-
-				}
-				doExecute("TelNoCheck");
-
-				break;
-
-			case "fax":
-				if (tel.length < 8) {
-					alert("8文字以上での入力をしてください");
-				}
-				var reg = new RegExp(/^[0-9]*$/);
-				var res = reg.test(fax);
-				if (res != true) {
-					alert("整数値での入力を行ってください");
-
-				}
-				break;
-
-			default:
-				break;
-			}
-
-		}
 
 		function doExecute(args) {
 			var form = document.forms[2];
@@ -239,8 +189,8 @@
 				<input type="hidden" name="reload">
 				<div class="row">
 					<div class="col-xs-1"></div>
-					<div class="col-xs-5"><button type="button" class="btn btn-warning btn-block" name="insert" onClick="customerBtnChange('insert')">登録</button></div>
-					<div class="col-xs-5"><button type="button" class="btn btn-success btn-block" name="update" onClick="customerBtnChange('update')">更新</button></div>
+					<div class="col-xs-5"><button type="button" class="btn btn-warning btn-block" name="insert" onClick="btnChange('insert')">登録</button></div>
+					<div class="col-xs-5"><button type="button" class="btn btn-success btn-block" name="update" onClick="btnChange('update')">更新</button></div>
 					<div class="col-xs-1"></div>
 				</div>
 

@@ -4,6 +4,15 @@ body {
 	background-color: azure;
 }
 
+.box {
+	width: 800px;
+	margin: 0px auto;
+}
+
+tr, th {
+	padding: 0px 20px;
+}
+
 input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-inner-spin-button
 	{
 	-webkit-appearance: none;
@@ -14,11 +23,22 @@ input[type="number"] {
 	-moz-appearance: textfield;
 }
 
-.box {
-	width: 800px;
-	margin: 0px auto;
+.inputRequired[data-inputRequired="false"] {
+	background-color: rgb(255, 255, 166);
+	border: solid 1px rgb(118,118,118);
+	border-radius: 2px;
+	height: 27px;
 }
 
+.inputRequired[data-inputRequired="true"] {
+	background-color: rgb(255, 255, 255);
+	border: solid 1px rgb(118,118,118);
+	border-radius: 2px;
+	height: 27px;
+}
+
+
+/* 'entryExitInfoList.jsp'のみで使用される書式 */
 .enextable {
 	border: 1px solid black;
 	text-align: center;
@@ -27,22 +47,3 @@ input[type="number"] {
 .enexthead {
 	border-bottom: solid 1px;
 }
-
-tr, th {
-	padding: 0px 20px;
-}
-
-.inputRequired[data-inputRequired="false"] {
-	background-color: rgb(255, 255, 166);
-	border: solid 1px rgb(118,118,118);
-	border-radius: 2px;
-	height: 26px;
-}
-
-.inputRequired[data-inputRequired="true"] {
-	background-color: rgb(255, 255, 255);
-	border: solid 1px rgb(118,118,118);
-	border-radius: 2px;
-	height: 26px;
-}
-

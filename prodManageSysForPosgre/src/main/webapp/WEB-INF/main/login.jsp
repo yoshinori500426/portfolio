@@ -27,19 +27,19 @@
 						<div class="row">
 							<div class="col-xs-2"></div>
 							<label class="form-label col-xs-4" for="userId">ユーザID&nbsp;<span class="label label-danger">必須</span></label>
-							<p class="col-xs-5">：<input type="number" style="width: 250px" name="userId" id="userId" class="inputRequired" data-inputRequired="false" min="0" max="999999" step="1" onkeyup="javascript: this.value = this.value.slice(0, 6);" onchange="javascript: this.value = this.value==0?'':('000000'+this.value).slice(-6);" placeholder="6桁数字" value="${G_UserMaster.userId}"></p>
+							<p class="col-xs-5">：<input type="number" style="width: 250px" name="userId" id="userId" class="inputRequired" data-inputRequired="false" min="0" max="999999" step="1" onkeyup="javascript: this.value = this.value.slice(0, 6);" onchange="javascript: this.value = this.value==0?'':('000000'+this.value).slice(-6);docheck();" placeholder="6桁数字" value="${G_UserMaster.userId}"></p>
 							<div class="col-xs-1"></div>
 						</div>
 						<div class="row">
 							<div class="col-xs-2"></div>
 							<label class="form-label col-xs-4" for="password">パスワード&nbsp;<span class="label label-danger">必須</span></label>
-							<p class="col-xs-5">：<input type="password" style="width: 250px" name="password" id="password" class="inputRequired" data-inputRequired="false" placeholder="8-20文字(英数構成、大文字1以上)"></p>
+							<p class="col-xs-5">：<input type="password" style="width: 250px" name="password" id="password" class="inputRequired" data-inputRequired="false" onchange="docheck();" placeholder="8-20文字(英数構成、大文字1以上)"></p>
 							<div class="col-xs-1"></div>
 						</div>
 						<br>
 						<div class="row">
 							<div class="col-xs-1"></div>
-							<div class="col-xs-5"><button type="button" class="btn btn-primary btn-block" onClick="doExecute2('logIn')">ログイン</button></div>
+							<div class="col-xs-5"><button type="button" class="btn btn-primary btn-block" name="doExecuteBTN" onClick="doExecute2('logIn')" disabled>ログイン</button></div>
 							<div class="col-xs-5"><button type="button" class="btn btn-warning btn-block" onClick="doExecute2('cancel')">キャンセル</button></div>
 							<div class="col-xs-1"></div>
 						</div>

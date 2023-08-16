@@ -144,8 +144,8 @@
 				<input type="hidden" name="reload">
 				<div class="row">
 					<div class="col-xs-1"></div>
-					<div class="col-xs-5"><button type="button" class="btn btn-warning btn-block"  name="insert" onClick="supplierBtnChange('insert')">登録</button></div>
-					<div class="col-xs-5"><button type="button" class="btn btn-success btn-block" name="update" onClick="supplierBtnChange('update')">更新</button></div>
+					<div class="col-xs-5"><button type="button" class="btn btn-warning btn-block" name="insert" onClick="btnChange('insert')">登録</button></div>
+					<div class="col-xs-5"><button type="button" class="btn btn-success btn-block" name="update" onClick="btnChange('update')">更新</button></div>
 					<div class="col-xs-1"></div>
 				</div>
 		<hr>
