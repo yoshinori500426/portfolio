@@ -37,6 +37,12 @@ input[type="number"] {
 	height: 27px;
 }
 
+.inputRequired[disabled="disabled"] {
+	background-color: rgb(244, 248, 248);
+	border: solid 1px rgb(205,214,214);
+	border-radius: 2px;
+	height: 27px;
+}
 
 /* 'entryExitInfoList.jsp'のみで使用される書式 */
 .enextable {

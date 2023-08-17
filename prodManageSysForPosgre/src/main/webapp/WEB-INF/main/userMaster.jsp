@@ -39,51 +39,59 @@ ${btnSelect}
 		<div>
 			<%-- document.forms[2]; --%>
 			<form action="UserMaster.action" method="post">
-			    <input type="hidden" name="toAction">
-				<input type="hidden" name="btnSelect" value="${btnSelect}" >
-				<input type="hidden" name="reload">
+			    <input type="hidden" name="toAction" data-changeDisabled="0">
+				<input type="hidden" name="btnSelect" data-changeDisabled="0" value="${btnSelect}" >
+				<input type="hidden" name="reload" data-changeDisabled="0">
 				<div class="row">
 					<div class="col-xs-1"></div>
-					<div class="col-xs-5"><button type="button" class="btn btn-warning btn-block" name="insert" onClick="btnChange('insert')">登録</button></div>
-					<div class="col-xs-5"><button type="button" class="btn btn-success btn-block" name="update" onClick="btnChange('update')">更新</button></div>
+					<div class="col-xs-5"><button type="button" class="btn btn-warning btn-block" name="insert" data-changeDisabled="1" onClick="btnChange('insert')">登録</button></div>
+					<div class="col-xs-5"><button type="button" class="btn btn-success btn-block" name="update" data-changeDisabled="2" onClick="btnChange('update')">更新</button></div>
 					<div class="col-xs-1"></div>
 				</div>
 		<hr>
-
 				<div class="row">
 					<div class="col-xs-2"></div>
 					<label class="form-label col-xs-3 text-left" for="userId">ユーザID</label>
-					<p class="col-xs-7">：<input type="number"  style="width: 300px;" name="userId" id="userId" min="0" max="999999" step="1" onkeyup="javascript: this.value = this.value.slice(0, 6);" onchange="javascript: this.value = this.value==0?'':('000000'+this.value).slice(-6);" placeholder="6桁数字" onchange="doExecute2('searchUserID')" value="${G_UserMaster.userId}"></p>
+					<p class="col-xs-7">：<input type="number"  style="width: 300px;" name="userId" id="userId" data-changeDisabled="3" 
+											min="0" max="999999" step="1" onkeyup="javascript: this.value = this.value.slice(0, 6);" 
+											onchange="javascript: this.value = this.value==0?'':('000000'+this.value).slice(-6);doExecute2('searchUserID');" 
+											placeholder="6桁数字" value="${G_UserMaster.userId}"></p>
 				</div>
 				<div class="row">
 					<div class="col-xs-2"></div>
 					<label class="form-label col-xs-3 text-left" for="userName">ユーザ名&nbsp;<span class="label label-danger">必須</span></label>
-					<p class="col-xs-7">：<input type="text"  style="width: 300px;" name="userName" id="userName" class="inputRequired" data-inputRequired="false" maxlength="50" placeholder="1-50文字" value="${G_UserMaster.name}">&nbsp;${alert[0]}</p>
+					<p class="col-xs-7">：<input type="text"  style="width: 300px;" name="userName" id="userName" class="inputRequired" data-inputRequired="false" data-changeDisabled="4" 
+											maxlength="50" onchange="docheck();" placeholder="1-50文字" value="${G_UserMaster.name}">&nbsp;${alert[0]}</p>
 				</div>
 				<div class="row">
 					<div class="col-xs-2"></div>
 					<label class="form-label col-xs-3 text-left" for="password">パスワード&nbsp;<span class="label label-danger">必須</span></label>
-					<p class="col-xs-7">：<input type="password" style="width: 300px;" name="password" id="password" class="inputRequired" data-inputRequired="false" placeholder="8-20文字(英数構成、大文字1以上)" value="${G_UserMaster.password}">&nbsp;${alert[1]}</p>
+					<p class="col-xs-7">：<input type="password" style="width: 300px;" name="password" id="password" class="inputRequired" data-inputRequired="false" data-changeDisabled="4" 
+											onchange="docheck();" placeholder="8-20文字(英数構成、大文字1以上)" value="${G_UserMaster.password}">&nbsp;${alert[1]}</p>
 				</div>
 				<div class="row">
 					<div class="col-xs-2"></div>
 					<label class="form-label col-xs-3 text-left" for="passwordForCheck">パスワード(確認用)&nbsp;<span class="label label-danger">必須</span></label>
-					<p class="col-xs-7">：<input type="password" style="width: 300px;" name="passwordForCheck" id="passwordForCheck" class="inputRequired" data-inputRequired="false" placeholder="8-20文字(英数構成、大文字1以上)" value="${G_UserMaster.passwordForCheck}">&nbsp;${alert[2]}</p>
+					<p class="col-xs-7">：<input type="password" style="width: 300px;" name="passwordForCheck" id="passwordForCheck" class="inputRequired" data-inputRequired="false" data-changeDisabled="4" 
+											onchange="docheck();" placeholder="8-20文字(英数構成、大文字1以上)" value="${G_UserMaster.passwordForCheck}">&nbsp;${alert[2]}</p>
 				</div>
 				<div class="row">
 					<div class="col-xs-2"></div>
 					<label class="form-label col-xs-3 text-left" for="dept">分類&nbsp;<span class="label label-danger">必須</span></label>
-					<p class="col-xs-7">：<input type="text" style="width: 300px;" name="dept" id="dept" class="inputRequired" data-inputRequired="false" maxlength="50" placeholder="1-50文字" value="${G_UserMaster.dept}">&nbsp;${alert[3]}</p>
+					<p class="col-xs-7">：<input type="text" style="width: 300px;" name="dept" id="dept" class="inputRequired" data-inputRequired="false" data-changeDisabled="4" 
+											maxlength="50" onchange="docheck();" placeholder="1-50文字" value="${G_UserMaster.dept}">&nbsp;${alert[3]}</p>
 				</div>
 				<div class="row">
 					<div class="col-xs-2"></div>
 					<label class="form-label col-xs-3 text-left" for="hireDate">入社日&nbsp;<span class="label label-danger">必須</span></label>
-					<p class="col-xs-7">：<input type="text" style="width: 300px;" name="hireDate" id="hireDate" class="inputRequired" data-inputRequired="false" maxlength="10" placeholder="YYYY/MM/DD" value="${G_UserMaster.hireDate}">&nbsp;${alert[4]}</p>
+					<p class="col-xs-7">：<input type="text" style="width: 300px;" name="hireDate" id="hireDate" class="inputRequired" data-inputRequired="false" data-changeDisabled="4" 
+											maxlength="10" onchange="docheck();" placeholder="YYYY/MM/DD" value="${G_UserMaster.hireDate}">&nbsp;${alert[4]}</p>
 				</div>
 				<div class="row">
 					<div class="col-xs-2"></div>
 					<label class="form-label col-xs-3 text-left" for="etc">備考</label>
-					<p class="col-xs-7">：<textarea rows="2" style="width: 300px;" name="etc" id="etc" maxlength="50" placeholder="0-50文字">${G_UserMaster.etc}</textarea></p>
+					<p class="col-xs-7">：<textarea rows="2" style="width: 300px;" name="etc" id="etc" data-changeDisabled="4" 
+											maxlength="50" placeholder="0-50文字">${G_UserMaster.etc}</textarea></p>
 				</div>
 		<hr>
 				<div class="row">
@@ -91,17 +99,17 @@ ${btnSelect}
 					<div class="col-xs-5">
 						<c:choose>
 								<c:when test="${empty btnSelect}">
-										<button type="button" class="btn btn-primary btn-block" disabled>未選択</button>
+										<button type="button" class="btn btn-primary btn-block" data-changeDisabled="0" disabled>未選択</button>
 								</c:when>
 								<c:when test="${btnSelect=='insert'}">
-										<button type="button" class="btn btn-warning btn-block" onClick="doExecute2('doBTNExecute')">登録</button>
+										<button type="button" class="btn btn-warning btn-block" data-changeDisabled="0" name="doExecuteBTN" onClick="doExecute2('doBTNExecute')" disabled>登録</button>
 								</c:when>
 								<c:when test="${btnSelect=='update'}">
-										<button type="button" class="btn btn-success btn-block" onClick="doExecute2('doBTNExecute')">更新</button>
+										<button type="button" class="btn btn-success btn-block" data-changeDisabled="0" name="doExecuteBTN" onClick="doExecute2('doBTNExecute')" disabled>更新</button>
 								</c:when>
 						</c:choose>
 					</div>
-					<div class="col-xs-5"><button type="button" class="btn btn-primary btn-block" onClick="doExecute2('cancel')">リセット</button></div>
+					<div class="col-xs-5"><button type="button" class="btn btn-primary btn-block" data-changeDisabled="0" onClick="doExecute2('cancel')">リセット</button></div>
 					<div class="col-xs-1"></div>
 				</div>
 			</form>
