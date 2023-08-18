@@ -53,7 +53,6 @@ public class MainAction extends Action {
 		} else {
 			toAction = "/WEB-INF/" + toAction;
 		}
-
 		session.setAttribute("nextJsp", toAction);
 		return toAction;
 	}
@@ -66,10 +65,9 @@ public class MainAction extends Action {
 	 * @return 戻り値｢0:ログアウト状態｣｢1:ログイン状態｣
 	 */
 	public int loginStatusCheck(HttpServletRequest request, HttpServletResponse response) {
-		int judge = 0;
-
 		HttpSession session = request.getSession();
 		UserMaster user = (UserMaster) session.getAttribute("user");
+		int judge = 0;
 		if (user == null) {
 			session.setAttribute("loginState", null);
 		} else if (user != null) {
@@ -102,22 +100,28 @@ public class MainAction extends Action {
 	 * @return 戻り値無し
 	 */
 	public void crearAttributeForScreenChange(HttpSession session) {
-		String nextJsp = (String) session.getAttribute("nextJsp");
-
 		// メッセージ･アラート･状態表示関係削除
 		session.setAttribute("alert", null);
 		session.setAttribute("message", null);
 		session.setAttribute("state", null);
 		session.setAttribute("toAction", null);
 		// 画面入力値削除
+		session.setAttribute("G_ProductMaster", null);
+		session.setAttribute("G_CustomerMaster", null);
+		session.setAttribute("G_SupplierMaster", null);
 		session.setAttribute("G_UserMaster", null);
 		session.setAttribute("G_AmountCalcOrder", null);
+		// 検索値削除
+		session.setAttribute("ProductMaster", null);
+		session.setAttribute("CustomerMaster", null);
+		session.setAttribute("SupplierMaster", null);
+		session.setAttribute("UserMaster", null);
 		// 画面「amountCalc.jsp」「amountCalcOrder.jsp」で使用したセッション属性のnullクリア
 		session.setAttribute("therad", null);
 		session.setAttribute("amountCalcOrderMSG1", null);
 		new AmountCalcDAO().outPutMSG(session, null, null, null, null);
 		new AmountCalcDAO().changeAttribute(session, null, null);
-		// 画面「user_y.jsp」で使用したセッション属性のnullクリア
+		// 画面「*Master.jsp」で使用したセッション属性のnullクリア
 		session.setAttribute("btnSelect", null);
 
 	}

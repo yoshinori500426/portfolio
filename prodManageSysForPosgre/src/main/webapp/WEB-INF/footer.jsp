@@ -3,7 +3,7 @@
 <script type="text/javascript" src="../js/jquery-3.6.4.min.js"></script>
 <script>
 //========================================================================================================================================================================================================================
-//共通動作
+//共通動作(前動作)
 var form = document.forms[2];
 if(document.getElementsByName('btnSelect').length==1){
 	var btnSelect = form.elements['btnSelect'].value;
@@ -13,19 +13,23 @@ window.addEventListener('load', function(){
 	if(scrollY!=null){
 		scrollTo(0, scrollY);
 	}
-	if('${state}'!=''){
-		if(!alert('${state}')){
-			${state=""};
-			doExecute2('aftDoOrder');
+	 window.setTimeout(function () {
+		if('${state}'!=''){
+			if(!alert('${state}')){
+				${state=""};
+				doExecute2('aftDoOrder');
+			}
+		 }
+		if('${message}'!=''){
+			if(!alert('${message}')){
+				${message=""};
+				doExecute2('dummy');
+		 	}
 		}
-	 }
-	if('${message}'!=''){
-		if(!alert('${message}')){
-			${message=""};
-			doExecute2('dummy');
-	 	}
-	}
+	 }, 50);
 })
+document.addEventListener("DOMContentLoaded", function() {
+});
 // Actionクラストリガー用メソッド
 //　→formタグの属性actionでActionクラスを指定し､
 //　　リクエストパラメータに動作内容を指定する事で､複雑な動作を行わせる
@@ -177,7 +181,8 @@ if('${nextJsp}'=='/WEB-INF/main/login.jsp'){
 if('${nextJsp}'=='/WEB-INF/main/productMaster.jsp'){
 	window.addEventListener('load', function(){
 		docheck();
-		doChangeDisabled('${G_ProductMaster.productNo}');
+		var keyValue = ('${G_ProductMaster.productNo}'!='' && '${G_ProductMaster.productName}'!='') || ('${G_ProductMaster.productNo}'!='' && '${toAction}'!='searchProductNo')?'1':'';
+		doChangeDisabled(keyValue);
 	})
 	function docheck() {
 		//productName 
@@ -190,7 +195,7 @@ if('${nextJsp}'=='/WEB-INF/main/productMaster.jsp'){
 		}
 		//supplierNo 
 		var supplierNo = form.elements['supplierNo'];
-		var judgeSupplierNo = supplierNo.value.match(/^[0-9]{6}$/)!=null?true:false;
+		var judgeSupplierNo = (supplierNo.value.match(/^[0-9]{6}$/)!=null && supplierName.value!="")?true:false;
 		if(judgeSupplierNo==true){
 			supplierNo.setAttribute('data-inputRequired','true');
 		}else{
@@ -252,7 +257,8 @@ if('${nextJsp}'=='/WEB-INF/main/productMaster.jsp'){
 if('${nextJsp}'=='/WEB-INF/main/customerMaster.jsp'){
 	window.addEventListener('load', function(){
 		docheck();
-		doChangeDisabled('${G_CustomerMaster.customerNo}');
+		var keyValue = ('${G_CustomerMaster.customerNo}'!='' && '${G_CustomerMaster.customerName}'!='')?'1':'';
+		doChangeDisabled(keyValue);
 	})
 	function docheck() {
 		//customerName 
@@ -295,7 +301,8 @@ if('${nextJsp}'=='/WEB-INF/main/customerMaster.jsp'){
 if('${nextJsp}'=='/WEB-INF/main/supplierMaster.jsp'){
 	window.addEventListener('load', function(){
 		docheck();
-		doChangeDisabled('${G_SupplierMaster.supplierNo}');
+		var keyValue = ('${G_SupplierMaster.supplierNo}'!='' && '${G_SupplierMaster.supplierName}'!='')?'1':'';
+		doChangeDisabled(keyValue);
 	})
 	function docheck() {
 		//supplierName 
@@ -330,7 +337,8 @@ if('${nextJsp}'=='/WEB-INF/main/supplierMaster.jsp'){
 if('${nextJsp}'=='/WEB-INF/main/userMaster.jsp'){
 	window.addEventListener('load', function(){
 		docheck();
-		doChangeDisabled('${G_UserMaster.userId}');
+		var keyValue = ('${G_UserMaster.userId}'!='' && '${G_UserMaster.name}'!='')?'1':'';
+		doChangeDisabled(keyValue);
 	})
 	function docheck() {
 		//userName
@@ -384,7 +392,7 @@ if('${nextJsp}'=='/WEB-INF/main/userMaster.jsp'){
 			}
 		}
 	}
-}	
+}
 	
 //========================================================================================================================================================================================================================
 //'amountCalc.jsp'

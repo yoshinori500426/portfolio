@@ -1,84 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ include file="../header.jsp"%>
-
-<%-- <header>
-	<script>
-		function doExecute(args) {
-			var form = document.forms[2];
-
-	alert(form.dousa.value);
-		if (args == null) {
-				form.toAction.value = form.dousa.value;
-			} else {
-				form.toAction.value = args;
-			}
-			form.submit();
-		}
-	</script>
-	<script>
-		function code(hikisu) {
-			var form = document.forms[2];
-			form.toAction.value = hikisu;
-			form.submit();
-		}
-			document.addEventListener('DOMContentLosaded', messageAlert());
-
-
-			function messageAlert() {
-
-
-		alert("最終チェック");
-			var recvMSG = "${message}";
-				var CN = document.getElementById("CustomerName").value.trim();
-				var TEL = document.getElementById("Tel").value.trim();
-				var DLT = document.getElementById("DelivaryLeadTime").value;
-//追記★
-				if (recvMSG != null && recvMSG != "") {
-					alert(recvMSG);
-					if(('${nakami}'=='insert'||'${nakami}'=='update')&&(recvMSG=='登録に成功しました'||recvMSG=='更新に成功しました')){
-							doExecute('AllOkEnd');
-					}
-				}
-
-				else if ((recvMSG == null || recvMSG == "")
-						&& (CN != null || CN != "")
-						&& ((TEL.length > 8) && (TEL != null || TEL != ""))
-						&& ((DLT > 0) && (DLT != null || DLT != ""))) {
-					document.getElementById("go").removeAttribute("disabled");
-
-				}
-
-				var form = document.forms[2];
-				if (document.getElementById("dousa").value == "update") {
-					kousin2();
-				}
-				if (document.getElementById("dousa").value == "insert") {
-					sinki();
-				}
-
-			}
-
-			function upDateCheck() {
-				recvUpDateCheck = "${upDateCheck}";
-
-				switch (recvUpDateCheck) {
-				case "ok":
-					document.getElementById("go").removeAttribute(
-					"disabled");
-
-					break;
-
-				default:
-					break;
-				}
-
-			}
-		</script>
-</header> --%>
 <%--
 
-"(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8, }"
 --%>
 	<div class="box">
 		<header>
@@ -135,7 +59,7 @@
 					<div class="col-xs-2"></div>
 					<label class="form-label col-xs-3 text-left" for="customerName">会社名&nbsp;<span class="label label-danger">必須</span></label>
 					<p class="col-xs-7">：<input type="text" style="width: 300px;" name="customerName" id="customerName" class="inputRequired" data-inputRequired="false" data-changeDisabled="4" 
-											maxlength="100" onchange="docheck();" placeholder="1−100文字" value="${G_CustomerMaster.customerName}">&nbsp;${alert[0]}</p>
+											maxlength="100" onchange="docheck();" placeholder="1−100文字" value="${G_CustomerMaster.customerName}"></p>
 				</div>
 				<div class="row">
 					<div class="col-xs-2"></div>
@@ -172,7 +96,7 @@
 					<label class="form-label col-xs-3 text-left" for="tel">電話番号&nbsp;<span class="label label-danger">必須</span></label>
 					<p class="col-xs-7">：<input type="number" style="width: 300px;" name="tel" id="tel" class="inputRequired" data-inputRequired="false" data-changeDisabled="4" 
 											max="999999999999999" onkeyup="javascript: this.value = this.value.slice(0, 15);" onchange="docheck();" 
-											placeholder="9-15桁数字('-'なし)" value="${G_CustomerMaster.tel}">&nbsp;${alert[1]}</p>
+											placeholder="9-15桁数字('-'なし)" value="${G_CustomerMaster.tel}"></p>
 				</div>
 				<div class="row">
 					<div class="col-xs-2"></div>
@@ -192,7 +116,7 @@
 					<label class="form-label col-xs-3 text-left" for="delivaryLeadtime">輸送リードタイム&nbsp;<span class="label label-danger">必須</span></label>
 					<p class="col-xs-7">：<input type="number" style="width: 300px;" name="delivaryLeadtime" id="delivaryLeadtime" class="inputRequired" data-inputRequired="false" data-changeDisabled="4" 
 											min="1" max="999" onkeyup="javascript: this.value = this.value.slice(0, 3);" onchange="docheck();" 
-											placeholder="1-999" value="${G_CustomerMaster.delivaryLeadtime}">&nbsp;${alert[2]}</p>
+											placeholder="1-999" value="${G_CustomerMaster.delivaryLeadtime}"></p>
 				</div>
 				<div class="row">
 					<div class="col-xs-2"></div>

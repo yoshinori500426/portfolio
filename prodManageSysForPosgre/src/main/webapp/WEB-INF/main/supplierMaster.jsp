@@ -3,7 +3,6 @@
 <%@ include file="../header.jsp"%>
 <%--
 
-"(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8, }"
 --%>
 	<div class="box">
 		<header>
@@ -59,7 +58,7 @@
 					<div class="col-xs-2"></div>
 					<label class="form-label col-xs-3 text-left" for="supplierName">会社名&nbsp;<span class="label label-danger">必須</span></label>
 					<p class="col-xs-7">：<input type="text" style="width: 300px;" name="supplierName" id="supplierName" class="inputRequired" data-inputRequired="false" data-changeDisabled="4" 
-											maxlength="100" onchange="docheck();" placeholder="1−100文字" value="${G_SupplierMaster.supplierName}">&nbsp;${alert[0]}</p>
+											maxlength="100" onchange="docheck();" placeholder="1−100文字" value="${G_SupplierMaster.supplierName}"></p>
 				</div>
 				<div class="row">
 					<div class="col-xs-2"></div>
@@ -96,7 +95,7 @@
 					<label class="form-label col-xs-3 text-left" for="tel">電話番号&nbsp;<span class="label label-danger">必須</span></label>
 					<p class="col-xs-7">：<input type="number" style="width: 300px;" name="tel" id="tel" class="inputRequired" data-inputRequired="false" data-changeDisabled="4" 
 											max="999999999999999" onkeyup="javascript: this.value = this.value.slice(0, 15);" onchange="docheck();" 
-											placeholder="9-15桁数字('-'なし)" value="${G_SupplierMaster.tel}">&nbsp;${alert[1]}</p>
+											placeholder="9-15桁数字('-'なし)" value="${G_SupplierMaster.tel}"></p>
 				</div>
 				<div class="row">
 					<div class="col-xs-2"></div>

@@ -45,7 +45,7 @@ public class LoginAction extends Action {
 			break;
 		case "cancel":
 		default:
-			// 不要なセッション属性をnullクリア
+			// 不要なセッション属性のnullクリア
 			new MainAction().crearAttributeForScreenChange(session);
 			break;
 		}

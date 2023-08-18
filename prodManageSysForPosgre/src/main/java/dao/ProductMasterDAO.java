@@ -6,165 +6,235 @@ import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import bean.G_ProductMaster;
 import bean.ProductMaster;
+import bean.UserMaster;
 
 public class ProductMasterDAO extends DAO {
+//	public ProductMaster searchByProNoS(String productNo) throws Exception {
+//	ProductMaster ProductMaster = null;
+//
+//	Connection con = getConnection();
+//
+//	PreparedStatement st;
+//	st = con.prepareStatement("SELECT * FROM PRODUCT_MASTER WHERE PRODUCT_NO=? ");
+//	st.setString(1, productNo);
+//	ResultSet rs = st.executeQuery();
+//
+//	while (rs.next()) {
+//		ProductMaster = new ProductMaster();
+//		ProductMaster.setProductNo(rs.getString("product_No"));
+//		ProductMaster.setProductName(rs.getString("product_Name"));
+//		ProductMaster.setSupplierNo(rs.getString("supplier_No"));
+//		ProductMaster.setUnitPrice(rs.getInt("unit_Price"));
+//		ProductMaster.setSellingPrice(rs.getInt("selling_Price"));
+//		ProductMaster.setLeadTime(rs.getInt("leadtime"));
+//		ProductMaster.setLot(rs.getInt("lot"));
+//		ProductMaster.setLocation(rs.getString("location"));
+//		ProductMaster.setEtc(rs.getString("etc"));
+//		ProductMaster.setRegistDate(rs.getString("regist_Date"));
+//		ProductMaster.setRegistUser(rs.getString("regist_User"));
+//	}
+//	st.close();
+//	con.close();
+//	return ProductMaster;
+//}
 
-	public int insertByProNo(ProductMaster productMaster) throws Exception {
-		int result = 0;
-		try {
-			Calendar c = Calendar.getInstance();
-			SimpleDateFormat Da = new SimpleDateFormat("yyyy/MM/dd");
-			Connection con = getConnection();
-			PreparedStatement st;
-			st = con.prepareStatement("INSERT INTO PRODUCT_MASTER VALUES(LPAD(PRODUCT_NO.NEXTVAL,10,'0'),?,?,?,?,?,?,?,?,?,?,?)");
-			st.setString(1, productMaster.getProductName());
-			st.setString(2, productMaster.getSupplierNo());
-			st.setInt(3, productMaster.getUnitPrice());
-			st.setInt(4, productMaster.getSellingPrice());
-			st.setInt(5, productMaster.getLeadtime());
-			st.setInt(6, productMaster.getLot());
-			st.setString(7, productMaster.getLocation());
-			st.setInt(8, productMaster.getBaseStock());
-			st.setString(9, productMaster.getEtc());
-			st.setString(10, Da.format(c.getTime()));
-			st.setString(11, productMaster.getRegistUser());
-
-			result = st.executeUpdate();
-
-			st.close();
-			con.close();
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return result;
-	}
-
-	public ProductMaster searchByProNo(ProductMaster pm) throws Exception {
-		ProductMaster prm = null;
-
-		Connection con = getConnection();
-
-		PreparedStatement st;
-		st = con.prepareStatement(
-				"SELECT * FROM PRODUCT_MASTER WHERE PRODUCT_NO  = ?");
-		st.setString(1, pm.getProductNo());
-		ResultSet rs = st.executeQuery();
-
-		while (rs.next()) {
-			prm = new ProductMaster();
-			prm.setProductNo(rs.getString("PRODUCT_NO"));
-			prm.setProductName(rs.getString("PRODUCT_NAME"));
-			prm.setSupplierNo(rs.getString("SUPPLIER_NO"));
-			prm.setUnitPrice(rs.getInt("UNIT_PRICE"));
-			prm.setSellingPrice(rs.getInt("SELLING_PRICE"));
-			prm.setLeadtime(rs.getInt("LEADTIME"));
-			prm.setLot(rs.getInt("LOT"));
-			prm.setLocation(rs.getString("LOCATION"));
-			prm.setBaseStock(Integer.parseInt(rs.getString("BASESTOCK")));
-			prm.setEtc(rs.getString("ETC"));
-			prm.setRegistDate(rs.getString("REGIST_DATE"));
-			prm.setRegistUser(rs.getString("REGIST_USER"));
-		}
-		st.close();
-		con.close();
-		return prm;
-	}
-
-	public int updatesearchByProNo(ProductMaster recv_data) {
-		int result = 0;
-		Calendar c = Calendar.getInstance();
-		SimpleDateFormat Da = new SimpleDateFormat("yyyy/MM/dd");
-
+//public ProductMaster searchBySireNo(String No) throws Exception {
+//	ProductMaster ProductMaster = null;
+//
+//	Connection con = getConnection();
+//
+//	PreparedStatement st;
+//	st = con.prepareStatement("SELECT * FROM PRODUCT_MASTER WHERE PRODUCT_NO  = ?");
+//	st.setString(1, No);
+//	ResultSet rs = st.executeQuery();
+//
+//	while (rs.next()) {
+//		ProductMaster = new ProductMaster();
+//		ProductMaster.setProductNo(rs.getString("PRODUCT_NO"));
+//		ProductMaster.setProductName(rs.getString("PRODUCT_NAME"));
+//		ProductMaster.setSupplierNo(rs.getString("SUPPLIER_NO"));
+//		ProductMaster.setUnitPrice(rs.getInt("UNIT_PRICE"));
+//		ProductMaster.setSellingPrice(rs.getInt("SELLING_PRICE"));
+//		ProductMaster.setLeadTime(rs.getInt("LEADTIME"));
+//		ProductMaster.setLot(rs.getInt("LOT"));
+//		ProductMaster.setLocation(rs.getString("LOCATION"));
+//		ProductMaster.setBaseStock(rs.getInt("BASESTOCK"));
+//		ProductMaster.setEtc(rs.getString("ETC"));
+//	}
+//	st.close();
+//	con.close();
+//	return ProductMaster;
+//}
+	
+	/**
+	 * 品番に合致するレコード情報を取得するメソッド
+	 * 
+	 * @param G_ProductMasterクラスのインスタンス
+	 * @return 該当レコードあり:ProductMasterクラスのインスタンス　無:null
+	 */
+	public ProductMaster searchByProNo(G_ProductMaster G_ProductMaster) {
+		ProductMaster ProductMaster = null;
 		try {
 			Connection con = getConnection();
-
+			
 			PreparedStatement st;
-			st = con.prepareStatement("UPDATE PRODUCT_MASTER SET PRODUCT_NAME = ?,SUPPLIER_NO = ?,UNIT_PRICE = ?,SELLING_PRICE = ?,LEADTIME = ?,LOT = ?,LOCATION = ?,BASESTOCK = ?,ETC = ?,REGIST_DATE = ?,REGIST_USER = ? WHERE PRODUCT_NO = ?");
-
-			st.setString(1, recv_data.getProductName());
-			st.setString(2, recv_data.getSupplierNo());
-			st.setInt(3, recv_data.getUnitPrice());
-			st.setInt(4, recv_data.getSellingPrice());
-			st.setInt(5, recv_data.getLeadtime());
-			st.setInt(6, recv_data.getLot());
-			st.setString(7, recv_data.getLocation());
-			st.setInt(8, recv_data.getBaseStock());
-			st.setString(9, recv_data.getEtc());
-			st.setString(10, Da.format(c.getTime()));
-			st.setString(11, recv_data.getRegistUser());
-			st.setString(12, recv_data.getProductNo());
-
-			result = st.executeUpdate();
-
+			st = con.prepareStatement("SELECT * FROM PRODUCT_MASTER WHERE PRODUCT_NO=?");
+			st.setString(1, G_ProductMaster.getProductNo());
+			ResultSet rs = st.executeQuery();
+			
+			while (rs.next()) {
+				ProductMaster = new ProductMaster();
+				ProductMaster.setProductNo(rs.getString("PRODUCT_NO"));
+				ProductMaster.setProductName(rs.getString("PRODUCT_NAME"));
+				ProductMaster.setSupplierNo(rs.getString("SUPPLIER_NO"));
+				ProductMaster.setUnitPrice(rs.getInt("UNIT_PRICE"));
+				ProductMaster.setSellingPrice(rs.getInt("SELLING_PRICE"));
+				ProductMaster.setLeadTime(rs.getInt("LEADTIME"));
+				ProductMaster.setLot(rs.getInt("LOT"));
+				ProductMaster.setLocation(rs.getString("LOCATION"));
+				ProductMaster.setBaseStock(Integer.parseInt(rs.getString("BASESTOCK")));
+				ProductMaster.setEtc(rs.getString("ETC"));
+				ProductMaster.setRegistDate(rs.getString("REGIST_DATE"));
+				ProductMaster.setRegistUser(rs.getString("REGIST_USER"));
+			}
 			st.close();
 			con.close();
-
 		} catch (Exception e) {
 			System.out.println("SQLでエラーが発生しました。");
 			e.printStackTrace();
 		}
-		return result;
+		return ProductMaster;
 	}
+		
 
-	public ProductMaster searchByProNoS(String productNo) throws Exception {
-		ProductMaster prm = null;
+	/**
+	 * 引数の品番に合致するレコードを更新するメソッド
+	 * 
+	 * @param G_ProductMasterクラスのインスタンス
+	 * @return 0:更新失敗 1:更新成功
+	 */
+	public int updateByPM(G_ProductMaster G_ProductMaster, HttpServletRequest request) {
+		// 戻り値用変数
+		int line = 0;
+		// 登録日用にCalendarクラスのオブジェクトを生成する
+		Calendar cl = Calendar.getInstance();
+		// 登録日用SimpleDateFormatクラスでフォーマットパターンを設定する
+		SimpleDateFormat sdfymd = new SimpleDateFormat("yyyy/MM/dd");
 
-		Connection con = getConnection();
+		HttpSession session = request.getSession();
+		UserMaster user = (UserMaster) session.getAttribute("user");
+		try {
+			Connection con = getConnection();
+			PreparedStatement st;
+			st = con.prepareStatement("UPDATE PRODUCT_MASTER SET PRODUCT_NAME=?, SUPPLIER_NO=?, UNIT_PRICE=?, SELLING_PRICE=?, LEADTIME=?, LOT=?, LOCATION=?, "
+																+ "BASESTOCK=?, ETC=?, REGIST_DATE=?, REGIST_USER=? WHERE PRODUCT_NO=?");
+			st.setString(1, G_ProductMaster.getProductName());
+			st.setString(2, G_ProductMaster.getSupplierNo());
+			st.setInt(3, Integer.parseInt(G_ProductMaster.getUnitPrice()));
+			st.setInt(4, Integer.parseInt(G_ProductMaster.getSellingPrice()));
+			st.setInt(5, Integer.parseInt(G_ProductMaster.getLeadTime()));
+			st.setInt(6, Integer.parseInt(G_ProductMaster.getLot()));
+			st.setString(7, G_ProductMaster.getLocation());
+			st.setInt(8, Integer.parseInt(G_ProductMaster.getBaseStock()));
+			st.setString(9, G_ProductMaster.getEtc());
+			st.setString(10, sdfymd.format(cl.getTime()));
+			st.setString(11, user.getUserId());
+			st.setString(12, G_ProductMaster.getProductNo());
 
-		PreparedStatement st;
-		st = con.prepareStatement(
-				"SELECT * FROM PRODUCT_MASTER WHERE PRODUCT_NO=? ");
-		st.setString(1, productNo);
-		ResultSet rs = st.executeQuery();
+			line = st.executeUpdate();
 
-		while (rs.next()) {
-			prm = new ProductMaster();
-			prm.setProductNo(rs.getString("product_No"));
-			prm.setProductName(rs.getString("product_Name"));
-			prm.setSupplierNo(rs.getString("supplier_No"));
-			prm.setUnitPrice(rs.getInt("unit_Price"));
-			prm.setSellingPrice(rs.getInt("selling_Price"));
-			prm.setLeadtime(rs.getInt("leadtime"));
-			prm.setLot(rs.getInt("lot"));
-			prm.setLocation(rs.getString("location"));
-			prm.setEtc(rs.getString("etc"));
-			prm.setRegistDate(rs.getString("regist_Date"));
-			prm.setRegistUser(rs.getString("regist_User"));
+			st.close();
+			con.close();
+		} catch (Exception e) {
+			System.out.println("SQLでエラーが発生しました。");
+			e.printStackTrace();
 		}
-		st.close();
-		con.close();
-		return prm;
+		return line;
 	}
 
-	public ProductMaster searchBySireNo(String No) throws Exception {
-		ProductMaster prm = null;
-
-		Connection con = getConnection();
-
-		PreparedStatement st;
-		st = con.prepareStatement(
-				"SELECT * FROM PRODUCT_MASTER WHERE PRODUCT_NO  = ?");
-		st.setString(1, No);
-		ResultSet rs = st.executeQuery();
-
-		while (rs.next()) {
-			prm = new ProductMaster();
-			prm.setProductNo(rs.getString("PRODUCT_NO"));
-			prm.setProductName(rs.getString("PRODUCT_NAME"));
-			prm.setSupplierNo(rs.getString("SUPPLIER_NO"));
-			prm.setUnitPrice(rs.getInt("UNIT_PRICE"));
-			prm.setSellingPrice(rs.getInt("SELLING_PRICE"));
-			prm.setLeadtime(rs.getInt("LEADTIME"));
-			prm.setLot(rs.getInt("LOT"));
-			prm.setLocation(rs.getString("LOCATION"));
-			prm.setBaseStock(rs.getInt("BASESTOCK"));
-			prm.setEtc(rs.getString("ETC"));
+	/**
+	 * 引数の商品情報を新規登録するメソッド
+	 * 
+	 * @param G_ProductMasterクラスのインスタンス
+	 * @return 0:新規登録失敗 1:新規登録成功
+	 */
+	public int insert(G_ProductMaster G_ProductMaster, HttpServletRequest request) {
+		// 戻り値用変数
+		int line = 0;
+		// PRODUCT_NO取得用カウンタ
+		int count = 0;
+		String PRODUCT_NO = "";
+		// 登録日用にCalendarクラスのオブジェクトを生成する
+		Calendar cl = Calendar.getInstance();
+		// 登録日用SimpleDateFormatクラスでフォーマットパターンを設定する
+		SimpleDateFormat sdfymd = new SimpleDateFormat("yyyy/MM/dd");
+		
+		HttpSession session = request.getSession();
+		UserMaster user = (UserMaster) session.getAttribute("user");
+		try {
+			Connection con = getConnection();
+			PreparedStatement st = null;
+			ResultSet rs = null;
+			ProductMaster ProductMaster = null;
+			
+			// PRODUCT_NO作成
+			do {
+				// 注文番号のシーケンス値取得
+				st = con.prepareStatement("SELECT NEXTVAL('PRODUCT_NO')");
+				rs = st.executeQuery();
+				while (rs.next()) {
+					PRODUCT_NO = String.valueOf(rs.getInt("NEXTVAL"));
+				}
+				// 注文番号を左ゼロ埋めで10桁にする処理
+				do {
+					if (PRODUCT_NO.length() < 10) {
+						PRODUCT_NO = "0" + PRODUCT_NO;
+					} else {
+						break;
+					}
+				} while (true);
+				// 作成した注文番号の未使用確認
+				G_ProductMaster G_pm = new G_ProductMaster();
+				G_pm.setProductNo(PRODUCT_NO);
+				ProductMaster = searchByProNo(G_pm);
+				if (ProductMaster == null) {
+					// 使用可能
+					break;
+				} else if (count >= 12500000) {
+					session.setAttribute("state", "使用可能な品番がありません。\\n処理を終了します｡");
+					return line;
+				}
+				// ORDER_NO取得用カウンタ、カウントアップ
+				count++;
+			} while (true);
+			
+			st = con.prepareStatement("INSERT INTO PRODUCT_MASTER VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+			st.setString(1, PRODUCT_NO);
+			st.setString(2, G_ProductMaster.getProductName());
+			st.setString(3, G_ProductMaster.getSupplierNo());
+			st.setInt(4, Integer.parseInt(G_ProductMaster.getUnitPrice()));
+			st.setInt(5, Integer.parseInt(G_ProductMaster.getSellingPrice()));
+			st.setInt(6, Integer.parseInt(G_ProductMaster.getLeadTime()));
+			st.setInt(7, Integer.parseInt(G_ProductMaster.getLot()));
+			st.setString(8, G_ProductMaster.getLocation());
+			st.setInt(9, Integer.parseInt(G_ProductMaster.getBaseStock()));
+			st.setString(10, G_ProductMaster.getEtc());
+			st.setString(11, sdfymd.format(cl.getTime()));
+			st.setString(12, user.getUserId());
+			
+			line = st.executeUpdate();
+			
+			st.close();
+			con.close();
+		} catch (Exception e) {
+			System.out.println("SQLでエラーが発生しました。");
+			e.printStackTrace();
 		}
-		st.close();
-		con.close();
-		return prm;
+		return line;
 	}
-
 }

@@ -3,9 +3,6 @@
 <%@ include file="../header.jsp"%>
 <%--
 
-"(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8, }"
-${judgeInput}
-${btnSelect}
 --%>
 	<div class="box">
 		<header>
@@ -61,31 +58,31 @@ ${btnSelect}
 					<div class="col-xs-2"></div>
 					<label class="form-label col-xs-3 text-left" for="userName">ユーザ名&nbsp;<span class="label label-danger">必須</span></label>
 					<p class="col-xs-7">：<input type="text"  style="width: 300px;" name="userName" id="userName" class="inputRequired" data-inputRequired="false" data-changeDisabled="4" 
-											maxlength="50" onchange="docheck();" placeholder="1-50文字" value="${G_UserMaster.name}">&nbsp;${alert[0]}</p>
+											maxlength="50" onchange="docheck();" placeholder="1-50文字" value="${G_UserMaster.name}"></p>
 				</div>
 				<div class="row">
 					<div class="col-xs-2"></div>
 					<label class="form-label col-xs-3 text-left" for="password">パスワード&nbsp;<span class="label label-danger">必須</span></label>
 					<p class="col-xs-7">：<input type="password" style="width: 300px;" name="password" id="password" class="inputRequired" data-inputRequired="false" data-changeDisabled="4" 
-											onchange="docheck();" placeholder="8-20文字(英数構成、大文字1以上)" value="${G_UserMaster.password}">&nbsp;${alert[1]}</p>
+											onchange="docheck();" placeholder="8-20文字(英数構成、大文字1以上)" value="${G_UserMaster.password}"></p>
 				</div>
 				<div class="row">
 					<div class="col-xs-2"></div>
 					<label class="form-label col-xs-3 text-left" for="passwordForCheck">パスワード(確認用)&nbsp;<span class="label label-danger">必須</span></label>
 					<p class="col-xs-7">：<input type="password" style="width: 300px;" name="passwordForCheck" id="passwordForCheck" class="inputRequired" data-inputRequired="false" data-changeDisabled="4" 
-											onchange="docheck();" placeholder="8-20文字(英数構成、大文字1以上)" value="${G_UserMaster.passwordForCheck}">&nbsp;${alert[2]}</p>
+											onchange="docheck();" placeholder="8-20文字(英数構成、大文字1以上)" value="${G_UserMaster.passwordForCheck}"></p>
 				</div>
 				<div class="row">
 					<div class="col-xs-2"></div>
 					<label class="form-label col-xs-3 text-left" for="dept">分類&nbsp;<span class="label label-danger">必須</span></label>
 					<p class="col-xs-7">：<input type="text" style="width: 300px;" name="dept" id="dept" class="inputRequired" data-inputRequired="false" data-changeDisabled="4" 
-											maxlength="50" onchange="docheck();" placeholder="1-50文字" value="${G_UserMaster.dept}">&nbsp;${alert[3]}</p>
+											maxlength="50" onchange="docheck();" placeholder="1-50文字" value="${G_UserMaster.dept}"></p>
 				</div>
 				<div class="row">
 					<div class="col-xs-2"></div>
 					<label class="form-label col-xs-3 text-left" for="hireDate">入社日&nbsp;<span class="label label-danger">必須</span></label>
 					<p class="col-xs-7">：<input type="text" style="width: 300px;" name="hireDate" id="hireDate" class="inputRequired" data-inputRequired="false" data-changeDisabled="4" 
-											maxlength="10" onchange="docheck();" placeholder="YYYY/MM/DD" value="${G_UserMaster.hireDate}">&nbsp;${alert[4]}</p>
+											maxlength="10" onchange="docheck();" placeholder="YYYY/MM/DD" value="${G_UserMaster.hireDate}"></p>
 				</div>
 				<div class="row">
 					<div class="col-xs-2"></div>

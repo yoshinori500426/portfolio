@@ -12,25 +12,50 @@ import javax.servlet.http.HttpSession;
 import bean.G_UserMaster;
 import bean.UserMaster;
 
-/**
- * @author TRAINING-PC5 search文
- */
 public class UserMasterDAO extends DAO {
-	public boolean checkUserExist(G_UserMaster G_UserMaster) {
-		boolean judge = false;
-		int count = 0;
+//	public boolean checkUserExist(G_UserMaster G_UserMaster) {
+//		boolean judge = false;
+//		int count = 0;
+//		try {
+//			Connection con = getConnection();
+//			PreparedStatement st = con.prepareStatement("SELECT * FROM USER_MASTER WHERE USER_ID=? AND PASSWORD=?");
+//			st.setString(1, G_UserMaster.getUserId());
+//			st.setString(2, G_UserMaster.getPassword());
+//
+//			ResultSet rs = st.executeQuery();
+//			while (rs.next()) {
+//				count++;
+//			}
+//			if (count == 1) {
+//				judge = true;
+//			}
+//			st.close();
+//			con.close();
+//		} catch (Exception e) {
+//			System.out.println("SQLでエラーが発生しました。");
+//			e.printStackTrace();
+//		}
+//		return judge;
+//	}
+
+	/**
+	 * 引数のユーザID/パスワードに合致するレコード情報を取得するメソッド
+	 * 
+	 * @param G_UserMasterクラスのインスタンス
+	 * @return @return 該当レコードあり:UserMasterクラスのインスタンス　無:null
+	 */
+	public UserMaster searchByUM(G_UserMaster G_UserMaster) {
+		UserMaster UserMaster = null;
 		try {
 			Connection con = getConnection();
 			PreparedStatement st = con.prepareStatement("SELECT * FROM USER_MASTER WHERE USER_ID=? AND PASSWORD=?");
 			st.setString(1, G_UserMaster.getUserId());
 			st.setString(2, G_UserMaster.getPassword());
-
 			ResultSet rs = st.executeQuery();
 			while (rs.next()) {
-				count++;
-			}
-			if (count == 1) {
-				judge = true;
+				UserMaster = new UserMaster();
+				UserMaster.setUserId(rs.getString("user_id"));
+				UserMaster.setName(rs.getString("name"));
 			}
 			st.close();
 			con.close();
@@ -38,35 +63,7 @@ public class UserMasterDAO extends DAO {
 			System.out.println("SQLでエラーが発生しました。");
 			e.printStackTrace();
 		}
-		return judge;
-	}
-
-	/**
-	 * 引数のユーザID/パスワードに合致するレコード情報を取得するメソッド
-	 * 
-	 * @param ユーザID/パスワードが格納されたG_UserMasterクラスのインスタンス
-	 * @return 該当レコードあり:ユーザID/名前が格納されたインスタンスを返す、無:null
-	 */
-	public UserMaster searchByUM(G_UserMaster G_UserMaster) {
-		UserMaster user = null;
-		try {
-			Connection con = getConnection();
-			PreparedStatement st = con.prepareStatement("SELECT * FROM USER_MASTER WHERE USER_ID=? AND PASSWORD = ?");
-			st.setString(1, G_UserMaster.getUserId());
-			st.setString(2, G_UserMaster.getPassword());
-			ResultSet rs = st.executeQuery();
-			while (rs.next()) {
-				user = new UserMaster();
-				user.setUserId(rs.getString("user_id"));
-				user.setName(rs.getString("name"));
-			}
-			st.close();
-			con.close();
-		} catch (Exception e) {
-			System.out.println("SQLでエラーが発生しました。");
-			e.printStackTrace();
-		}
-		return user;
+		return UserMaster;
 	}
 
 	/**
@@ -101,7 +98,10 @@ public class UserMasterDAO extends DAO {
 	}
 
 	/**
-	 * @author TRAINING-PC5 update文
+	 * 引数のユーザIDに合致するレコードを更新するメソッド
+	 * 
+	 * @param ユーザID/パスワードが格納されたG_UserMasterクラスのインスタンス
+	 * @return 0:更新失敗 1:更新成功
 	 */
 	public int updateByUM(G_UserMaster G_UserMaster, HttpServletRequest request) {
 		// 戻り値用変数
@@ -116,8 +116,7 @@ public class UserMasterDAO extends DAO {
 		try {
 			Connection con = getConnection();
 			PreparedStatement st;
-			st = con.prepareStatement(
-					"UPDATE USER_MASTER SET NAME =?, PASSWORD=?, DEPT=?, ETC=?, HIRE_DATE=?, REGIST_DATE=?, REGIST_USER=? WHERE USER_ID=?");
+			st = con.prepareStatement("UPDATE USER_MASTER SET NAME=?, PASSWORD=?, DEPT=?, ETC=?, HIRE_DATE=?, REGIST_DATE=?, REGIST_USER=? WHERE USER_ID=?");
 			st.setString(1, G_UserMaster.getName());
 			st.setString(2, G_UserMaster.getPassword());
 			st.setString(3, G_UserMaster.getDept());
@@ -132,14 +131,17 @@ public class UserMasterDAO extends DAO {
 			st.close();
 			con.close();
 		} catch (Exception e) {
+			System.out.println("SQLでエラーが発生しました。");
 			e.printStackTrace();
 		}
 		return line;
 	}
 
 	/**
-	 * @author TRAINING-PC5 insert文、
-	 *
+	 * 引数のユーザ情報を新規登録するメソッド
+	 * 
+	 * @param ユーザID/パスワードが格納されたG_UserMasterクラスのインスタンス
+	 * @return 0:新規登録失敗 1:新規登録成功
 	 */
 	public int insertByUM(G_UserMaster G_UserMaster, HttpServletRequest request) {
 		// 戻り値用変数
@@ -206,6 +208,7 @@ public class UserMasterDAO extends DAO {
 			st.close();
 			con.close();
 		} catch (Exception e) {
+			System.out.println("SQLでエラーが発生しました。");
 			e.printStackTrace();
 		}
 		return line;

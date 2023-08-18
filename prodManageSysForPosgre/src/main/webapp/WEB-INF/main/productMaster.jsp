@@ -1,75 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ include file="../header.jsp"%>
-
-<!-- <header>
-	<script>
-		function doExecute(args) {
-			var form = document.forms[2];
-			alert(form.dousa.value);
-			if (args == null) {
-				form.toAction.value = form.dousa.value;
-			} else {
-				form.toAction.value = args;
-			}
-			form.submit();
-		}
-
-		function jikkou() {
-			var form = document.forms[2];
-			var naiyou = form.dousa.value;
-			var judge = window.confirm(naiyou == "insert" ? "新規登録を行いますか？"
-					: "データ内容の更新をおこないますか？");
-
-			if (judge == true) {
-				doExecute();
-
-			}
-		}
-	</script>
-	<script>
-		function code(hikisu) {
-			var form = document.forms[2];
-			form.toAction.value = hikisu;
-			form.submit();
-		}
-	</script>
-
-	<style>
-label {
-	text-align: center;
-}
-</style>
-</header>
-		<script>
-			document.addEventListener('DOMContentLosaded', messageAlert());
-			function messageAlert() {
-
-
-				var recvMSG = "${message}";
-				if (recvMSG != null && recvMSG != "") {
-					alert(recvMSG);
-					if(('${nakami}'=='insert'||'${nakami}'=='update')&&(recvMSG=='登録に成功しました。'||recvMSG=='更新に成功しました。')){
-							doExecute('AllOkEnd');
-					}
-				}else if (recvMSG != null && recvMSG != "") {
-					alert(recvMSG);
-				}
-				var form = document.forms[2];
-				if (document.getElementById("dousa").value == "update") {
-					kousin2();
-				}
-				if (document.getElementById("dousa").value == "insert") {
-					sinki2();
-				}
-
-
-			}
-		</script> -->
-		
 <%--
 
-"(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8, }"
 --%>
 	<div class="box">
 		<header>
@@ -125,7 +58,7 @@ label {
 					<div class="col-xs-2"></div>
 					<label class="form-label col-xs-3 text-left" for="productName">品名&nbsp;<span class="label label-danger">必須</span></label>
 					<p class="col-xs-7">：<input type="text"  style="width: 300px;"name="productName" id="productName" class="inputRequired" data-inputRequired="false" data-changeDisabled="4" 
-											maxlength="100" onchange="docheck();" placeholder="1−100文字" value="${G_ProductMaster.productName}">&nbsp;${alert[0]}</p>
+											maxlength="100" onchange="docheck();" placeholder="1−100文字" value="${G_ProductMaster.productName}"></p>
 				</div>
 				<div class="row">
 					<div class="col-xs-2"></div>
@@ -133,7 +66,7 @@ label {
 					<p class="col-xs-7">：<input type="number" style="width: 300px;" name="supplierNo" id="supplierNo" class="inputRequired" data-inputRequired="false" data-changeDisabled="4" 
 											min="0" max="999999" onkeyup="javascript: this.value = this.value.slice(0, 6);" 
 											onchange="javascript: this.value = this.value==0?'':('000000'+this.value).slice(-6);doExecute2('searchSupplierNo');" 
-											placeholder="6桁数字" value="${G_ProductMaster.supplierNo}">&nbsp;${alert[1]}</p>
+											placeholder="6桁数字" value="${G_ProductMaster.supplierNo}"></p>
 				</div>
 				<div class="row">
 					<div class="col-xs-2"></div>
@@ -147,7 +80,7 @@ label {
 					<p class="col-xs-7">：<input type="text" style="width: 300px;" name="unitPrice" id="unitPrice" class="inputRequired" data-inputRequired="false" data-changeDisabled="4" 
 											onkeydown="befValue=value;" onkeyup="value=((value<=999999.99)&&(value*100%1===0))?value:befValue;" 
 											onchange="value=(value=='')?'':(value==0)?0.01:value;docheck();" 
-											placeholder="0.01-999999.99" value="${G_ProductMaster.unitPrice}">&nbsp;${alert[2]}</p>
+											placeholder="0.01-999999.99" value="${G_ProductMaster.unitPrice}"></p>
 				</div>
 				<div class="row">
 					<div class="col-xs-2"></div>
@@ -162,27 +95,27 @@ label {
 					<label class="form-label col-xs-3 text-left" for="leadTime">購買リードタイム&nbsp;<span class="label label-danger">必須</span></label>
 					<p class="col-xs-7">：<input type="number" style="width: 300px;" name="leadTime" id="leadTime" class="inputRequired" data-inputRequired="false" data-changeDisabled="4" 
 											min="0" max="999" onkeyup="javascript: this.value = this.value.slice(0, 3);" onchange="docheck();" 
-											placeholder="1-999" value="${G_ProductMaster.leadTime}">&nbsp;${alert[3]}</p>
+											placeholder="1-999" value="${G_ProductMaster.leadTime}"></p>
 				</div>
 				<div class="row">
 					<div class="col-xs-2"></div>
 					<label class="form-label col-xs-3 text-left" for="lot">購買ロット&nbsp;<span class="label label-danger">必須</span></label>
 					<p class="col-xs-7">：<input type="number" style="width: 300px;" name="lot" id="lot" class="inputRequired" data-inputRequired="false" data-changeDisabled="4" 
 											min="0" max="999999" onkeyup="javascript: this.value = this.value.slice(0, 6);" onchange="docheck();" 
-											placeholder="1-999999" value="${G_ProductMaster.lot}">&nbsp;${alert[4]}</p>
+											placeholder="1-999999" value="${G_ProductMaster.lot}"></p>
 				</div>
 				<div class="row">
 					<div class="col-xs-2"></div>
 					<label class="form-label col-xs-3 text-left" for="location">在庫ロケーション&nbsp;<span class="label label-danger">必須</span></label>
 					<p class="col-xs-7">：<input type="text" style="width: 300px;" name="location" id="location" class="inputRequired" data-inputRequired="false" data-changeDisabled="4" 
-											maxlength="6" onchange="docheck();" placeholder="1-6文字(例:B-01-3)" value="${G_ProductMaster.location}">&nbsp;${alert[5]}</p>
+											maxlength="6" onchange="docheck();" placeholder="1-6文字(例:B-01-3)" value="${G_ProductMaster.location}"></p>
 				</div>
 				<div class="row">
 					<div class="col-xs-2"></div>
 					<label class="form-label col-xs-3 text-left" for="baseStock">基本在庫&nbsp;<span class="label label-danger">必須</span></label>
 					<p class="col-xs-7">：<input type="number" style="width: 300px;" name="baseStock" id="baseStock" class="inputRequired" data-inputRequired="false" data-changeDisabled="4" 
 											min="0" max="999999" onkeyup="javascript: this.value = this.value.slice(0, 6);" onchange="docheck();" 
-											placeholder="1-999999" value="${G_ProductMaster.baseStock}">&nbsp;${alert[6]}</p>
+											placeholder="1-999999" value="${G_ProductMaster.baseStock}"></p>
 				</div>
 				<div class="row">
 					<div class="col-xs-2"></div>
