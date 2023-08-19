@@ -10,7 +10,7 @@
 <link type="text/css" rel="stylesheet" href="../css/style.css">
 </head>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<body>
+<body id="body">
 	<div class="box">
 		<div class="row">
 			<p class="h1 col-xs-8 text-left">在庫管理システム</p>

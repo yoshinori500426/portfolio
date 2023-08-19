@@ -201,7 +201,7 @@ public class AmountCalcDAO extends DAO {
 
 				// 動作確認を目的に、処理を3秒止める
 				// →この処理を入れることで､try-catch文のcatch箇所に割り込み時の動作を記述する必要が生じる
-				Thread.sleep(3000);
+				Thread.sleep(1000);
 
 			}
 			// 正常終了/異常終了の判定
@@ -213,8 +213,6 @@ public class AmountCalcDAO extends DAO {
 				} else {
 					// 状況出力
 					outPutMSG(session, "正常に終了しました｡ 発注/納期短縮が必要な品番があります｡", "100", "progress-bar-success", "3");
-					// 動作確認を目的に、処理を1秒止める
-					Thread.sleep(1000);
 					judgeProsess = 3;
 				}
 				// 保存属性の変更

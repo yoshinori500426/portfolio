@@ -118,11 +118,9 @@ public class MainAction extends Action {
 		session.setAttribute("UserMaster", null);
 		// 画面「amountCalc.jsp」「amountCalcOrder.jsp」で使用したセッション属性のnullクリア
 		session.setAttribute("therad", null);
-		session.setAttribute("amountCalcOrderMSG1", null);
 		new AmountCalcDAO().outPutMSG(session, null, null, null, null);
 		new AmountCalcDAO().changeAttribute(session, null, null);
 		// 画面「*Master.jsp」で使用したセッション属性のnullクリア
 		session.setAttribute("btnSelect", null);
-
 	}
 }

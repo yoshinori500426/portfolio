@@ -3,33 +3,34 @@
 <script type="text/javascript" src="../js/jquery-3.6.4.min.js"></script>
 <script>
 //========================================================================================================================================================================================================================
-//共通動作(前動作)
+//共通動作
 var form = document.forms[2];
 if(document.getElementsByName('btnSelect').length==1){
 	var btnSelect = form.elements['btnSelect'].value;
 }
 window.addEventListener('load', function(){
+	/* 以下不要
+	　　document.getElementById('body').setAttribute('style','visibility: visible;');
+	*/
 	var scrollY=window.sessionStorage.getItem(['scrollY']);
 	if(scrollY!=null){
 		scrollTo(0, scrollY);
 	}
-	 window.setTimeout(function () {
-		if('${state}'!=''){
-			if(!alert('${state}')){
-				${state=""};
-				doExecute2('aftDoOrder');
-			}
-		 }
-		if('${message}'!=''){
-			if(!alert('${message}')){
-				${message=""};
-				doExecute2('dummy');
-		 	}
-		}
-	 }, 50);
 })
-document.addEventListener("DOMContentLoaded", function() {
-});
+window.setTimeout(function () {
+	if('${state}'!=''){
+		if(!alert('${state}')){
+			${state=""};
+			doExecute2('aftDoOrder');
+		}
+	 }
+	if('${message}'!=''){
+		if(!alert('${message}')){
+			${message=""};
+			doExecute2('dummy');
+	 	}
+	}
+}, 150);
 // Actionクラストリガー用メソッド
 //　→formタグの属性actionでActionクラスを指定し､
 //　　リクエストパラメータに動作内容を指定する事で､複雑な動作を行わせる
@@ -38,7 +39,8 @@ function commonDoExecute(num,atype) {
 	window.sessionStorage.setItem(['scrollY'],[positionY]);
 	var form = document.forms[num];
 	form.toAction.value = atype;
-	for(let i = 0; i < form.elements.length; i++){
+	document.getElementById('body').setAttribute('style','visibility: hidden;');
+ 	for(let i = 0; i < form.elements.length; i++){
 		form.elements[i].removeAttribute('disabled');
 	}
 	form.submit();
@@ -402,17 +404,21 @@ if('${nextJsp}'=='/WEB-INF/main/amountCalc.jsp'){
 		 //   0:途中終了、1:処理中、2:異常なし終了、3:異常あり終了
 		 if('${amountCalcProgFlg}' != '' && '${amountCalcProgFlg}' != '0' && '${amountCalcProgFlg}' != '2'){
 			 if('${amountCalcProgFlg}' == '3'){
-				doExecute2('goToAmountCalcOrderPage');
+			 	form.elements['startAmountCalc'].setAttribute('disabled','disabled');
+			 	form.elements['cancel'].setAttribute('disabled','disabled');
+				window.setTimeout(function () {
+					doExecute2('goToAmountCalcOrderPage');
+				}, 3500);
 			 }else if ('${amountCalcProgFlg}' == '1'){
-				form.elements[1].setAttribute('disabled','disabled');
-				form.elements[2].removeAttribute('disabled');
-				 window.setTimeout(function () {
-						doExecute2('processNow');
-				 }, 800);
+				form.elements['startAmountCalc'].setAttribute('disabled','disabled');
+				form.elements['cancel'].removeAttribute('disabled');
+				window.setTimeout(function () {
+					doExecute2('processNow');
+				}, 800);
 			 }
 		 }else{
-		 	form.elements[1].removeAttribute('disabled');
-		 	form.elements[2].setAttribute('disabled','disabled');
+		 	form.elements['startAmountCalc'].removeAttribute('disabled');
+		 	form.elements['cancel'].setAttribute('disabled','disabled');
 		 }
 	})
 }
@@ -421,36 +427,70 @@ if('${nextJsp}'=='/WEB-INF/main/amountCalc.jsp'){
 //'amountCalcOrder.jsp'
 if('${nextJsp}'=='/WEB-INF/main/amountCalcOrder.jsp'){
 	window.addEventListener('load', function(){
-		 var productNo = document.forms[2].elements['gProductNo'];
-		 var orderLotNum = document.forms[2].elements['gOrderLotNum'];
-		 for(var i=0;i<productNo.length;i++){
-			 if('${G_AmountCalcOrder.productNo}' != '' && productNo.options[i].value == '${G_AmountCalcOrder.productNo}'){
+		var productNo = document.forms[2].elements['gProductNo'];
+		var orderLotNum = document.forms[2].elements['gOrderLotNum'];
+		for(var i=0;i<productNo.length;i++){
+			if('${G_AmountCalcOrder.productNo}' != '' && productNo.options[i].value == '${G_AmountCalcOrder.productNo}'){
 				productNo.options[i].selected = true;
-				//フィールド｢orderFinFlg｣は､
+ 				//フィールド｢orderFinFlg｣は､
 				// 「1：アクション(発注/納期調整)不要」
 				// 「0-2：発注が必要な品番」
 				// 「0-1：納期調整が必要な品番」
-				if('${amountCalcAllListMap[productNoKey][0].orderFinFlg}' == '0-1'){
-					orderLotNum.value = '';
-					orderLotNum.setAttribute('disabled','disabled');
-				}else if('${amountCalcAllListMap[productNoKey][0].orderFinFlg}' == '0-2'){
-					if('${G_AmountCalcOrder.orderLotNum}' != ''){
-						orderLotNum.value = parseInt('${G_AmountCalcOrder.orderLotNum}');
-					}
-					orderLotNum.removeAttribute('disabled');
-				}
-				if('${G_AmountCalcOrder.productNo}' != '' && '${G_AmountCalcOrder.orderLotNum}' != '' && '${amountCalcAllListMap[productNoKey][0].orderFinFlg}' == '0-2'){
-					form.elements['orderBTN'].removeAttribute('disabled');
-				}else{
-					form.elements['orderBTN'].setAttribute('disabled','disabled');
-				}
+ 				//if('${amountCalcAllListMap[productNoKey][0].orderFinFlg}' == '0-2'){
+				//	orderLotNum.removeAttribute('disabled');
+				//	if('${G_AmountCalcOrder.orderLotNum}'==''){
+				//		form.elements['orderBTN'].setAttribute('disabled','disabled');
+				//	}else{
+				//		form.elements['orderBTN'].removeAttribute('disabled');
+				//	}
+				//}
 				break;
-			 }else if('${G_AmountCalcOrder.productNo}' == ''){
+			}else if('${G_AmountCalcOrder.productNo}' == ''){
 				productNo.options[0].selected = true;
 				break;
-			 }
+			}
 		}
+		docheck();
 	})
+	function docheck() {
+		// gProductNo
+		var gProductNo = form.elements['gProductNo'];
+		var judgeGProductNo = (gProductNo.value!='')?true:false;
+		if(judgeGProductNo==true){
+			gProductNo.setAttribute('data-inputRequired','true');
+		}else{
+			gProductNo.setAttribute('data-inputRequired','false');
+		}	
+		// gOrderLotNum
+		var gOrderLotNum = form.elements['gOrderLotNum'];
+		var judgeGOrderLotNum = false;
+		if(typeof gOrderLotNum!=undefined && gOrderLotNum!=null){
+			var orderNum = document.getElementById('orderNum');
+			var orderPrice = document.getElementById('orderPrice');
+			judgeGOrderLotNum = (gOrderLotNum.value>=1 && gOrderLotNum.value%1==0)?true:false;
+			if(judgeGOrderLotNum==true){
+				gOrderLotNum.setAttribute('data-inputRequired','true');
+				// 発注数[個]/発注額[円]の算出
+				var lotPcs = '${amountCalcAllListMap[productNoKey][0].lotPcs}'!=''?'${amountCalcAllListMap[productNoKey][0].lotPcs}':0;
+				var unitPrice = '${amountCalcAllListMap[productNoKey][0].unitPrice}'!=''?'${amountCalcAllListMap[productNoKey][0].unitPrice}':0;
+				orderNum.innerHTML = '：' + (gOrderLotNum.value * lotPcs);
+				orderPrice.innerHTML = '：' + (gOrderLotNum.value * lotPcs * unitPrice);
+			}else{
+				gOrderLotNum.setAttribute('data-inputRequired','false');
+				// 発注数[個]/発注額[円]の表示
+				orderNum.innerHTML = '：';
+				orderPrice.innerHTML = '：';
+			}
+		}
+		// doExecuteBTNのdisabled属性変更
+		if(document.getElementsByName('doExecuteBTN').length==1){
+			if((judgeGProductNo && judgeGOrderLotNum)==true){
+				form.elements['doExecuteBTN'].removeAttribute('disabled');
+			}else{
+				form.elements['doExecuteBTN'].setAttribute('disabled','disabled');
+			}
+		}
+	}
 }
 </script>
 </body>

@@ -14,15 +14,15 @@
 						<h1 class="h2 col-xs-6">品番マスタ画面</h1>
 						<h1 class="h3 col-xs-4 text-left">
 							<c:choose>
-									<c:when test="${empty btnSelect}">
-											<span class="label label-primary">状態：未選択</span>
-									</c:when>
-									<c:when test="${btnSelect=='insert'}">
-											<span class="label label-warning">状態：登録</span>
-									</c:when>
-									<c:when test="${btnSelect=='update'}">
-											<span class="label label-success">状態：更新</span>
-									</c:when>
+								<c:when test="${empty btnSelect}">
+									<span class="label label-primary">状態：未選択</span>
+								</c:when>
+								<c:when test="${btnSelect=='insert'}">
+									<span class="label label-warning">状態：登録</span>
+								</c:when>
+								<c:when test="${btnSelect=='update'}">
+									<span class="label label-success">状態：更新</span>
+								</c:when>
 							</c:choose>
 						</h1>
 						<div class="col-xs-2"><a href="javascript:logout()"></a></div>

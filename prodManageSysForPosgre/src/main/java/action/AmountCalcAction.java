@@ -15,19 +15,19 @@ import tool.Action;
 public class AmountCalcAction extends Action implements Runnable {
 	// Runnnableインターフェイスのメソッド｢run()｣は､引数を持てない為､
 	// AmountCalcActionDAOのメソッドに必要なインスタンス｢request｣をフィールド経由で渡そうとしたが、
-	//インスタンス｢request｣は渡せたが、「request.getSession();」でセッションのインスタンスが取得できない不具合発生
-	//その為、セッションのインスタンスをRunnnableインターフェイスのメソッド｢run()｣へ渡す事とする
+	// インスタンス｢request｣は渡せたが、「request.getSession();」でセッションのインスタンスが取得できない不具合発生
+	// その為、セッションのインスタンスをRunnnableインターフェイスのメソッド｢run()｣へ渡す事とする
 	private HttpSession session;
 
-	//コンストラクタ作成
+	// コンストラクタ作成
 	// メソッド｢run()｣にインスタンス｢request｣を渡す為の処理
-	//  FrontControllerでインスタンス化する際に必要なコンストラクタ
+	// FrontControllerでインスタンス化する際に必要なコンストラクタ
 	public AmountCalcAction() {
 	}
 
-	//コンストラクタ作成
+	// コンストラクタ作成
 	// メソッド｢run()｣にインスタンス｢request｣を渡す為の処理
-	//Thredのインスタンスを作成する際に使用するコンストラクタ
+	// Thredのインスタンスを作成する際に使用するコンストラクタ
 	public AmountCalcAction(HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		this.session = session;
@@ -44,17 +44,13 @@ public class AmountCalcAction extends Action implements Runnable {
 		// ログイン状態確認
 		// →セッション切れで､購入画面｢index.jsp｣へ遷移
 		int loginStatusCheck = new MainAction().loginStatusCheck(request, response);
-		//セッション切れ処理
+		// セッション切れ処理
 		if (loginStatusCheck == 0) {
-			request.setAttribute("message", "セッション切れの為､ログイン画面に移動しました｡");
-			//画面「amountCalc.jsp」「amountCalcOrder.jsp」で使用したセッション属性のnullクリア
-			session.setAttribute("therad", null);
-			session.setAttribute("G_AmountCalcOrder", null);
-			session.setAttribute("amountCalcOrderMSG1", null);
-			session.setAttribute("state", null);
-			new AmountCalcDAO().outPutMSG(session, null, null, null, null);
-			new AmountCalcDAO().changeAttribute(session, null, null);
-
+			// 各種セッション属性のnullクリア
+			new MainAction().crearAttributeForScreenChange(session);
+			// メッセージ作成
+			session.setAttribute("message", "セッション切れの為､ログイン画面に移動しました｡");
+			// 画面遷移先登録
 			session.setAttribute("nextJsp", "/WEB-INF/main/login.jsp");
 			return "/WEB-INF/main/login.jsp";
 		}
@@ -71,119 +67,51 @@ public class AmountCalcAction extends Action implements Runnable {
 			thread.start();
 			// キャンセル等､スレッドのハンドリングを行う為、作成したスレッドクラスのインスタンス「thread」をセッション属性に保存
 			session.setAttribute("therad", thread);
-			//AmountCalcDAOで使用するセッション属性のnullクリア
-			//  →「amountCalcProgFlg」のみ処理中の「1」へ変更
+			// AmountCalcDAOで使用するセッション属性のnullクリア
+			// →「amountCalcProgFlg」のみ処理中の「1」へ変更
 			new AmountCalcDAO().outPutMSG(session, null, null, null, "1");
 			new AmountCalcDAO().changeAttribute(session, null, null);
 			break;
-
 		case "processNow":
-			//処理状況更新を目的に、規定秒数事に「processNow」動作が行われる
-			//  →更新周期は、「header.jsp」ファイルのJavaScript「window.setTimeout()」で規定
+			// 処理状況更新を目的に、規定秒数事に「processNow」動作が行われる
+			// →更新周期は、「header.jsp」ファイルのJavaScript「window.setTimeout()」で規定
 			break;
-
 		case "goToAmountCalcOrderPage":
-			//スレッドの生存状況を確認
+			// スレッドの生存状況を確認
 			// スレッドが生存していれば「true」、そうでなければ「false」
 			thread = (Thread) session.getAttribute("therad");
 			if (thread != null && thread.isAlive() == true) {
-				//スレッドが生存していれば､スレッドの終了を待つ
+				// スレッドが生存していれば､スレッドの終了を待つ
 				thread.join();
 			}
-			//AmountCalcDAOで使用したセッション属性のnullクリア
+			// AmountCalcDAOで使用したセッション属性のnullクリア
 			session.setAttribute("therad", null);
 			new AmountCalcDAO().outPutMSG(session, null, null, null, null);
-			//画面「amountCalcOrder.jsp」へ遷移
+			// 画面「amountCalcOrder.jsp」へ遷移
 			session.setAttribute("nextJsp", "/WEB-INF/main/amountCalcOrder.jsp");
 			return "/WEB-INF/main/amountCalcOrder.jsp";
-
 		case "productNoCheck":
 		case "orderLotNumCheck":
 		case "":
-			//不要なコメント/アラートの削除
-			if ((String) session.getAttribute("amountCalcOrderMSG1") != null) {
-				session.setAttribute("amountCalcOrderMSG1", null);
-			}
-			if ((String) session.getAttribute("amountCalcOrderMSG2") != null) {
-				session.setAttribute("amountCalcOrderMSG2", null);
-			}
-			if ((String) session.getAttribute("state") != null) {
-				session.setAttribute("state", null);
-			}
-			//ページ｢amountCalcOrder.jsp｣の値をbean｢G_AmountCalcOrder.java｣に格納
+			// ページ｢amountCalcOrder.jsp｣の値をbean｢G_AmountCalcOrder.java｣に格納
 			G_AmountCalcOrder = getG_AmountCalcOrderParam(request, response);
-			//発注ロット数に値を入力した状態で、品番が空文字(発注ロット数入力欄非表示)の際の動作
-			if (G_AmountCalcOrder.getOrderLotNum() == null || G_AmountCalcOrder.getOrderLotNum().equals("")) {
-				G_AmountCalcOrder.setOrderLotNum(request.getParameter("orderLotNumBackUp"));
-			} else {
-				//インプットタグの属性に<input type="number" min="1" step="1">と記述している為､
-				//1未満の値が入らないはずだが､何故か0､マイナスの値が入力できてしまう為の処理
-				if (Double.parseDouble(G_AmountCalcOrder.getOrderLotNum()) < 1) {
-					session.setAttribute("amountCalcOrderMSG1", "1未満の値が入力されています。");
-					session.setAttribute("amountCalcOrderMSG2", "入力値をクリアします。");
-					G_AmountCalcOrder.setOrderLotNum("");
-					//1以上の数値だが、小数が入力された場合の処理
-				} else if (Double.parseDouble(G_AmountCalcOrder.getOrderLotNum()) % 1 != 0) {
-					session.setAttribute("amountCalcOrderMSG1", "小数値が入力されています。");
-					session.setAttribute("amountCalcOrderMSG2", "小数点以下を切捨てます。");
-					G_AmountCalcOrder
-							.setOrderLotNum(String.valueOf(Double.parseDouble(G_AmountCalcOrder.getOrderLotNum())
-									- Double.parseDouble(G_AmountCalcOrder.getOrderLotNum()) % 1));
-				}
-			}
-			//画面「amountCalcOrder.jsp」へ遷移
+			// 画面「amountCalcOrder.jsp」へ遷移
 			session.setAttribute("nextJsp", "/WEB-INF/main/amountCalcOrder.jsp");
 			return "/WEB-INF/main/amountCalcOrder.jsp";
-
 		case "doOrder":
-			//入力値再確認
-			//ページ｢amountCalcOrder.jsp｣の値をbean｢G_AmountCalcOrder.java｣に格納
+			// 入力値再確認
+			// ページ｢amountCalcOrder.jsp｣の値をbean｢G_AmountCalcOrder.java｣に格納
 			G_AmountCalcOrder = getG_AmountCalcOrderParam(request, response);
-			//発注ロット数に値を入力した状態で、品番が空文字(発注ロット数入力欄非表示)の際の動作
-			//JavaScriptにて､品番/発注ロット数の両者が入力されないと､発注ボタンがアクティブにならない仕様としているが､
-			//バク等で､入力状態が不十分で発注ボタンがアクティブになった際のフェールセーフ
-			if (G_AmountCalcOrder.getProductNo() == null || G_AmountCalcOrder.getProductNo().equals("")) {
-				session.setAttribute("state", "｢品番｣が選択されていません｡ 処理を終了します｡");
-				session.setAttribute("nextJsp", "/WEB-INF/main/amountCalcOrder.jsp");
-				return "/WEB-INF/main/amountCalcOrder.jsp";
-			} else if (G_AmountCalcOrder.getOrderLotNum() == null || G_AmountCalcOrder.getOrderLotNum().equals("")) {
-				session.setAttribute("state", "｢発注ロット数｣が入力されていません｡ 処理を終了します｡");
-				session.setAttribute("amountCalcOrderMSG1", "値が未入力です。");
-				session.setAttribute("amountCalcOrderMSG2", "値を入力して下さい。");
-				session.setAttribute("nextJsp", "/WEB-INF/main/amountCalcOrder.jsp");
-				return "/WEB-INF/main/amountCalcOrder.jsp";
-			} else {
-				//インプットタグの属性に<input type="number" min="1" step="1">と記述している為､
-				//1未満の値が入らないはずだが､何故か0､マイナスの値が入力できてしまう為の処理
-				if (Integer.parseInt(G_AmountCalcOrder.getOrderLotNum()) < 1) {
-					G_AmountCalcOrder.setOrderLotNum("");
-					session.setAttribute("state", "｢発注ロット数｣に不正な値が入力されています｡ 処理を終了します｡");
-					session.setAttribute("amountCalcOrderMSG1", "1未満の値が入力されています。");
-					session.setAttribute("amountCalcOrderMSG2", "値をクリアします。");
-					session.setAttribute("nextJsp", "/WEB-INF/main/amountCalcOrder.jsp");
-					return "/WEB-INF/main/amountCalcOrder.jsp";
-				}
-			}
-			//不要なコメント/アラートの削除
-			if ((String) session.getAttribute("amountCalcOrderMSG1") != null) {
-				session.setAttribute("amountCalcOrderMSG1", null);
-			}
-			if ((String) session.getAttribute("amountCalcOrderMSG2") != null) {
-				session.setAttribute("amountCalcOrderMSG2", null);
-			}
-			if ((String) session.getAttribute("state") != null) {
-				session.setAttribute("state", null);
-			}
-			//bean｢G_AmountCalcOrder.java｣の必要項目を､bean｢OrderTable.java｣へ格納
+			// bean｢G_AmountCalcOrder.java｣の必要項目を､bean｢OrderTable.java｣へ格納
 			OrderTable ot = new OrderTable();
 			ot.setSupplierNo(G_AmountCalcOrder.getSupplierNo());
 			ot.setProductNo(G_AmountCalcOrder.getProductNo());
 			ot.setOrderQty(Integer.parseInt(G_AmountCalcOrder.getOrderQty()));
 			ot.setDeliveryDate(G_AmountCalcOrder.getExpectedDeliveryDate());
 			ot.setFinFlg("0");
-			//DAO使用準備
+			// DAO使用準備
 			OrderTableDAO otDAO = new OrderTableDAO();
-			//処理結果取得準備
+			// 処理結果取得準備
 			int line = 0;
 			// 発注処理
 			// トランザクション処理準備
@@ -205,53 +133,43 @@ public class AmountCalcAction extends Action implements Runnable {
 				// トランザクション処理終了
 				con.setAutoCommit(true);
 			}
-			//発注処理後の所要量取得
-			//　→排他処理/トランザクション処理不要の為､分けて記述
+			// 発注処理後の所要量取得
+			// →排他処理/トランザクション処理不要の為､分けて記述
 			// 成功/失敗判定
 			if (line == 1) {
 				acDAO = new AmountCalcDAO();
 				acDAO.searchByOrdNo(session, ot);
 			}
-			//発注ロット数をクリアする
+			// 発注ロット数をクリアする
 			G_AmountCalcOrder.setOrderLotNum(null);
 			session.setAttribute("G_AmountCalcOrder", G_AmountCalcOrder);
 			session.setAttribute("nextJsp", "/WEB-INF/main/amountCalcOrder.jsp");
 			return "/WEB-INF/main/amountCalcOrder.jsp";
-
-		//「case "doOrder":」実施後、Webブラウザの「更新」で「case "doOrder":」が走ってしまう。
-		//その回避の為、「case "doOrder":」後のアラートダイヤログ「OK」押下で「case "aftDoOrder":」を走らせる事で、
-		//Webブラウザの「更新」動作を「case "doOrder":」から「case "aftDoOrder":」へ切り替える
+		// 「case "doOrder":」実施後、Webブラウザの「更新」で「case "doOrder":」が走ってしまう。
+		// その回避の為、「case "doOrder":」後のアラートダイヤログ「OK」押下で「case "aftDoOrder":」を走らせる事で、
+		// Webブラウザの「更新」動作を「case "doOrder":」から「case "aftDoOrder":」へ切り替える
 		case "aftDoOrder":
 			session.setAttribute("nextJsp", "/WEB-INF/main/amountCalcOrder.jsp");
 			return "/WEB-INF/main/amountCalcOrder.jsp";
-
 		case "cancel":
 			// キャンセルを行う為、セッション属性に保存指定している
-			//クラス「AmountCalcDAO」で動作中のスレッドクラスのインスタンス「thread」を取得
+			// クラス「AmountCalcDAO」で動作中のスレッドクラスのインスタンス「thread」を取得
 			thread = (Thread) session.getAttribute("therad");
-			//インスタンス「threadForCancel」へ、割り込み動作を行う
+			// インスタンス「threadForCancel」へ、割り込み動作を行う
 			thread.interrupt();
-			//スレッドの生存状況を確認
+			// スレッドの生存状況を確認
 			// スレッドが生存していれば「true」、そうでなければ「false」
 			thread = (Thread) session.getAttribute("therad");
 			if (thread != null && thread.isAlive() == true) {
-				//スレッドが生存していれば､スレッドの終了を待つ
+				// スレッドが生存していれば､スレッドの終了を待つ
 				thread.join();
 			}
 			// 参照用セッション属性をnullクリア
 			new AmountCalcDAO().changeAttribute(session, null, null);
 			break;
-
 		default:
-			// 参照用セッション属性をnullクリア
-			session.setAttribute("therad", null);
-			session.setAttribute("G_AmountCalcOrder", null);
-			session.setAttribute("amountCalcOrderMSG1", null);
-			session.setAttribute("amountCalcOrderMSG2", null);
-			session.setAttribute("state", null);
-			session.setAttribute("message", null);
-			new AmountCalcDAO().outPutMSG(session, null, null, null, null);
-			new AmountCalcDAO().changeAttribute(session, null, null);
+			// 各種セッション属性のnullクリア
+			new MainAction().crearAttributeForScreenChange(session);
 			break;
 		}
 		session.setAttribute("nextJsp", "/WEB-INF/main/amountCalc.jsp");
@@ -281,9 +199,16 @@ public class AmountCalcAction extends Action implements Runnable {
 	private G_AmountCalcOrder getG_AmountCalcOrderParam(HttpServletRequest request, HttpServletResponse response) {
 		HttpSession session = request.getSession();
 
-		//リクエストパラメーター取得
+		// リクエストパラメーター取得
 		String productNo = request.getParameter("gProductNo");
-		String orderLotNum = request.getParameter("gOrderLotNum");
+		// 非表示時の｢orderLotNum｣の値保持を目的とした細工
+		String orderLotNum;
+		String toAction = request.getParameter("toAction");
+		if (toAction.equals("orderLotNumCheck") || toAction.equals("")) {
+			orderLotNum = request.getParameter("gOrderLotNum");
+		} else {
+			orderLotNum = request.getParameter("orderLotNumBackUp");
+		}
 		String productName = request.getParameter("gProductName");
 		String supplierNo = request.getParameter("gSupplierNo");
 		String supplierName = request.getParameter("gSupplierName");
