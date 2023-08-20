@@ -63,70 +63,85 @@ function logout() {
 		 doExecute1();
 	 }
 }
-//｢*Master.jsp｣用メソッド
-//属性｢data-changeDisabled｣
-//　0:｢disabled｣制御対象外､　1:｢insert｣ボタン､　2:｢update｣ボタン､　3:テーブルのキー番号の入力欄､　4:テーブルのキー以外の入力欄
+//ボタン押下時､各タグの有効無効切り替えメソッド(=｢delete｣ボタンありなしどちらでも対応可能)
+//属性｢data-changeDisabled｣を使用
+//　0:｢disabled｣制御対象外､　1:｢insert｣ボタン､　2:｢update｣ボタン､　3:｢delete｣ボタン　4:テーブルのキー番号の入力欄､　5:テーブルのキー以外の入力欄
 function doChangeDisabled(keyValue) {
 	for(let i = 0; i < form.elements.length; i++){
 		if(btnSelect=='insert'){
 			//ボタン有効/無効切り替え
 			if(form.elements[i].getAttribute('data-changeDisabled')=='1'){
 				form.elements[i].setAttribute('disabled','disabled');
-			}else if(form.elements[i].getAttribute('data-changeDisabled')=='2'){
+			}else if(form.elements[i].getAttribute('data-changeDisabled')=='2' || form.elements[i].getAttribute('data-changeDisabled')=='3'){
 				form.elements[i].removeAttribute('disabled');
 			}
 			//入力欄有効/無効切り替え
-			if(form.elements[i].getAttribute('data-changeDisabled')=='3'){
+			if(form.elements[i].getAttribute('data-changeDisabled')=='4'){
 				form.elements[i].setAttribute('disabled','disabled');
-			}else if(form.elements[i].getAttribute('data-changeDisabled')=='4'){
+			}else if(form.elements[i].getAttribute('data-changeDisabled')=='5'){
 				form.elements[i].removeAttribute('disabled');
 			}
 		}else if(btnSelect=='update'){
 			//ボタン有効/無効切り替え
-			if(form.elements[i].getAttribute('data-changeDisabled')=='1'){
+			if(form.elements[i].getAttribute('data-changeDisabled')=='1' || form.elements[i].getAttribute('data-changeDisabled')=='3'){
 				form.elements[i].removeAttribute('disabled');
 			}else if(form.elements[i].getAttribute('data-changeDisabled')=='2'){
 				form.elements[i].setAttribute('disabled','disabled');
 			}
 			//入力欄有効/無効切り替え
 			if(keyValue!=''){
-				if(form.elements[i].getAttribute('data-changeDisabled')=='3'){
+				if(form.elements[i].getAttribute('data-changeDisabled')=='4'){
 					form.elements[i].setAttribute('disabled','disabled');
-				}else if(form.elements[i].getAttribute('data-changeDisabled')=='4'){
+				}else if(form.elements[i].getAttribute('data-changeDisabled')=='5'){
 					form.elements[i].removeAttribute('disabled');
 				}
 			}else if(keyValue==''){
-				if(form.elements[i].getAttribute('data-changeDisabled')=='3'){
+				if(form.elements[i].getAttribute('data-changeDisabled')=='4'){
 					form.elements[i].removeAttribute('disabled');
-				}else if(form.elements[i].getAttribute('data-changeDisabled')=='4'){
+				}else if(form.elements[i].getAttribute('data-changeDisabled')=='5'){
 					form.elements[i].setAttribute('disabled','disabled');
 				}
 			}
-		}else if(btnSelect==''){
+		}else if(btnSelect=='delete'){
 			//ボタン有効/無効切り替え
 			if(form.elements[i].getAttribute('data-changeDisabled')=='1' || form.elements[i].getAttribute('data-changeDisabled')=='2'){
 				form.elements[i].removeAttribute('disabled');
+			}else if(form.elements[i].getAttribute('data-changeDisabled')=='3'){
+				form.elements[i].setAttribute('disabled','disabled');
 			}
 			//入力欄有効/無効切り替え
-			if(form.elements[i].getAttribute('data-changeDisabled')=='3' || form.elements[i].getAttribute('data-changeDisabled')=='4'){
+			if(form.elements[i].getAttribute('data-changeDisabled')=='4'){
+				form.elements[i].removeAttribute('disabled');
+			}else if(form.elements[i].getAttribute('data-changeDisabled')=='5'){
+				form.elements[i].setAttribute('disabled','disabled');
+			}
+		}else if(btnSelect==''){
+			//ボタン有効/無効切り替え
+			if(form.elements[i].getAttribute('data-changeDisabled')=='1' || form.elements[i].getAttribute('data-changeDisabled')=='2' || form.elements[i].getAttribute('data-changeDisabled')=='3'){
+				form.elements[i].removeAttribute('disabled');
+			}
+			//入力欄有効/無効切り替え
+			if(form.elements[i].getAttribute('data-changeDisabled')=='4' || form.elements[i].getAttribute('data-changeDisabled')=='5'){
 				form.elements[i].setAttribute('disabled','disabled');
 			}
 		}
 	}
 }
-//｢*Master.jsp｣用メソッド
+//ボタン押下時､Java動作用メソッド(=｢delete｣ボタンありなしどちらでも対応可能)
 function btnChange(atype) {
 	//隠しデータ｢btnSelect｣の値変更
 	if(atype=='insert' && btnSelect!='insert'){
 		form.elements['btnSelect'].value = 'insert';
 	}else if(atype=='update' && btnSelect!='update'){
 		form.elements['btnSelect'].value = 'update';
+	}else if(atype=='delete' && btnSelect!='delete'){
+		form.elements['btnSelect'].value = 'delete';
 	}
 	//属性｢data-changeDisabled｣
-	//　0:｢disabled｣制御対象外､　1:｢insert｣ボタン､　2:｢update｣ボタン､　3:テーブルのキー番号の入力欄､　4:テーブルのキー以外の入力欄
+	//　0:｢disabled｣制御対象外､　1:｢insert｣ボタン､　2:｢update｣ボタン､　3:｢delete｣ボタン　4:テーブルのキー番号の入力欄､　5:テーブルのキー以外の入力欄
 	for(let i = 0; i < form.elements.length; i++){
 		//値クリア
-		if(form.elements[i].getAttribute('data-changeDisabled')=='3' || form.elements[i].getAttribute('data-changeDisabled')=='4'){
+		if(form.elements[i].getAttribute('data-changeDisabled')=='4' || form.elements[i].getAttribute('data-changeDisabled')=='5'){
 			form.elements[i].value='';
 		}
 	}
@@ -432,18 +447,6 @@ if('${nextJsp}'=='/WEB-INF/main/amountCalcOrder.jsp'){
 		for(var i=0;i<productNo.length;i++){
 			if('${G_AmountCalcOrder.productNo}' != '' && productNo.options[i].value == '${G_AmountCalcOrder.productNo}'){
 				productNo.options[i].selected = true;
- 				//フィールド｢orderFinFlg｣は､
-				// 「1：アクション(発注/納期調整)不要」
-				// 「0-2：発注が必要な品番」
-				// 「0-1：納期調整が必要な品番」
- 				//if('${amountCalcAllListMap[productNoKey][0].orderFinFlg}' == '0-2'){
-				//	orderLotNum.removeAttribute('disabled');
-				//	if('${G_AmountCalcOrder.orderLotNum}'==''){
-				//		form.elements['orderBTN'].setAttribute('disabled','disabled');
-				//	}else{
-				//		form.elements['orderBTN'].removeAttribute('disabled');
-				//	}
-				//}
 				break;
 			}else if('${G_AmountCalcOrder.productNo}' == ''){
 				productNo.options[0].selected = true;

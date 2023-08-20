@@ -17,18 +17,16 @@
 		</header>
 	<hr>
 		<div>
-			<div>
-				<%-- document.forms[2]; --%>
-				<form action="AmountCalc.action" method="post">
-					<input type="hidden" name="toAction">
-					<div class="row">
-						<div class="col-xs-1"></div>
-						<div class="col-xs-5"><button type="button" class="btn btn-primary btn-block" name="startAmountCalc" onclick="doExecute2('startAmountCalc')">所要量計算開始</button></div>
-						<div class="col-xs-5"><button type="button" class="btn btn-warning btn-block" name="cancel" onclick="doExecute2('cancel')">キャンセル</button></div>
-						<div class="col-xs-1"></div>
-					</div>
-				</form>
-			</div>
+			<%-- document.forms[2]; --%>
+			<form action="AmountCalc.action" method="post">
+				<input type="hidden" name="toAction">
+				<div class="row">
+					<div class="col-xs-1"></div>
+					<div class="col-xs-5"><button type="button" class="btn btn-primary btn-block" name="startAmountCalc" onclick="doExecute2('startAmountCalc')">所要量計算開始</button></div>
+					<div class="col-xs-5"><button type="button" class="btn btn-warning btn-block" name="cancel" onclick="doExecute2('cancel')">キャンセル</button></div>
+					<div class="col-xs-1"></div>
+				</div>
+			</form>
 		</div>
 	<hr>
 		<div class="border border-info" >
