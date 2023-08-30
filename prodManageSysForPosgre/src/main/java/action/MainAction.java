@@ -106,11 +106,12 @@ public class MainAction extends Action {
 		session.setAttribute("state", null);
 		session.setAttribute("toAction", null);
 		// 画面入力値削除
-		session.setAttribute("G_ProductMaster", null);
+		session.setAttribute("G_AmountCalcOrder", null);
 		session.setAttribute("G_CustomerMaster", null);
+		session.setAttribute("G_ProductMaster", null);
+		session.setAttribute("G_PurchaseOrder", null);
 		session.setAttribute("G_SupplierMaster", null);
 		session.setAttribute("G_UserMaster", null);
-		session.setAttribute("G_AmountCalcOrder", null);
 		// 検索値削除
 		session.setAttribute("ProductMaster", null);
 		session.setAttribute("CustomerMaster", null);

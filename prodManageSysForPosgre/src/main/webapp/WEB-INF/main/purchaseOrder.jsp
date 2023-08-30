@@ -96,10 +96,10 @@ dateset();
 	private String deliveryDate; // 納期　必須
 	
 												<c:choose>
-													<c:when test="${empty G_Order.orderDate}">
+													<c:when test="${empty G_PurchaseOrder.orderDate}">
 													</c:when>
 													<c:otherwise>
-														value="${G_Order.orderDate}"
+														value="${G_PurchaseOrder.orderDate}"
 													</c:otherwise>
 												</c:choose>
 	
@@ -136,7 +136,7 @@ dateset();
 	<hr>
 		<div>
 			<%-- document.forms[2]; --%>
-			<form action="Order.action" method="post">
+			<form action="PurchaseOrder.action" method="post">
 			    <input type="hidden" name="toAction" data-changeDisabled="0">
 				<input type="hidden" name="btnSelect" data-changeDisabled="0" value="${btnSelect}" >
 				<div class="row">
@@ -154,7 +154,7 @@ dateset();
 											maxlength="8" onkeydown="javascript:this.value=(this.value.match(/^[0-9]*$/))?this.value.slice(0, 5):'';befValue=this.value;" 
 											onkeyup="javascript: this.value = this.value.slice(0, 8);" 
 											onchange="javascript: this.value = (this.value==0 || this.value=='')?'':'PO-'+('00000'+this.value).slice(-5);doExecute2('searchPoNo');"
-											placeholder="'PO-'に続く数字(最大5桁)" value="${G_Order.poNo}"></p>
+											placeholder="'PO-'に続く数字(最大5桁)" value="${G_PurchaseOrder.poNo}"></p>
 				</div>
 				<div class="row">
 					<div class="col-xs-2"></div>
@@ -163,7 +163,7 @@ dateset();
 											maxlength="5" onkeydown="befValue=this.value;" 
 											onkeyup="this.value=(befValue==''&&this.value.match(/^[A-Za-z]+$/))?this.value.toUpperCase():(befValue!=''&&(this.value.match(/^[A-Za-z][0-9]*$/)||this.value==''))?this.value:befValue;" 
 											onchange="this.value=(this.value.substr(0,1).match(/^[A-Za-z]+$/)&&this.value.substr(1)==0)?this.value.substr(0,1):(this.value.substr(0,1).match(/^[A-Za-z]+$/)&&this.value.substr(1)!='')?this.value.substr(0,1)+('0000'+this.value.substr(1)).slice(-4):this.value;doExecute2('searchCustomerNo');" 
-											placeholder="5文字(例:A0100)" value="${G_Order.customerNo}"></p>
+											placeholder="5文字(例:A0100)" value="${G_PurchaseOrder.customerNo}"></p>
 				</div>
 				<div class="row">
 					<div class="col-xs-2"></div>
@@ -177,7 +177,7 @@ dateset();
 					<p class="col-xs-7">：<input type="number" style="width: 300px;" name="productNo" id="productNo" class="inputRequired" data-changeDisabled="5" 
 											min="0" max="9999999999" onkeyup="javascript: this.value = this.value.slice(0, 10);" 
 											onchange="javascript: this.value = this.value==0?'':('0000000000'+this.value).slice(-10);doExecute2('searchProductNo');" 
-											placeholder="10桁数字" value="${G_Order.productNo}"></p>
+											placeholder="10桁数字" value="${G_PurchaseOrder.productNo}"></p>
 				</div>
 				<div class="row">
 					<div class="col-xs-2"></div>
@@ -189,20 +189,20 @@ dateset();
 					<div class="col-xs-2"></div>
 					<label class="form-label col-xs-3 text-left" for="orderDate">受注日&nbsp;<span class="label label-danger">必須</span></label>
 					<p class="col-xs-7">：<input type="date" style="width: 300px;" name="orderDate" id="orderDate" class="inputRequired" data-changeDisabled="5"
-											 onchange="docheck();" value="${G_Order.orderDate}"></p>
+											 onchange="docheck();" value="${G_PurchaseOrder.orderDate}"></p>
 				</div>
 				<div class="row">
 					<div class="col-xs-2"></div>
 					<label class="form-label col-xs-3 text-left" for="orderQty">受注数量&nbsp;<span class="label label-danger">必須</span></label>
 					<p class="col-xs-7">：<input type="number" style="width: 300px;" name="orderQty" id="orderQty" class="inputRequired" data-inputRequired="false" data-changeDisabled="5" 
 											min="1" max="99999999" onkeyup="javascript: this.value = this.value.slice(0, 8);" onchange="docheck();" 
-											placeholder="1-99999999" value="${G_Order.orderQty}"></p>
+											placeholder="1-99999999" value="${G_PurchaseOrder.orderQty}"></p>
 				</div>
 				<div class="row">
 					<div class="col-xs-2"></div>
 					<label class="form-label col-xs-3 text-left" for="deliveryDate">納期&nbsp;<span class="label label-danger">必須</span></label>
 					<p class="col-xs-7">：<input type="date" style="width: 300px;" name="deliveryDate" id="deliveryDate" class="inputRequired" data-changeDisabled="5"
-											 onchange="docheck();" value="${G_Order.deliveryDate}"></p>
+											 onchange="docheck();" value="${G_PurchaseOrder.deliveryDate}"></p>
 				</div>
 	<hr>
 				<div class="row">

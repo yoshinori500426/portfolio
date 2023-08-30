@@ -42,7 +42,7 @@ public class UserMasterDAO extends DAO {
 	 * 引数のユーザID/パスワードに合致するレコード情報を取得するメソッド
 	 * 
 	 * @param G_UserMasterクラスのインスタンス
-	 * @return @return 該当レコードあり:UserMasterクラスのインスタンス　無:null
+	 * @return @return 該当レコードあり:UserMasterクラスのインスタンス 無:null
 	 */
 	public UserMaster searchByUM(G_UserMaster G_UserMaster) {
 		UserMaster UserMaster = null;
@@ -95,46 +95,6 @@ public class UserMasterDAO extends DAO {
 			e.printStackTrace();
 		}
 		return user;
-	}
-
-	/**
-	 * 引数のユーザIDに合致するレコードを更新するメソッド
-	 * 
-	 * @param ユーザID/パスワードが格納されたG_UserMasterクラスのインスタンス
-	 * @return 0:更新失敗 1:更新成功
-	 */
-	public int updateByUM(G_UserMaster G_UserMaster, HttpServletRequest request) {
-		// 戻り値用変数
-		int line = 0;
-		// 登録日用にCalendarクラスのオブジェクトを生成する
-		Calendar cl = Calendar.getInstance();
-		// 登録日用SimpleDateFormatクラスでフォーマットパターンを設定する
-		SimpleDateFormat sdfymd = new SimpleDateFormat("yyyy/MM/dd");
-
-		HttpSession session = request.getSession();
-		UserMaster user = (UserMaster) session.getAttribute("user");
-		try {
-			Connection con = getConnection();
-			PreparedStatement st;
-			st = con.prepareStatement("UPDATE USER_MASTER SET NAME=?, PASSWORD=?, DEPT=?, ETC=?, HIRE_DATE=?, REGIST_DATE=?, REGIST_USER=? WHERE USER_ID=?");
-			st.setString(1, G_UserMaster.getName());
-			st.setString(2, G_UserMaster.getPassword());
-			st.setString(3, G_UserMaster.getDept());
-			st.setString(4, G_UserMaster.getEtc());
-			st.setString(5, G_UserMaster.getHireDate());
-			st.setString(6, sdfymd.format(cl.getTime()));
-			st.setString(7, user.getUserId());
-			st.setString(8, G_UserMaster.getUserId());
-
-			line = st.executeUpdate();
-
-			st.close();
-			con.close();
-		} catch (Exception e) {
-			System.out.println("SQLでエラーが発生しました。");
-			e.printStackTrace();
-		}
-		return line;
 	}
 
 	/**
@@ -202,6 +162,47 @@ public class UserMasterDAO extends DAO {
 			st.setString(6, G_UserMaster.getHireDate());
 			st.setString(7, sdfymd.format(cl.getTime()));
 			st.setString(8, user.getUserId());
+
+			line = st.executeUpdate();
+
+			st.close();
+			con.close();
+		} catch (Exception e) {
+			System.out.println("SQLでエラーが発生しました。");
+			e.printStackTrace();
+		}
+		return line;
+	}
+
+	/**
+	 * 引数のユーザIDに合致するレコードを更新するメソッド
+	 * 
+	 * @param ユーザID/パスワードが格納されたG_UserMasterクラスのインスタンス
+	 * @return 0:更新失敗 1:更新成功
+	 */
+	public int updateByUM(G_UserMaster G_UserMaster, HttpServletRequest request) {
+		// 戻り値用変数
+		int line = 0;
+		// 登録日用にCalendarクラスのオブジェクトを生成する
+		Calendar cl = Calendar.getInstance();
+		// 登録日用SimpleDateFormatクラスでフォーマットパターンを設定する
+		SimpleDateFormat sdfymd = new SimpleDateFormat("yyyy/MM/dd");
+
+		HttpSession session = request.getSession();
+		UserMaster user = (UserMaster) session.getAttribute("user");
+		try {
+			Connection con = getConnection();
+			PreparedStatement st;
+			st = con.prepareStatement(
+					"UPDATE USER_MASTER SET NAME=?, PASSWORD=?, DEPT=?, ETC=?, HIRE_DATE=?, REGIST_DATE=?, REGIST_USER=? WHERE USER_ID=?");
+			st.setString(1, G_UserMaster.getName());
+			st.setString(2, G_UserMaster.getPassword());
+			st.setString(3, G_UserMaster.getDept());
+			st.setString(4, G_UserMaster.getEtc());
+			st.setString(5, G_UserMaster.getHireDate());
+			st.setString(6, sdfymd.format(cl.getTime()));
+			st.setString(7, user.getUserId());
+			st.setString(8, G_UserMaster.getUserId());
 
 			line = st.executeUpdate();
 

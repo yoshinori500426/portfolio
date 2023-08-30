@@ -11,6 +11,7 @@ import javax.servlet.http.HttpSession;
 
 import bean.CustomerMaster;
 import bean.G_CustomerMaster;
+import bean.G_PurchaseOrder;
 import bean.UserMaster;
 
 public class CustomerMasterDAO extends DAO {
@@ -48,6 +49,47 @@ public class CustomerMasterDAO extends DAO {
 			st.setString(1, G_CustomerMaster.getCustomerNo());
 			ResultSet rs = st.executeQuery();
 
+			while (rs.next()) {
+				CustomerMaster = new CustomerMaster();
+				CustomerMaster.setCustomerNo(rs.getString("CUSTOMER_NO"));
+				CustomerMaster.setCustomerName(rs.getString("CUSTOMER_NAME"));
+				CustomerMaster.setBranchName(rs.getString("BRANCH_NAME"));
+				CustomerMaster.setZipNo(rs.getString("ZIP_NO"));
+				CustomerMaster.setAddress1(rs.getString("ADDRESS1"));
+				CustomerMaster.setAddress2(rs.getString("ADDRESS2"));
+				CustomerMaster.setAddress3(rs.getString("ADDRESS3"));
+				CustomerMaster.setTel(rs.getString("TEL"));
+				CustomerMaster.setFax(rs.getString("FAX"));
+				CustomerMaster.setManager(rs.getString("MANAGER"));
+				CustomerMaster.setDelivaryLeadtime(rs.getInt("DELIVARY_LEADTIME"));
+				CustomerMaster.setEtc(rs.getString("ETC"));
+				CustomerMaster.setRegistdate(rs.getString("REGIST_DATE"));
+				CustomerMaster.setRegistuser(rs.getString("REGIST_USER"));
+			}
+			st.close();
+			con.close();
+		} catch (Exception e) {
+			System.out.println("SQLでエラーが発生しました");
+			e.printStackTrace();
+		}
+		return CustomerMaster;
+	}
+	
+	/**
+	 * 顧客先番号に合致するレコード情報を取得するメソッド
+	 * 
+	 * @param G_PurchaseOrderクラスのインスタンス
+	 * @return 該当レコードあり:CustomerMasterクラスのインスタンス　無:null
+	 */
+	public CustomerMaster searchByCusNo(G_PurchaseOrder G_PurchaseOrder) {
+		CustomerMaster CustomerMaster = null;
+		try {
+			Connection con = getConnection();
+			
+			PreparedStatement st = con.prepareStatement("SELECT * FROM CUSTOMER_MASTER WHERE CUSTOMER_NO=?");
+			st.setString(1, G_PurchaseOrder.getCustomerNo());
+			ResultSet rs = st.executeQuery();
+			
 			while (rs.next()) {
 				CustomerMaster = new CustomerMaster();
 				CustomerMaster.setCustomerNo(rs.getString("CUSTOMER_NO"));

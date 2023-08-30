@@ -21,27 +21,32 @@
             <form action="Main.action" method="post">
                 <input type="hidden" name="toAction">
                 <div class="row">
-                    <div class="col-xs-6"><button type="button" class="btn btn-primary btn-block" onclick="doExecute2('main/order.jsp')"> 受注処理</button></div>
-                    <div class="col-xs-6"><button type="button" class="btn btn-primary btn-block" onclick="doExecute2('main/entryExitInfo.jsp')">入出庫処理</button></div>
+                    <div class="col-xs-6"><button type="button" class="btn btn-primary btn-block" onclick="doExecute2('main/purchaseOrder.jsp')"> 受注処理</button></div>ここ(ファイル名変更)
+                    <div class="col-xs-6"><button type="button" class="btn btn-primary btn-block" onclick="doExecute2('main/order.jsp')"> 発注処理</button></div>ここ(新規作成)
                 </div>
                 <br>
                 <div class="row">
-                    <div class="col-xs-6"><button type="button" class="btn btn-primary btn-block" onclick="doExecute2('main/supplier.jsp')">納品処理</button></div>
                     <div class="col-xs-6"><button type="button" class="btn btn-primary btn-block" onclick="doExecute2('main/shipping.jsp')">出荷処理</button></div>
+                    <div class="col-xs-6"><button type="button" class="btn btn-primary btn-block" onclick="doExecute2('main/supplier.jsp')">納品処理</button></div>
                 </div>
                 <br>
                 <div class="row">
-                    <div class="col-xs-6"><button type="button" class="btn btn-primary btn-block" onclick="doExecute2('main/stock.jsp')">在庫確認</button></div>
                     <div class="col-xs-6"><button type="button" class="btn btn-primary btn-block" onclick="doExecute2('main/purchaseOrderList.jsp')">受注一覧</button></div>
-                </div>
-                <br>
-                <div class="row">
                     <div class="col-xs-6"><button type="button" class="btn btn-primary btn-block" onclick="doExecute2('main/orderList.jsp')">発注一覧</button></div>
-                    <div class="col-xs-6"><button type="button" class="btn btn-primary btn-block" onclick="doExecute2('main/entryExitInfoList.jsp')">入出庫一覧</button></div>
                 </div>
                 <br>
                 <div class="row">
+                    <div class="col-xs-6"><button type="button" class="btn btn-primary btn-block" onclick="doExecute2('main/entryExitInfo.jsp')">入出庫処理</button></div>
+                    <div class="col-xs-6"><button type="button" class="btn btn-primary btn-block" onclick="doExecute2('main/stock.jsp')">在庫確認</button></div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-xs-6"><button type="button" class="btn btn-primary btn-block" onclick="doExecute2('main/entryExitInfoList.jsp')">入出庫一覧</button></div>
                     <div class="col-xs-6"><button type="button" class="btn btn-primary btn-block" onclick="doExecute2('main/amountCalc.jsp')">所要量計算</button></div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-xs-6"></div>
                     <div class="col-xs-6"><button type="button" class="btn btn-success btn-block" onclick="doExecute2('main/menuMaster.jsp')">マスタ登録</button></div>
                 </div>
             </form>
