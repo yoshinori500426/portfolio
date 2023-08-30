@@ -32,6 +32,9 @@ public class PurchaseOrderAction extends Action {
 			session.setAttribute("nextJsp", "/WEB-INF/main/login.jsp");
 			return "/WEB-INF/main/login.jsp";
 		}
+		// 不要セッション属性のnullクリア
+//		session.setAttribute("alert", null);
+//		session.setAttribute("message", null);
 
 		// 使用インスタンスの格納変数を参照先「null」で宣言
 		PurchaseOrderDAO poDAO = null;
@@ -57,6 +60,7 @@ public class PurchaseOrderAction extends Action {
 		G_PurchaseOrder.setOrderDate(request.getParameter("orderDate"));
 		G_PurchaseOrder.setOrderQty(request.getParameter("orderQty"));
 		G_PurchaseOrder.setDeliveryDate(request.getParameter("deliveryDate"));
+		G_PurchaseOrder.setFinFlg(request.getParameter("finFlg"));
 		session.setAttribute("G_PurchaseOrder", G_PurchaseOrder);
 
 		// 処理種により､処理を分岐
@@ -68,40 +72,48 @@ public class PurchaseOrderAction extends Action {
 			session.setAttribute("btnSelect", btnSelect);
 			break;
 		case "searchPoNo":
-			// 不要セッション属性のnullクリア
-			session.setAttribute("alert", null);
-			session.setAttribute("message", null);
+			// PoNoのクリア動作
+			if (G_PurchaseOrder.getPoNo().isEmpty()) {
+				// 各種セッション属性のnullクリア
+				new MainAction().crearAttributeForScreenChange(session);
+				break;
+			}
 			// テーブル検索
 			poDAO = new PurchaseOrderDAO();
 			purchaseOrderForChange = poDAO.searchByPoNo(G_PurchaseOrder);
 			if (purchaseOrderForChange == null) {
+				// 各種セッション属性のnullクリア
+				new MainAction().crearAttributeForScreenChange(session);
+				// PoNo以外の項目を空欄にする
+				G_PurchaseOrder = new G_PurchaseOrder();
+				G_PurchaseOrder.setPoNo(request.getParameter("poNo"));
+				session.setAttribute("G_PurchaseOrder", G_PurchaseOrder);
+				session.setAttribute("btnSelect", btnSelect);
 				session.setAttribute("message", "入力値に該当する受注番号は存在しません。\\n入力内容を確認ください。");
 				break;
 			} else if (purchaseOrderForChange != null) {
 				if (purchaseOrderForChange.getFinFlg().equals("1")) {
+					// 出荷処理済みは､表示のみ行い､内容変更/削除不可とする
 					session.setAttribute("message", "入力値に該当する受注番号は既に出荷処理済みの為､編集不可です。\\n入力内容を確認ください。");
-					break;
-				} else if (purchaseOrderForChange.getFinFlg().equals("0")) {
-					G_PurchaseOrder.setPoNo(purchaseOrderForChange.getPoNo());
-					G_PurchaseOrder.setCustomerNo(purchaseOrderForChange.getCustomerNo());
-					G_PurchaseOrder.setProductNo(purchaseOrderForChange.getProductNo());
-					G_PurchaseOrder.setOrderDate(purchaseOrderForChange.getOrderDate());
-					G_PurchaseOrder.setOrderQty(String.valueOf(purchaseOrderForChange.getOrderQty()));
-					G_PurchaseOrder.setDeliveryDate(purchaseOrderForChange.getDeliveryDate());
-					session.setAttribute("G_PurchaseOrder", G_PurchaseOrder);
 				}
+				G_PurchaseOrder.setPoNo(purchaseOrderForChange.getPoNo());
+				G_PurchaseOrder.setCustomerNo(purchaseOrderForChange.getCustomerNo());
+				G_PurchaseOrder.setProductNo(purchaseOrderForChange.getProductNo());
+				G_PurchaseOrder.setOrderDate(purchaseOrderForChange.getOrderDate());
+				G_PurchaseOrder.setOrderQty(String.valueOf(purchaseOrderForChange.getOrderQty()));
+				G_PurchaseOrder.setDeliveryDate(purchaseOrderForChange.getDeliveryDate());
+				G_PurchaseOrder.setFinFlg(purchaseOrderForChange.getFinFlg());
+				session.setAttribute("G_PurchaseOrder", G_PurchaseOrder);
 			}
 			// ｢PoNo｣での検索結果に基づき､引き続き､｢CustomerNo｣｢ProductNo｣の検索を行う為､このStepでは｢break;｣の記述は行わない
 		case "searchCustomerNo":
-			// 不要セッション属性のnullクリア
-			session.setAttribute("alert", null);
-			session.setAttribute("message", null);
 			// テーブル検索
 			cmDAO = new CustomerMasterDAO();
 			CustomerMaster = cmDAO.searchByCusNo(G_PurchaseOrder);
-			if (CustomerMaster == null) {
-				session.setAttribute("message", "入力値に該当する顧客コードは存在しません。\\n入力内容を確認ください。");
-				break;
+			if (!G_PurchaseOrder.getCustomerNo().isEmpty()) {
+				if (CustomerMaster == null) {
+					session.setAttribute("message", "入力値に該当する顧客コードは存在しません。\\n入力内容を確認ください。");
+				}
 			}
 			session.setAttribute("CustomerMaster", CustomerMaster);
 			// ｢toAction｣の値が｢searchPoNo｣の場合､次に｢searchProductNo｣を行う為､このStepで｢break;｣させない
@@ -109,15 +121,13 @@ public class PurchaseOrderAction extends Action {
 				break;
 			}
 		case "searchProductNo":
-			// 不要セッション属性のnullクリア
-			session.setAttribute("alert", null);
-			session.setAttribute("message", null);
 			// テーブル検索
 			pmDAO = new ProductMasterDAO();
 			ProductMaster = pmDAO.searchByProNo(G_PurchaseOrder);
-			if (ProductMaster == null) {
-				session.setAttribute("message", "入力値に該当する品番は存在しません。\\n入力内容を確認ください。");
-				break;
+			if (!G_PurchaseOrder.getProductNo().isEmpty()) {
+				if (ProductMaster == null) {
+					session.setAttribute("message", "入力値に該当する品番は存在しません。\\n入力内容を確認ください。");
+				}
 			}
 			session.setAttribute("ProductMaster", ProductMaster);
 			break;

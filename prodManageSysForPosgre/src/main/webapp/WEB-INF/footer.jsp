@@ -192,7 +192,83 @@ if('${nextJsp}'=='/WEB-INF/main/login.jsp'){
 		}
 	}
 }
-	
+
+//========================================================================================================================================================================================================================
+//'purchaseOrder.jsp'
+if('${nextJsp}'=='/WEB-INF/main/purchaseOrder.jsp'){
+	window.addEventListener('load', function(){
+		docheck();
+		var keyValue = ('${G_PurchaseOrder.poNo}'!='' && '${G_PurchaseOrder.finFlg}'=='0')?'1':'';
+		doChangeDisabled(keyValue);
+		//orderDateの日付選択を最大入力日とする
+		var orderDate = form.elements['orderDate'];
+		var deliveryDate = form.elements['deliveryDate'];
+		var dayLimit = new Date();
+		dayLimit.setDate(dayLimit.getDate());
+		orderDate.setAttribute("max",dayLimit.toISOString().substr(0,10));
+		deliveryDate.setAttribute('min', orderDate.value);
+	})
+	function docheck() {
+		//customerNo
+		var customerNo = form.elements['customerNo'];
+		var customerName = form.elements['customerName'];
+		var judgeCustomerNo = (customerNo.value.match(/^[A-Z]{1}[0-9]{4}$/)!=null && customerName.value.length>=1)?true:false;
+		if(judgeCustomerNo==true){
+			customerNo.setAttribute('data-inputRequired','true');
+		}else{
+			customerNo.setAttribute('data-inputRequired','false');
+		}
+		//productNo
+		var productNo = form.elements['productNo'];
+		var productName = form.elements['productName'];
+		var judgeProductNo = (productNo.value.match(/^[0-9]{10}$/)!=null && productName.value.length>=1)?true:false;
+		if(judgeProductNo==true){
+			productNo.setAttribute('data-inputRequired','true');
+		}else{
+			productNo.setAttribute('data-inputRequired','false');
+		}
+		//orderDate 
+		var orderDate = form.elements['orderDate'];
+		var judgeOrderDate = (orderDate.value.length==10)?true:false;
+		if(judgeOrderDate==true){
+			orderDate.setAttribute('data-inputRequired','true');
+		}else{
+			orderDate.setAttribute('data-inputRequired','false');
+		}
+		//orderQty
+		var orderQty = form.elements['orderQty'];
+		var judgeOrderQty = (orderQty.value>=1 && orderQty.value<=99999999)?true:false;
+		if(judgeOrderQty==true){
+			orderQty.setAttribute('data-inputRequired','true');
+		}else{
+			orderQty.setAttribute('data-inputRequired','false');
+		}
+		//deliveryDate
+		var deliveryDate = form.elements['deliveryDate'];
+		deliveryDate.setAttribute('min', orderDate.value);
+		var judgeDeliveryDate = (deliveryDate.value.length==10)?true:false;
+		if(judgeDeliveryDate==true){
+			deliveryDate.setAttribute('data-inputRequired','true');
+		}else{
+			deliveryDate.setAttribute('data-inputRequired','false');
+		}
+		// doExecuteBTNのdisabled属性変更
+		if(document.getElementsByName('doExecuteBTN').length==1){
+			if(((judgeCustomerNo && judgeProductNo && judgeOrderDate && judgeOrderQty && judgeDeliveryDate)==true)&&('${G_PurchaseOrder.finFlg}'=='0' || '${G_PurchaseOrder.finFlg}'=='')){
+				form.elements['doExecuteBTN'].removeAttribute('disabled');
+			}else{
+				form.elements['doExecuteBTN'].setAttribute('disabled','disabled');
+			}
+		}
+	}
+}
+
+
+
+
+
+
+
 //========================================================================================================================================================================================================================
 //'productMaster.jsp'
 if('${nextJsp}'=='/WEB-INF/main/productMaster.jsp'){

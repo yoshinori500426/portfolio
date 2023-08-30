@@ -110,9 +110,12 @@ public class MainAction extends Action {
 		session.setAttribute("G_CustomerMaster", null);
 		session.setAttribute("G_ProductMaster", null);
 		session.setAttribute("G_PurchaseOrder", null);
+		session.setAttribute("G_Shipping", null);
 		session.setAttribute("G_SupplierMaster", null);
 		session.setAttribute("G_UserMaster", null);
 		// 検索値削除
+		session.setAttribute("PurchaseOrder", null);
+		session.setAttribute("OrderTable", null);
 		session.setAttribute("ProductMaster", null);
 		session.setAttribute("CustomerMaster", null);
 		session.setAttribute("SupplierMaster", null);
@@ -123,5 +126,25 @@ public class MainAction extends Action {
 		new AmountCalcDAO().changeAttribute(session, null, null);
 		// 画面「*Master.jsp」で使用したセッション属性のnullクリア
 		session.setAttribute("btnSelect", null);
+	}
+
+	/**
+	 * 日付記述方式変更用メソッド
+	 *
+	 * @param HTMLから渡される｢YYYY-MM-DDTHH:mm:ss.sssZ｣形式の日時
+	 * @return DBに入力する｢YYYY/MM/DD｣形式の日付
+	 */
+	public String dateChangeForDB(String inputDate) {
+		return (inputDate!=null && !inputDate.isEmpty())?inputDate.substring(0, 10).replace("-", "/"):"";
+	}
+
+	/**
+	 * 日付記述方式変更用メソッド
+	 *
+	 * @param HTMLから渡される｢YYYY/MM/DD｣形式の日時
+	 * @return HTMLに入力する｢YYYY-MM-DD｣形式の日付
+	 */
+	public String dateChangeForHTML(String inputDate) {
+		return (inputDate!=null && !inputDate.isEmpty())?inputDate.replace("/", "-"):"";
 	}
 }

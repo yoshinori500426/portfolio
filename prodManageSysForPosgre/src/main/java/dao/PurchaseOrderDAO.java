@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import action.MainAction;
 import bean.G_PurchaseOrder;
 import bean.G_Shipping;
 import bean.PurchaseOrder;
@@ -289,10 +290,10 @@ public class PurchaseOrderDAO extends DAO {
 				PurchaseOrder.setCustomerNo(rs.getString("CUSTOMER_NO"));
 				PurchaseOrder.setProductNo(rs.getString("PRODUCT_NO"));
 				PurchaseOrder.setOrderQty(rs.getInt("ORDER_QTY"));
-				PurchaseOrder.setDeliveryDate(rs.getString("DELIVERY_DATE"));
-				PurchaseOrder.setShipDate(rs.getString("SHIP_DATE"));
+				PurchaseOrder.setDeliveryDate(new MainAction().dateChangeForHTML(rs.getString("DELIVERY_DATE")));
+				PurchaseOrder.setShipDate(new MainAction().dateChangeForHTML(rs.getString("SHIP_DATE")));
 				PurchaseOrder.setFinFlg(rs.getString("FIN_FLG"));
-				PurchaseOrder.setOrderDate(rs.getString("ORDER_DATE"));
+				PurchaseOrder.setOrderDate(new MainAction().dateChangeForHTML(rs.getString("ORDER_DATE")));
 				PurchaseOrder.setRegistUser(rs.getString("REGIST_USER"));
 			}
 			st.close();
@@ -323,10 +324,10 @@ public class PurchaseOrderDAO extends DAO {
 				PurchaseOrder.setCustomerNo(rs.getString("CUSTOMER_NO"));
 				PurchaseOrder.setProductNo(rs.getString("PRODUCT_NO"));
 				PurchaseOrder.setOrderQty(rs.getInt("ORDER_QTY"));
-				PurchaseOrder.setDeliveryDate(rs.getString("DELIVERY_DATE"));
-				PurchaseOrder.setShipDate(rs.getString("SHIP_DATE"));
+				PurchaseOrder.setDeliveryDate(new MainAction().dateChangeForHTML(rs.getString("DELIVERY_DATE")));
+				PurchaseOrder.setShipDate(new MainAction().dateChangeForHTML(rs.getString("SHIP_DATE")));
 				PurchaseOrder.setFinFlg(rs.getString("FIN_FLG"));
-				PurchaseOrder.setOrderDate(rs.getString("ORDER_DATE"));
+				PurchaseOrder.setOrderDate(new MainAction().dateChangeForHTML(rs.getString("ORDER_DATE")));
 				PurchaseOrder.setRegistUser(rs.getString("REGIST_USER"));
 			}
 			st.close();
@@ -350,7 +351,6 @@ public class PurchaseOrderDAO extends DAO {
 		// PO_NO取得用カウンタ
 		int count = 0;
 		String PO_NO = "";
-
 		HttpSession session = request.getSession();
 		UserMaster user = (UserMaster) session.getAttribute("user");
 		try {
@@ -396,10 +396,10 @@ public class PurchaseOrderDAO extends DAO {
 			st.setString(2, G_PurchaseOrder.getCustomerNo());
 			st.setString(3, G_PurchaseOrder.getProductNo());
 			st.setInt(4, Integer.parseInt(G_PurchaseOrder.getOrderQty()));
-			st.setString(5, G_PurchaseOrder.getDeliveryDate());
+			st.setString(5, new MainAction().dateChangeForDB(G_PurchaseOrder.getDeliveryDate()));
 			st.setString(6, null); // SHIP_DATE
 			st.setString(7, "0"); // FIN_FLG
-			st.setString(8, G_PurchaseOrder.getOrderDate());
+			st.setString(8, new MainAction().dateChangeForDB(G_PurchaseOrder.getOrderDate()));
 			st.setString(9, user.getUserId());
 
 			line = st.executeUpdate();
@@ -422,7 +422,6 @@ public class PurchaseOrderDAO extends DAO {
 	public int updateByPoNo(G_PurchaseOrder G_PurchaseOrder, HttpServletRequest request) {
 		// 戻り値用変数
 		int line = 0;
-
 		HttpSession session = request.getSession();
 		UserMaster user = (UserMaster) session.getAttribute("user");
 		try {
@@ -433,8 +432,8 @@ public class PurchaseOrderDAO extends DAO {
 			st.setString(1, G_PurchaseOrder.getCustomerNo());
 			st.setString(2, G_PurchaseOrder.getProductNo());
 			st.setInt(3, Integer.parseInt(G_PurchaseOrder.getOrderQty()));
-			st.setString(4, G_PurchaseOrder.getDeliveryDate());
-			st.setString(5, G_PurchaseOrder.getOrderDate());
+			st.setString(4, new MainAction().dateChangeForDB(G_PurchaseOrder.getDeliveryDate()));
+			st.setString(5, new MainAction().dateChangeForDB(G_PurchaseOrder.getOrderDate()));
 			st.setString(6, user.getUserId());
 			st.setString(7, G_PurchaseOrder.getPoNo());
 
@@ -458,7 +457,6 @@ public class PurchaseOrderDAO extends DAO {
 	public int updateByPoNo(G_Shipping G_Shipping, HttpServletRequest request) {
 		// 戻り値用変数
 		int line = 0;
-
 		HttpSession session = request.getSession();
 		UserMaster user = (UserMaster) session.getAttribute("user");
 		try {
@@ -469,10 +467,10 @@ public class PurchaseOrderDAO extends DAO {
 			st.setString(1, G_Shipping.getCustomerNo());
 			st.setString(2, G_Shipping.getProductNo());
 			st.setInt(3, Integer.parseInt(G_Shipping.getOrderQty()));
-			st.setString(4, G_Shipping.getDeliveryDate());
-			st.setString(5, G_Shipping.getShipDate());
+			st.setString(4, new MainAction().dateChangeForDB(G_Shipping.getDeliveryDate()));
+			st.setString(5, new MainAction().dateChangeForDB(G_Shipping.getShipDate()));
 			st.setString(6, "1"); // FIN_FLG
-			st.setString(7, G_Shipping.getOrderDate());
+			st.setString(7, new MainAction().dateChangeForDB(G_Shipping.getOrderDate()));
 			st.setString(8, user.getUserId());
 			st.setString(9, G_Shipping.getPoNo());
 
@@ -496,7 +494,6 @@ public class PurchaseOrderDAO extends DAO {
 	public int delete(G_PurchaseOrder G_PurchaseOrder, HttpServletRequest request) {
 		// 戻り値用変数
 		int line = 0;
-		
 		try {
 			Connection con = getConnection();
 			PreparedStatement st;
@@ -507,7 +504,6 @@ public class PurchaseOrderDAO extends DAO {
 			
 			st.close();
 			con.close();
-
 		} catch (Exception e) {
 			System.out.println("SQLでエラーが発生しました。");
 			e.printStackTrace();

@@ -10,6 +10,7 @@ public class G_PurchaseOrder {
 	private String orderDate; // 受注日(=登録日)
 	private String orderQty; // 受注数量
 	private String deliveryDate; // 納期
+	private String finFlg; // 完了フラグ
 
 	public String getPoNo() {
 		return poNo;
@@ -73,5 +74,13 @@ public class G_PurchaseOrder {
 
 	public void setDeliveryDate(String deliveryDate) {
 		this.deliveryDate = deliveryDate;
+	}
+
+	public String getFinFlg() {
+		return finFlg;
+	}
+
+	public void setFinFlg(String finFlg) {
+		this.finFlg = finFlg;
 	}
 }
