@@ -4,7 +4,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -54,8 +56,8 @@ public class UserMasterDAO extends DAO {
 			ResultSet rs = st.executeQuery();
 			while (rs.next()) {
 				UserMaster = new UserMaster();
-				UserMaster.setUserId(rs.getString("user_id"));
-				UserMaster.setName(rs.getString("name"));
+				UserMaster.setUserId(rs.getString("USER_ID"));
+				UserMaster.setName(rs.getString("NAME"));
 			}
 			st.close();
 			con.close();
@@ -73,20 +75,20 @@ public class UserMasterDAO extends DAO {
 	 * @return 該当データあり:UserMasterBean、無:null
 	 */
 	public UserMaster searchByID(G_UserMaster G_UserMaster) {
-		UserMaster user = null;
+		UserMaster UserMaster = null;
 		try {
 			Connection con = getConnection();
 			PreparedStatement st = con.prepareStatement("SELECT * FROM USER_MASTER WHERE USER_ID=?");
 			st.setString(1, G_UserMaster.getUserId());
 			ResultSet rs = st.executeQuery();
 			while (rs.next()) {
-				user = new UserMaster();
-				user.setUserId(rs.getString("user_id"));
-				user.setName(rs.getString("name"));
-				user.setPassword(rs.getString("password"));
-				user.setDept(rs.getString("dept"));
-				user.setEtc(rs.getString("etc"));
-				user.setHireDate(rs.getString("hire_date"));
+				UserMaster = new UserMaster();
+				UserMaster.setUserId(rs.getString("USER_ID"));
+				UserMaster.setName(rs.getString("NAME"));
+				UserMaster.setPassword(rs.getString("PASSWORD"));
+				UserMaster.setDept(rs.getString("DEPT"));
+				UserMaster.setEtc(rs.getString("ETC"));
+				UserMaster.setHireDate(rs.getString("HIRE_DATE"));
 			}
 			st.close();
 			con.close();
@@ -94,7 +96,37 @@ public class UserMasterDAO extends DAO {
 			System.out.println("SQLでエラーが発生しました。");
 			e.printStackTrace();
 		}
-		return user;
+		return UserMaster;
+	}
+
+	/**
+	 * UserMasterテーブル取得メソッド(検索条件なし) →USER_IDリスト取得用メソッド
+	 *
+	 * @param 引数無し
+	 * @return List<UserMaster> 「null：失敗」「null以外：成功」
+	 */
+	public List<UserMaster> searchAll() {
+		// 戻り値用の変数宣言
+		List<UserMaster> UserMasterList = new ArrayList<>();
+		UserMaster UserMaster = null;
+		try {
+			Connection con = getConnection();
+			PreparedStatement st;
+			st = con.prepareStatement("SELECT * FROM USER_MASTER ORDER BY USER_ID ASC");
+			ResultSet rs = st.executeQuery();
+			while (rs.next()) {
+				UserMaster = new UserMaster();
+				UserMaster.setUserId(rs.getString("USER_ID"));
+				UserMaster.setName(rs.getString("NAME"));
+				UserMasterList.add(UserMaster);
+			}
+			st.close();
+			con.close();
+		} catch (Exception e) {
+			System.out.println("SQLでエラーが発生しました。");
+			e.printStackTrace();
+		}
+		return UserMasterList;
 	}
 
 	/**
@@ -113,15 +145,14 @@ public class UserMasterDAO extends DAO {
 		Calendar cl = Calendar.getInstance();
 		// 登録日用SimpleDateFormatクラスでフォーマットパターンを設定する
 		SimpleDateFormat sdfymd = new SimpleDateFormat("yyyy/MM/dd");
-
+		// ｢REGIST_USER｣が格納されたインスタンス取得
 		HttpSession session = request.getSession();
 		UserMaster user = (UserMaster) session.getAttribute("user");
 		try {
 			Connection con = getConnection();
 			PreparedStatement st = null;
 			ResultSet rs = null;
-			UserMaster userMaster = null;
-
+			UserMaster UserMaster = null;
 			// USER_ID作成
 			do {
 				// 注文番号のシーケンス値取得
@@ -141,8 +172,8 @@ public class UserMasterDAO extends DAO {
 				// 作成した注文番号の未使用確認
 				G_UserMaster G_um = new G_UserMaster();
 				G_um.setUserId(USER_ID);
-				userMaster = searchByID(G_um);
-				if (userMaster == null) {
+				UserMaster = searchByID(G_um);
+				if (UserMaster == null) {
 					// 使用可能
 					break;
 				} else if (count >= 200000) {
@@ -152,7 +183,7 @@ public class UserMasterDAO extends DAO {
 				// ORDER_NO取得用カウンタ、カウントアップ
 				count++;
 			} while (true);
-
+			// 新規登録処理
 			st = con.prepareStatement("INSERT INTO USER_MASTER VALUES(?, ?, ?, ?, ?, ?, ?, ?)");
 			st.setString(1, USER_ID);
 			st.setString(2, G_UserMaster.getName());
@@ -162,9 +193,7 @@ public class UserMasterDAO extends DAO {
 			st.setString(6, G_UserMaster.getHireDate());
 			st.setString(7, sdfymd.format(cl.getTime()));
 			st.setString(8, user.getUserId());
-
 			line = st.executeUpdate();
-
 			st.close();
 			con.close();
 		} catch (Exception e) {
@@ -187,14 +216,13 @@ public class UserMasterDAO extends DAO {
 		Calendar cl = Calendar.getInstance();
 		// 登録日用SimpleDateFormatクラスでフォーマットパターンを設定する
 		SimpleDateFormat sdfymd = new SimpleDateFormat("yyyy/MM/dd");
-
+		// ｢REGIST_USER｣が格納されたインスタンス取得
 		HttpSession session = request.getSession();
 		UserMaster user = (UserMaster) session.getAttribute("user");
 		try {
 			Connection con = getConnection();
 			PreparedStatement st;
-			st = con.prepareStatement(
-					"UPDATE USER_MASTER SET NAME=?, PASSWORD=?, DEPT=?, ETC=?, HIRE_DATE=?, REGIST_DATE=?, REGIST_USER=? WHERE USER_ID=?");
+			st = con.prepareStatement("UPDATE USER_MASTER SET NAME=?, PASSWORD=?, DEPT=?, ETC=?, HIRE_DATE=?, REGIST_DATE=?, REGIST_USER=? WHERE USER_ID=?");
 			st.setString(1, G_UserMaster.getName());
 			st.setString(2, G_UserMaster.getPassword());
 			st.setString(3, G_UserMaster.getDept());
@@ -203,9 +231,7 @@ public class UserMasterDAO extends DAO {
 			st.setString(6, sdfymd.format(cl.getTime()));
 			st.setString(7, user.getUserId());
 			st.setString(8, G_UserMaster.getUserId());
-
 			line = st.executeUpdate();
-
 			st.close();
 			con.close();
 		} catch (Exception e) {

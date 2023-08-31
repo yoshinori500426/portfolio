@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ include file="../header.jsp"%>
 <%--
 --%>
@@ -45,10 +46,15 @@
 				<div class="row">
 					<div class="col-xs-2"></div>
 					<label class="form-label col-xs-3 text-left" for="userId">ユーザID</label>
-					<p class="col-xs-7">：<input type="number"  style="width: 300px;" name="userId" id="userId" data-changeDisabled="4" 
+					<p class="col-xs-7">：<input type="number"  style="width: 300px;" list="userIdList" name="userId" id="userId" data-changeDisabled="4" 
 											min="0" max="999999" step="1" onkeyup="javascript: this.value = this.value.slice(0, 6);" 
 											onchange="javascript: this.value = this.value==0?'':('000000'+this.value).slice(-6);doExecute2('searchUserID');" 
-											placeholder="6桁数字" value="${G_UserMaster.userId}"></p>
+											placeholder="6桁数字" value="${G_UserMaster.userId}">
+											<datalist id="userIdList">
+												<c:forEach var="uml" items="${UserMasterList}" >
+													<option value="${uml.userId}" label="ユーザID:${uml.userId}, ユーザ名:${uml.name}">
+												</c:forEach>
+											</datalist></p>
 				</div>
 				<div class="row">
 					<div class="col-xs-2"></div>

@@ -1,6 +1,7 @@
 package action;
 
 import java.sql.Connection;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -30,19 +31,20 @@ public class ProductMasterAction extends Action {
 			session.setAttribute("nextJsp", "/WEB-INF/main/login.jsp");
 			return "/WEB-INF/main/login.jsp";
 		}
-
+		// 使用DAOインスタンス取得
+		ProductMasterDAO pmDAO = new ProductMasterDAO();
+		SupplierMasterDAO smDAO = new SupplierMasterDAO();
 		// 使用インスタンスの格納変数を参照先「null」で宣言
-		ProductMasterDAO pmDAO = null;
+		SupplierMaster supplier = null;
 		ProductMaster productForChange = null;
-		SupplierMasterDAO smDAO = null;
+		List<ProductMaster> ProductMasterList = null;
 		SupplierMaster SupplierMaster = null;
-
+		List<SupplierMaster> SupplierMasterList = null;
 		// このインスタンスで行う処理を取得(リクエストパラメータ取得)
 		String toAction = request.getParameter("toAction");
 		String btnSelect = request.getParameter("btnSelect");
 		session.setAttribute("toAction", toAction);
 		session.setAttribute("btnSelect", btnSelect);
-
 		// 画面情報取得
 		G_ProductMaster G_ProductMaster = new G_ProductMaster();
 		G_ProductMaster.setProductNo(request.getParameter("productNo"));
@@ -57,10 +59,10 @@ public class ProductMasterAction extends Action {
 		G_ProductMaster.setEtc(request.getParameter("etc"));
 		session.setAttribute("G_ProductMaster", G_ProductMaster);
 		// 仕入先名は､画面に直接入力するのではなく､仕入先コードの検索結果を表示させるため､｢G_ProductMaster｣には含めない
-		SupplierMaster supplier = new SupplierMaster();
+		supplier = new SupplierMaster();
 		supplier.setSupplierName(request.getParameter("supplierName"));
 		session.setAttribute("SupplierMaster", supplier);
-
+		// 処理種により､処理を分岐
 		switch (toAction) {
 		case "btnSelect":
 			// 「session.setAttribute("btnSelect", btnSelect);」を行う為の動作
@@ -69,11 +71,7 @@ public class ProductMasterAction extends Action {
 			session.setAttribute("btnSelect", btnSelect);
 			break;
 		case "searchProductNo":
-			// 不要セッション属性のnullクリア
-			session.setAttribute("alert", null);
-			session.setAttribute("message", null);
 			// テーブル検索
-			pmDAO = new ProductMasterDAO();
 			productForChange = pmDAO.searchByProNo(G_ProductMaster);
 			if (productForChange == null) {
 				session.setAttribute("message", "入力値に該当する品番は存在しません。\\n入力内容を確認ください。");
@@ -97,12 +95,7 @@ public class ProductMasterAction extends Action {
 				session.setAttribute("SupplierMaster", null);
 				break;
 			}
-			// 不要セッション属性のnullクリア
-			session.setAttribute("alert", null);
-			session.setAttribute("message", null);
-
 			// テーブル検索
-			smDAO = new SupplierMasterDAO();
 			SupplierMaster = smDAO.searchBySupNo(G_ProductMaster.getSupplierNo());
 			if (SupplierMaster == null) {
 				session.setAttribute("message", "入力値に該当する仕入先コードは存在しません。\\n入力内容を確認ください。");
@@ -115,7 +108,6 @@ public class ProductMasterAction extends Action {
 		case "doBTNExecute":
 			int line = 0;
 			// トランザクション処理準備
-			pmDAO = new ProductMasterDAO();
 			Connection con = pmDAO.getConnection();
 			// 排他制御
 			synchronized (this) {
@@ -150,8 +142,13 @@ public class ProductMasterAction extends Action {
 			new MainAction().crearAttributeForScreenChange(session);
 			break;
 		}
+		// プルダウン用リスト取得
+		ProductMasterList = pmDAO.searchAll();
+		session.setAttribute("ProductMasterList", ProductMasterList);
+		SupplierMasterList = smDAO.searchAll();
+		session.setAttribute("SupplierMasterList", SupplierMasterList);
+		// 遷移画面情報保存
 		session.setAttribute("nextJsp", "/WEB-INF/main/productMaster.jsp");
 		return "/WEB-INF/main/productMaster.jsp";
 	}
-
 }

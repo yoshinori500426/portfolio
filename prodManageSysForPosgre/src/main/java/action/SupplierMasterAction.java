@@ -1,6 +1,7 @@
 package action;
 
 import java.sql.Connection;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -127,17 +128,16 @@ public class SupplierMasterAction extends Action {
 			session.setAttribute("nextJsp", "/WEB-INF/main/login.jsp");
 			return "/WEB-INF/main/login.jsp";
 		}
-
+		// 使用DAOインスタンス取得
+		SupplierMasterDAO smDAO = new SupplierMasterDAO();
 		// 使用インスタンスの格納変数を参照先「null」で宣言
-		SupplierMasterDAO smDAO = null;
 		SupplierMaster supplierForChange = null;
-
+		List<SupplierMaster> SupplierMasterList = null;
 		// このインスタンスで行う処理を取得(リクエストパラメータ取得)
 		String toAction = request.getParameter("toAction");
 		String btnSelect = request.getParameter("btnSelect");
 		session.setAttribute("toAction", toAction);
 		session.setAttribute("btnSelect", btnSelect);
-
 		// 画面情報取得
 		G_SupplierMaster G_SupplierMaster = new G_SupplierMaster();
 		G_SupplierMaster.setSupplierNo(request.getParameter("supplierNo"));
@@ -152,7 +152,7 @@ public class SupplierMasterAction extends Action {
 		G_SupplierMaster.setManager(request.getParameter("manager"));
 		G_SupplierMaster.setEtc(request.getParameter("etc"));
 		session.setAttribute("G_SupplierMaster", G_SupplierMaster);
-
+		// 処理種により､処理を分岐
 		switch (toAction) {
 		case "btnSelect":
 			// 「session.setAttribute("btnSelect", btnSelect);」を行う為の動作
@@ -161,11 +161,7 @@ public class SupplierMasterAction extends Action {
 			session.setAttribute("btnSelect", btnSelect);
 			break;
 		case "searchSupplierNo":
-			// 不要セッション属性のnullクリア
-			session.setAttribute("alert", null);
-			session.setAttribute("message", null);
 			// テーブル検索
-			smDAO = new SupplierMasterDAO();
 			supplierForChange = smDAO.searchBySupNo(G_SupplierMaster);
 			if (supplierForChange == null) {
 				session.setAttribute("message", "入力値に該当する仕入先コードは存在しません。\\n入力内容を確認ください。");
@@ -188,7 +184,6 @@ public class SupplierMasterAction extends Action {
 		case "doBTNExecute":
 			int line = 0;
 			// トランザクション処理準備
-			smDAO = new SupplierMasterDAO();
 			Connection con = smDAO.getConnection();
 			// 排他制御
 			synchronized (this) {
@@ -223,6 +218,10 @@ public class SupplierMasterAction extends Action {
 			new MainAction().crearAttributeForScreenChange(session);
 			break;
 		}
+		// プルダウン用リスト取得
+		SupplierMasterList = smDAO.searchAll();
+		session.setAttribute("SupplierMasterList", SupplierMasterList);
+		// 遷移画面情報保存
 		session.setAttribute("nextJsp", "/WEB-INF/main/supplierMaster.jsp");
 		return "/WEB-INF/main/supplierMaster.jsp";
 	}

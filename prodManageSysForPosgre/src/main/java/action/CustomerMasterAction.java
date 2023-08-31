@@ -1,6 +1,7 @@
 package action;
 
 import java.sql.Connection;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -199,17 +200,16 @@ public class CustomerMasterAction extends Action {
 			session.setAttribute("nextJsp", "/WEB-INF/main/login.jsp");
 			return "/WEB-INF/main/login.jsp";
 		}
-
+		// 使用DAOインスタンス取得
+		CustomerMasterDAO cmDAO = new CustomerMasterDAO();
 		// 使用インスタンスの格納変数を参照先「null」で宣言
-		CustomerMasterDAO cmDAO = null;
 		CustomerMaster customerForChange = null;
-
+		List<CustomerMaster> CustomerMasterList = null;
 		// このインスタンスで行う処理を取得(リクエストパラメータ取得)
 		String toAction = request.getParameter("toAction");
 		String btnSelect = request.getParameter("btnSelect");
 		session.setAttribute("toAction", toAction);
 		session.setAttribute("btnSelect", btnSelect);
-
 		// 画面情報取得
 		G_CustomerMaster G_CustomerMaster = new G_CustomerMaster();
 		G_CustomerMaster.setCustomerNo(request.getParameter("customerNo"));
@@ -225,7 +225,7 @@ public class CustomerMasterAction extends Action {
 		G_CustomerMaster.setDelivaryLeadtime(request.getParameter("delivaryLeadtime"));
 		G_CustomerMaster.setEtc(request.getParameter("etc"));
 		session.setAttribute("G_CustomerMaster", G_CustomerMaster);
-
+		// 処理種により､処理を分岐
 		switch (toAction) {
 		case "btnSelect":
 			// 「session.setAttribute("btnSelect", btnSelect);」を行う為の動作
@@ -234,11 +234,7 @@ public class CustomerMasterAction extends Action {
 			session.setAttribute("btnSelect", btnSelect);
 			break;
 		case "searchCustomerNo":
-			// 不要セッション属性のnullクリア
-			session.setAttribute("alert", null);
-			session.setAttribute("message", null);
 			// テーブル検索
-			cmDAO = new CustomerMasterDAO();
 			customerForChange = cmDAO.searchByCusNo(G_CustomerMaster);
 			if (customerForChange == null) {
 				session.setAttribute("message", "入力値に該当する顧客コードは存在しません。\\n入力内容を確認ください。");
@@ -262,7 +258,6 @@ public class CustomerMasterAction extends Action {
 		case "doBTNExecute":
 			int line = 0;
 			// トランザクション処理準備
-			cmDAO = new CustomerMasterDAO();
 			Connection con = cmDAO.getConnection();
 			// 排他制御
 			synchronized (this) {
@@ -297,6 +292,10 @@ public class CustomerMasterAction extends Action {
 			new MainAction().crearAttributeForScreenChange(session);
 			break;
 		}
+		// プルダウン用リスト取得
+		CustomerMasterList = cmDAO.searchAll();
+		session.setAttribute("CustomerMasterList", CustomerMasterList);
+		// 遷移画面情報保存
 		session.setAttribute("nextJsp", "/WEB-INF/main/customerMaster.jsp");
 		return "/WEB-INF/main/customerMaster.jsp";
 	}

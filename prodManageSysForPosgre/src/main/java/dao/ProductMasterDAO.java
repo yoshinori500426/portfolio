@@ -4,11 +4,14 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import bean.G_Order;
 import bean.G_ProductMaster;
 import bean.G_PurchaseOrder;
 import bean.ProductMaster;
@@ -71,23 +74,59 @@ public class ProductMasterDAO extends DAO {
 //	con.close();
 //	return ProductMaster;
 //}
-	
+
 	/**
 	 * 品番に合致するレコード情報を取得するメソッド
 	 * 
 	 * @param G_ProductMasterクラスのインスタンス
-	 * @return 該当レコードあり:ProductMasterクラスのインスタンス　無:null
+	 * @return 該当レコードあり:ProductMasterクラスのインスタンス 無:null
 	 */
 	public ProductMaster searchByProNo(G_ProductMaster G_ProductMaster) {
 		ProductMaster ProductMaster = null;
 		try {
 			Connection con = getConnection();
-			
 			PreparedStatement st;
 			st = con.prepareStatement("SELECT * FROM PRODUCT_MASTER WHERE PRODUCT_NO=?");
 			st.setString(1, G_ProductMaster.getProductNo());
 			ResultSet rs = st.executeQuery();
-			
+			while (rs.next()) {
+				ProductMaster = new ProductMaster();
+				ProductMaster.setProductNo(rs.getString("PRODUCT_NO"));
+				ProductMaster.setProductName(rs.getString("PRODUCT_NAME"));
+				ProductMaster.setSupplierNo(rs.getString("SUPPLIER_NO"));
+				ProductMaster.setUnitPrice(rs.getInt("UNIT_PRICE"));
+				ProductMaster.setSellingPrice(rs.getInt("SELLING_PRICE"));
+				ProductMaster.setLeadTime(rs.getInt("LEADTIME"));
+				ProductMaster.setLot(rs.getInt("LOT"));
+				ProductMaster.setLocation(rs.getString("LOCATION"));
+				ProductMaster.setBaseStock(Integer.parseInt(rs.getString("BASESTOCK")));
+				ProductMaster.setEtc(rs.getString("ETC"));
+				ProductMaster.setRegistDate(rs.getString("REGIST_DATE"));
+				ProductMaster.setRegistUser(rs.getString("REGIST_USER"));
+			}
+			st.close();
+			con.close();
+		} catch (Exception e) {
+			System.out.println("SQLでエラーが発生しました。");
+			e.printStackTrace();
+		}
+		return ProductMaster;
+	}
+
+	/**
+	 * 品番に合致するレコード情報を取得するメソッド
+	 * 
+	 * @param G_PurchaseOrderクラスのインスタンス
+	 * @return 該当レコードあり:ProductMasterクラスのインスタンス 無:null
+	 */
+	public ProductMaster searchByProNo(G_PurchaseOrder G_PurchaseOrder) {
+		ProductMaster ProductMaster = null;
+		try {
+			Connection con = getConnection();
+			PreparedStatement st;
+			st = con.prepareStatement("SELECT * FROM PRODUCT_MASTER WHERE PRODUCT_NO=?");
+			st.setString(1, G_PurchaseOrder.getProductNo());
+			ResultSet rs = st.executeQuery();
 			while (rs.next()) {
 				ProductMaster = new ProductMaster();
 				ProductMaster.setProductNo(rs.getString("PRODUCT_NO"));
@@ -115,19 +154,17 @@ public class ProductMasterDAO extends DAO {
 	/**
 	 * 品番に合致するレコード情報を取得するメソッド
 	 * 
-	 * @param G_ProductMasterクラスのインスタンス
-	 * @return 該当レコードあり:ProductMasterクラスのインスタンス　無:null
+	 * @param G_Orderのインスタンス
+	 * @return 該当レコードあり:ProductMasterクラスのインスタンス 無:null
 	 */
-	public ProductMaster searchByProNo(G_PurchaseOrder G_PurchaseOrder) {
+	public ProductMaster searchByProNo(G_Order G_Order) {
 		ProductMaster ProductMaster = null;
 		try {
 			Connection con = getConnection();
-			
 			PreparedStatement st;
 			st = con.prepareStatement("SELECT * FROM PRODUCT_MASTER WHERE PRODUCT_NO=?");
-			st.setString(1, G_PurchaseOrder.getProductNo());
+			st.setString(1, G_Order.getProductNo());
 			ResultSet rs = st.executeQuery();
-			
 			while (rs.next()) {
 				ProductMaster = new ProductMaster();
 				ProductMaster.setProductNo(rs.getString("PRODUCT_NO"));
@@ -150,6 +187,46 @@ public class ProductMasterDAO extends DAO {
 			e.printStackTrace();
 		}
 		return ProductMaster;
+	}
+
+	/**
+	 * ProductMasterテーブル取得メソッド(検索条件なし) →PRODUCT_NOリスト取得用メソッド
+	 *
+	 * @param 引数無し
+	 * @return List<ProductMaster> 「null：失敗」「null以外：成功」
+	 */
+	public List<ProductMaster> searchAll() {
+		// 戻り値用の変数宣言
+		List<ProductMaster> ProductMasterList = new ArrayList<>();
+		ProductMaster ProductMaster = null;
+		try {
+			Connection con = getConnection();
+			PreparedStatement st;
+			st = con.prepareStatement("SELECT * FROM PRODUCT_MASTER ORDER BY PRODUCT_NO ASC");
+			ResultSet rs = st.executeQuery();
+			while (rs.next()) {
+				ProductMaster = new ProductMaster();
+				ProductMaster.setProductNo(rs.getString("PRODUCT_NO"));
+				ProductMaster.setProductName(rs.getString("PRODUCT_NAME"));
+				ProductMaster.setSupplierNo(rs.getString("SUPPLIER_NO"));
+				ProductMaster.setUnitPrice(rs.getInt("UNIT_PRICE"));
+				ProductMaster.setSellingPrice(rs.getInt("SELLING_PRICE"));
+				ProductMaster.setLeadTime(rs.getInt("LEADTIME"));
+				ProductMaster.setLot(rs.getInt("LOT"));
+				ProductMaster.setLocation(rs.getString("LOCATION"));
+				ProductMaster.setBaseStock(Integer.parseInt(rs.getString("BASESTOCK")));
+				ProductMaster.setEtc(rs.getString("ETC"));
+				ProductMaster.setRegistDate(rs.getString("REGIST_DATE"));
+				ProductMaster.setRegistUser(rs.getString("REGIST_USER"));
+				ProductMasterList.add(ProductMaster);
+			}
+			st.close();
+			con.close();
+		} catch (Exception e) {
+			System.out.println("SQLでエラーが発生しました。");
+			e.printStackTrace();
+		}
+		return ProductMasterList;
 	}
 
 	/**
@@ -165,14 +242,14 @@ public class ProductMasterDAO extends DAO {
 		Calendar cl = Calendar.getInstance();
 		// 登録日用SimpleDateFormatクラスでフォーマットパターンを設定する
 		SimpleDateFormat sdfymd = new SimpleDateFormat("yyyy/MM/dd");
-
+		// ｢REGIST_USER｣が格納されたインスタンス取得
 		HttpSession session = request.getSession();
 		UserMaster user = (UserMaster) session.getAttribute("user");
 		try {
 			Connection con = getConnection();
 			PreparedStatement st;
-			st = con.prepareStatement("UPDATE PRODUCT_MASTER SET PRODUCT_NAME=?, SUPPLIER_NO=?, UNIT_PRICE=?, SELLING_PRICE=?, LEADTIME=?, LOT=?, LOCATION=?, "
-																+ "BASESTOCK=?, ETC=?, REGIST_DATE=?, REGIST_USER=? WHERE PRODUCT_NO=?");
+			st = con.prepareStatement("UPDATE PRODUCT_MASTER SET PRODUCT_NAME=?, SUPPLIER_NO=?, UNIT_PRICE=?, SELLING_PRICE=?, LEADTIME=?,"
+										+ " LOT=?, LOCATION=?, BASESTOCK=?, ETC=?, REGIST_DATE=?, REGIST_USER=? WHERE PRODUCT_NO=?");
 			st.setString(1, G_ProductMaster.getProductName());
 			st.setString(2, G_ProductMaster.getSupplierNo());
 			st.setInt(3, Integer.parseInt(G_ProductMaster.getUnitPrice()));
@@ -185,9 +262,7 @@ public class ProductMasterDAO extends DAO {
 			st.setString(10, sdfymd.format(cl.getTime()));
 			st.setString(11, user.getUserId());
 			st.setString(12, G_ProductMaster.getProductNo());
-
 			line = st.executeUpdate();
-
 			st.close();
 			con.close();
 		} catch (Exception e) {
@@ -213,7 +288,7 @@ public class ProductMasterDAO extends DAO {
 		Calendar cl = Calendar.getInstance();
 		// 登録日用SimpleDateFormatクラスでフォーマットパターンを設定する
 		SimpleDateFormat sdfymd = new SimpleDateFormat("yyyy/MM/dd");
-		
+		// ｢REGIST_USER｣が格納されたインスタンス取得
 		HttpSession session = request.getSession();
 		UserMaster user = (UserMaster) session.getAttribute("user");
 		try {
@@ -221,7 +296,6 @@ public class ProductMasterDAO extends DAO {
 			PreparedStatement st = null;
 			ResultSet rs = null;
 			ProductMaster ProductMaster = null;
-			
 			// PRODUCT_NO作成
 			do {
 				// 注文番号のシーケンス値取得
@@ -252,7 +326,7 @@ public class ProductMasterDAO extends DAO {
 				// ORDER_NO取得用カウンタ、カウントアップ
 				count++;
 			} while (true);
-			
+			// 新規登録処理
 			st = con.prepareStatement("INSERT INTO PRODUCT_MASTER VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 			st.setString(1, PRODUCT_NO);
 			st.setString(2, G_ProductMaster.getProductName());
@@ -266,9 +340,7 @@ public class ProductMasterDAO extends DAO {
 			st.setString(10, G_ProductMaster.getEtc());
 			st.setString(11, sdfymd.format(cl.getTime()));
 			st.setString(12, user.getUserId());
-			
 			line = st.executeUpdate();
-			
 			st.close();
 			con.close();
 		} catch (Exception e) {

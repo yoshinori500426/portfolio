@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ include file="../header.jsp"%>
 <%--
 --%>
@@ -45,10 +46,15 @@
 				<div class="row">
 					<div class="col-xs-2"></div>
 					<label class="form-label col-xs-3 text-left" for="productNo">品番</label>
-					<p class="col-xs-7">：<input type="number" style="width: 300px;" name="productNo" id="productNo" data-changeDisabled="4" 
+					<p class="col-xs-7">：<input type="number" style="width: 300px;" list="productNoList" name="productNo" id="productNo" data-changeDisabled="4" 
 											min="0" max="9999999999" onkeyup="javascript: this.value = this.value.slice(0, 10);" 
 											onchange="javascript: this.value = this.value==0?'':('0000000000'+this.value).slice(-10);doExecute2('searchProductNo');" 
-											placeholder="10桁数字" value="${G_ProductMaster.productNo}"></p>
+											placeholder="10桁数字" value="${G_ProductMaster.productNo}">
+											<datalist id="productNoList">
+												<c:forEach var="pml" items="${ProductMasterList}" >
+													<option value="${pml.productNo}" label="品番:${pml.productNo}, 品名:${pml.productName}">
+												</c:forEach>
+											</datalist></p>
 				</div>
 				<div class="row">
 					<div class="col-xs-2"></div>
@@ -59,10 +65,15 @@
 				<div class="row">
 					<div class="col-xs-2"></div>
 					<label class="form-label col-xs-3 text-left" for="supplierNo">仕入先コード&nbsp;<span class="label label-danger">必須</span></label>
-					<p class="col-xs-7">：<input type="number" style="width: 300px;" name="supplierNo" id="supplierNo" class="inputRequired" data-inputRequired="false" data-changeDisabled="5" 
+					<p class="col-xs-7">：<input type="number" style="width: 300px;" list="supplierNoList" name="supplierNo" id="supplierNo" class="inputRequired" data-inputRequired="false" data-changeDisabled="5" 
 											min="0" max="999999" onkeyup="javascript: this.value = this.value.slice(0, 6);" 
 											onchange="javascript: this.value = this.value==0?'':('000000'+this.value).slice(-6);doExecute2('searchSupplierNo');" 
-											placeholder="6桁数字" value="${G_ProductMaster.supplierNo}"></p>
+											placeholder="6桁数字" value="${G_ProductMaster.supplierNo}">
+											<datalist id="supplierNoList">
+												<c:forEach var="sml" items="${SupplierMasterList}" >
+													<option value="${sml.supplierNo}" label="仕入先コード:${sml.supplierNo}, 会社名:${sml.supplierName}, 支店名:${sml.branchName}">
+												</c:forEach>
+											</datalist></p>
 				</div>
 				<div class="row">
 					<div class="col-xs-2"></div>

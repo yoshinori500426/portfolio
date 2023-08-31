@@ -73,15 +73,12 @@ public class AmountCalcDAO extends DAO {
 				outPutMSG(session, "処理中｡", String.valueOf((int) (countForProductNo / productNoNum * 100)),
 						"progress-bar-info", "1");
 				// データベース情報取得
-				st = con.prepareStatement(
-						"SELECT ACA.* , SUM(\"FOR_SUM_QTY\") OVER (ORDER BY \"DATE_FOR_SORT\", \"PO_NO\", \"ORDER_NO\" ASC) CUMULATIVE_QTY "
-						+ "FROM AMOUNT_CALC_ALL ACA WHERE \"PRODUCT_NO\" = ? ORDER BY \"DATE_FOR_SORT\" ASC");
-
+				st = con.prepareStatement("SELECT ACA.* , SUM(\"FOR_SUM_QTY\") OVER (ORDER BY \"DATE_FOR_SORT\", \"PO_NO\", \"ORDER_NO\" ASC) CUMULATIVE_QTY "
+											+ "FROM AMOUNT_CALC_ALL ACA WHERE \"PRODUCT_NO\" = ? ORDER BY \"DATE_FOR_SORT\" ASC");
 				st.setString(1, productMaster.getProductNo());
 				// スレッド割り込み時､例外を投げた際､正常に終了させる為の細工
 				session.setAttribute("st", st);
 				rs = st.executeQuery();
-
 				judge = true;
 				amountCalcAllList = null;
 				amountCalcAll = null;
@@ -92,7 +89,6 @@ public class AmountCalcDAO extends DAO {
 				while (rs.next()) {
 					countForRecord++;
 					amountCalcAll = new AmountCalcAll();
-
 					amountCalcAll.setProductNo(rs.getString("PRODUCT_NO"));
 					amountCalcAll.setProductName(rs.getString("PRODUCT_NAME"));
 					amountCalcAll.setSupplierNo(rs.getString("SUPPLIER_NO"));
@@ -114,7 +110,6 @@ public class AmountCalcDAO extends DAO {
 					amountCalcAll.setDecreaseQty(rs.getInt("DECREASE_QTY"));
 					amountCalcAll.setForSumQty(rs.getInt("FOR_SUM_QTY"));
 					amountCalcAll.setCumulativeQty(rs.getInt("CUMULATIVE_QTY"));
-
 					// 基本在庫数を変数｢basestock｣へ格納
 					// →基本在庫数は､各品番の1行目のみに格納されている
 					if (countForRecord == 1) {
@@ -127,7 +122,6 @@ public class AmountCalcDAO extends DAO {
 						// →品番に対するインスタンス｢amountCalcAll｣完成後に､｢0-2｣｢0-1｣に該当するか評価する
 						amountCalcAll.setOrderFinFlg("1");
 					}
-
 					// 処理している｢PRODUCT_NO｣が､在庫テーブル(PURODUCT_STOCK)にない場合の処理
 					if (countForRecord == 1 && rs.getString("STOCK_INFO_MONTH") == null) {
 						outPutMSG(session,
@@ -138,19 +132,16 @@ public class AmountCalcDAO extends DAO {
 						judgeProsess = 0;
 						break LoopBreak;
 					}
-
 					// 累計が基本在庫を切る場合の処理
 					// →最終的に在庫見通しが､基本在庫以上になる場合でも､一時的にでも基本在庫を下回る様であれば､
 					// 納期短縮が必要なため､異常と規定する
 					if (basestock > rs.getInt("CUMULATIVE_QTY")) {
 						judge = false;
 					}
-
 					// 列｢CUMULATIVE_QTY｣の最終行の値を取る為の操作
 					cumulativeQty = rs.getInt("CUMULATIVE_QTY");
 					// ProductNo固定のリストへレコードを加える
 					amountCalcAllList.add(amountCalcAll);
-
 					// キャンセル時(スレッドのインスタンスのメソッド「.interrupt()」が実行された場合)の処理
 					// キャンセルを行う為、セッション属性に保存指定している
 					// クラス「AmountCalcDAO」で動作中のスレッドクラスのインスタンス「thread」を取得
@@ -163,7 +154,6 @@ public class AmountCalcDAO extends DAO {
 						break LoopBreak;
 					}
 				}
-
 				// 処理を行った｢PRODUCT_NO｣が､発注処理/納期短縮対応に該当する場合(異常状態)
 				// →処理を行った｢PRODUCT_NO｣が､発注処理/納期短縮対応に該当しない場合(正常状態)は処理なし
 				if (amountCalcAllList != null && amountCalcAll != null && judge == false) {
@@ -175,7 +165,6 @@ public class AmountCalcDAO extends DAO {
 					if (amountCalcAllListMap == null) {
 						amountCalcAllListMap = new HashMap<String, List<AmountCalcAll>>();
 					}
-
 					// 各｢PRODUCT_NO｣の1行目の処理
 					// →発注操作の終了フラグへの処理
 					// →品番に対するインスタンス｢amountCalcAll｣作成時､仮の値として｢1｣を入力している
@@ -189,20 +178,16 @@ public class AmountCalcDAO extends DAO {
 					} else {
 						amountCalcAllList.get(0).setOrderFinFlg("0-1");
 					}
-
 					// productMasterListFinalへ､処理を行ったインスタンス(productMaster)を追加
 					productMasterListFinal.add(productMaster);
-
 					// 列｢CUMULATIVE_QTY｣の最終行の値を､amountCalcAllListの1行目の｢latestCumulativeQty｣に代入
 					amountCalcAllList.get(0).setLatestCumulativeQty(cumulativeQty);
 					// Mapへ､キー｢PRODUCT_NO｣､値｢AmountCalcAllList｣を追加
 					amountCalcAllListMap.put(productMaster.getProductNo(), amountCalcAllList);
 				}
-
 				// 動作確認を目的に、処理を3秒止める
 				// →この処理を入れることで､try-catch文のcatch箇所に割り込み時の動作を記述する必要が生じる
 				Thread.sleep(1000);
-
 			}
 			// 正常終了/異常終了の判定
 			if (countForProductNo == productNoNum) {
@@ -221,8 +206,7 @@ public class AmountCalcDAO extends DAO {
 			} else {
 				//メッセージ「"テーブル｢PURODUCT_STOCK｣に､品目｢" + productMaster.getProductNo()+ "｣がありません｡ 管理者に連絡して下さい､処理を終了します｡"」を表示させる為の条件
 				if ((String) session.getAttribute("amountCalcMSG") == null) {
-					outPutMSG(session, "処理が異常終了しました｡", String.valueOf((int) (countForProductNo / productNoNum * 100)),
-							"progress-bar-danger", "0");
+					outPutMSG(session, "処理が異常終了しました｡", String.valueOf((int) (countForProductNo / productNoNum * 100)), "progress-bar-danger", "0");
 				}
 				// 保存属性のnullクリア
 				// →amountCalcAllListMap/amountCalcAllList/productMasterList
@@ -245,8 +229,7 @@ public class AmountCalcDAO extends DAO {
 			// 「Thread.sleep(5000);」を記述していると、割り込みで例外「InterruptedException」が投げられる
 			// その際、この記述の動作を行う
 			// 状況出力
-			outPutMSG(session, "キャンセルします｡", String.valueOf((int) (countForProductNo / productNoNum * 100)),
-					"progress-bar-success", "0");
+			outPutMSG(session, "キャンセルします｡", String.valueOf((int) (countForProductNo / productNoNum * 100)), "progress-bar-success", "0");
 			judgeProsess = 1;
 		} catch (Exception e) {
 			System.out.println("SQLでエラーが発生しました。");
@@ -288,11 +271,9 @@ public class AmountCalcDAO extends DAO {
 		String productNo = ot.getProductNo();
 		// セッション属性に保存しているMap｢amountCalcAllListMap｣取得
 		// →取得した対象｢PRODUCT_NO｣のListは､最終､このMap｢amountCalcAllListMap｣のキー｢PRODUCT_NO｣の値を置き換える
-		Map<String, List<AmountCalcAll>> amountCalcAllListMap = (Map<String, List<AmountCalcAll>>) session
-				.getAttribute("amountCalcAllListMap");
+		Map<String, List<AmountCalcAll>> amountCalcAllListMap = (Map<String, List<AmountCalcAll>>) session.getAttribute("amountCalcAllListMap");
 		// セッション属性に保存しているList｢productMasterList｣取得
-		List<ProductMaster> productMasterListFinal = (List<ProductMaster>) session
-				.getAttribute("productMasterListFinal");
+		List<ProductMaster> productMasterListFinal = (List<ProductMaster>) session.getAttribute("productMasterListFinal");
 		// Mapに代入する､対象｢PRODUCT_NO｣情報を格納するリストを宣言
 		List<AmountCalcAll> amountCalcAllList = null;
 		// 使用するbeanの宣言
@@ -302,20 +283,16 @@ public class AmountCalcDAO extends DAO {
 			Connection con = getConnection();
 			PreparedStatement st = null;
 			ResultSet rs = null;
-
 			// データベース情報取得
-			st = con.prepareStatement(
-					"SELECT ACA.* , SUM(\"FOR_SUM_QTY\") OVER (ORDER BY \"DATE_FOR_SORT\", \"PO_NO\", \"ORDER_NO\" ASC) CUMULATIVE_QTY "
-					+ "FROM AMOUNT_CALC_ALL ACA WHERE \"PRODUCT_NO\" = ? ORDER BY \"DATE_FOR_SORT\" ASC");
+			st = con.prepareStatement("SELECT ACA.* , SUM(\"FOR_SUM_QTY\") OVER (ORDER BY \"DATE_FOR_SORT\", \"PO_NO\", \"ORDER_NO\" ASC) CUMULATIVE_QTY "
+										+ "FROM AMOUNT_CALC_ALL ACA WHERE \"PRODUCT_NO\" = ? ORDER BY \"DATE_FOR_SORT\" ASC");
 			st.setString(1, productNo);
 			rs = st.executeQuery();
-
 			cumulativeQty = 0;
 			amountCalcAllList = new ArrayList<>();
 			while (rs.next()) {
 				countForRecord++;
 				amountCalcAll = new AmountCalcAll();
-
 				amountCalcAll.setProductNo(rs.getString("PRODUCT_NO"));
 				amountCalcAll.setProductName(rs.getString("PRODUCT_NAME"));
 				amountCalcAll.setSupplierNo(rs.getString("SUPPLIER_NO"));
@@ -337,7 +314,6 @@ public class AmountCalcDAO extends DAO {
 				amountCalcAll.setDecreaseQty(rs.getInt("DECREASE_QTY"));
 				amountCalcAll.setForSumQty(rs.getInt("FOR_SUM_QTY"));
 				amountCalcAll.setCumulativeQty(rs.getInt("CUMULATIVE_QTY"));
-
 				// 基本在庫数を変数｢basestock｣へ格納
 				// →基本在庫数は､各品番の1行目のみに格納されている
 				if (countForRecord == 1) {
@@ -350,20 +326,17 @@ public class AmountCalcDAO extends DAO {
 					// →品番に対するインスタンス｢amountCalcAll｣完成後に､｢0-2｣｢0-1｣に該当するか評価する
 					amountCalcAll.setOrderFinFlg("1");
 				}
-
 				// 累計が基本在庫を切る場合の処理
 				// →最終的に在庫見通しが､基本在庫以上になる場合でも､一時的にでも基本在庫を下回る様であれば､
 				// 納期短縮が必要なため､異常と規定する
 				if (basestock > rs.getInt("CUMULATIVE_QTY")) {
 					judge = false;
 				}
-
 				// 列｢CUMULATIVE_QTY｣の最終行の値を取る為の操作
 				cumulativeQty = rs.getInt("CUMULATIVE_QTY");
 				// ProductNo固定のリストへレコードを加える
 				amountCalcAllList.add(amountCalcAll);
 			}
-
 			// 処理を行った｢PRODUCT_NO｣が､発注処理/納期短縮対応に該当する場合(異常状態)
 			// →処理を行った｢PRODUCT_NO｣が､発注処理/納期短縮対応に該当しない場合(正常状態)は処理なし
 			if (amountCalcAllList != null && amountCalcAll != null) {
@@ -423,7 +396,6 @@ public class AmountCalcDAO extends DAO {
 	private List<ProductMaster> searchAll() {
 		// 戻り値用の変数(リスト型)を宣言
 		List<ProductMaster> productMasterList = new ArrayList<>();
-
 		try {
 			Connection con = getConnection();
 

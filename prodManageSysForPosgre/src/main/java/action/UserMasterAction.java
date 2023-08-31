@@ -1,6 +1,7 @@
 package action;
 
 import java.sql.Connection;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -28,17 +29,16 @@ public class UserMasterAction extends Action {
 			session.setAttribute("nextJsp", "/WEB-INF/main/login.jsp");
 			return "/WEB-INF/main/login.jsp";
 		}
-
+		// 使用DAOインスタンス取得
+		UserMasterDAO umDAO = new UserMasterDAO();
 		// 使用インスタンスの格納変数を参照先「null」で宣言
-		UserMasterDAO umDAO = null;
 		UserMaster userForChange = null;
-
+		List<UserMaster> UserMasterList = null;
 		// このインスタンスで行う処理を取得(リクエストパラメータ取得)
 		String toAction = request.getParameter("toAction");
 		String btnSelect = request.getParameter("btnSelect");
 		session.setAttribute("toAction", toAction);
 		session.setAttribute("btnSelect", btnSelect);
-
 		// 画面情報取得
 		G_UserMaster G_UserMaster = new G_UserMaster();
 		G_UserMaster.setUserId(request.getParameter("userId"));
@@ -49,7 +49,6 @@ public class UserMasterAction extends Action {
 		G_UserMaster.setEtc(request.getParameter("etc"));
 		G_UserMaster.setHireDate(request.getParameter("hireDate"));
 		session.setAttribute("G_UserMaster", G_UserMaster);
-
 		// 処理種により､処理を分岐
 		switch (toAction) {
 		case "btnSelect":
@@ -59,11 +58,7 @@ public class UserMasterAction extends Action {
 			session.setAttribute("btnSelect", btnSelect);
 			break;
 		case "searchUserID":
-			// 不要セッション属性のnullクリア
-			session.setAttribute("alert", null);
-			session.setAttribute("message", null);
 			// テーブル検索
-			umDAO = new UserMasterDAO();
 			userForChange = umDAO.searchByID(G_UserMaster);
 			if (userForChange == null) {
 				session.setAttribute("message", "入力値に該当するユーザIDは存在しません。\\n入力内容を確認ください。");
@@ -79,7 +74,6 @@ public class UserMasterAction extends Action {
 		case "doBTNExecute":
 			int line = 0;
 			// トランザクション処理準備
-			umDAO = new UserMasterDAO();
 			Connection con = umDAO.getConnection();
 			// 排他制御
 			synchronized (this) {
@@ -114,6 +108,10 @@ public class UserMasterAction extends Action {
 			new MainAction().crearAttributeForScreenChange(session);
 			break;
 		}
+		// プルダウン用リスト取得
+		UserMasterList = umDAO.searchAll();
+		session.setAttribute("UserMasterList", UserMasterList);
+		// 遷移画面情報保存
 		session.setAttribute("nextJsp", "/WEB-INF/main/userMaster.jsp");
 		return "/WEB-INF/main/userMaster.jsp";
 	}

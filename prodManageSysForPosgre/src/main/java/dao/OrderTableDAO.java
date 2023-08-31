@@ -4,30 +4,33 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import action.MainAction;
+import bean.G_Order;
 import bean.OrderTable;
 import bean.UserMaster;
 
 public class OrderTableDAO extends DAO {
-	
-	//↓↓未完成===============================================================================================
+
+	// ↓↓未完成===============================================================================================
 	// 画面担当の西条さんとすり合わせ必要
-	//  ・引数をどうするか？
-	//  ・戻り値をどうするか
+	// ・引数をどうするか？
+	// ・戻り値をどうするか
 	/**
-	 * OrderTableテーブル参照メソッド
-	 * →ORDER_DATEによる検索
-	 *  →発注一覧画面用
+	 * OrderTableテーブル参照メソッド →ORDER_DATEによる検索 →発注一覧画面用
+	 * 
 	 * @param OrderTableビーン
 	 * @return OrderTableビーン 「null：失敗」「インスタンス有：成功」
 	 */
 //	public List<OrderTable> searchByOrdDate(OrderTable ot) {
 //		// 戻り値用の変数(リスト型)を宣言
-//		List<OrderTable> orderTableLists = new ArrayList<>();
+//		List<OrderTable> OrderTableLists = new ArrayList<>();
 //
 //		try {
 //			Connection con = getConnection();
@@ -52,9 +55,9 @@ public class OrderTableDAO extends DAO {
 //
 //			while (rs.next()) {
 //				//専用のbeanが必要なのか？
-//				OrderTable orderTable = new OrderTable();
+//				OrderTable OrderTable = new OrderTable();
 //
-//				orderTableLists.add(orderTable);
+//				OrderTableLists.add(OrderTable);
 //			}
 //			st.close();
 //			con.close();
@@ -62,39 +65,37 @@ public class OrderTableDAO extends DAO {
 //			System.out.println("SQLでエラーが発生しました。");
 //			e.printStackTrace();
 //		}
-//		return orderTableLists;
+//		return OrderTableLists;
 //	}
-	//↑↑未完成===============================================================================================
-	
+	// ↑↑未完成===============================================================================================
+
 	/**
-	 * OrderTableテーブル参照メソッド
-	 * →ORDER_NOによる検索
+	 * OrderTableテーブル参照メソッド →ORDER_NOによる検索
+	 * 
 	 * @param OrderTableビーン
 	 * @return OrderTableビーン 「null：失敗」「インスタンス有：成功」
 	 */
 	public OrderTable searchByOrdNo(OrderTable ot) {
-		OrderTable orderTable = null;
+		OrderTable OrderTable = null;
 		try {
 			Connection con = getConnection();
-
 			PreparedStatement st = con.prepareStatement("SELECT * FROM ORDER_TABLE WHERE ORDER_NO=?");
 			st.setString(1, ot.getOrderNo());
 			ResultSet rs = st.executeQuery();
-
 			while (rs.next()) {
-				orderTable = new OrderTable();
-				orderTable.setOrderNo(rs.getString("ORDER_NO"));
-				orderTable.setSupplierNo(rs.getString("SUPPLIER_NO"));
-				orderTable.setProductNo(rs.getString("PRODUCT_NO"));
-				orderTable.setOrderQty(rs.getInt("ORDER_QTY"));
-				orderTable.setDeliveryDate(rs.getString("DELIVERY_DATE"));
-				orderTable.setBiko(rs.getString("BIKO"));
-				orderTable.setDueDate(rs.getString("DUE_DATE"));
-				orderTable.setDueQty(rs.getInt("DUE_QTY"));
-				orderTable.setFinFlg(rs.getString("FIN_FLG"));
-				orderTable.setRegistUser(rs.getString("REGIST_USER"));
-				orderTable.setOrderDate(rs.getString("ORDER_DATE"));
-				orderTable.setOrderUser(rs.getString("ORDER_USER"));
+				OrderTable = new OrderTable();
+				OrderTable.setOrderNo(rs.getString("ORDER_NO"));
+				OrderTable.setSupplierNo(rs.getString("SUPPLIER_NO"));
+				OrderTable.setProductNo(rs.getString("PRODUCT_NO"));
+				OrderTable.setOrderQty(rs.getInt("ORDER_QTY"));
+				OrderTable.setDeliveryDate(new MainAction().dateChangeForHTML(rs.getString("DELIVERY_DATE")));
+				OrderTable.setBiko(rs.getString("BIKO"));
+				OrderTable.setDueDate(new MainAction().dateChangeForHTML(rs.getString("DUE_DATE")));
+				OrderTable.setDueQty(rs.getInt("DUE_QTY"));
+				OrderTable.setFinFlg(rs.getString("FIN_FLG"));
+				OrderTable.setRegistUser(rs.getString("REGIST_USER"));
+				OrderTable.setOrderDate(new MainAction().dateChangeForHTML(rs.getString("ORDER_DATE")));
+				OrderTable.setOrderUser(rs.getString("ORDER_USER"));
 			}
 			st.close();
 			con.close();
@@ -102,27 +103,105 @@ public class OrderTableDAO extends DAO {
 			System.out.println("SQLでエラーが発生しました。");
 			e.printStackTrace();
 		}
-		return orderTable;
+		return OrderTable;
+	}
+
+	/**
+	 * OrderTableテーブル参照メソッド →ORDER_NOによる検索
+	 * 
+	 * @param G_Orderビーン
+	 * @return OrderTableビーン 「null：失敗」「インスタンス有：成功」
+	 */
+	public OrderTable searchByOrdNo(G_Order G_Order) {
+		OrderTable OrderTable = null;
+		try {
+			Connection con = getConnection();
+			PreparedStatement st = con.prepareStatement("SELECT * FROM ORDER_TABLE WHERE ORDER_NO=?");
+			st.setString(1, G_Order.getOrderNo());
+			ResultSet rs = st.executeQuery();
+			while (rs.next()) {
+				OrderTable = new OrderTable();
+				OrderTable.setOrderNo(rs.getString("ORDER_NO"));
+				OrderTable.setSupplierNo(rs.getString("SUPPLIER_NO"));
+				OrderTable.setProductNo(rs.getString("PRODUCT_NO"));
+				OrderTable.setOrderQty(rs.getInt("ORDER_QTY"));
+				OrderTable.setDeliveryDate(new MainAction().dateChangeForHTML(rs.getString("DELIVERY_DATE")));
+				OrderTable.setBiko(rs.getString("BIKO"));
+				OrderTable.setDueDate(new MainAction().dateChangeForHTML(rs.getString("DUE_DATE")));
+				OrderTable.setDueQty(rs.getInt("DUE_QTY"));
+				OrderTable.setFinFlg(rs.getString("FIN_FLG"));
+				OrderTable.setRegistUser(rs.getString("REGIST_USER"));
+				OrderTable.setOrderDate(new MainAction().dateChangeForHTML(rs.getString("ORDER_DATE")));
+				OrderTable.setOrderUser(rs.getString("ORDER_USER"));
+			}
+			st.close();
+			con.close();
+		} catch (Exception e) {
+			System.out.println("SQLでエラーが発生しました。");
+			e.printStackTrace();
+		}
+		return OrderTable;
+	}
+
+	/**
+	 * OrderTableテーブル取得メソッド(検索条件なし) →ORDER_NOリスト取得用メソッド
+	 *
+	 * @param 引数無し
+	 * @return List<OrderTable> 「null：失敗」「null以外：成功」
+	 */
+	public List<OrderTable> searchAll() {
+		// 戻り値用の変数宣言
+		List<OrderTable> OrderTableList = new ArrayList<>();
+		OrderTable OrderTable = null;
+		try {
+			Connection con = getConnection();
+			PreparedStatement st;
+			st = con.prepareStatement("SELECT * FROM ORDER_TABLE ORDER BY ORDER_NO ASC");
+			ResultSet rs = st.executeQuery();
+			while (rs.next()) {
+				OrderTable = new OrderTable();
+				OrderTable.setOrderNo(rs.getString("ORDER_NO"));
+				OrderTable.setSupplierNo(rs.getString("SUPPLIER_NO"));
+				OrderTable.setProductNo(rs.getString("PRODUCT_NO"));
+				OrderTable.setOrderQty(rs.getInt("ORDER_QTY"));
+				OrderTable.setDeliveryDate(new MainAction().dateChangeForHTML(rs.getString("DELIVERY_DATE")));
+				OrderTable.setBiko(rs.getString("BIKO"));
+				OrderTable.setDueDate(new MainAction().dateChangeForHTML(rs.getString("DUE_DATE")));
+				OrderTable.setDueQty(rs.getInt("DUE_QTY"));
+				OrderTable.setFinFlg(rs.getString("FIN_FLG"));
+				OrderTable.setRegistUser(rs.getString("REGIST_USER"));
+				OrderTable.setOrderDate(new MainAction().dateChangeForHTML(rs.getString("ORDER_DATE")));
+				OrderTable.setOrderUser(rs.getString("ORDER_USER"));
+				OrderTableList.add(OrderTable);
+			}
+			st.close();
+			con.close();
+		} catch (Exception e) {
+			System.out.println("SQLでエラーが発生しました。");
+			e.printStackTrace();
+		}
+		return OrderTableList;
 	}
 
 	/**
 	 * OrderTableテーブル登録メソッド
+	 * 
 	 * @param OrderTableビーン
 	 * @return 整数 「0：失敗」「1：成功」
 	 */
 	public int insert(OrderTable ot, HttpServletRequest request) {
 		// 戻り値用変数
 		int line = 0;
-		//ORDER_NO取得用カウンタ
+		// ORDER_NO取得用カウンタ
 		int count = 0;
 		String ORDER_NO = "";
-		//登録日用にCalendarクラスのオブジェクトを生成する
+		// 登録日用にCalendarクラスのオブジェクトを生成する
 		Calendar cl = Calendar.getInstance();
-		//登録日用SimpleDateFormatクラスでフォーマットパターンを設定する
+		// 登録日用SimpleDateFormatクラスでフォーマットパターンを設定する
 		SimpleDateFormat sdfym = new SimpleDateFormat("yyMM");
-		//登録日用SimpleDateFormatクラスでフォーマットパターンを設定する
+		// 登録日用SimpleDateFormatクラスでフォーマットパターンを設定する
 		SimpleDateFormat sdfymd = new SimpleDateFormat("yyyy/MM/dd");
-
+		// ｢REGIST_USER｣が格納されたインスタンス取得
 		HttpSession session = request.getSession();
 		UserMaster um = (UserMaster) session.getAttribute("user");
 		try {
@@ -130,17 +209,16 @@ public class OrderTableDAO extends DAO {
 			PreparedStatement st = null;
 			ResultSet rs = null;
 			OrderTable orderNoCheck = new OrderTable();
-			OrderTable orderTable = null;
-
-			//ORDER_NO作成
+			OrderTable OrderTable = null;
+			// ORDER_NO作成
 			do {
-				//注文番号のシーケンス値取得
+				// 注文番号のシーケンス値取得
 				st = con.prepareStatement("SELECT NEXTVAL('ORDER_NO')");
 				rs = st.executeQuery();
 				while (rs.next()) {
 					ORDER_NO = String.valueOf(rs.getInt("NEXTVAL"));
 				}
-				//注文番号を左ゼロ埋めで5桁にする処理
+				// 注文番号を左ゼロ埋めで5桁にする処理
 				do {
 					if (ORDER_NO.length() < 5) {
 						ORDER_NO = "0" + ORDER_NO;
@@ -148,36 +226,33 @@ public class OrderTableDAO extends DAO {
 						break;
 					}
 				} while (true);
-				//注文番号の完成系作成
+				// 注文番号の完成系作成
 				ORDER_NO = "OD-" + sdfym.format(cl.getTime()) + "-" + ORDER_NO;
-				//作成した注文番号の未使用確認
+				// 作成した注文番号の未使用確認
 				orderNoCheck.setOrderNo(ORDER_NO);
-				orderTable = searchByOrdNo(orderNoCheck);
-				if (orderTable == null) {
-					//使用可能
+				OrderTable = searchByOrdNo(orderNoCheck);
+				if (OrderTable == null) {
+					// 使用可能
 					break;
 				} else if (count >= 100000) {
 					session.setAttribute("state", "使用可能な注文番号がありません。\\n処理を終了します｡");
 					return line;
 				}
-				//ORDER_NO取得用カウンタ、カウントアップ
+				// ORDER_NO取得用カウンタ、カウントアップ
 				count++;
 			} while (true);
-
-			//インサート処理 13項目
+			// 新規登録処理 13項目
 			st = con.prepareStatement("INSERT INTO ORDER_TABLE VALUES(? ,? ,?, ?, ?, '', '', 0, ?, ?, ?, ?)");
 			st.setString(1, ORDER_NO);
 			st.setString(2, ot.getSupplierNo());
 			st.setString(3, ot.getProductNo());
 			st.setInt(4, ot.getOrderQty());
-			st.setString(5, ot.getDeliveryDate());
+			st.setString(5, new MainAction().dateChangeForDB(ot.getDeliveryDate()));
 			st.setString(6, ot.getFinFlg());
 			st.setString(7, um.getUserId());
 			st.setString(8, sdfymd.format(cl.getTime()));
 			st.setString(9, um.getUserId());
-
 			line = st.executeUpdate();
-
 			st.close();
 			con.close();
 		} catch (Exception e) {
@@ -188,39 +263,93 @@ public class OrderTableDAO extends DAO {
 	}
 
 	/**
-	 * OrderTableテーブル更新メソッド
-	 * →納入画面用
+	 * OrderTableテーブル更新メソッド →発注画面用
+	 * 
 	 * @param OrderTable
 	 * @param OrderTableビーン
 	 * @return 整数 「0：失敗」「1：成功」
 	 */
-//	public int updateBySupNo(OrderTable ot, HttpServletRequest request) {
-//		int line = 0;
-//		//登録日用にCalendarクラスのオブジェクトを生成する
-//		Calendar cl = Calendar.getInstance();
-//		//登録日用SimpleDateFormatクラスでフォーマットパターンを設定する
-//		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
-//
-//		HttpSession session = request.getSession();
-//		UserMaster um = (UserMaster) session.getAttribute("user");
-//		try {
-//			Connection con = getConnection();
-//			PreparedStatement st = con.prepareStatement("UPDATE ORDER_TABLE SET DUE_DATE=?, DUE_QTY=?, FIN_FLG='1', REGIST_USER=? WHERE ORDER_NO=?");
-//			st.setString(1, sdf.format(cl.getTime()));
-//			st.setInt(2, ot.getDueQty());
-//			st.setString(3, um.getUserId());
-//			st.setString(4, ot.getOrderNo());
-//
-//			line = st.executeUpdate();
-//
-//			st.close();
-//			con.close();
-//		} catch (Exception e) {
-//			System.out.println("SQLでエラーが発生しました。");
-//			e.printStackTrace();
-//		}
-//		return line;
-//	}
+	public int updateForOrder(G_Order G_Order, HttpServletRequest request) {
+		int line = 0;
+		// ｢REGIST_USER｣が格納されたインスタンス取得
+		HttpSession session = request.getSession();
+		UserMaster um = (UserMaster) session.getAttribute("user");
+		try {
+			Connection con = getConnection();
+			PreparedStatement st = con.prepareStatement("UPDATE ORDER_TABLE SET SUPPLIER_NO=?, PRODUCT_NO=?, ORDER_QTY=?, DELIVERY_DATE=?, BIKO=?, REGIST_USER=? WHERE ORDER_NO=?");
+			st.setString(1, G_Order.getSupplierNo());
+			st.setString(2, G_Order.getProductNo());
+			st.setInt(3, Integer.parseInt(G_Order.getOrderQty()));
+			st.setString(4, new MainAction().dateChangeForDB(G_Order.getDeliveryDate()));
+			st.setString(5, G_Order.getBiko());
+			st.setString(6, um.getUserId());
+			st.setString(7, G_Order.getOrderNo());
+			line = st.executeUpdate();
+			st.close();
+			con.close();
+		} catch (Exception e) {
+			System.out.println("SQLでエラーが発生しました。");
+			e.printStackTrace();
+		}
+		return line;
+	}
+
+	/**
+	 * OrderTableテーブル更新メソッド →納入画面用
+	 * 
+	 * @param OrderTable
+	 * @param OrderTableビーン
+	 * @return 整数 「0：失敗」「1：成功」
+	 */
+	public int updateForSupplier(OrderTable ot, HttpServletRequest request) {
+		int line = 0;
+		// 登録日用にCalendarクラスのオブジェクトを生成する
+		Calendar cl = Calendar.getInstance();
+		// 登録日用SimpleDateFormatクラスでフォーマットパターンを設定する
+		SimpleDateFormat sdfymd = new SimpleDateFormat("yyyy/MM/dd");
+		// ｢REGIST_USER｣が格納されたインスタンス取得
+		HttpSession session = request.getSession();
+		UserMaster um = (UserMaster) session.getAttribute("user");
+		try {
+			Connection con = getConnection();
+			PreparedStatement st = con.prepareStatement("UPDATE ORDER_TABLE SET DUE_DATE=?, DUE_QTY=?, FIN_FLG='1', REGIST_USER=? WHERE ORDER_NO=?");
+			st.setString(1, sdfymd.format(cl.getTime()));
+			st.setInt(2, ot.getDueQty());
+			st.setString(3, um.getUserId());
+			st.setString(4, ot.getOrderNo());
+			line = st.executeUpdate();
+			st.close();
+			con.close();
+		} catch (Exception e) {
+			System.out.println("SQLでエラーが発生しました。");
+			e.printStackTrace();
+		}
+		return line;
+	}
+	
+	/**
+	 * 発注番号に合致するレコードを削除するメソッド
+	 * 
+	 * @param G_Orderクラスのインスタンス
+	 * @return 0:削除失敗 1:削除成功
+	 */
+	public int delete(G_Order G_Order, HttpServletRequest request) {
+		// 戻り値用変数
+		int line = 0;
+		try {
+			Connection con = getConnection();
+			PreparedStatement st;
+			st = con.prepareStatement("DELETE FROM ORDER_TABLE WHERE ORDER_NO=?");
+			st.setString(1, G_Order.getOrderNo());
+			line = st.executeUpdate();
+			st.close();
+			con.close();
+		} catch (Exception e) {
+			System.out.println("SQLでエラーが発生しました。");
+			e.printStackTrace();
+		}
+		return line;
+	}
 
 //	public List<OrderTable> execution(String productNo) throws Exception {
 //		List<OrderTable> list = new ArrayList<>();
@@ -323,9 +452,9 @@ public class OrderTableDAO extends DAO {
 //
 //		return list;
 //	}
-	
+
 //	public Supplier searchByOrdNo2(Supplier supp) {
-//		Supplier orderTable = null;
+//		Supplier OrderTable = null;
 //		try {
 //			Connection con = getConnection();
 //
@@ -338,15 +467,15 @@ public class OrderTableDAO extends DAO {
 //			ResultSet rs = st.executeQuery();
 //
 //			while (rs.next()) {
-//				orderTable =new Supplier();
-//				orderTable.setOrderNo(rs.getString("ORDER_NO"));
-//				orderTable.setOrderDate(rs.getString("ORDER_DATE"));
-//				orderTable.setProductNo(rs.getString("PRODUCT_NO"));
-//				orderTable.setProductName(rs.getString("PRODUCT_NAME"));
-//				orderTable.setOrderQty(rs.getInt("ORDER_QTY"));
-//				orderTable.setDueQty(rs.getInt("DUE_QTY"));
-//				orderTable.setDueDate(rs.getString("DUE_DATE"));
-//				orderTable.setFinFlg(rs.getString("FIN_FLG"));
+//				OrderTable =new Supplier();
+//				OrderTable.setOrderNo(rs.getString("ORDER_NO"));
+//				OrderTable.setOrderDate(rs.getString("ORDER_DATE"));
+//				OrderTable.setProductNo(rs.getString("PRODUCT_NO"));
+//				OrderTable.setProductName(rs.getString("PRODUCT_NAME"));
+//				OrderTable.setOrderQty(rs.getInt("ORDER_QTY"));
+//				OrderTable.setDueQty(rs.getInt("DUE_QTY"));
+//				OrderTable.setDueDate(rs.getString("DUE_DATE"));
+//				OrderTable.setFinFlg(rs.getString("FIN_FLG"));
 //			}
 //			st.close();
 //			con.close();
@@ -354,6 +483,6 @@ public class OrderTableDAO extends DAO {
 //			System.out.println("SQLでエラーが発生しました。");
 //			e.printStackTrace();
 //		}
-//		return orderTable;
+//		return OrderTable;
 //	}
 }

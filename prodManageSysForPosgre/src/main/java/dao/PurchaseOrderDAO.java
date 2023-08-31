@@ -3,6 +3,8 @@ package dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -340,6 +342,45 @@ public class PurchaseOrderDAO extends DAO {
 	}
 
 	/**
+	 * PurchaseOrderテーブル取得メソッド(検索条件なし) →PO_NOリスト取得用メソッド
+	 *
+	 * @param 引数無し
+	 * @return List<PurchaseOrder> 「null：失敗」「null以外：成功」
+	 */
+	public List<PurchaseOrder> searchAll() {
+		// 戻り値用の変数宣言
+		List<PurchaseOrder> PurchaseOrderList = new ArrayList<>();
+		PurchaseOrder PurchaseOrder = null;
+		try {
+			Connection con = getConnection();
+			PreparedStatement st;
+			st = con.prepareStatement("SELECT * FROM PURCHASE_ORDER ORDER BY PO_NO ASC");
+			ResultSet rs = st.executeQuery();
+			while (rs.next()) {
+				if (!rs.getString("FIN_FLG").equals("1")) {
+					PurchaseOrder = new PurchaseOrder();
+					PurchaseOrder.setPoNo(rs.getString("PO_NO"));
+					PurchaseOrder.setCustomerNo(rs.getString("CUSTOMER_NO"));
+					PurchaseOrder.setProductNo(rs.getString("PRODUCT_NO"));
+					PurchaseOrder.setOrderQty(rs.getInt("ORDER_QTY"));
+					PurchaseOrder.setDeliveryDate(new MainAction().dateChangeForHTML(rs.getString("DELIVERY_DATE")));
+					PurchaseOrder.setShipDate(new MainAction().dateChangeForHTML(rs.getString("SHIP_DATE")));
+					PurchaseOrder.setFinFlg(rs.getString("FIN_FLG"));
+					PurchaseOrder.setOrderDate(new MainAction().dateChangeForHTML(rs.getString("ORDER_DATE")));
+					PurchaseOrder.setRegistUser(rs.getString("REGIST_USER"));
+					PurchaseOrderList.add(PurchaseOrder);
+				}
+			}
+			st.close();
+			con.close();
+		} catch (Exception e) {
+			System.out.println("SQLでエラーが発生しました。");
+			e.printStackTrace();
+		}
+		return PurchaseOrderList;
+	}
+
+	/**
 	 * 引数の受注情報を新規登録するメソッド
 	 * 
 	 * @param G_PurchaseOrderクラスのインスタンス
@@ -351,6 +392,7 @@ public class PurchaseOrderDAO extends DAO {
 		// PO_NO取得用カウンタ
 		int count = 0;
 		String PO_NO = "";
+		// ｢REGIST_USER｣が格納されたインスタンス取得
 		HttpSession session = request.getSession();
 		UserMaster user = (UserMaster) session.getAttribute("user");
 		try {
@@ -358,7 +400,6 @@ public class PurchaseOrderDAO extends DAO {
 			PreparedStatement st = null;
 			ResultSet rs = null;
 			PurchaseOrder PurchaseOrder = null;
-
 			// PO_NO作成
 			do {
 				// 受注番号のシーケンス値取得
@@ -390,7 +431,7 @@ public class PurchaseOrderDAO extends DAO {
 				// PO_NO取得用カウンタ、カウントアップ
 				count++;
 			} while (true);
-
+			// 新規登録処理
 			st = con.prepareStatement("INSERT INTO PURCHASE_ORDER VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
 			st.setString(1, PO_NO);
 			st.setString(2, G_PurchaseOrder.getCustomerNo());
@@ -401,9 +442,7 @@ public class PurchaseOrderDAO extends DAO {
 			st.setString(7, "0"); // FIN_FLG
 			st.setString(8, new MainAction().dateChangeForDB(G_PurchaseOrder.getOrderDate()));
 			st.setString(9, user.getUserId());
-
 			line = st.executeUpdate();
-
 			st.close();
 			con.close();
 		} catch (Exception e) {
@@ -422,13 +461,13 @@ public class PurchaseOrderDAO extends DAO {
 	public int updateByPoNo(G_PurchaseOrder G_PurchaseOrder, HttpServletRequest request) {
 		// 戻り値用変数
 		int line = 0;
+		// ｢REGIST_USER｣が格納されたインスタンス取得
 		HttpSession session = request.getSession();
 		UserMaster user = (UserMaster) session.getAttribute("user");
 		try {
 			Connection con = getConnection();
 			PreparedStatement st;
-			st = con.prepareStatement(
-					"UPDATE PURCHASE_ORDER SET CUSTOMER_NO=?, PRODUCT_NO=?, ORDER_QTY=?, DELIVERY_DATE=?, ORDER_DATE=?, REGIST_USER=? WHERE PO_NO=?");
+			st = con.prepareStatement("UPDATE PURCHASE_ORDER SET CUSTOMER_NO=?, PRODUCT_NO=?, ORDER_QTY=?, DELIVERY_DATE=?, ORDER_DATE=?, REGIST_USER=? WHERE PO_NO=?");
 			st.setString(1, G_PurchaseOrder.getCustomerNo());
 			st.setString(2, G_PurchaseOrder.getProductNo());
 			st.setInt(3, Integer.parseInt(G_PurchaseOrder.getOrderQty()));
@@ -436,9 +475,7 @@ public class PurchaseOrderDAO extends DAO {
 			st.setString(5, new MainAction().dateChangeForDB(G_PurchaseOrder.getOrderDate()));
 			st.setString(6, user.getUserId());
 			st.setString(7, G_PurchaseOrder.getPoNo());
-
 			line = st.executeUpdate();
-
 			st.close();
 			con.close();
 		} catch (Exception e) {
@@ -457,13 +494,13 @@ public class PurchaseOrderDAO extends DAO {
 	public int updateByPoNo(G_Shipping G_Shipping, HttpServletRequest request) {
 		// 戻り値用変数
 		int line = 0;
+		// ｢REGIST_USER｣が格納されたインスタンス取得
 		HttpSession session = request.getSession();
 		UserMaster user = (UserMaster) session.getAttribute("user");
 		try {
 			Connection con = getConnection();
 			PreparedStatement st;
-			st = con.prepareStatement(
-					"UPDATE PURCHASE_ORDER SET CUSTOMER_NO=?, PRODUCT_NO=?, ORDER_QTY=?, DELIVERY_DATE=?, SHIP_DATE=?, FIN_FLG=?, ORDER_DATE=?, REGIST_USER=? WHERE PO_NO=?");
+			st = con.prepareStatement("UPDATE PURCHASE_ORDER SET CUSTOMER_NO=?, PRODUCT_NO=?, ORDER_QTY=?, DELIVERY_DATE=?, SHIP_DATE=?, FIN_FLG=?, ORDER_DATE=?, REGIST_USER=? WHERE PO_NO=?");
 			st.setString(1, G_Shipping.getCustomerNo());
 			st.setString(2, G_Shipping.getProductNo());
 			st.setInt(3, Integer.parseInt(G_Shipping.getOrderQty()));
@@ -473,9 +510,7 @@ public class PurchaseOrderDAO extends DAO {
 			st.setString(7, new MainAction().dateChangeForDB(G_Shipping.getOrderDate()));
 			st.setString(8, user.getUserId());
 			st.setString(9, G_Shipping.getPoNo());
-
 			line = st.executeUpdate();
-
 			st.close();
 			con.close();
 		} catch (Exception e) {
@@ -499,9 +534,7 @@ public class PurchaseOrderDAO extends DAO {
 			PreparedStatement st;
 			st = con.prepareStatement("DELETE FROM PURCHASE_ORDER WHERE PO_NO=?");
 			st.setString(1, G_PurchaseOrder.getPoNo());
-
 			line = st.executeUpdate();
-			
 			st.close();
 			con.close();
 		} catch (Exception e) {

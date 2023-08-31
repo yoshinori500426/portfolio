@@ -17,7 +17,6 @@ public class MainAction extends Action {
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		HttpSession session = request.getSession();
-
 		// 画面遷移時の接触属性クリア処理
 		crearAttributeForScreenChange(session);
 
@@ -89,7 +88,6 @@ public class MainAction extends Action {
 		Matcher matcher = pattern.matcher(checkParam);
 		// パターンマッチ判定
 		boolean judge = matcher.matches();
-
 		return judge;
 	}
 
@@ -108,6 +106,7 @@ public class MainAction extends Action {
 		// 画面入力値削除
 		session.setAttribute("G_AmountCalcOrder", null);
 		session.setAttribute("G_CustomerMaster", null);
+		session.setAttribute("G_Order", null);
 		session.setAttribute("G_ProductMaster", null);
 		session.setAttribute("G_PurchaseOrder", null);
 		session.setAttribute("G_Shipping", null);
@@ -115,11 +114,17 @@ public class MainAction extends Action {
 		session.setAttribute("G_UserMaster", null);
 		// 検索値削除
 		session.setAttribute("PurchaseOrder", null);
+		session.setAttribute("PurchaseOrderList", null);
 		session.setAttribute("OrderTable", null);
+		session.setAttribute("OrderTableList", null);
 		session.setAttribute("ProductMaster", null);
+		session.setAttribute("ProductMasterList", null);
 		session.setAttribute("CustomerMaster", null);
+		session.setAttribute("CustomerMasterList", null);
 		session.setAttribute("SupplierMaster", null);
+		session.setAttribute("SupplierMasterList", null);
 		session.setAttribute("UserMaster", null);
+		session.setAttribute("UserMasterList", null);
 		// 画面「amountCalc.jsp」「amountCalcOrder.jsp」で使用したセッション属性のnullクリア
 		session.setAttribute("therad", null);
 		new AmountCalcDAO().outPutMSG(session, null, null, null, null);

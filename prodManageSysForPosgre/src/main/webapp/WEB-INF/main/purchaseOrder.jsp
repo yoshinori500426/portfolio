@@ -1,99 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ include file="../header.jsp" %>
 <%--
-<style>
-input[type=number]::-webkit-inner-spin-button,
-input[type=number]::-webkit-outer-spin-button {
-opacity: 1;
-}
-</style>
-<script>
-function doSiji(hikisu) {
-	var form = document.forms[2];
-	form.siji.value = hikisu;
-	if (form.siji.value == "orderQtyCheck") {
-		var result = doNum();
-	}
-	if (result !== 0) {
-	}
-	document.getElementById("product_No").removeAttribute("disabled");
-	document.getElementById("num").removeAttribute("disabled");
-	form.submit();
-}
-function doNum() {
-	var num = document.getElementById("num").value;
-	if (num == "" || num < 1) {
-		alert("1以上の整数値のみ入力してください!!! ");
-		return 0;
-	}
-}
-function dateset() {
-	var today = new Date();
-	var todayValue = today.getFullYear() + "-"
-			+ addZero(today.getMonth() + 1) + "-"
-			+ addZero(today.getDate())
-	var cale = document.getElementById("dat");
-	cale.setAttribute("min", todayValue);
-}
-function addZero(hikisu) {
-	if (hikisu < 10) {
-		return "0" + hikisu;
-	}
-	return hikisu;
-}
-document.addEventListener('DOMContentLoaded', messageAlert(),caseCheck());
-function messageAlert() {
-	var recvMSG = "${message}";
-	if (recvMSG != null && recvMSG != "") {
-		alert(recvMSG);
-	} else {}
-}
-function caseCheck(){
-	var recvCheck = "${check}";
-	var c_name = document.getElementById("c_name").value;
-	var p_name = "${order.product_Name}";
-	var num = "${order.order_Qty }";
-	switch (recvCheck) {
-	case "1":
-		document.getElementById("product_No").removeAttribute(
-				"disabled");
-		break;
-	case "3":
-		if (num > 0) {
-			document.getElementById("product_No").removeAttribute(
-					"disabled");
-		} else {
-			document.getElementById("product_No").removeAttribute(
-					"disabled");
-			document.getElementById("num").removeAttribute(
-					"disabled");
-		}
-		break;
-	case "4":
-		document.getElementById("product_No").removeAttribute(
-				"disabled");
-		document.getElementById("num").removeAttribute("disabled");
-		document.getElementById("go").removeAttribute("disabled");
-		break;
-		//実行後再読み込み時ビーンと動作をクリアする
-	case "5":
-		doSiji("AllOkEnd");
-	default:
-		break;
-	}
-}
-dateset();
---%>
-<%--
-	private String poNo; // 受注番号
-	private String customerNo; // 顧客コード　必須
-	private String customerName; // 会社名　表示のみ
-	private String productNo; // 品番　必須
-	private String productName; // 品名　表示のみ
-	private String orderDate; // 受注日(=登録日)　必須
-	private String orderQty; // 受注数量　必須
-	private String deliveryDate; // 納期　必須
 --%>
 	<div class="box">
 		<header>
@@ -142,19 +51,29 @@ dateset();
 				<div class="row">
 					<div class="col-xs-2"></div>
 					<label class="form-label col-xs-3 text-left" for="poNo">受注番号</label>
-					<p class="col-xs-7">：<input type="text" style="width: 300px;" name="poNo" id="poNo" data-changeDisabled="4" 
+					<p class="col-xs-7">：<input type="text" style="width: 300px;" list="poNoList" name="poNo" id="poNo" data-changeDisabled="4" 
 											maxlength="8" onkeydown="javascript:this.value=(this.value.substr(0,3)=='PO-'&&this.value.substr(3).match(/^[0-9]*$/))?this.value.substr(3).slice(0, 5):(this.value.substr(0,3)!='PO-'&&this.value.match(/^[0-9]*$/))?this.value.slice(0, 5):'';befValue=this.value;"
 											onchange="javascript: this.value = (this.value==0 || this.value=='')?'':(this.value.match(/^[0-9]*$/))?('PO-'+('00000'+this.value).slice(-5)):('PO-'+('00000'+befValue).slice(-5));doExecute2('searchPoNo');"
-											placeholder="'PO-'に続く数字(最大5桁)" value="${G_PurchaseOrder.poNo}"></p>
+											placeholder="'PO-'に続く数字(最大5桁)" value="${G_PurchaseOrder.poNo}">
+											<datalist id="poNoList">
+												<c:forEach var="pol" items="${PurchaseOrderList}" >
+													<option value="${fn:replace(pol.poNo,'PO-','')}" label="受注番号:${pol.poNo}, 数量:${pol.orderQty}, 納期:${fn:replace(pol.deliveryDate,'-','/')}">
+												</c:forEach>
+											</datalist></p>
 				</div>
 				<div class="row">
 					<div class="col-xs-2"></div>
 					<label class="form-label col-xs-3 text-left" for="customerNo">顧客コード&nbsp;<span class="label label-danger">必須</span></label>
-					<p class="col-xs-7">：<input type="text" style="width: 300px;" name="customerNo" id="customerNo" class="inputRequired" data-changeDisabled="5" 
+					<p class="col-xs-7">：<input type="text" style="width: 300px;" list="customerNoList" name="customerNo" id="customerNo" class="inputRequired" data-changeDisabled="5" 
 											maxlength="5" onkeydown="befValue=this.value;" 
 											onkeyup="this.value=(befValue==''&&this.value.match(/^[A-Za-z]+$/))?this.value.toUpperCase():(befValue!=''&&(this.value.match(/^[A-Za-z][0-9]*$/)||this.value==''))?this.value:befValue;" 
 											onchange="this.value=(this.value.substr(0,1).match(/^[A-Za-z]+$/)&&this.value.substr(1)==0)?this.value.substr(0,1):(this.value.substr(0,1).match(/^[A-Za-z]+$/)&&this.value.substr(1)!='')?this.value.substr(0,1)+('0000'+this.value.substr(1)).slice(-4):this.value;doExecute2('searchCustomerNo');" 
-											placeholder="5文字(例:A0100)" value="${G_PurchaseOrder.customerNo}"></p>
+											placeholder="5文字(例:A0100)" value="${G_PurchaseOrder.customerNo}">
+											<datalist id="customerNoList">
+												<c:forEach var="cml" items="${CustomerMasterList}" >
+													<option value="${cml.customerNo}" label="顧客コード:${cml.customerNo}, 会社名:${cml.customerName}, 支店名:${cml.branchName}">
+												</c:forEach>
+											</datalist></p>
 				</div>
 				<div class="row">
 					<div class="col-xs-2"></div>
@@ -165,10 +84,15 @@ dateset();
 				<div class="row">
 					<div class="col-xs-2"></div>
 					<label class="form-label col-xs-3 text-left" for="productNo">品番&nbsp;<span class="label label-danger">必須</span></label>
-					<p class="col-xs-7">：<input type="number" style="width: 300px;" name="productNo" id="productNo" class="inputRequired" data-changeDisabled="5" 
+					<p class="col-xs-7">：<input type="number" style="width: 300px;" list="productNoList" name="productNo" id="productNo" class="inputRequired" data-changeDisabled="5" 
 											min="0" max="9999999999" onkeyup="javascript: this.value = this.value.slice(0, 10);" 
 											onchange="javascript: this.value = this.value==0?'':('0000000000'+this.value).slice(-10);doExecute2('searchProductNo');" 
-											placeholder="10桁数字" value="${G_PurchaseOrder.productNo}"></p>
+											placeholder="10桁数字" value="${G_PurchaseOrder.productNo}">
+											<datalist id="productNoList">
+												<c:forEach var="pml" items="${ProductMasterList}" >
+													<option value="${pml.productNo}" label="品番:${pml.productNo}, 品名:${pml.productName}">
+												</c:forEach>
+											</datalist></p>
 				</div>
 				<div class="row">
 					<div class="col-xs-2"></div>

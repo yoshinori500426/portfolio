@@ -7,16 +7,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import bean.CustomerMaster;
-import bean.G_PurchaseOrder;
+import bean.G_Order;
+import bean.OrderTable;
 import bean.ProductMaster;
-import bean.PurchaseOrder;
-import dao.CustomerMasterDAO;
+import bean.SupplierMaster;
+import dao.OrderTableDAO;
 import dao.ProductMasterDAO;
-import dao.PurchaseOrderDAO;
+import dao.SupplierMasterDAO;
 import tool.Action;
 
-public class PurchaseOrderAction extends Action {
+public class OrderAction extends Action {
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		HttpSession session = request.getSession();
@@ -34,31 +34,30 @@ public class PurchaseOrderAction extends Action {
 			return "/WEB-INF/main/login.jsp";
 		}
 		// 使用DAOインスタンス取得
-		PurchaseOrderDAO poDAO = new PurchaseOrderDAO();
-		CustomerMasterDAO cmDAO = new CustomerMasterDAO();
+		OrderTableDAO otDAO = new OrderTableDAO();
 		ProductMasterDAO pmDAO = new ProductMasterDAO();
+		SupplierMasterDAO smDAO = new SupplierMasterDAO();
 		// 使用インスタンスの格納変数を参照先「null」で宣言
-		PurchaseOrder purchaseOrderForChange = null;
-		List<PurchaseOrder> PurchaseOrderList = null;
-		CustomerMaster CustomerMaster = null;
-		List<CustomerMaster> CustomerMasterList = null;
+		OrderTable orderTableForChange = null;
+		List<OrderTable> OrderTableList = null;
 		ProductMaster ProductMaster = null;
 		List<ProductMaster> ProductMasterList = null;
+		SupplierMaster SupplierMaster = null;
 		// このインスタンスで行う処理を取得(リクエストパラメータ取得)
 		String toAction = request.getParameter("toAction");
 		String btnSelect = request.getParameter("btnSelect");
 		session.setAttribute("toAction", toAction);
 		session.setAttribute("btnSelect", btnSelect);
 		// 画面の入力内容を取得し order.jsp専用ビーンに格納
-		G_PurchaseOrder G_PurchaseOrder = new G_PurchaseOrder();
-		G_PurchaseOrder.setPoNo(request.getParameter("poNo"));
-		G_PurchaseOrder.setCustomerNo(request.getParameter("customerNo"));
-		G_PurchaseOrder.setProductNo(request.getParameter("productNo"));
-		G_PurchaseOrder.setOrderDate(request.getParameter("orderDate"));
-		G_PurchaseOrder.setOrderQty(request.getParameter("orderQty"));
-		G_PurchaseOrder.setDeliveryDate(request.getParameter("deliveryDate"));
-		G_PurchaseOrder.setFinFlg(request.getParameter("finFlg"));
-		session.setAttribute("G_PurchaseOrder", G_PurchaseOrder);
+		G_Order G_Order = new G_Order();
+		G_Order.setOrderNo(request.getParameter("orderNo"));
+		G_Order.setProductNo(request.getParameter("productNo"));
+		G_Order.setSupplierNo(request.getParameter("supplierNo"));
+		G_Order.setOrderQty(request.getParameter("orderQty"));
+		G_Order.setDeliveryDate(request.getParameter("deliveryDate"));
+		G_Order.setBiko(request.getParameter("biko"));
+		G_Order.setFinFlg(request.getParameter("finFlg"));
+		session.setAttribute("G_Order", G_Order);
 		// 処理種により､処理を分岐
 		switch (toAction) {
 		case "btnSelect":
@@ -67,80 +66,74 @@ public class PurchaseOrderAction extends Action {
 			new MainAction().crearAttributeForScreenChange(session);
 			session.setAttribute("btnSelect", btnSelect);
 			break;
-		case "searchPoNo":
+		case "searchOrderNo":
 			// PoNoのクリア動作
-			if (G_PurchaseOrder.getPoNo().isEmpty()) {
+			if (G_Order.getOrderNo().isEmpty()) {
 				// 各種セッション属性のnullクリア
 				new MainAction().crearAttributeForScreenChange(session);
 				session.setAttribute("btnSelect", btnSelect);
 				break;
 			}
 			// テーブル検索
-			poDAO = new PurchaseOrderDAO();
-			purchaseOrderForChange = poDAO.searchByPoNo(G_PurchaseOrder);
-			if (purchaseOrderForChange == null) {
+			orderTableForChange = otDAO.searchByOrdNo(G_Order);
+			if (orderTableForChange == null) {
 				// 各種セッション属性のnullクリア
 				new MainAction().crearAttributeForScreenChange(session);
-				// PoNo以外の項目を空欄にする
-				G_PurchaseOrder = new G_PurchaseOrder();
-				G_PurchaseOrder.setPoNo(request.getParameter("poNo"));
-				session.setAttribute("G_PurchaseOrder", G_PurchaseOrder);
+				// OrderNo以外の項目を空欄にする
+				G_Order = new G_Order();
+				G_Order.setOrderNo(request.getParameter("orderNo"));
+				session.setAttribute("G_Order", G_Order);
 				session.setAttribute("btnSelect", btnSelect);
-				session.setAttribute("message", "入力値に該当する受注番号は存在しません。\\n入力内容を確認ください。");
+				session.setAttribute("message", "入力値に該当する発注番号は存在しません。\\n入力内容を確認ください。");
 				break;
-			} else if (purchaseOrderForChange != null) {
-				if (purchaseOrderForChange.getFinFlg().equals("1")) {
+			} else if (orderTableForChange != null) {
+				if (orderTableForChange.getFinFlg().equals("1")) {
 					// 出荷処理済みは､表示のみ行い､内容変更/削除不可とする
-					session.setAttribute("message", "入力値に該当する受注番号は既に出荷処理済みの為､編集不可です。\\n入力内容を確認ください。");
+					session.setAttribute("message", "入力値に該当する受注番号は既に入荷処理済みの為､編集不可です。\\n入力内容を確認ください。");
 				}
-				G_PurchaseOrder.setPoNo(purchaseOrderForChange.getPoNo());
-				G_PurchaseOrder.setCustomerNo(purchaseOrderForChange.getCustomerNo());
-				G_PurchaseOrder.setProductNo(purchaseOrderForChange.getProductNo());
-				G_PurchaseOrder.setOrderDate(purchaseOrderForChange.getOrderDate());
-				G_PurchaseOrder.setOrderQty(String.valueOf(purchaseOrderForChange.getOrderQty()));
-				G_PurchaseOrder.setDeliveryDate(purchaseOrderForChange.getDeliveryDate());
-				G_PurchaseOrder.setFinFlg(purchaseOrderForChange.getFinFlg());
-				session.setAttribute("G_PurchaseOrder", G_PurchaseOrder);
+				G_Order.setOrderNo(orderTableForChange.getOrderNo());
+				G_Order.setProductNo(orderTableForChange.getProductNo());
+				G_Order.setOrderQty(String.valueOf(orderTableForChange.getOrderQty()));
+				G_Order.setDeliveryDate(orderTableForChange.getDeliveryDate());
+				G_Order.setBiko(orderTableForChange.getBiko());
+				G_Order.setFinFlg(orderTableForChange.getFinFlg());
+				session.setAttribute("G_Order", G_Order);
 			}
-			// ｢PoNo｣での検索結果に基づき､引き続き､｢CustomerNo｣｢ProductNo｣の検索を行う為､このStepでは｢break;｣の記述は行わない
-		case "searchCustomerNo":
-			// テーブル検索
-			CustomerMaster = cmDAO.searchByCusNo(G_PurchaseOrder);
-			if (!G_PurchaseOrder.getCustomerNo().isEmpty()) {
-				if (CustomerMaster == null) {
-					session.setAttribute("message", "入力値に該当する顧客コードは存在しません。\\n入力内容を確認ください。");
-				}
-			}
-			session.setAttribute("CustomerMaster", CustomerMaster);
-			// ｢toAction｣の値が｢searchPoNo｣の場合､次に｢searchProductNo｣を行う為､このStepで｢break;｣させない
-			if (toAction.equals("searchCustomerNo")) {
-				break;
-			}
+			// ｢OrderNo｣での検索結果に基づき､引き続き､｢productName｣｢supplierNo｣｢supplierName｣の検索を行う為､このStepでは｢break;｣の記述は行わない
 		case "searchProductNo":
 			// テーブル検索
-			ProductMaster = pmDAO.searchByProNo(G_PurchaseOrder);
-			if (!G_PurchaseOrder.getProductNo().isEmpty()) {
+			ProductMaster = pmDAO.searchByProNo(G_Order);
+			if (!G_Order.getProductNo().isEmpty()) {
 				if (ProductMaster == null) {
 					session.setAttribute("message", "入力値に該当する品番は存在しません。\\n入力内容を確認ください。");
+				} else if (ProductMaster != null) {
+					SupplierMaster = smDAO.searchBySupNo(ProductMaster.getSupplierNo());
 				}
 			}
 			session.setAttribute("ProductMaster", ProductMaster);
+			session.setAttribute("SupplierMaster", SupplierMaster);
 			break;
 		case "doBTNExecute":
 			int line = 0;
 			// トランザクション処理準備
-			Connection con = poDAO.getConnection();
+			Connection con = otDAO.getConnection();
 			// 排他制御
 			synchronized (this) {
 				// トランザクション処理開始
 				con.setAutoCommit(false);
 				// DB処理
 				if (btnSelect.equals("insert")) {
-					line = poDAO.insert(G_PurchaseOrder, request);
+					OrderTable ot = new OrderTable();
+					ot.setSupplierNo(G_Order.getSupplierNo());
+					ot.setProductNo(G_Order.getProductNo());
+					ot.setOrderQty(Integer.parseInt(G_Order.getOrderQty()));
+					ot.setDeliveryDate(G_Order.getDeliveryDate());
+					ot.setBiko(G_Order.getBiko());
+					line = otDAO.insert(ot, request);
 				} else if (btnSelect.equals("update")) {
-					line = poDAO.updateByPoNo(G_PurchaseOrder, request);
+					line = otDAO.updateForOrder(G_Order, request);
 				} else if (btnSelect.equals("delete")) {
-					line = poDAO.delete(G_PurchaseOrder, request);
+					line = otDAO.delete(G_Order, request);
 				}
 				// 成功/失敗判定
 				if (line == 1) {
@@ -166,14 +159,12 @@ public class PurchaseOrderAction extends Action {
 			break;
 		}
 		// プルダウン用リスト取得
-		PurchaseOrderList = poDAO.searchAll();
-		session.setAttribute("PurchaseOrderList", PurchaseOrderList);
-		CustomerMasterList = cmDAO.searchAll();
-		session.setAttribute("CustomerMasterList", CustomerMasterList);
+		OrderTableList = otDAO.searchAll();
+		session.setAttribute("OrderTableList", OrderTableList);
 		ProductMasterList = pmDAO.searchAll();
 		session.setAttribute("ProductMasterList", ProductMasterList);
 		// 遷移画面情報保存
-		session.setAttribute("nextJsp", "/WEB-INF/main/purchaseOrder.jsp");
-		return "/WEB-INF/main/purchaseOrder.jsp";
+		session.setAttribute("nextJsp", "/WEB-INF/main/Order.jsp");
+		return "/WEB-INF/main/Order.jsp";
 	}
 }
