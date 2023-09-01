@@ -13,6 +13,10 @@ public class LoginAction extends Action {
 
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		HttpSession session = request.getSession();
+		// 各メッセージリセット
+		session.setAttribute("alert", null);
+		session.setAttribute("message", null);
+		session.setAttribute("state", null);
 		// 使用インスタンス作成
 		UserMaster user = null;
 		UserMasterDAO umDAO = new UserMasterDAO();

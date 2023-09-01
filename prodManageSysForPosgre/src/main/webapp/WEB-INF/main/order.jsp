@@ -40,6 +40,7 @@
 			    <input type="hidden" name="toAction" data-changeDisabled="0">
 				<input type="hidden" name="btnSelect" data-changeDisabled="0" value="${btnSelect}" >
 				<input type="hidden" name="finFlg" data-changeDisabled="0" value="${G_Order.finFlg}" >
+				<input type="hidden" name="orderDate" data-changeDisabled="0" value="${G_Order.orderDate}" >
 				<div class="row">
 					<div class="col-xs-1"></div>
 					<div class="col-xs-4"><button type="button" class="btn btn-warning btn-block" name="insert" data-changeDisabled="1" onClick="btnChange('insert')">登録</button></div>
@@ -56,8 +57,8 @@
 											onchange="javascript: this.value = (this.value.substr(5)==0 || this.value.substr(5)=='' || this.value.substr(2,2)>12 || this.value.substr(2,2)<1)?'':(this.value.match(/^[0-9]{4}[-][0-9]*$/))?('OD-'+this.value.substr(0,5)+('00000'+this.value.substr(5)).slice(-5)):'';doExecute2('searchOrderNo');"
 											placeholder="'OD-'に続く､数字(4桁)+'-'+数字(最大5桁)" value="${G_Order.orderNo}">
 											<datalist id="orderNoList">
-												<c:forEach var="ol" items="${OrderList}" >
-													<option value="${ol.orderNo}" label="発注番号:${ol.orderNo}, 数量:${ol.orderQty}, 納期:${ol.deliveryDate}">
+												<c:forEach var="otl" items="${OrderTableList}" >
+													<option value="${fn:replace(otl.orderNo,'OD-','')}" label="発注番号:${otl.orderNo}, 数量:${otl.orderQty}, 納期:${fn:replace(otl.deliveryDate,'-','/')}">
 												</c:forEach>
 											</datalist></p>
 				</div>
@@ -67,7 +68,7 @@
 					<p class="col-xs-7">：<input type="number" style="width: 300px;" list="productNoList" name="productNo" id="productNo" class="inputRequired" data-changeDisabled="5" 
 											min="0" max="9999999999" onkeyup="javascript: this.value = this.value.slice(0, 10);" 
 											onchange="javascript: this.value = this.value==0?'':('0000000000'+this.value).slice(-10);doExecute2('searchProductNo');" 
-											placeholder="10桁数字" value="${G_Order.productNo}">
+											placeholder="数字(最大10桁)" value="${G_Order.productNo}">
 											<datalist id="productNoList">
 												<c:forEach var="pml" items="${ProductMasterList}" >
 													<option value="${pml.productNo}" label="品番:${pml.productNo}, 品名:${pml.productName}">

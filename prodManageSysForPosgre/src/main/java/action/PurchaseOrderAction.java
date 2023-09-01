@@ -33,6 +33,10 @@ public class PurchaseOrderAction extends Action {
 			session.setAttribute("nextJsp", "/WEB-INF/main/login.jsp");
 			return "/WEB-INF/main/login.jsp";
 		}
+		// 各メッセージリセット
+		session.setAttribute("alert", null);
+		session.setAttribute("message", null);
+		session.setAttribute("state", null);
 		// 使用DAOインスタンス取得
 		PurchaseOrderDAO poDAO = new PurchaseOrderDAO();
 		CustomerMasterDAO cmDAO = new CustomerMasterDAO();
@@ -49,7 +53,7 @@ public class PurchaseOrderAction extends Action {
 		String btnSelect = request.getParameter("btnSelect");
 		session.setAttribute("toAction", toAction);
 		session.setAttribute("btnSelect", btnSelect);
-		// 画面の入力内容を取得し order.jsp専用ビーンに格納
+		// 画面の入力内容の取得
 		G_PurchaseOrder G_PurchaseOrder = new G_PurchaseOrder();
 		G_PurchaseOrder.setPoNo(request.getParameter("poNo"));
 		G_PurchaseOrder.setCustomerNo(request.getParameter("customerNo"));

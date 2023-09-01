@@ -276,15 +276,15 @@ public class PurchaseOrderDAO extends DAO {
 	/**
 	 * 受注番号に合致するレコード情報を取得するメソッド
 	 * 
-	 * @param G_PurchaseOrderクラスのインスタンス
+	 * @param String poNo
 	 * @return 該当レコードあり:PurchaseOrderクラスのインスタンス 無:null
 	 */
-	public PurchaseOrder searchByPoNo(G_PurchaseOrder G_PurchaseOrder) {
+	public PurchaseOrder searchByPoNo(String poNo) {
 		PurchaseOrder PurchaseOrder = null;
 		try {
 			Connection con = getConnection();
 			PreparedStatement st = con.prepareStatement("SELECT * FROM PURCHASE_ORDER WHERE PO_NO=?");
-			st.setString(1, G_PurchaseOrder.getPoNo());
+			st.setString(1, poNo);
 			ResultSet rs = st.executeQuery();
 			while (rs.next()) {
 				PurchaseOrder = new PurchaseOrder();
@@ -306,6 +306,16 @@ public class PurchaseOrderDAO extends DAO {
 		}
 		return PurchaseOrder;
 	}
+	
+	/**
+	 * 受注番号に合致するレコード情報を取得するメソッド
+	 * 
+	 * @param G_PurchaseOrderクラスのインスタンス
+	 * @return 該当レコードあり:PurchaseOrderクラスのインスタンス 無:null
+	 */
+	public PurchaseOrder searchByPoNo(G_PurchaseOrder G_PurchaseOrder) {
+		return searchByPoNo(G_PurchaseOrder.getPoNo());
+	}
 
 	/**
 	 * 受注番号に合致するレコード情報を取得するメソッド
@@ -314,31 +324,7 @@ public class PurchaseOrderDAO extends DAO {
 	 * @return 該当レコードあり:PurchaseOrderクラスのインスタンス 無:null
 	 */
 	public PurchaseOrder searchByPoNo(G_Shipping G_Shipping) {
-		PurchaseOrder PurchaseOrder = null;
-		try {
-			Connection con = getConnection();
-			PreparedStatement st = con.prepareStatement("SELECT * FROM PURCHASE_ORDER WHERE PO_NO=?");
-			st.setString(1, G_Shipping.getPoNo());
-			ResultSet rs = st.executeQuery();
-			while (rs.next()) {
-				PurchaseOrder = new PurchaseOrder();
-				PurchaseOrder.setPoNo(rs.getString("PO_NO"));
-				PurchaseOrder.setCustomerNo(rs.getString("CUSTOMER_NO"));
-				PurchaseOrder.setProductNo(rs.getString("PRODUCT_NO"));
-				PurchaseOrder.setOrderQty(rs.getInt("ORDER_QTY"));
-				PurchaseOrder.setDeliveryDate(new MainAction().dateChangeForHTML(rs.getString("DELIVERY_DATE")));
-				PurchaseOrder.setShipDate(new MainAction().dateChangeForHTML(rs.getString("SHIP_DATE")));
-				PurchaseOrder.setFinFlg(rs.getString("FIN_FLG"));
-				PurchaseOrder.setOrderDate(new MainAction().dateChangeForHTML(rs.getString("ORDER_DATE")));
-				PurchaseOrder.setRegistUser(rs.getString("REGIST_USER"));
-			}
-			st.close();
-			con.close();
-		} catch (Exception e) {
-			System.out.println("SQLでエラーが発生しました。");
-			e.printStackTrace();
-		}
-		return PurchaseOrder;
+		return searchByPoNo(G_Shipping.getPoNo());
 	}
 
 	/**
@@ -370,6 +356,43 @@ public class PurchaseOrderDAO extends DAO {
 					PurchaseOrder.setRegistUser(rs.getString("REGIST_USER"));
 					PurchaseOrderList.add(PurchaseOrder);
 				}
+			}
+			st.close();
+			con.close();
+		} catch (Exception e) {
+			System.out.println("SQLでエラーが発生しました。");
+			e.printStackTrace();
+		}
+		return PurchaseOrderList;
+	}
+	
+	/**
+	 * PurchaseOrderテーブル取得メソッド(検索条件なし) →PO_NOリスト取得用メソッド
+	 *
+	 * @param 引数無し
+	 * @return List<PurchaseOrder> 「null：失敗」「null以外：成功」
+	 */
+	public List<PurchaseOrder> searchAllAddFinFlg1() {
+		// 戻り値用の変数宣言
+		List<PurchaseOrder> PurchaseOrderList = new ArrayList<>();
+		PurchaseOrder PurchaseOrder = null;
+		try {
+			Connection con = getConnection();
+			PreparedStatement st;
+			st = con.prepareStatement("SELECT * FROM PURCHASE_ORDER ORDER BY PO_NO ASC");
+			ResultSet rs = st.executeQuery();
+			while (rs.next()) {
+				PurchaseOrder = new PurchaseOrder();
+				PurchaseOrder.setPoNo(rs.getString("PO_NO"));
+				PurchaseOrder.setCustomerNo(rs.getString("CUSTOMER_NO"));
+				PurchaseOrder.setProductNo(rs.getString("PRODUCT_NO"));
+				PurchaseOrder.setOrderQty(rs.getInt("ORDER_QTY"));
+				PurchaseOrder.setDeliveryDate(new MainAction().dateChangeForHTML(rs.getString("DELIVERY_DATE")));
+				PurchaseOrder.setShipDate(new MainAction().dateChangeForHTML(rs.getString("SHIP_DATE")));
+				PurchaseOrder.setFinFlg(rs.getString("FIN_FLG"));
+				PurchaseOrder.setOrderDate(new MainAction().dateChangeForHTML(rs.getString("ORDER_DATE")));
+				PurchaseOrder.setRegistUser(rs.getString("REGIST_USER"));
+				PurchaseOrderList.add(PurchaseOrder);
 			}
 			st.close();
 			con.close();

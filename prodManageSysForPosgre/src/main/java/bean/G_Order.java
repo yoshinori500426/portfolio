@@ -8,6 +8,7 @@ public class G_Order implements java.io.Serializable {
 	private String deliveryDate; // 入力必須
 	private String biko;
 	private String finFlg;
+	private String orderDate; // deliveryDateをorderDate以降にする目的でこの項目を設ける
 
 	public String getOrderNo() {
 		return orderNo;
@@ -63,5 +64,13 @@ public class G_Order implements java.io.Serializable {
 
 	public void setFinFlg(String finFlg) {
 		this.finFlg = finFlg;
+	}
+
+	public String getOrderDate() {
+		return orderDate;
+	}
+
+	public void setOrderDate(String orderDate) {
+		this.orderDate = orderDate;
 	}
 }

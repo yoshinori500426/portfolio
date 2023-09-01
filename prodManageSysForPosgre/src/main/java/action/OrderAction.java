@@ -33,6 +33,10 @@ public class OrderAction extends Action {
 			session.setAttribute("nextJsp", "/WEB-INF/main/login.jsp");
 			return "/WEB-INF/main/login.jsp";
 		}
+		// 各メッセージリセット
+		session.setAttribute("alert", null);
+		session.setAttribute("message", null);
+		session.setAttribute("state", null);
 		// 使用DAOインスタンス取得
 		OrderTableDAO otDAO = new OrderTableDAO();
 		ProductMasterDAO pmDAO = new ProductMasterDAO();
@@ -48,7 +52,7 @@ public class OrderAction extends Action {
 		String btnSelect = request.getParameter("btnSelect");
 		session.setAttribute("toAction", toAction);
 		session.setAttribute("btnSelect", btnSelect);
-		// 画面の入力内容を取得し order.jsp専用ビーンに格納
+		// 画面の入力内容取得
 		G_Order G_Order = new G_Order();
 		G_Order.setOrderNo(request.getParameter("orderNo"));
 		G_Order.setProductNo(request.getParameter("productNo"));
@@ -57,6 +61,7 @@ public class OrderAction extends Action {
 		G_Order.setDeliveryDate(request.getParameter("deliveryDate"));
 		G_Order.setBiko(request.getParameter("biko"));
 		G_Order.setFinFlg(request.getParameter("finFlg"));
+		G_Order.setOrderDate(request.getParameter("orderDate"));
 		session.setAttribute("G_Order", G_Order);
 		// 処理種により､処理を分岐
 		switch (toAction) {
@@ -88,8 +93,8 @@ public class OrderAction extends Action {
 				break;
 			} else if (orderTableForChange != null) {
 				if (orderTableForChange.getFinFlg().equals("1")) {
-					// 出荷処理済みは､表示のみ行い､内容変更/削除不可とする
-					session.setAttribute("message", "入力値に該当する受注番号は既に入荷処理済みの為､編集不可です。\\n入力内容を確認ください。");
+					// 納品処理済みは､表示のみ行い､内容変更/削除不可とする
+					session.setAttribute("message", "入力値に該当する発注番号は既に入荷処理済みの為､編集不可です。\\n入力内容を確認ください。");
 				}
 				G_Order.setOrderNo(orderTableForChange.getOrderNo());
 				G_Order.setProductNo(orderTableForChange.getProductNo());
@@ -97,6 +102,7 @@ public class OrderAction extends Action {
 				G_Order.setDeliveryDate(orderTableForChange.getDeliveryDate());
 				G_Order.setBiko(orderTableForChange.getBiko());
 				G_Order.setFinFlg(orderTableForChange.getFinFlg());
+				G_Order.setOrderDate(orderTableForChange.getOrderDate());
 				session.setAttribute("G_Order", G_Order);
 			}
 			// ｢OrderNo｣での検索結果に基づき､引き続き､｢productName｣｢supplierNo｣｢supplierName｣の検索を行う為､このStepでは｢break;｣の記述は行わない
@@ -164,7 +170,7 @@ public class OrderAction extends Action {
 		ProductMasterList = pmDAO.searchAll();
 		session.setAttribute("ProductMasterList", ProductMasterList);
 		// 遷移画面情報保存
-		session.setAttribute("nextJsp", "/WEB-INF/main/Order.jsp");
-		return "/WEB-INF/main/Order.jsp";
+		session.setAttribute("nextJsp", "/WEB-INF/main/order.jsp");
+		return "/WEB-INF/main/order.jsp";
 	}
 }

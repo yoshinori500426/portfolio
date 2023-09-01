@@ -49,7 +49,7 @@
 					<p class="col-xs-7">：<input type="number"  style="width: 300px;" list="userIdList" name="userId" id="userId" data-changeDisabled="4" 
 											min="0" max="999999" step="1" onkeyup="javascript: this.value = this.value.slice(0, 6);" 
 											onchange="javascript: this.value = this.value==0?'':('000000'+this.value).slice(-6);doExecute2('searchUserID');" 
-											placeholder="6桁数字" value="${G_UserMaster.userId}">
+											placeholder="数字(最大6桁)" value="${G_UserMaster.userId}">
 											<datalist id="userIdList">
 												<c:forEach var="uml" items="${UserMasterList}" >
 													<option value="${uml.userId}" label="ユーザID:${uml.userId}, ユーザ名:${uml.name}">

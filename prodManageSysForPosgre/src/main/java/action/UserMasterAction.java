@@ -29,6 +29,10 @@ public class UserMasterAction extends Action {
 			session.setAttribute("nextJsp", "/WEB-INF/main/login.jsp");
 			return "/WEB-INF/main/login.jsp";
 		}
+		// 各メッセージリセット
+		session.setAttribute("alert", null);
+		session.setAttribute("message", null);
+		session.setAttribute("state", null);
 		// 使用DAOインスタンス取得
 		UserMasterDAO umDAO = new UserMasterDAO();
 		// 使用インスタンスの格納変数を参照先「null」で宣言

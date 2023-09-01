@@ -31,6 +31,10 @@ public class ProductMasterAction extends Action {
 			session.setAttribute("nextJsp", "/WEB-INF/main/login.jsp");
 			return "/WEB-INF/main/login.jsp";
 		}
+		// 各メッセージリセット
+		session.setAttribute("alert", null);
+		session.setAttribute("message", null);
+		session.setAttribute("state", null);
 		// 使用DAOインスタンス取得
 		ProductMasterDAO pmDAO = new ProductMasterDAO();
 		SupplierMasterDAO smDAO = new SupplierMasterDAO();

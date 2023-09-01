@@ -10,6 +10,10 @@ public class LogoutAction extends Action {
 
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		HttpSession session = request.getSession();
+		// 各メッセージリセット
+		session.setAttribute("alert", null);
+		session.setAttribute("message", null);
+		session.setAttribute("state", null);
 		// ログイン情報削除
 		session.setAttribute("user", null);
 		// ログイン状態表示クリア

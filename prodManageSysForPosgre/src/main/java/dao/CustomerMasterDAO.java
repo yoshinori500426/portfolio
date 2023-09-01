@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 import bean.CustomerMaster;
 import bean.G_CustomerMaster;
 import bean.G_PurchaseOrder;
+import bean.G_Shipping;
 import bean.UserMaster;
 
 public class CustomerMasterDAO extends DAO {
@@ -39,15 +40,15 @@ public class CustomerMasterDAO extends DAO {
 	/**
 	 * 顧客先番号に合致するレコード情報を取得するメソッド
 	 * 
-	 * @param G_CustomerMasterクラスのインスタンス
+	 * @param String customerNo
 	 * @return 該当レコードあり:CustomerMasterクラスのインスタンス 無:null
 	 */
-	public CustomerMaster searchByCusNo(G_CustomerMaster G_CustomerMaster) {
+	public CustomerMaster searchByCusNo(String customerNo) {
 		CustomerMaster CustomerMaster = null;
 		try {
 			Connection con = getConnection();
 			PreparedStatement st = con.prepareStatement("SELECT * FROM CUSTOMER_MASTER WHERE CUSTOMER_NO=?");
-			st.setString(1, G_CustomerMaster.getCustomerNo());
+			st.setString(1, customerNo);
 			ResultSet rs = st.executeQuery();
 			while (rs.next()) {
 				CustomerMaster = new CustomerMaster();
@@ -74,6 +75,16 @@ public class CustomerMasterDAO extends DAO {
 		}
 		return CustomerMaster;
 	}
+	
+	/**
+	 * 顧客先番号に合致するレコード情報を取得するメソッド
+	 * 
+	 * @param G_CustomerMasterクラスのインスタンス
+	 * @return 該当レコードあり:CustomerMasterクラスのインスタンス 無:null
+	 */
+	public CustomerMaster searchByCusNo(G_CustomerMaster G_CustomerMaster) {
+		return searchByCusNo(G_CustomerMaster.getCustomerNo());
+	}
 
 	/**
 	 * 顧客先番号に合致するレコード情報を取得するメソッド
@@ -82,36 +93,17 @@ public class CustomerMasterDAO extends DAO {
 	 * @return 該当レコードあり:CustomerMasterクラスのインスタンス 無:null
 	 */
 	public CustomerMaster searchByCusNo(G_PurchaseOrder G_PurchaseOrder) {
-		CustomerMaster CustomerMaster = null;
-		try {
-			Connection con = getConnection();
-			PreparedStatement st = con.prepareStatement("SELECT * FROM CUSTOMER_MASTER WHERE CUSTOMER_NO=?");
-			st.setString(1, G_PurchaseOrder.getCustomerNo());
-			ResultSet rs = st.executeQuery();
-			while (rs.next()) {
-				CustomerMaster = new CustomerMaster();
-				CustomerMaster.setCustomerNo(rs.getString("CUSTOMER_NO"));
-				CustomerMaster.setCustomerName(rs.getString("CUSTOMER_NAME"));
-				CustomerMaster.setBranchName(rs.getString("BRANCH_NAME"));
-				CustomerMaster.setZipNo(rs.getString("ZIP_NO"));
-				CustomerMaster.setAddress1(rs.getString("ADDRESS1"));
-				CustomerMaster.setAddress2(rs.getString("ADDRESS2"));
-				CustomerMaster.setAddress3(rs.getString("ADDRESS3"));
-				CustomerMaster.setTel(rs.getString("TEL"));
-				CustomerMaster.setFax(rs.getString("FAX"));
-				CustomerMaster.setManager(rs.getString("MANAGER"));
-				CustomerMaster.setDelivaryLeadtime(rs.getInt("DELIVARY_LEADTIME"));
-				CustomerMaster.setEtc(rs.getString("ETC"));
-				CustomerMaster.setRegistdate(rs.getString("REGIST_DATE"));
-				CustomerMaster.setRegistuser(rs.getString("REGIST_USER"));
-			}
-			st.close();
-			con.close();
-		} catch (Exception e) {
-			System.out.println("SQLでエラーが発生しました");
-			e.printStackTrace();
-		}
-		return CustomerMaster;
+		return searchByCusNo(G_PurchaseOrder.getCustomerNo());
+	}
+	
+	/**
+	 * 顧客先番号に合致するレコード情報を取得するメソッド
+	 * 
+	 * @param G_Shippingクラスのインスタンス
+	 * @return 該当レコードあり:CustomerMasterクラスのインスタンス 無:null
+	 */
+	public CustomerMaster searchByCusNo(G_Shipping G_Shipping) {
+		return searchByCusNo(G_Shipping.getCustomerNo());
 	}
 
 	/**
@@ -154,51 +146,6 @@ public class CustomerMasterDAO extends DAO {
 			e.printStackTrace();
 		}
 		return CustomerMasterList;
-	}
-
-	/**
-	 * 引数の顧客先番号に合致するレコードを更新するメソッド
-	 * 
-	 * @param G_CustomerMasterクラスのインスタンス
-	 * @return 0:更新失敗 1:更新成功
-	 */
-	public int updateByCusNo(G_CustomerMaster G_CustomerMaster, HttpServletRequest request) {
-		// 戻り値用変数
-		int line = 0;
-		// 登録日用にCalendarクラスのオブジェクトを生成する
-		Calendar cl = Calendar.getInstance();
-		// 登録日用SimpleDateFormatクラスでフォーマットパターンを設定する
-		SimpleDateFormat sdfymd = new SimpleDateFormat("yyyy/MM/dd");
-		// ｢REGIST_USER｣が格納されたインスタンス取得
-		HttpSession session = request.getSession();
-		UserMaster user = (UserMaster) session.getAttribute("user");
-		try {
-			Connection con = getConnection();
-			PreparedStatement st;
-			st = con.prepareStatement("UPDATE CUSTOMER_MASTER SET CUSTOMER_NAME=?, BRANCH_NAME=?, ZIP_NO=? ,ADDRESS1=?, ADDRESS2=?, ADDRESS3=?, TEL=?, FAX=?, "
-										+ "MANAGER=?, DELIVARY_LEADTIME=?, ETC=?, REGIST_DATE=?, REGIST_USER=? WHERE CUSTOMER_NO=?");
-			st.setString(1, G_CustomerMaster.getCustomerName());
-			st.setString(2, G_CustomerMaster.getBranchName());
-			st.setString(3, G_CustomerMaster.getZipNo());
-			st.setString(4, G_CustomerMaster.getAddress1());
-			st.setString(5, G_CustomerMaster.getAddress2());
-			st.setString(6, G_CustomerMaster.getAddress3());
-			st.setString(7, G_CustomerMaster.getTel());
-			st.setString(8, G_CustomerMaster.getFax());
-			st.setString(9, G_CustomerMaster.getManager());
-			st.setInt(10, Integer.parseInt(G_CustomerMaster.getDelivaryLeadtime()));
-			st.setString(11, G_CustomerMaster.getEtc());
-			st.setString(12, sdfymd.format(cl.getTime()));
-			st.setString(13, user.getUserId());
-			st.setString(14, G_CustomerMaster.getCustomerNo());
-			line = st.executeUpdate();
-			st.close();
-			con.close();
-		} catch (Exception e) {
-			System.out.println("SQLでエラーが発生しました");
-			e.printStackTrace();
-		}
-		return line;
 	}
 
 	/**
@@ -331,6 +278,51 @@ public class CustomerMasterDAO extends DAO {
 			st.close();
 			con.close();
 		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return line;
+	}
+	
+	/**
+	 * 引数の顧客先番号に合致するレコードを更新するメソッド
+	 * 
+	 * @param G_CustomerMasterクラスのインスタンス
+	 * @return 0:更新失敗 1:更新成功
+	 */
+	public int updateByCusNo(G_CustomerMaster G_CustomerMaster, HttpServletRequest request) {
+		// 戻り値用変数
+		int line = 0;
+		// 登録日用にCalendarクラスのオブジェクトを生成する
+		Calendar cl = Calendar.getInstance();
+		// 登録日用SimpleDateFormatクラスでフォーマットパターンを設定する
+		SimpleDateFormat sdfymd = new SimpleDateFormat("yyyy/MM/dd");
+		// ｢REGIST_USER｣が格納されたインスタンス取得
+		HttpSession session = request.getSession();
+		UserMaster user = (UserMaster) session.getAttribute("user");
+		try {
+			Connection con = getConnection();
+			PreparedStatement st;
+			st = con.prepareStatement("UPDATE CUSTOMER_MASTER SET CUSTOMER_NAME=?, BRANCH_NAME=?, ZIP_NO=? ,ADDRESS1=?, ADDRESS2=?, ADDRESS3=?, TEL=?, FAX=?, "
+										+ "MANAGER=?, DELIVARY_LEADTIME=?, ETC=?, REGIST_DATE=?, REGIST_USER=? WHERE CUSTOMER_NO=?");
+			st.setString(1, G_CustomerMaster.getCustomerName());
+			st.setString(2, G_CustomerMaster.getBranchName());
+			st.setString(3, G_CustomerMaster.getZipNo());
+			st.setString(4, G_CustomerMaster.getAddress1());
+			st.setString(5, G_CustomerMaster.getAddress2());
+			st.setString(6, G_CustomerMaster.getAddress3());
+			st.setString(7, G_CustomerMaster.getTel());
+			st.setString(8, G_CustomerMaster.getFax());
+			st.setString(9, G_CustomerMaster.getManager());
+			st.setInt(10, Integer.parseInt(G_CustomerMaster.getDelivaryLeadtime()));
+			st.setString(11, G_CustomerMaster.getEtc());
+			st.setString(12, sdfymd.format(cl.getTime()));
+			st.setString(13, user.getUserId());
+			st.setString(14, G_CustomerMaster.getCustomerNo());
+			line = st.executeUpdate();
+			st.close();
+			con.close();
+		} catch (Exception e) {
+			System.out.println("SQLでエラーが発生しました");
 			e.printStackTrace();
 		}
 		return line;

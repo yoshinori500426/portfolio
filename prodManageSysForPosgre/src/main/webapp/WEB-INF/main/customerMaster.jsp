@@ -50,7 +50,7 @@
 											maxlength="5" onkeydown="befValue=this.value;" 
 											onkeyup="this.value=(befValue==''&&this.value.match(/^[A-Za-z]+$/))?this.value.toUpperCase():(befValue!=''&&(this.value.match(/^[A-Za-z][0-9]*$/)||this.value==''))?this.value:befValue;" 
 											onchange="this.value=(this.value.substr(0,1).match(/^[A-Za-z]+$/)&&this.value.substr(1)==0)?this.value.substr(0,1):(this.value.substr(0,1).match(/^[A-Za-z]+$/)&&this.value.substr(1)!='')?this.value.substr(0,1)+('0000'+this.value.substr(1)).slice(-4):this.value;doExecute2('searchCustomerNo');" 
-											placeholder="5文字(例:A0100)" value="${G_CustomerMaster.customerNo}">
+											placeholder="アルファベット1文字+数字(最大4桁)(例:A100)" value="${G_CustomerMaster.customerNo}">
 											<datalist id="customerNoList">
 												<c:forEach var="cml" items="${CustomerMasterList}" >
 													<option value="${cml.customerNo}" label="顧客コード:${cml.customerNo}, 会社名:${cml.customerName}, 支店名:${cml.branchName}">

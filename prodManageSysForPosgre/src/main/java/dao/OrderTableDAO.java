@@ -72,15 +72,15 @@ public class OrderTableDAO extends DAO {
 	/**
 	 * OrderTableテーブル参照メソッド →ORDER_NOによる検索
 	 * 
-	 * @param OrderTableビーン
+	 * @param String orderNo
 	 * @return OrderTableビーン 「null：失敗」「インスタンス有：成功」
 	 */
-	public OrderTable searchByOrdNo(OrderTable ot) {
+	public OrderTable searchByOrdNo(String orderNo) {
 		OrderTable OrderTable = null;
 		try {
 			Connection con = getConnection();
 			PreparedStatement st = con.prepareStatement("SELECT * FROM ORDER_TABLE WHERE ORDER_NO=?");
-			st.setString(1, ot.getOrderNo());
+			st.setString(1, orderNo);
 			ResultSet rs = st.executeQuery();
 			while (rs.next()) {
 				OrderTable = new OrderTable();
@@ -104,6 +104,16 @@ public class OrderTableDAO extends DAO {
 			e.printStackTrace();
 		}
 		return OrderTable;
+	}
+	
+	/**
+	 * OrderTableテーブル参照メソッド →ORDER_NOによる検索
+	 * 
+	 * @param OrderTableビーン
+	 * @return OrderTableビーン 「null：失敗」「インスタンス有：成功」
+	 */
+	public OrderTable searchByOrdNo(OrderTable OrderTable) {
+		return searchByOrdNo(OrderTable);
 	}
 
 	/**
@@ -113,34 +123,7 @@ public class OrderTableDAO extends DAO {
 	 * @return OrderTableビーン 「null：失敗」「インスタンス有：成功」
 	 */
 	public OrderTable searchByOrdNo(G_Order G_Order) {
-		OrderTable OrderTable = null;
-		try {
-			Connection con = getConnection();
-			PreparedStatement st = con.prepareStatement("SELECT * FROM ORDER_TABLE WHERE ORDER_NO=?");
-			st.setString(1, G_Order.getOrderNo());
-			ResultSet rs = st.executeQuery();
-			while (rs.next()) {
-				OrderTable = new OrderTable();
-				OrderTable.setOrderNo(rs.getString("ORDER_NO"));
-				OrderTable.setSupplierNo(rs.getString("SUPPLIER_NO"));
-				OrderTable.setProductNo(rs.getString("PRODUCT_NO"));
-				OrderTable.setOrderQty(rs.getInt("ORDER_QTY"));
-				OrderTable.setDeliveryDate(new MainAction().dateChangeForHTML(rs.getString("DELIVERY_DATE")));
-				OrderTable.setBiko(rs.getString("BIKO"));
-				OrderTable.setDueDate(new MainAction().dateChangeForHTML(rs.getString("DUE_DATE")));
-				OrderTable.setDueQty(rs.getInt("DUE_QTY"));
-				OrderTable.setFinFlg(rs.getString("FIN_FLG"));
-				OrderTable.setRegistUser(rs.getString("REGIST_USER"));
-				OrderTable.setOrderDate(new MainAction().dateChangeForHTML(rs.getString("ORDER_DATE")));
-				OrderTable.setOrderUser(rs.getString("ORDER_USER"));
-			}
-			st.close();
-			con.close();
-		} catch (Exception e) {
-			System.out.println("SQLでエラーが発生しました。");
-			e.printStackTrace();
-		}
-		return OrderTable;
+		return searchByOrdNo(G_Order);
 	}
 
 	/**
@@ -150,6 +133,48 @@ public class OrderTableDAO extends DAO {
 	 * @return List<OrderTable> 「null：失敗」「null以外：成功」
 	 */
 	public List<OrderTable> searchAll() {
+		// 戻り値用の変数宣言
+		List<OrderTable> OrderTableList = new ArrayList<>();
+		OrderTable OrderTable = null;
+		try {
+			Connection con = getConnection();
+			PreparedStatement st;
+			st = con.prepareStatement("SELECT * FROM ORDER_TABLE ORDER BY ORDER_NO ASC");
+			ResultSet rs = st.executeQuery();
+			while (rs.next()) {
+				if (!rs.getString("FIN_FLG").equals("1")) {
+					OrderTable = new OrderTable();
+					OrderTable.setOrderNo(rs.getString("ORDER_NO"));
+					OrderTable.setSupplierNo(rs.getString("SUPPLIER_NO"));
+					OrderTable.setProductNo(rs.getString("PRODUCT_NO"));
+					OrderTable.setOrderQty(rs.getInt("ORDER_QTY"));
+					OrderTable.setDeliveryDate(new MainAction().dateChangeForHTML(rs.getString("DELIVERY_DATE")));
+					OrderTable.setBiko(rs.getString("BIKO"));
+					OrderTable.setDueDate(new MainAction().dateChangeForHTML(rs.getString("DUE_DATE")));
+					OrderTable.setDueQty(rs.getInt("DUE_QTY"));
+					OrderTable.setFinFlg(rs.getString("FIN_FLG"));
+					OrderTable.setRegistUser(rs.getString("REGIST_USER"));
+					OrderTable.setOrderDate(new MainAction().dateChangeForHTML(rs.getString("ORDER_DATE")));
+					OrderTable.setOrderUser(rs.getString("ORDER_USER"));
+					OrderTableList.add(OrderTable);
+				}
+			}
+			st.close();
+			con.close();
+		} catch (Exception e) {
+			System.out.println("SQLでエラーが発生しました。");
+			e.printStackTrace();
+		}
+		return OrderTableList;
+	}
+	
+	/**
+	 * OrderTableテーブル取得メソッド(検索条件なし) →ORDER_NOリスト取得用メソッド
+	 *
+	 * @param 引数無し
+	 * @return List<OrderTable> 「null：失敗」「null以外：成功」
+	 */
+	public List<OrderTable> searchAllAddFinFlg1() {
 		// 戻り値用の変数宣言
 		List<OrderTable> OrderTableList = new ArrayList<>();
 		OrderTable OrderTable = null;
@@ -242,13 +267,13 @@ public class OrderTableDAO extends DAO {
 				count++;
 			} while (true);
 			// 新規登録処理 13項目
-			st = con.prepareStatement("INSERT INTO ORDER_TABLE VALUES(? ,? ,?, ?, ?, '', '', 0, ?, ?, ?, ?)");
+			st = con.prepareStatement("INSERT INTO ORDER_TABLE VALUES(?, ?, ?, ?, ?, ?, NULL, 0, '0', ?, ?, ?)");
 			st.setString(1, ORDER_NO);
 			st.setString(2, ot.getSupplierNo());
 			st.setString(3, ot.getProductNo());
 			st.setInt(4, ot.getOrderQty());
 			st.setString(5, new MainAction().dateChangeForDB(ot.getDeliveryDate()));
-			st.setString(6, ot.getFinFlg());
+			st.setString(6, ot.getBiko());
 			st.setString(7, um.getUserId());
 			st.setString(8, sdfymd.format(cl.getTime()));
 			st.setString(9, um.getUserId());
@@ -301,7 +326,7 @@ public class OrderTableDAO extends DAO {
 	 * @param OrderTableビーン
 	 * @return 整数 「0：失敗」「1：成功」
 	 */
-	public int updateForSupplier(OrderTable ot, HttpServletRequest request) {
+	public int updateForSupplier(OrderTable OrderTable, HttpServletRequest request) {
 		int line = 0;
 		// 登録日用にCalendarクラスのオブジェクトを生成する
 		Calendar cl = Calendar.getInstance();
@@ -314,9 +339,9 @@ public class OrderTableDAO extends DAO {
 			Connection con = getConnection();
 			PreparedStatement st = con.prepareStatement("UPDATE ORDER_TABLE SET DUE_DATE=?, DUE_QTY=?, FIN_FLG='1', REGIST_USER=? WHERE ORDER_NO=?");
 			st.setString(1, sdfymd.format(cl.getTime()));
-			st.setInt(2, ot.getDueQty());
+			st.setInt(2, OrderTable.getDueQty());
 			st.setString(3, um.getUserId());
-			st.setString(4, ot.getOrderNo());
+			st.setString(4, OrderTable.getOrderNo());
 			line = st.executeUpdate();
 			st.close();
 			con.close();
@@ -326,7 +351,7 @@ public class OrderTableDAO extends DAO {
 		}
 		return line;
 	}
-	
+
 	/**
 	 * 発注番号に合致するレコードを削除するメソッド
 	 * 

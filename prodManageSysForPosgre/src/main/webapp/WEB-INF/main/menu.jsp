@@ -23,13 +23,13 @@
             <form action="Main.action" method="post">
                 <input type="hidden" name="toAction">
                 <div class="row">
-                    <div class="col-xs-6"><button type="button" class="btn btn-primary btn-block" onclick="doExecute2('main/purchaseOrder.jsp')"> 受注処理</button></div>
-                    <div class="col-xs-6"><button type="button" class="btn btn-primary btn-block" onclick="doExecute2('main/order.jsp')"> 発注処理</button></div>
+                    <div class="col-xs-6"><button type="button" class="btn btn-primary btn-block" onclick="doExecute2('main/purchaseOrder.jsp')">受注処理</button></div>
+                    <div class="col-xs-6"><button type="button" class="btn btn-primary btn-block" onclick="doExecute2('main/order.jsp')">発注処理</button></div>
                 </div>
                 <br>
                 <div class="row">
-                    <div class="col-xs-6"><button type="button" class="btn btn-primary btn-block" onclick="doExecute2('main/shipping.jsp')">出荷処理</button></div>
-                    <div class="col-xs-6"><button type="button" class="btn btn-primary btn-block" onclick="doExecute2('main/supplier.jsp')">納品処理</button></div>
+                    <div class="col-xs-6"><button type="button" class="btn btn-primary btn-block" onclick="doExecute2('main/shipping.jsp')">出荷処理<small>(=出庫処理)</small></button></div>
+                    <div class="col-xs-6"><button type="button" class="btn btn-primary btn-block" onclick="doExecute2('main/supplier.jsp')">入荷処理<small>(=入庫処理)</small></button></div>
                 </div>
                 <br>
                 <div class="row">
@@ -38,7 +38,7 @@
                 </div>
                 <br>
                 <div class="row">
-                    <div class="col-xs-6"><button type="button" class="btn btn-primary btn-block" onclick="doExecute2('main/entryExitInfo.jsp')">入出庫処理<small>(出荷/納品以外の入出庫)</small></button></div>
+                    <div class="col-xs-6"><button type="button" class="btn btn-primary btn-block" onclick="doExecute2('main/entryExitInfo.jsp')">入出庫処理<small>(=出荷/納品以外の入出庫処理)</small></button></div>
                     <div class="col-xs-6"><button type="button" class="btn btn-primary btn-block" onclick="doExecute2('main/stock.jsp')">在庫確認</button></div>
                 </div>
                 <br>

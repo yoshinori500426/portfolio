@@ -9,62 +9,88 @@ import java.util.Calendar;
 import java.util.List;
 
 import bean.EntryExitInfo;
+import bean.G_EntryExitInfo;
+
+
+//public EntryExitInfo searchByProNo(String proNo) throws Exception {
+//	EntryExitInfo enEx = null;
+//
+//	Connection con = getConnection();
+//
+//	PreparedStatement st;
+//	st = con.prepareStatement(
+//			"SELECT EEI.EN_EX_ID, PM.PRODUCT_NAME, EEI.EN_EX_DATE, EEI.PRODUCT_NO, EEI.NYUKO_QTY, EEI.SYUKO_QTY, EEI.REASON FROM ENTRY_EXIT_INFO EEI INNER JOIN PRODUCT_MASTER PM ON EEI.PRODUCT_NO = PM.PRODUCT_NO WHERE EEI.PRODUCT_NO = ?");
+//	st.setString(1, proNo);
+//	ResultSet rs = st.executeQuery();
+//
+//	while (rs.next()) {
+//		enEx = new EntryExitInfo();
+//		enEx.setEnExId(rs.getString("EN_EX_ID"));
+//		enEx.setEnExDate(rs.getString("EN_EX_DATE"));
+//		enEx.setProductNo(rs.getString("PRODUCT_NO"));
+//		enEx.setNyukoQty(rs.getInt("NYUKO_QTY"));
+//		enEx.setSyukoQty(rs.getInt("SYUKO_QTY"));
+//		enEx.setReason(rs.getString("REASON"));
+//		enEx.setProductName(rs.getString("PRODUCT_NAME"));
+//
+//	}
+//
+//	st.close();
+//	con.close();
+//	return enEx;
+//}
+
 
 public class EntryExitInfoDAO extends DAO {
-	public EntryExitInfo searchByEnId(int enId) throws Exception {
-		EntryExitInfo enEx = null;
-
-		Connection con = getConnection();
-
-		PreparedStatement st;
-		st = con.prepareStatement("SELECT * FROM ENTRY_EXIT_INFO WHERE EN_EX_ID = ?");
-		st.setInt(1, enId);
-		ResultSet rs = st.executeQuery();
-
-		while (rs.next()) {
-			enEx = new EntryExitInfo();
-			enEx.setEnExId(rs.getString("EN_EX_ID"));
-			enEx.setEnExDate(rs.getString("EN_EX_DATE"));
-			enEx.setProductNo(rs.getString("PRODUCT_NO"));
-			enEx.setNyukoQty(rs.getInt("NYUKO_QTY"));
-			enEx.setSyukoQty(rs.getInt("SYUKO_QTY"));
-			enEx.setReason(rs.getString("REASON"));
-			enEx.setRegistDate(rs.getString("REGIST_DATE"));
-			enEx.setRegistUser(rs.getString("REGIST_USER"));
+	/**
+	 * ENTRY_EXIT_INFOテーブル参照メソッド
+	 * 
+	 * @param String orderNo
+	 * @return EntryExitInfoビーン 「null：失敗」「インスタンス有：成功」
+	 */
+	public EntryExitInfo searchByEnId(String enExId) {
+		EntryExitInfo EntryExitInfo = null;
+		try {
+			Connection con = getConnection();
+			PreparedStatement st = con.prepareStatement("SELECT * FROM ENTRY_EXIT_INFO WHERE EN_EX_ID = ?");
+			st.setString(1, enExId);
+			ResultSet rs = st.executeQuery();
+			while (rs.next()) {
+				EntryExitInfo = new EntryExitInfo();
+				EntryExitInfo.setEnExId(rs.getString("EN_EX_ID"));
+				EntryExitInfo.setEnExDate(rs.getString("EN_EX_DATE"));
+				EntryExitInfo.setProductNo(rs.getString("PRODUCT_NO"));
+				EntryExitInfo.setNyukoQty(rs.getInt("NYUKO_QTY"));
+				EntryExitInfo.setSyukoQty(rs.getInt("SYUKO_QTY"));
+				EntryExitInfo.setReason(rs.getString("REASON"));
+				EntryExitInfo.setRegistDate(rs.getString("REGIST_DATE"));
+				EntryExitInfo.setRegistUser(rs.getString("REGIST_USER"));
+			}
+			st.close();
+			con.close();
+		} catch (Exception e) {
+			System.out.println("SQLでエラーが発生しました。");
+			e.printStackTrace();
 		}
-
-		st.close();
-		con.close();
-		return enEx;
+		return EntryExitInfo;
+	}
+	
+	/**
+	 * ENTRY_EXIT_INFOテーブル参照メソッド
+	 * 
+	 * @param G_EntryExitInfo
+	 * @return EntryExitInfoビーン 「null：失敗」「インスタンス有：成功」
+	 */
+	public EntryExitInfo searchByEnId(G_EntryExitInfo G_EntryExitInfo) {
+		return searchByEnId(G_EntryExitInfo.getEnExId());
 	}
 
-	public EntryExitInfo searchByProNo(String proNo) throws Exception {
-		EntryExitInfo enEx = null;
 
-		Connection con = getConnection();
 
-		PreparedStatement st;
-		st = con.prepareStatement(
-				"SELECT EEI.EN_EX_ID, PM.PRODUCT_NAME, EEI.EN_EX_DATE, EEI.PRODUCT_NO, EEI.NYUKO_QTY, EEI.SYUKO_QTY, EEI.REASON FROM ENTRY_EXIT_INFO EEI INNER JOIN PRODUCT_MASTER PM ON EEI.PRODUCT_NO = PM.PRODUCT_NO WHERE EEI.PRODUCT_NO = ?");
-		st.setString(1, proNo);
-		ResultSet rs = st.executeQuery();
 
-		while (rs.next()) {
-			enEx = new EntryExitInfo();
-			enEx.setEnExId(rs.getString("EN_EX_ID"));
-			enEx.setEnExDate(rs.getString("EN_EX_DATE"));
-			enEx.setProductNo(rs.getString("PRODUCT_NO"));
-			enEx.setNyukoQty(rs.getInt("NYUKO_QTY"));
-			enEx.setSyukoQty(rs.getInt("SYUKO_QTY"));
-			enEx.setReason(rs.getString("REASON"));
-			enEx.setProductName(rs.getString("PRODUCT_NAME"));
 
-		}
 
-		st.close();
-		con.close();
-		return enEx;
-	}
+
 
 	public List<EntryExitInfo> execution(String productNo) throws Exception {
 		List<EntryExitInfo> list = new ArrayList<>();
