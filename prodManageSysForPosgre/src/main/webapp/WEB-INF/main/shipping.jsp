@@ -22,7 +22,19 @@
 					<input type="hidden" name="toAction">
 					<div class="row">
 						<h1 class="h2 col-xs-6">出荷画面</h1>
-						<h1 class="h3 col-xs-4 text-left"></h1>
+						<h1 class="h3 col-xs-4 text-left">
+							<c:choose>
+								<c:when test="${empty btnSelect}">
+									<span class="label label-primary">状態：未選択</span>
+								</c:when>
+								<c:when test="${btnSelect=='update'}">
+									<span class="label label-success">状態：出荷登録</span>
+								</c:when>
+								<c:when test="${btnSelect=='delete'}">
+									<span class="label btn-danger">状態：出荷取消</span>
+								</c:when>
+							</c:choose>
+						</h1>
 						<div class="col-xs-2"><a href="javascript:logout()"></a></div>
 					</div>
 				</form>
@@ -31,11 +43,17 @@
 	<hr>
 		<div>
 			<%-- document.forms[2]; --%>
-			<form action="PurchaseOrder.action" method="post">
+			<form action="Shipping.action" method="post">
 			    <input type="hidden" name="toAction" data-changeDisabled="0">
-			    <%-- この画面では､状態切替用ボタンは存在しないが､｢update｣と同様の動作を行わせる為､固定値として規定する --%>
-				<input type="hidden" name="btnSelect" data-changeDisabled="0" value="update" >
+				<input type="hidden" name="btnSelect" data-changeDisabled="0" value="${btnSelect}" >
 				<input type="hidden" name="finFlg" data-changeDisabled="0" value="${G_Shipping.finFlg}" >
+				<div class="row">
+					<div class="col-xs-1"></div>
+					<div class="col-xs-5"><button type="button" class="btn btn-success btn-block" name="update" data-changeDisabled="2" onClick="btnChange('update')">出荷登録</button></div>
+					<div class="col-xs-5"><button type="button" class="btn btn-danger btn-block" name="delete" data-changeDisabled="3" onClick="btnChange('delete')">出荷取消</button></div>
+					<div class="col-xs-1"></div>
+				</div>
+	<hr>
 				<div class="row">
 					<div class="col-xs-2"></div>
 					<label class="form-label col-xs-3 text-left" for="poNo">受注番号</label>
@@ -76,8 +94,8 @@
 				<div class="row">
 					<div class="col-xs-2"></div>
 					<label class="form-label col-xs-3 text-left" for="orderDate">受注日</label>
-					<p class="col-xs-7">：<input type="text" style="width: 300px;" name="orderDate" id="orderDate" data-changeDisabled="0" 
-											placeholder="表示のみ(入力不可)" value="${G_Shipping.orderDate}" disabled></p>
+					<p class="col-xs-7">：<input type="date" style="width: 300px;" name="orderDate" id="orderDate" data-changeDisabled="0" 
+											value="${G_Shipping.orderDate}" disabled></p>
 				</div>
 				<div class="row">
 					<div class="col-xs-2"></div>
@@ -88,8 +106,8 @@
 				<div class="row">
 					<div class="col-xs-2"></div>
 					<label class="form-label col-xs-3 text-left" for="deliveryDate">納期</label>
-					<p class="col-xs-7">：<input type="text" style="width: 300px;" name="deliveryDate" id="deliveryDate" data-changeDisabled="0" 
-											placeholder="表示のみ(入力不可)" value="${G_Shipping.deliveryDate}" disabled></p>
+					<p class="col-xs-7">：<input type="date" style="width: 300px;" name="deliveryDate" id="deliveryDate" data-changeDisabled="0" 
+											value="${G_Shipping.deliveryDate}" disabled></p>
 				</div>
 				<div class="row">
 					<div class="col-xs-2"></div>
@@ -106,7 +124,19 @@
 	<hr>
 				<div class="row">
 					<div class="col-xs-1"></div>
-					<div class="col-xs-5"><button type="button" class="btn btn-warning btn-block" data-changeDisabled="0" name="doExecuteBTN" onClick="doExecute2('doBTNExecute')" disabled>登録</button></div>
+					<div class="col-xs-5">
+						<c:choose>
+								<c:when test="${empty btnSelect}">
+										<button type="button" class="btn btn-primary btn-block" data-changeDisabled="0" disabled>未選択</button>
+								</c:when>
+								<c:when test="${btnSelect=='update'}">
+										<button type="button" class="btn btn-success btn-block" data-changeDisabled="0" name="doExecuteBTN" onClick="doExecute2('doBTNExecute')" disabled>出荷登録</button>
+								</c:when>
+								<c:when test="${btnSelect=='delete'}">
+										<button type="button" class="btn btn-danger btn-block" data-changeDisabled="0" name="doExecuteBTN" onClick="doExecute2('doBTNExecute')" disabled>出荷取消</button>
+								</c:when>
+						</c:choose>
+					</div>
 					<div class="col-xs-5"><button type="button" class="btn btn-primary btn-block" data-changeDisabled="0" onClick="doExecute2('cancel')">リセット</button></div>
 					<div class="col-xs-1"></div>
 				</div>

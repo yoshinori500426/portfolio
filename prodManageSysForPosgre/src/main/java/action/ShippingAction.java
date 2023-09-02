@@ -12,8 +12,10 @@ import bean.G_Shipping;
 import bean.ProductMaster;
 import bean.PurchaseOrder;
 import dao.CustomerMasterDAO;
+import dao.EntryExitInfoDAO;
 import dao.ProductMasterDAO;
 import dao.PurchaseOrderDAO;
+import dao.PuroductStockDAO;
 import tool.Action;
 
 public class ShippingAction extends Action {
@@ -33,10 +35,16 @@ public class ShippingAction extends Action {
 			session.setAttribute("nextJsp", "/WEB-INF/main/login.jsp");
 			return "/WEB-INF/main/login.jsp";
 		}
+		// 各メッセージリセット
+		session.setAttribute("alert", null);
+		session.setAttribute("message", null);
+		session.setAttribute("state", null);
 		// 使用DAOインスタンス取得
 		PurchaseOrderDAO poDAO = new PurchaseOrderDAO();
 		CustomerMasterDAO cmDAO = new CustomerMasterDAO();
 		ProductMasterDAO pmDAO = new ProductMasterDAO();
+		EntryExitInfoDAO eeiDAO = new EntryExitInfoDAO();
+		PuroductStockDAO psDAO = new PuroductStockDAO();
 		// 使用インスタンスの格納変数を参照先「null」で宣言
 		PurchaseOrder purchaseOrderForChange = null;
 		List<PurchaseOrder> PurchaseOrderList = null;
@@ -63,6 +71,12 @@ public class ShippingAction extends Action {
 		session.setAttribute("G_Shipping", G_Shipping);
 		// 処理種により､処理を分岐
 		switch (toAction) {
+		case "btnSelect":
+			// 「session.setAttribute("btnSelect", btnSelect);」を行う為の動作
+			// 各種セッション属性のnullクリア
+			new MainAction().crearAttributeForScreenChange(session);
+			session.setAttribute("btnSelect", btnSelect);
+			break;
 		case "searchPoNo":
 			// PoNoのクリア動作
 			if (G_Shipping.getPoNo().isEmpty()) {
@@ -72,7 +86,6 @@ public class ShippingAction extends Action {
 				break;
 			}
 			// テーブル検索
-			poDAO = new PurchaseOrderDAO();
 			purchaseOrderForChange = poDAO.searchByPoNo(G_Shipping);
 			if (purchaseOrderForChange == null) {
 				// 各種セッション属性のnullクリア
@@ -109,6 +122,12 @@ public class ShippingAction extends Action {
 			session.setAttribute("ProductMaster", ProductMaster);
 			break;
 		case "doBTNExecute":
+			// 分納未対応の為のチェック
+			// →受注数量=出荷数量になるようコードを書いている為､このifに該当するケースがありえないが､数値を取り扱うマナーとして記述する
+			if (!G_Shipping.getOrderQty().equals(G_Shipping.getShipQty())) {
+				session.setAttribute("message", "受注数量と出荷数量が一致しません｡\\n分納未対応の為､未処理で終了します｡");
+				break;
+			}
 			int line = 0;
 			// トランザクション処理準備
 			Connection con = poDAO.getConnection();
@@ -117,10 +136,25 @@ public class ShippingAction extends Action {
 				// トランザクション処理開始
 				con.setAutoCommit(false);
 				// DB処理
-				line = poDAO.updateByPoNo(G_Shipping, request);
-
+				// →テーブル｢ENTRY_EXIT_INFO｣｢PURODUCT_STOCK｣に対する処理は､update/deleteともに､新規の入出庫があったとして処理を行う
+				// →delete処理で､入出庫番号を元にした変更処理などは行わない､在庫は最新月の在庫情報を更新する
+				if (btnSelect.equals("update")) {
+					// テーブル｢PURCHASE_ORDER｣更新処理
+					line += poDAO.updateShipForShipByPoNo(G_Shipping, request);
+					// テーブル｢ENTRY_EXIT_INFO(=入出庫テーブル)｣登録処理
+					line += eeiDAO.insertForSyuko(G_Shipping, request);
+					// テーブル｢PURODUCT_STOCK(=在庫テーブル)｣処理(登録/更新)
+					line += psDAO.updateByPoNo(G_Shipping, request);
+				} else if (btnSelect.equals("delete")) {
+					// テーブル｢PURCHASE_ORDER｣更新処理
+					line += poDAO.updateCancelForShipByPoNo(G_Shipping, request);
+					// テーブル｢ENTRY_EXIT_INFO(=入出庫テーブル)｣登録処理
+					line += eeiDAO.insertForNyuko(G_Shipping, request);
+					// テーブル｢PURODUCT_STOCK(=在庫テーブル)｣処理(登録/更新)
+					line += psDAO.updateByPoNo(G_Shipping, request);
+				}
 				// 成功/失敗判定
-				if (line == 2) {
+				if (line == 3) {
 					con.commit();
 					// 各種セッション属性のnullクリア
 					new MainAction().crearAttributeForScreenChange(session);
@@ -145,10 +179,6 @@ public class ShippingAction extends Action {
 		// プルダウン用リスト取得
 		PurchaseOrderList = poDAO.searchAll();
 		session.setAttribute("PurchaseOrderList", PurchaseOrderList);
-		CustomerMasterList = cmDAO.searchAll();
-		session.setAttribute("CustomerMasterList", CustomerMasterList);
-		ProductMasterList = pmDAO.searchAll();
-		session.setAttribute("ProductMasterList", ProductMasterList);
 		// 遷移画面情報保存
 		session.setAttribute("nextJsp", "/WEB-INF/main/shipping.jsp");
 		return "/WEB-INF/main/shipping.jsp";

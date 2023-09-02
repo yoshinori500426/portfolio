@@ -95,10 +95,23 @@
 				</div>
 				<div class="row">
 					<div class="col-xs-2"></div>
-					<label class="form-label col-xs-3 text-left" for="orderQty">発注数量&nbsp;<span class="label label-danger">必須</span></label>
-					<p class="col-xs-7">：<input type="number" style="width: 300px;" name="orderQty" id="orderQty" class="inputRequired" data-inputRequired="false" data-changeDisabled="5" 
-											min="1" max="99999999" onkeyup="javascript: this.value = this.value.slice(0, 8);" onchange="docheck();" 
-											placeholder="1-99999999" value="${G_Order.orderQty}"></p>
+					<label class="form-label col-xs-3 text-left" for="lot">購買ロット</label>
+					<p class="col-xs-7">：<input type="text" style="width: 300px;" name="lot" id="lot" data-changeDisabled="0" 
+											placeholder="表示のみ(入力不可)" value="${ProductMaster.lot}" disabled></p>
+				</div>
+				<div class="row">
+					<div class="col-xs-2"></div>
+					<label class="form-label col-xs-3 text-left" for="orderLot">発注ロット&nbsp;<span class="label label-danger">必須</span></label>
+					<p class="col-xs-7">：<input type="number" style="width: 300px;" name="orderLot" id="orderLot" class="inputRequired" data-inputRequired="false" data-changeDisabled="5" 
+											min="1" max="javascript: this.value = ('${ProductMaster.lot}'=='')?'1':parseInt(99999999/Number('${ProductMaster.lot}'));" 
+											onkeydown="befValue=this.value;" onkeyup="javascript: this.value = (this.value=='')?'':(this.value>=1 && this.value<=parseInt(99999999/Number('${ProductMaster.lot}')))?this.value:befValue;" onchange="docheck();" 
+											value="${G_Order.orderLot}"></p>
+				</div>
+				<div class="row">
+					<div class="col-xs-2"></div>
+					<label class="form-label col-xs-3 text-left" for="orderQty">発注数量</label>
+					<p class="col-xs-7">：<input type="text" style="width: 300px;" name="orderQty" id="orderQty" data-changeDisabled="0" 
+											placeholder="表示のみ(入力不可)" value="${G_Order.orderQty}" disabled></p>
 				</div>
 				<div class="row">
 					<div class="col-xs-2"></div>

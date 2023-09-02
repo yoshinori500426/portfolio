@@ -80,7 +80,6 @@ public class PurchaseOrderAction extends Action {
 				break;
 			}
 			// テーブル検索
-			poDAO = new PurchaseOrderDAO();
 			purchaseOrderForChange = poDAO.searchByPoNo(G_PurchaseOrder);
 			if (purchaseOrderForChange == null) {
 				// 各種セッション属性のnullクリア

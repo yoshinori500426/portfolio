@@ -113,7 +113,7 @@ public class OrderTableDAO extends DAO {
 	 * @return OrderTableビーン 「null：失敗」「インスタンス有：成功」
 	 */
 	public OrderTable searchByOrdNo(OrderTable OrderTable) {
-		return searchByOrdNo(OrderTable);
+		return searchByOrdNo(OrderTable.getOrderNo());
 	}
 
 	/**
@@ -123,7 +123,7 @@ public class OrderTableDAO extends DAO {
 	 * @return OrderTableビーン 「null：失敗」「インスタンス有：成功」
 	 */
 	public OrderTable searchByOrdNo(G_Order G_Order) {
-		return searchByOrdNo(G_Order);
+		return searchByOrdNo(G_Order.getOrderNo());
 	}
 
 	/**
@@ -228,7 +228,7 @@ public class OrderTableDAO extends DAO {
 		SimpleDateFormat sdfymd = new SimpleDateFormat("yyyy/MM/dd");
 		// ｢REGIST_USER｣が格納されたインスタンス取得
 		HttpSession session = request.getSession();
-		UserMaster um = (UserMaster) session.getAttribute("user");
+		UserMaster user = (UserMaster) session.getAttribute("user");
 		try {
 			Connection con = getConnection();
 			PreparedStatement st = null;
@@ -274,9 +274,9 @@ public class OrderTableDAO extends DAO {
 			st.setInt(4, ot.getOrderQty());
 			st.setString(5, new MainAction().dateChangeForDB(ot.getDeliveryDate()));
 			st.setString(6, ot.getBiko());
-			st.setString(7, um.getUserId());
+			st.setString(7, user.getUserId());
 			st.setString(8, sdfymd.format(cl.getTime()));
-			st.setString(9, um.getUserId());
+			st.setString(9, user.getUserId());
 			line = st.executeUpdate();
 			st.close();
 			con.close();
@@ -298,7 +298,7 @@ public class OrderTableDAO extends DAO {
 		int line = 0;
 		// ｢REGIST_USER｣が格納されたインスタンス取得
 		HttpSession session = request.getSession();
-		UserMaster um = (UserMaster) session.getAttribute("user");
+		UserMaster user = (UserMaster) session.getAttribute("user");
 		try {
 			Connection con = getConnection();
 			PreparedStatement st = con.prepareStatement("UPDATE ORDER_TABLE SET SUPPLIER_NO=?, PRODUCT_NO=?, ORDER_QTY=?, DELIVERY_DATE=?, BIKO=?, REGIST_USER=? WHERE ORDER_NO=?");
@@ -307,7 +307,7 @@ public class OrderTableDAO extends DAO {
 			st.setInt(3, Integer.parseInt(G_Order.getOrderQty()));
 			st.setString(4, new MainAction().dateChangeForDB(G_Order.getDeliveryDate()));
 			st.setString(5, G_Order.getBiko());
-			st.setString(6, um.getUserId());
+			st.setString(6, user.getUserId());
 			st.setString(7, G_Order.getOrderNo());
 			line = st.executeUpdate();
 			st.close();
@@ -334,13 +334,13 @@ public class OrderTableDAO extends DAO {
 		SimpleDateFormat sdfymd = new SimpleDateFormat("yyyy/MM/dd");
 		// ｢REGIST_USER｣が格納されたインスタンス取得
 		HttpSession session = request.getSession();
-		UserMaster um = (UserMaster) session.getAttribute("user");
+		UserMaster user = (UserMaster) session.getAttribute("user");
 		try {
 			Connection con = getConnection();
 			PreparedStatement st = con.prepareStatement("UPDATE ORDER_TABLE SET DUE_DATE=?, DUE_QTY=?, FIN_FLG='1', REGIST_USER=? WHERE ORDER_NO=?");
 			st.setString(1, sdfymd.format(cl.getTime()));
 			st.setInt(2, OrderTable.getDueQty());
-			st.setString(3, um.getUserId());
+			st.setString(3, user.getUserId());
 			st.setString(4, OrderTable.getOrderNo());
 			line = st.executeUpdate();
 			st.close();

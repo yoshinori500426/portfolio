@@ -200,7 +200,7 @@ if('${nextJsp}'=='/WEB-INF/main/purchaseOrder.jsp'){
 		docheck();
 		var keyValue = ('${G_PurchaseOrder.poNo}'!='' && '${G_PurchaseOrder.finFlg}'=='0')?'1':'';
 		doChangeDisabled(keyValue);
-		//orderDateの日付選択を最大入力日とする
+		//orderDate日付選択を入直日まで､deliveryDate日付選択をorderDate日以降に規定
 		var orderDate = form.elements['orderDate'];
 		var deliveryDate = form.elements['deliveryDate'];
 		var dayLimit = new Date();
@@ -267,12 +267,27 @@ if('${nextJsp}'=='/WEB-INF/main/purchaseOrder.jsp'){
 //'order.jsp'
 if('${nextJsp}'=='/WEB-INF/main/order.jsp'){
 	window.addEventListener('load', function(){
+		//｢更新｣｢削除｣時のorderLotの値算出
+		var orderLot = form.elements['orderLot'];
+		var lot = form.elements['lot'];
+		var orderQty = form.elements['orderQty'];
+		if(orderQty.value>=1 && lot.value>=1 && orderLot.value==''){
+			orderLot.value = orderQty.value/lot.value;
+		}
 		docheck();
 		var keyValue = ('${G_Order.orderNo}'!='' && '${G_Order.finFlg}'=='0')?'1':'';
 		doChangeDisabled(keyValue);
-		//orderDateの日付選択を最大入力日とする
+		// 発注ロットの'placeholder'を規定
+		var orderLot = form.elements['orderLot'];
+		var maxNum = '1';
+		if('${ProductMaster.lot}'==''){
+			info = '品番入力後に入力可能';
+		}else{
+			info = '1-'+parseInt(99999999/Number('${ProductMaster.lot}'));
+		}
+		orderLot.setAttribute('placeholder', info);
+		//deliveryDateの日付選択を受注日以降､入力日までとする
 		var orderDate = form.elements['orderDate'];
-		var deliveryDate = form.elements['deliveryDate'];
 		if(orderDate.value==''){
 			var dayLimit = new Date();
 			dayLimit.setDate(dayLimit.getDate());
@@ -293,24 +308,26 @@ if('${nextJsp}'=='/WEB-INF/main/order.jsp'){
 		}else{
 			productNo.setAttribute('data-inputRequired','false');
 		}
-		//orderQty
+		//orderLot
+		var orderLot = form.elements['orderLot'];
+		var lot = form.elements['lot'];
 		var orderQty = form.elements['orderQty'];
-		var judgeOrderQty = (orderQty.value>=1 && orderQty.value<=99999999)?true:false;
-		if(judgeOrderQty==true){
-			orderQty.setAttribute('data-inputRequired','true');
+		if(productNo.value==''){
+			orderLot.value='';
+			orderQty.value = '';
+		}
+		var judgeOrderLot = (orderLot.value>=1 && orderLot.value<=parseInt(99999999/Number('${ProductMaster.lot}')))?true:false;
+		if(judgeOrderLot==true){
+			if(lot.value>=1 && lot.value!=''){
+				orderQty.value = orderLot.value*lot.value;
+			}
+			orderLot.setAttribute('data-inputRequired','true');
 		}else{
-			orderQty.setAttribute('data-inputRequired','false');
+			orderQty.value = '';
+			orderLot.setAttribute('data-inputRequired','false');
 		}
 		//deliveryDate
 		var deliveryDate = form.elements['deliveryDate'];
-		var orderDate = form.elements['orderDate'];
-		if(orderDate.value==''){
-			var dayLimit = new Date();
-			dayLimit.setDate(dayLimit.getDate());
-			deliveryDate.setAttribute("min", dayLimit.toISOString().substr(0,10));
-		}else if(orderDate.value!=''){
-			deliveryDate.setAttribute('min', orderDate.value);
-		}
 		var judgeDeliveryDate = (deliveryDate.value.length==10)?true:false;
 		if(judgeDeliveryDate==true){
 			deliveryDate.setAttribute('data-inputRequired','true');
@@ -319,7 +336,7 @@ if('${nextJsp}'=='/WEB-INF/main/order.jsp'){
 		}
 		// doExecuteBTNのdisabled属性変更
 		if(document.getElementsByName('doExecuteBTN').length==1){
-			if(((judgeProductNo && judgeOrderQty && judgeDeliveryDate)==true)&&('${G_Order.finFlg}'=='0' || '${G_Order.finFlg}'=='')){
+			if(((judgeProductNo && judgeOrderLot && judgeDeliveryDate)==true)&&('${G_Order.finFlg}'=='0' || '${G_Order.finFlg}'=='')){
 				form.elements['doExecuteBTN'].removeAttribute('disabled');
 			}else{
 				form.elements['doExecuteBTN'].setAttribute('disabled','disabled');
@@ -335,56 +352,23 @@ if('${nextJsp}'=='/WEB-INF/main/shipping.jsp'){
 		docheck();
 		var keyValue = ('${G_Shipping.poNo}'!='' && '${G_Shipping.finFlg}'=='0')?'1':'';
 		doChangeDisabled(keyValue);
-		//orderDateの日付選択を最大入力日とする
+		//shipDateの日付選択をorderDate以降とする
 		var orderDate = form.elements['orderDate'];
-		var deliveryDate = form.elements['deliveryDate'];
-		if(orderDate.value==''){
-			var dayLimit = new Date();
-			dayLimit.setDate(dayLimit.getDate());
-			deliveryDate.setAttribute("min", dayLimit.toISOString().substr(0,10));
-		}else if(orderDate.value!=''){
-			deliveryDate.setAttribute('min', orderDate.value);
-		}
+		var shipDate = form.elements['shipDate'];
+		shipDate.setAttribute('min', orderDate.value);
 	})
 	function docheck() {
-		//productNo
-		var productNo = form.elements['productNo'];
-		var productName = form.elements['productName'];
-		var supplierNo = form.elements['supplierNo'];
-		var supplierName = form.elements['supplierName'];
-		var judgeProductNo = (productNo.value.match(/^[0-9]{10}$/)!=null && productName.value.length>=1 && supplierNo.value.match(/^[0-9]{6}$/)!=null && supplierName.value.length>=1)?true:false;
-		if(judgeProductNo==true){
-			productNo.setAttribute('data-inputRequired','true');
+		//shipDate
+		var shipDate = form.elements['shipDate'];
+		var judgeShipDate = (shipDate.value.length==10)?true:false;
+		if(judgeShipDate==true){
+			shipDate.setAttribute('data-inputRequired','true');
 		}else{
-			productNo.setAttribute('data-inputRequired','false');
-		}
-		//orderQty
-		var orderQty = form.elements['orderQty'];
-		var judgeOrderQty = (orderQty.value>=1 && orderQty.value<=99999999)?true:false;
-		if(judgeOrderQty==true){
-			orderQty.setAttribute('data-inputRequired','true');
-		}else{
-			orderQty.setAttribute('data-inputRequired','false');
-		}
-		//deliveryDate
-		var deliveryDate = form.elements['deliveryDate'];
-		var orderDate = form.elements['orderDate'];
-		if(orderDate.value==''){
-			var dayLimit = new Date();
-			dayLimit.setDate(dayLimit.getDate());
-			deliveryDate.setAttribute("min", dayLimit.toISOString().substr(0,10));
-		}else if(orderDate.value!=''){
-			deliveryDate.setAttribute('min', orderDate.value);
-		}
-		var judgeDeliveryDate = (deliveryDate.value.length==10)?true:false;
-		if(judgeDeliveryDate==true){
-			deliveryDate.setAttribute('data-inputRequired','true');
-		}else{
-			deliveryDate.setAttribute('data-inputRequired','false');
+			shipDate.setAttribute('data-inputRequired','false');
 		}
 		// doExecuteBTNのdisabled属性変更
 		if(document.getElementsByName('doExecuteBTN').length==1){
-			if(((judgeProductNo && judgeOrderQty && judgeDeliveryDate)==true)&&('${G_Order.finFlg}'=='0' || '${G_Order.finFlg}'=='')){
+			if((judgeShipDate==true)&&('${G_Order.finFlg}'=='0' || '${G_Order.finFlg}'=='')){
 				form.elements['doExecuteBTN'].removeAttribute('disabled');
 			}else{
 				form.elements['doExecuteBTN'].setAttribute('disabled','disabled');

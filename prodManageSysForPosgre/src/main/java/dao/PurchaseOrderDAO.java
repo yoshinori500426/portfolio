@@ -514,7 +514,7 @@ public class PurchaseOrderDAO extends DAO {
 	 * @param G_PurchaseOrderクラスのインスタンス
 	 * @return 0:変更失敗 1:変更成功
 	 */
-	public int updateByPoNo(G_Shipping G_Shipping, HttpServletRequest request) {
+	public int updateShipForShipByPoNo(G_Shipping G_Shipping, HttpServletRequest request) {
 		// 戻り値用変数
 		int line = 0;
 		// ｢REGIST_USER｣が格納されたインスタンス取得
@@ -523,16 +523,11 @@ public class PurchaseOrderDAO extends DAO {
 		try {
 			Connection con = getConnection();
 			PreparedStatement st;
-			st = con.prepareStatement("UPDATE PURCHASE_ORDER SET CUSTOMER_NO=?, PRODUCT_NO=?, ORDER_QTY=?, DELIVERY_DATE=?, SHIP_DATE=?, FIN_FLG=?, ORDER_DATE=?, REGIST_USER=? WHERE PO_NO=?");
-			st.setString(1, G_Shipping.getCustomerNo());
-			st.setString(2, G_Shipping.getProductNo());
-			st.setInt(3, Integer.parseInt(G_Shipping.getOrderQty()));
-			st.setString(4, new MainAction().dateChangeForDB(G_Shipping.getDeliveryDate()));
-			st.setString(5, new MainAction().dateChangeForDB(G_Shipping.getShipDate()));
-			st.setString(6, "1"); // FIN_FLG
-			st.setString(7, new MainAction().dateChangeForDB(G_Shipping.getOrderDate()));
-			st.setString(8, user.getUserId());
-			st.setString(9, G_Shipping.getPoNo());
+			st = con.prepareStatement("UPDATE PURCHASE_ORDER SET SHIP_DATE=?, FIN_FLG=?, REGIST_USER=? WHERE PO_NO=?");
+			st.setString(1, new MainAction().dateChangeForDB(G_Shipping.getShipDate()));
+			st.setString(2, "1"); // FIN_FLG
+			st.setString(3, user.getUserId());
+			st.setString(4, G_Shipping.getPoNo());
 			line = st.executeUpdate();
 			st.close();
 			con.close();
@@ -543,6 +538,36 @@ public class PurchaseOrderDAO extends DAO {
 		return line;
 	}
 
+	/**
+	 * 受注番号に合致するレコード情報を変更するメソッド
+	 * 
+	 * @param G_PurchaseOrderクラスのインスタンス
+	 * @return 0:変更失敗 1:変更成功
+	 */
+	public int updateCancelForShipByPoNo(G_Shipping G_Shipping, HttpServletRequest request) {
+		// 戻り値用変数
+		int line = 0;
+		// ｢REGIST_USER｣が格納されたインスタンス取得
+		HttpSession session = request.getSession();
+		UserMaster user = (UserMaster) session.getAttribute("user");
+		try {
+			Connection con = getConnection();
+			PreparedStatement st;
+			st = con.prepareStatement("UPDATE PURCHASE_ORDER SET SHIP_DATE=?, FIN_FLG=?, REGIST_USER=? WHERE PO_NO=?");
+			st.setString(1, "");
+			st.setString(2, "0"); // FIN_FLG
+			st.setString(3, user.getUserId());
+			st.setString(4, G_Shipping.getPoNo());
+			line = st.executeUpdate();
+			st.close();
+			con.close();
+		} catch (Exception e) {
+			System.out.println("SQLでエラーが発生しました。");
+			e.printStackTrace();
+		}
+		return line;
+	}
+	
 	/**
 	 * 受注番号に合致するレコードを削除するメソッド
 	 * 
