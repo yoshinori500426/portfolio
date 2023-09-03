@@ -115,6 +115,7 @@ public class MainAction extends Action {
 		// 検索値削除
 		session.setAttribute("PurchaseOrder", null);
 		session.setAttribute("PurchaseOrderList", null);
+		session.setAttribute("PurchaseOrderListFinFlg0", null);
 		session.setAttribute("OrderTable", null);
 		session.setAttribute("OrderTableList", null);
 		session.setAttribute("ProductMaster", null);

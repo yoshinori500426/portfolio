@@ -3,16 +3,6 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ include file="../header.jsp" %>
 <%--
-	private String poNo; // 受注番号
-	private String customerNo; // 顧客コード
-	private String customerName; // 会社名
-	private String productNo; // 品番
-	private String productName; // 品名
-	private String orderDate; // 受注日(=登録日)
-	private String orderQty; // 受注数量
-	private String deliveryDate; // 納期
-	private String shipDate; // 出荷日
-	private String finFlg; // 完了フラグ
 --%>
 	<div class="box">
 		<header>
@@ -57,15 +47,30 @@
 				<div class="row">
 					<div class="col-xs-2"></div>
 					<label class="form-label col-xs-3 text-left" for="poNo">受注番号</label>
-					<p class="col-xs-7">：<input type="text" style="width: 300px;" list="poNoList" name="poNo" id="poNo" data-changeDisabled="4" 
-											maxlength="8" onkeydown="javascript:this.value=(this.value.substr(0,3)=='PO-'&&this.value.substr(3).match(/^[0-9]*$/))?this.value.substr(3).slice(0, 5):(this.value.substr(0,3)!='PO-'&&this.value.match(/^[0-9]*$/))?this.value.slice(0, 5):'';befValue=this.value;"
-											onchange="javascript: this.value = (this.value==0 || this.value=='')?'':(this.value.match(/^[0-9]*$/))?('PO-'+('00000'+this.value).slice(-5)):('PO-'+('00000'+befValue).slice(-5));doExecute2('searchPoNo');"
-											placeholder="'PO-'に続く数字(最大5桁)" value="${G_Shipping.poNo}">
-											<datalist id="poNoList">
-												<c:forEach var="pol" items="${PurchaseOrderList}" >
-													<option value="${fn:replace(pol.poNo,'PO-','')}" label="受注番号:${pol.poNo}, 数量:${pol.orderQty}, 納期:${fn:replace(pol.deliveryDate,'-','/')}">
-												</c:forEach>
-											</datalist></p>
+					<c:choose>
+						<c:when test="${empty btnSelect || btnSelect=='update'}">
+							<p class="col-xs-7">：<input type="text" style="width: 300px;" list="poNoList" name="poNo" id="poNo" data-changeDisabled="4" 
+													maxlength="8" onkeydown="javascript:this.value=(this.value.substr(0,3)=='PO-'&&this.value.substr(3).match(/^[0-9]*$/))?this.value.substr(3).slice(0, 5):(this.value.substr(0,3)!='PO-'&&this.value.match(/^[0-9]*$/))?this.value.slice(0, 5):'';befValue=this.value;"
+													onchange="javascript: this.value = (this.value==0 || this.value=='')?'':(this.value.match(/^[0-9]*$/))?('PO-'+('00000'+this.value).slice(-5)):('PO-'+('00000'+befValue).slice(-5));doExecute2('searchPoNo');"
+													placeholder="'PO-'に続く数字(最大5桁)" value="${G_Shipping.poNo}">
+													<datalist id="poNoList">
+														<c:forEach var="pol" items="${PurchaseOrderList}" >
+															<option value="${fn:replace(pol.poNo,'PO-','')}" label="受注番号:${pol.poNo}, 数量:${pol.orderQty}, 納期:${fn:replace(pol.deliveryDate,'-','/')}">
+														</c:forEach>
+													</datalist></p>
+						</c:when>
+						<c:when test="${btnSelect=='delete'}">
+							<p class="col-xs-7">：<input type="text" style="width: 300px;" list="poNoList" name="poNo" id="poNo" data-changeDisabled="4" 
+													maxlength="8" onkeydown="javascript:this.value=(this.value.substr(0,3)=='PO-'&&this.value.substr(3).match(/^[0-9]*$/))?this.value.substr(3).slice(0, 5):(this.value.substr(0,3)!='PO-'&&this.value.match(/^[0-9]*$/))?this.value.slice(0, 5):'';befValue=this.value;"
+													onchange="javascript: this.value = (this.value==0 || this.value=='')?'':(this.value.match(/^[0-9]*$/))?('PO-'+('00000'+this.value).slice(-5)):('PO-'+('00000'+befValue).slice(-5));doExecute2('searchPoNo');"
+													placeholder="'PO-'に続く数字(最大5桁)" value="${G_Shipping.poNo}">
+													<datalist id="poNoList">
+														<c:forEach var="pol" items="${PurchaseOrderListFinFlg0}" >
+															<option value="${fn:replace(pol.poNo,'PO-','')}" label="受注番号:${pol.poNo}, 数量:${pol.orderQty}, 出荷日:${fn:replace(pol.shipDate,'-','/')}">
+														</c:forEach>
+													</datalist></p>
+						</c:when>
+					</c:choose>
 				</div>
 				<div class="row">
 					<div class="col-xs-2"></div>

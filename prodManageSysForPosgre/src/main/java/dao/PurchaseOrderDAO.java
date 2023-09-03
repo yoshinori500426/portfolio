@@ -372,6 +372,45 @@ public class PurchaseOrderDAO extends DAO {
 	 * @param 引数無し
 	 * @return List<PurchaseOrder> 「null：失敗」「null以外：成功」
 	 */
+	public List<PurchaseOrder> searchAllFinFlg0() {
+		// 戻り値用の変数宣言
+		List<PurchaseOrder> PurchaseOrderList = new ArrayList<>();
+		PurchaseOrder PurchaseOrder = null;
+		try {
+			Connection con = getConnection();
+			PreparedStatement st;
+			st = con.prepareStatement("SELECT * FROM PURCHASE_ORDER ORDER BY PO_NO ASC");
+			ResultSet rs = st.executeQuery();
+			while (rs.next()) {
+				if (!rs.getString("FIN_FLG").equals("0")) {
+					PurchaseOrder = new PurchaseOrder();
+					PurchaseOrder.setPoNo(rs.getString("PO_NO"));
+					PurchaseOrder.setCustomerNo(rs.getString("CUSTOMER_NO"));
+					PurchaseOrder.setProductNo(rs.getString("PRODUCT_NO"));
+					PurchaseOrder.setOrderQty(rs.getInt("ORDER_QTY"));
+					PurchaseOrder.setDeliveryDate(new MainAction().dateChangeForHTML(rs.getString("DELIVERY_DATE")));
+					PurchaseOrder.setShipDate(new MainAction().dateChangeForHTML(rs.getString("SHIP_DATE")));
+					PurchaseOrder.setFinFlg(rs.getString("FIN_FLG"));
+					PurchaseOrder.setOrderDate(new MainAction().dateChangeForHTML(rs.getString("ORDER_DATE")));
+					PurchaseOrder.setRegistUser(rs.getString("REGIST_USER"));
+					PurchaseOrderList.add(PurchaseOrder);
+				}
+			}
+			st.close();
+			con.close();
+		} catch (Exception e) {
+			System.out.println("SQLでエラーが発生しました。");
+			e.printStackTrace();
+		}
+		return PurchaseOrderList;
+	}
+	
+	/**
+	 * PurchaseOrderテーブル取得メソッド(検索条件なし) →PO_NOリスト取得用メソッド
+	 *
+	 * @param 引数無し
+	 * @return List<PurchaseOrder> 「null：失敗」「null以外：成功」
+	 */
 	public List<PurchaseOrder> searchAllAddFinFlg1() {
 		// 戻り値用の変数宣言
 		List<PurchaseOrder> PurchaseOrderList = new ArrayList<>();

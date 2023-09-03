@@ -168,7 +168,7 @@ public class PurchaseOrderAction extends Action {
 			new MainAction().crearAttributeForScreenChange(session);
 			break;
 		}
-		// プルダウン用リスト取得
+		// プルダウン用リスト取得 searchAllFinFlg0
 		PurchaseOrderList = poDAO.searchAll();
 		session.setAttribute("PurchaseOrderList", PurchaseOrderList);
 		CustomerMasterList = cmDAO.searchAll();

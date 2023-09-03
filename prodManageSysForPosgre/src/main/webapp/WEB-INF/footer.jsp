@@ -368,7 +368,7 @@ if('${nextJsp}'=='/WEB-INF/main/shipping.jsp'){
 		}
 		// doExecuteBTNのdisabled属性変更
 		if(document.getElementsByName('doExecuteBTN').length==1){
-			if((judgeShipDate==true)&&('${G_Order.finFlg}'=='0' || '${G_Order.finFlg}'=='')){
+			if((judgeShipDate==true)&&(('${G_Shipping.finFlg}'=='0' && btnSelect=='update') || ('${G_Shipping.finFlg}'=='1' &&  btnSelect=='delete'))){
 				form.elements['doExecuteBTN'].removeAttribute('disabled');
 			}else{
 				form.elements['doExecuteBTN'].setAttribute('disabled','disabled');

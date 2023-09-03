@@ -11,8 +11,6 @@ import javax.servlet.http.HttpSession;
 
 import bean.EntryExitInfo;
 import bean.G_EntryExitInfo;
-import bean.G_Order;
-import bean.G_Shipping;
 import bean.UserMaster;
 
 
@@ -341,35 +339,35 @@ public class EntryExitInfoDAO extends DAO {
 		return line;
 	}
 	
-	/**
-	 * ENTRY_EXIT_INFOテーブルへの入庫レコード新規登録メソッド
-	 * 
-	 * @param G_Shipping
-	 * @return 整数 「0：失敗」「1：成功」
-	 */
-	public int insertForNyuko(G_Shipping G_Shipping, HttpServletRequest request) {
-		G_EntryExitInfo G_EntryExitInfo = new G_EntryExitInfo();
-		G_EntryExitInfo.setProductNo(G_Shipping.getProductNo());
-		G_EntryExitInfo.setNyukoQty(G_Shipping.getShipQty());
-		G_EntryExitInfo.setSyukoQty("");
-		G_EntryExitInfo.setReason("出荷処理(出庫処理)のキャンセル");
-		return insertForNyuko(G_EntryExitInfo, request);
-	}
-	
-	/**
-	 * ENTRY_EXIT_INFOテーブルへの入庫レコード新規登録メソッド
-	 * 
-	 * @param G_Order
-	 * @return 整数 「0：失敗」「1：成功」
-	 */
-	public int insertForNyuko(G_Order G_Order, HttpServletRequest request) {
-		G_EntryExitInfo G_EntryExitInfo = new G_EntryExitInfo();
-		G_EntryExitInfo.setProductNo(G_Order.getProductNo());
-		G_EntryExitInfo.setNyukoQty(G_Order.getArrivalQty());
-		G_EntryExitInfo.setSyukoQty("");
-		G_EntryExitInfo.setReason("入荷処理");
-		return insertForNyuko(G_EntryExitInfo, request);
-	}
+//	/**
+//	 * ENTRY_EXIT_INFOテーブルへの入庫レコード新規登録メソッド
+//	 * 
+//	 * @param G_Shipping
+//	 * @return 整数 「0：失敗」「1：成功」
+//	 */
+//	public int insertForNyuko(G_Shipping G_Shipping, HttpServletRequest request) {
+//		G_EntryExitInfo G_EntryExitInfo = new G_EntryExitInfo();
+//		G_EntryExitInfo.setProductNo(G_Shipping.getProductNo());
+//		G_EntryExitInfo.setNyukoQty(G_Shipping.getShipQty());
+//		G_EntryExitInfo.setSyukoQty("");
+//		G_EntryExitInfo.setReason("出荷処理(出庫処理)のキャンセル");
+//		return insertForNyuko(G_EntryExitInfo, request);
+//	}
+//	
+//	/**
+//	 * ENTRY_EXIT_INFOテーブルへの入庫レコード新規登録メソッド
+//	 * 
+//	 * @param G_Order
+//	 * @return 整数 「0：失敗」「1：成功」
+//	 */
+//	public int insertForNyuko(G_Order G_Order, HttpServletRequest request) {
+//		G_EntryExitInfo G_EntryExitInfo = new G_EntryExitInfo();
+//		G_EntryExitInfo.setProductNo(G_Order.getProductNo());
+//		G_EntryExitInfo.setNyukoQty(G_Order.getArrivalQty());
+//		G_EntryExitInfo.setSyukoQty("");
+//		G_EntryExitInfo.setReason("入荷処理");
+//		return insertForNyuko(G_EntryExitInfo, request);
+//	}
 	
 	/**
 	 * ENTRY_EXIT_INFOテーブルへの出庫レコード新規登録メソッド
@@ -445,33 +443,33 @@ public class EntryExitInfoDAO extends DAO {
 		return line;
 	}
 	
-	/**
-	 * ENTRY_EXIT_INFOテーブルへの出庫レコード新規登録メソッド
-	 * 
-	 * @param G_Shipping
-	 * @return 整数 「0：失敗」「1：成功」
-	 */
-	public int insertForSyuko(G_Shipping G_Shipping, HttpServletRequest request) {
-		G_EntryExitInfo G_EntryExitInfo = new G_EntryExitInfo();
-		G_EntryExitInfo.setProductNo(G_Shipping.getProductNo());
-		G_EntryExitInfo.setNyukoQty("");
-		G_EntryExitInfo.setSyukoQty(G_Shipping.getShipQty());
-		G_EntryExitInfo.setReason("出荷処理");
-		return insertForSyuko(G_EntryExitInfo, request);
-	}
-	
-	/**
-	 * ENTRY_EXIT_INFOテーブルへの出庫レコード新規登録メソッド
-	 * 
-	 * @param G_Order
-	 * @return 整数 「0：失敗」「1：成功」
-	 */
-	public int insertForSyuko(G_Order G_Order, HttpServletRequest request) {
-		G_EntryExitInfo G_EntryExitInfo = new G_EntryExitInfo();
-		G_EntryExitInfo.setProductNo(G_Order.getProductNo());
-		G_EntryExitInfo.setNyukoQty("");
-		G_EntryExitInfo.setSyukoQty(G_Order.getArrivalQty());
-		G_EntryExitInfo.setReason("入荷処理(入庫処理)のキャンセル");
-		return insertForSyuko(G_EntryExitInfo, request);
-	}
+//	/**
+//	 * ENTRY_EXIT_INFOテーブルへの出庫レコード新規登録メソッド
+//	 * 
+//	 * @param G_Shipping
+//	 * @return 整数 「0：失敗」「1：成功」
+//	 */
+//	public int insertForSyuko(G_Shipping G_Shipping, HttpServletRequest request) {
+//		G_EntryExitInfo G_EntryExitInfo = new G_EntryExitInfo();
+//		G_EntryExitInfo.setProductNo(G_Shipping.getProductNo());
+//		G_EntryExitInfo.setNyukoQty("");
+//		G_EntryExitInfo.setSyukoQty(G_Shipping.getShipQty());
+//		G_EntryExitInfo.setReason("出荷処理");
+//		return insertForSyuko(G_EntryExitInfo, request);
+//	}
+//	
+//	/**
+//	 * ENTRY_EXIT_INFOテーブルへの出庫レコード新規登録メソッド
+//	 * 
+//	 * @param G_Order
+//	 * @return 整数 「0：失敗」「1：成功」
+//	 */
+//	public int insertForSyuko(G_Order G_Order, HttpServletRequest request) {
+//		G_EntryExitInfo G_EntryExitInfo = new G_EntryExitInfo();
+//		G_EntryExitInfo.setProductNo(G_Order.getProductNo());
+//		G_EntryExitInfo.setNyukoQty("");
+//		G_EntryExitInfo.setSyukoQty(G_Order.getArrivalQty());
+//		G_EntryExitInfo.setReason("入荷処理(入庫処理)のキャンセル");
+//		return insertForSyuko(G_EntryExitInfo, request);
+//	}
 }
