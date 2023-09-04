@@ -328,7 +328,8 @@ public class PurchaseOrderDAO extends DAO {
 	}
 
 	/**
-	 * PurchaseOrderテーブル取得メソッド(検索条件なし) →PO_NOリスト取得用メソッド
+	 * PurchaseOrderテーブル取得メソッド(検索条件なし)
+	 *  →PO_NOリスト取得用メソッド
 	 *
 	 * @param 引数無し
 	 * @return List<PurchaseOrder> 「null：失敗」「null以外：成功」
@@ -367,7 +368,8 @@ public class PurchaseOrderDAO extends DAO {
 	}
 	
 	/**
-	 * PurchaseOrderテーブル取得メソッド(検索条件なし) →PO_NOリスト取得用メソッド
+	 * PurchaseOrderテーブル取得メソッド(検索条件なし)
+	 *  →PO_NOリスト取得用メソッド
 	 *
 	 * @param 引数無し
 	 * @return List<PurchaseOrder> 「null：失敗」「null以外：成功」
@@ -406,7 +408,8 @@ public class PurchaseOrderDAO extends DAO {
 	}
 	
 	/**
-	 * PurchaseOrderテーブル取得メソッド(検索条件なし) →PO_NOリスト取得用メソッド
+	 * PurchaseOrderテーブル取得メソッド(検索条件なし)
+	 *  →PO_NOリスト取得用メソッド
 	 *
 	 * @param 引数無し
 	 * @return List<PurchaseOrder> 「null：失敗」「null以外：成功」
@@ -516,6 +519,7 @@ public class PurchaseOrderDAO extends DAO {
 
 	/**
 	 * 受注番号に合致するレコード情報を変更するメソッド
+	 *  →受注画面用
 	 * 
 	 * @param G_PurchaseOrderクラスのインスタンス
 	 * @return 0:変更失敗 1:変更成功
@@ -549,11 +553,12 @@ public class PurchaseOrderDAO extends DAO {
 
 	/**
 	 * 受注番号に合致するレコード情報を変更するメソッド
+	 * 　→出荷画面用
 	 * 
-	 * @param G_PurchaseOrderクラスのインスタンス
+	 * @param G_Shipping 
 	 * @return 0:変更失敗 1:変更成功
 	 */
-	public int updateShipForShipByPoNo(G_Shipping G_Shipping, HttpServletRequest request) {
+	public int updateForShipByPoNo(G_Shipping G_Shipping, String finFlg, HttpServletRequest request) {
 		// 戻り値用変数
 		int line = 0;
 		// ｢REGIST_USER｣が格納されたインスタンス取得
@@ -563,38 +568,12 @@ public class PurchaseOrderDAO extends DAO {
 			Connection con = getConnection();
 			PreparedStatement st;
 			st = con.prepareStatement("UPDATE PURCHASE_ORDER SET SHIP_DATE=?, FIN_FLG=?, REGIST_USER=? WHERE PO_NO=?");
-			st.setString(1, new MainAction().dateChangeForDB(G_Shipping.getShipDate()));
-			st.setString(2, "1"); // FIN_FLG
-			st.setString(3, user.getUserId());
-			st.setString(4, G_Shipping.getPoNo());
-			line = st.executeUpdate();
-			st.close();
-			con.close();
-		} catch (Exception e) {
-			System.out.println("SQLでエラーが発生しました。");
-			e.printStackTrace();
-		}
-		return line;
-	}
-
-	/**
-	 * 受注番号に合致するレコード情報を変更するメソッド
-	 * 
-	 * @param G_PurchaseOrderクラスのインスタンス
-	 * @return 0:変更失敗 1:変更成功
-	 */
-	public int updateCancelForShipByPoNo(G_Shipping G_Shipping, HttpServletRequest request) {
-		// 戻り値用変数
-		int line = 0;
-		// ｢REGIST_USER｣が格納されたインスタンス取得
-		HttpSession session = request.getSession();
-		UserMaster user = (UserMaster) session.getAttribute("user");
-		try {
-			Connection con = getConnection();
-			PreparedStatement st;
-			st = con.prepareStatement("UPDATE PURCHASE_ORDER SET SHIP_DATE=?, FIN_FLG=?, REGIST_USER=? WHERE PO_NO=?");
-			st.setString(1, "");
-			st.setString(2, "0"); // FIN_FLG
+			if(finFlg.equals("0")) {
+				st.setString(1, "");
+			}else if(finFlg.equals("1")) {
+				st.setString(1, new MainAction().dateChangeForDB(G_Shipping.getShipDate()));
+			}
+			st.setString(2, finFlg); // FIN_FLG
 			st.setString(3, user.getUserId());
 			st.setString(4, G_Shipping.getPoNo());
 			line = st.executeUpdate();

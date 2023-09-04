@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import action.MainAction;
+import bean.G_Arrival;
 import bean.G_Order;
 import bean.OrderTable;
 import bean.UserMaster;
@@ -68,9 +69,144 @@ public class OrderTableDAO extends DAO {
 //		return OrderTableLists;
 //	}
 	// ↑↑未完成===============================================================================================
+//	public List<OrderTable> execution(String productNo) throws Exception {
+//	List<OrderTable> list = new ArrayList<>();
+//
+//	Connection con = getConnection();
+//	PreparedStatement st = con.prepareStatement(
+//			"SELECT PR.PRODUCT_NO,PR.PRODUCT_NAME,OT.ORDER_DATE,OT.DUE_DATE,OT.DELIVERY_DATE,OT.ORDER_QTY,SU.SUPPLIER_NAME,SU.SUPPLIER_NO FROM ORDER_TABLE OT INNER JOIN SUPPLIER_MASTER SU ON "
+//					+
+//					"OT.SUPPLIER_NO = SU.SUPPLIER_NO INNER JOIN PRODUCT_MASTER PR ON " +
+//					"OT.PRODUCT_NO = PR.PRODUCT_NO WHERE PR.PRODUCT_NO = ?");
+//
+//	st.setString(1, productNo);//(何番目の?か,置き換えるキーワード)
+//	ResultSet rs = st.executeQuery();
+//
+//	while (rs.next()) {
+//		OrderTable orEx = new OrderTable();
+//		orEx.setProductNo(rs.getString("PRODUCT_NO"));
+//		orEx.setProductName(rs.getNString("PRODUCT_NAME"));
+//		orEx.setOrderDate(rs.getString("ORDER_DATE"));
+//		orEx.setDueDate(rs.getString("DUE_DATE"));
+//		orEx.setDeliveryDate(rs.getNString("DELIVERY_DATE"));
+//		orEx.setOrderQty(rs.getInt("ORDER_QTY"));
+//		orEx.setSupplierName(rs.getString("SUPPLIER_NAME"));
+//		orEx.setSupplierNo(rs.getString("SUPPLIER_NO"));
+//		list.add(orEx);
+//	}
+//	st.close();
+//	con.close();
+//
+//	return list;
+//}
+
+//public List<OrderTable> searchEntry(String productNo) throws Exception {
+//	List<OrderTable> list = new ArrayList<>();
+//
+//	Connection con = getConnection();
+//	PreparedStatement st = con.prepareStatement(
+//			"SELECT PR.PRODUCT_NO,PR.PRODUCT_NAME,OT.ORDER_DATE,OT.DUE_DATE,OT.DELIVERY_DATE,OT.ORDER_QTY,SU.SUPPLIER_NAME,SU.SUPPLIER_NO "
+//					+ "FROM ORDER_TABLE OT "
+//					+ "INNER JOIN SUPPLIER_MASTER SU "
+//					+ "ON OT.SUPPLIER_NO = SU.SUPPLIER_NO "
+//					+ "INNER JOIN PRODUCT_MASTER PR "
+//					+ "ON OT.PRODUCT_NO = PR.PRODUCT_NO "
+//					+ "WHERE PR.PRODUCT_NO = ?"
+//					+ "AND OT.DUE_DATE IS  NULL ");
+//
+//	st.setString(1, productNo);//(何番目の?か,置き換えるキーワード)
+//	ResultSet rs = st.executeQuery();
+//
+//	while (rs.next()) {
+//		OrderTable orEx = new OrderTable();
+//
+//		orEx.setProductNo(rs.getString("PRODUCT_NO"));
+//		orEx.setProductName(rs.getNString("PRODUCT_NAME"));
+//		orEx.setOrderDate(rs.getString("ORDER_DATE"));
+//		orEx.setDueDate(rs.getString("DUE_DATE"));
+//		orEx.setDeliveryDate(rs.getNString("DELIVERY_DATE"));
+//		orEx.setOrderQty(rs.getInt("ORDER_QTY"));
+//		orEx.setSupplierName(rs.getString("SUPPLIER_NAME"));
+//		orEx.setSupplierNo(rs.getString("SUPPLIER_NO"));
+//		list.add(orEx);
+//	}
+//	st.close();
+//	con.close();
+//
+//	return list;
+//}
+
+//public List<OrderTable> searchNounyusumi(String productNo) throws Exception {
+//	List<OrderTable> list = new ArrayList<>();
+//
+//	Connection con = getConnection();
+//	PreparedStatement st = con.prepareStatement(
+//			"SELECT PR.PRODUCT_NO,PR.PRODUCT_NAME,OT.ORDER_DATE,OT.DUE_DATE,OT.DELIVERY_DATE,OT.ORDER_QTY,SU.SUPPLIER_NAME,SU.SUPPLIER_NO "
+//					+ "FROM ORDER_TABLE OT "
+//					+ "INNER JOIN SUPPLIER_MASTER SU "
+//					+ "ON OT.SUPPLIER_NO = SU.SUPPLIER_NO "
+//					+ "INNER JOIN PRODUCT_MASTER PR "
+//					+ "ON OT.PRODUCT_NO = PR.PRODUCT_NO "
+//					+ "WHERE PR.PRODUCT_NO = ? "
+//					+ "AND OT.DUE_DATE IS NOT NULL");
+//
+//	st.setString(1, productNo);//(何番目の?か,置き換えるキーワード)
+//	ResultSet rs = st.executeQuery();
+//
+//	while (rs.next()) {
+//		OrderTable orEx = new OrderTable();
+//		orEx.setProductNo(rs.getString("PRODUCT_NO"));
+//		orEx.setProductName(rs.getNString("PRODUCT_NAME"));
+//		orEx.setOrderDate(rs.getString("ORDER_DATE"));
+//		orEx.setDueDate(rs.getString("DUE_DATE"));
+//		orEx.setDeliveryDate(rs.getNString("DELIVERY_DATE"));
+//		orEx.setOrderQty(rs.getInt("ORDER_QTY"));
+//		orEx.setSupplierName(rs.getString("SUPPLIER_NAME"));
+//		orEx.setSupplierNo(rs.getString("SUPPLIER_NO"));
+//		list.add(orEx);
+//	}
+//	st.close();
+//	con.close();
+//
+//	return list;
+//}
+
+//public Supplier searchByOrdNo2(Supplier supp) {
+//	Supplier OrderTable = null;
+//	try {
+//		Connection con = getConnection();
+//
+//		PreparedStatement st = con.prepareStatement("SELECT OT.ORDER_NO, OT.ORDER_DATE, OT.PRODUCT_NO, PM.PRODUCT_NAME, OT.ORDER_QTY, OT.DUE_QTY, OT.DUE_DATE, OT.FIN_FLG\r\n" +
+//				"FROM ORDER_TABLE OT\r\n" +
+//				"INNER JOIN PRODUCT_MASTER PM\r\n" +
+//				"ON OT.PRODUCT_NO=PM.PRODUCT_NO\r\n" +
+//				"WHERE OT.ORDER_NO= ?");
+//		st.setString(1, supp.getOrderNo());
+//		ResultSet rs = st.executeQuery();
+//
+//		while (rs.next()) {
+//			OrderTable =new Supplier();
+//			OrderTable.setOrderNo(rs.getString("ORDER_NO"));
+//			OrderTable.setOrderDate(rs.getString("ORDER_DATE"));
+//			OrderTable.setProductNo(rs.getString("PRODUCT_NO"));
+//			OrderTable.setProductName(rs.getString("PRODUCT_NAME"));
+//			OrderTable.setOrderQty(rs.getInt("ORDER_QTY"));
+//			OrderTable.setDueQty(rs.getInt("DUE_QTY"));
+//			OrderTable.setDueDate(rs.getString("DUE_DATE"));
+//			OrderTable.setFinFlg(rs.getString("FIN_FLG"));
+//		}
+//		st.close();
+//		con.close();
+//	} catch (Exception e) {
+//		System.out.println("SQLでエラーが発生しました。");
+//		e.printStackTrace();
+//	}
+//	return OrderTable;
+//}
 
 	/**
-	 * OrderTableテーブル参照メソッド →ORDER_NOによる検索
+	 * OrderTableテーブル参照メソッド
+	 *  →ORDER_NOによる検索
 	 * 
 	 * @param String orderNo
 	 * @return OrderTableビーン 「null：失敗」「インスタンス有：成功」
@@ -107,7 +243,8 @@ public class OrderTableDAO extends DAO {
 	}
 	
 	/**
-	 * OrderTableテーブル参照メソッド →ORDER_NOによる検索
+	 * OrderTableテーブル参照メソッド
+	 *  →ORDER_NOによる検索
 	 * 
 	 * @param OrderTableビーン
 	 * @return OrderTableビーン 「null：失敗」「インスタンス有：成功」
@@ -117,7 +254,8 @@ public class OrderTableDAO extends DAO {
 	}
 
 	/**
-	 * OrderTableテーブル参照メソッド →ORDER_NOによる検索
+	 * OrderTableテーブル参照メソッド
+	 *  →ORDER_NOによる検索
 	 * 
 	 * @param G_Orderビーン
 	 * @return OrderTableビーン 「null：失敗」「インスタンス有：成功」
@@ -125,9 +263,21 @@ public class OrderTableDAO extends DAO {
 	public OrderTable searchByOrdNo(G_Order G_Order) {
 		return searchByOrdNo(G_Order.getOrderNo());
 	}
+	
+	/**
+	 * OrderTableテーブル参照メソッド
+	 *  →ORDER_NOによる検索
+	 * 
+	 * @param G_Supplierビーン
+	 * @return OrderTableビーン 「null：失敗」「インスタンス有：成功」
+	 */
+	public OrderTable searchByOrdNo(G_Arrival G_Arrival) {
+		return searchByOrdNo(G_Arrival.getOrderNo());
+	}
 
 	/**
-	 * OrderTableテーブル取得メソッド(検索条件なし) →ORDER_NOリスト取得用メソッド
+	 * OrderTableテーブル取得メソッド(検索条件なし)
+	 *  →ORDER_NOリスト取得用メソッド
 	 *
 	 * @param 引数無し
 	 * @return List<OrderTable> 「null：失敗」「null以外：成功」
@@ -169,7 +319,51 @@ public class OrderTableDAO extends DAO {
 	}
 	
 	/**
-	 * OrderTableテーブル取得メソッド(検索条件なし) →ORDER_NOリスト取得用メソッド
+	 * OrderTableテーブル取得メソッド(検索条件なし)
+	 *  →ORDER_NOリスト取得用メソッド
+	 *
+	 * @param 引数無し
+	 * @return List<OrderTable> 「null：失敗」「null以外：成功」
+	 */
+	public List<OrderTable> searchAllFinFlg0() {
+		// 戻り値用の変数宣言
+		List<OrderTable> OrderTableList = new ArrayList<>();
+		OrderTable OrderTable = null;
+		try {
+			Connection con = getConnection();
+			PreparedStatement st;
+			st = con.prepareStatement("SELECT * FROM ORDER_TABLE ORDER BY ORDER_NO ASC");
+			ResultSet rs = st.executeQuery();
+			while (rs.next()) {
+				if (!rs.getString("FIN_FLG").equals("0")) {
+					OrderTable = new OrderTable();
+					OrderTable.setOrderNo(rs.getString("ORDER_NO"));
+					OrderTable.setSupplierNo(rs.getString("SUPPLIER_NO"));
+					OrderTable.setProductNo(rs.getString("PRODUCT_NO"));
+					OrderTable.setOrderQty(rs.getInt("ORDER_QTY"));
+					OrderTable.setDeliveryDate(new MainAction().dateChangeForHTML(rs.getString("DELIVERY_DATE")));
+					OrderTable.setBiko(rs.getString("BIKO"));
+					OrderTable.setDueDate(new MainAction().dateChangeForHTML(rs.getString("DUE_DATE")));
+					OrderTable.setDueQty(rs.getInt("DUE_QTY"));
+					OrderTable.setFinFlg(rs.getString("FIN_FLG"));
+					OrderTable.setRegistUser(rs.getString("REGIST_USER"));
+					OrderTable.setOrderDate(new MainAction().dateChangeForHTML(rs.getString("ORDER_DATE")));
+					OrderTable.setOrderUser(rs.getString("ORDER_USER"));
+					OrderTableList.add(OrderTable);
+				}
+			}
+			st.close();
+			con.close();
+		} catch (Exception e) {
+			System.out.println("SQLでエラーが発生しました。");
+			e.printStackTrace();
+		}
+		return OrderTableList;
+	}
+	
+	/**
+	 * OrderTableテーブル取得メソッド(検索条件なし)
+	 *  →ORDER_NOリスト取得用メソッド
 	 *
 	 * @param 引数無し
 	 * @return List<OrderTable> 「null：失敗」「null以外：成功」
@@ -288,7 +482,8 @@ public class OrderTableDAO extends DAO {
 	}
 
 	/**
-	 * OrderTableテーブル更新メソッド →発注画面用
+	 * OrderTableテーブル更新メソッド
+	 *  →発注画面用
 	 * 
 	 * @param OrderTable
 	 * @param OrderTableビーン
@@ -320,28 +515,31 @@ public class OrderTableDAO extends DAO {
 	}
 
 	/**
-	 * OrderTableテーブル更新メソッド →納入画面用
+	 * OrderTableテーブル更新メソッド
+	 *  →入荷画面用
 	 * 
 	 * @param OrderTable
 	 * @param OrderTableビーン
 	 * @return 整数 「0：失敗」「1：成功」
 	 */
-	public int updateForSupplier(OrderTable OrderTable, HttpServletRequest request) {
+	public int updateForArrival(G_Arrival G_Arrival, String finFlg, HttpServletRequest request) {
 		int line = 0;
-		// 登録日用にCalendarクラスのオブジェクトを生成する
-		Calendar cl = Calendar.getInstance();
-		// 登録日用SimpleDateFormatクラスでフォーマットパターンを設定する
-		SimpleDateFormat sdfymd = new SimpleDateFormat("yyyy/MM/dd");
 		// ｢REGIST_USER｣が格納されたインスタンス取得
 		HttpSession session = request.getSession();
 		UserMaster user = (UserMaster) session.getAttribute("user");
 		try {
 			Connection con = getConnection();
-			PreparedStatement st = con.prepareStatement("UPDATE ORDER_TABLE SET DUE_DATE=?, DUE_QTY=?, FIN_FLG='1', REGIST_USER=? WHERE ORDER_NO=?");
-			st.setString(1, sdfymd.format(cl.getTime()));
-			st.setInt(2, OrderTable.getDueQty());
-			st.setString(3, user.getUserId());
-			st.setString(4, OrderTable.getOrderNo());
+			PreparedStatement st = con.prepareStatement("UPDATE ORDER_TABLE SET BIKO=?, DUE_DATE=?, DUE_QTY=?, FIN_FLG=?, REGIST_USER=? WHERE ORDER_NO=?");
+			st.setString(1, G_Arrival.getBiko());
+			if(finFlg.equals("0")) {
+				st.setString(2, "");
+			}else if(finFlg.equals("1")) {
+				st.setString(2, new MainAction().dateChangeForDB(G_Arrival.getDueDate()));
+			}
+			st.setInt(3, Integer.parseInt(G_Arrival.getDueQty()));
+			st.setString(4, finFlg);// FIN_FLG
+			st.setString(5, user.getUserId());
+			st.setString(6, G_Arrival.getOrderNo());
 			line = st.executeUpdate();
 			st.close();
 			con.close();
@@ -375,139 +573,4 @@ public class OrderTableDAO extends DAO {
 		}
 		return line;
 	}
-
-//	public List<OrderTable> execution(String productNo) throws Exception {
-//		List<OrderTable> list = new ArrayList<>();
-//
-//		Connection con = getConnection();
-//		PreparedStatement st = con.prepareStatement(
-//				"SELECT PR.PRODUCT_NO,PR.PRODUCT_NAME,OT.ORDER_DATE,OT.DUE_DATE,OT.DELIVERY_DATE,OT.ORDER_QTY,SU.SUPPLIER_NAME,SU.SUPPLIER_NO FROM ORDER_TABLE OT INNER JOIN SUPPLIER_MASTER SU ON "
-//						+
-//						"OT.SUPPLIER_NO = SU.SUPPLIER_NO INNER JOIN PRODUCT_MASTER PR ON " +
-//						"OT.PRODUCT_NO = PR.PRODUCT_NO WHERE PR.PRODUCT_NO = ?");
-//
-//		st.setString(1, productNo);//(何番目の?か,置き換えるキーワード)
-//		ResultSet rs = st.executeQuery();
-//
-//		while (rs.next()) {
-//			OrderTable orEx = new OrderTable();
-//			orEx.setProductNo(rs.getString("PRODUCT_NO"));
-//			orEx.setProductName(rs.getNString("PRODUCT_NAME"));
-//			orEx.setOrderDate(rs.getString("ORDER_DATE"));
-//			orEx.setDueDate(rs.getString("DUE_DATE"));
-//			orEx.setDeliveryDate(rs.getNString("DELIVERY_DATE"));
-//			orEx.setOrderQty(rs.getInt("ORDER_QTY"));
-//			orEx.setSupplierName(rs.getString("SUPPLIER_NAME"));
-//			orEx.setSupplierNo(rs.getString("SUPPLIER_NO"));
-//			list.add(orEx);
-//		}
-//		st.close();
-//		con.close();
-//
-//		return list;
-//	}
-
-//	public List<OrderTable> searchEntry(String productNo) throws Exception {
-//		List<OrderTable> list = new ArrayList<>();
-//
-//		Connection con = getConnection();
-//		PreparedStatement st = con.prepareStatement(
-//				"SELECT PR.PRODUCT_NO,PR.PRODUCT_NAME,OT.ORDER_DATE,OT.DUE_DATE,OT.DELIVERY_DATE,OT.ORDER_QTY,SU.SUPPLIER_NAME,SU.SUPPLIER_NO "
-//						+ "FROM ORDER_TABLE OT "
-//						+ "INNER JOIN SUPPLIER_MASTER SU "
-//						+ "ON OT.SUPPLIER_NO = SU.SUPPLIER_NO "
-//						+ "INNER JOIN PRODUCT_MASTER PR "
-//						+ "ON OT.PRODUCT_NO = PR.PRODUCT_NO "
-//						+ "WHERE PR.PRODUCT_NO = ?"
-//						+ "AND OT.DUE_DATE IS  NULL ");
-//
-//		st.setString(1, productNo);//(何番目の?か,置き換えるキーワード)
-//		ResultSet rs = st.executeQuery();
-//
-//		while (rs.next()) {
-//			OrderTable orEx = new OrderTable();
-//
-//			orEx.setProductNo(rs.getString("PRODUCT_NO"));
-//			orEx.setProductName(rs.getNString("PRODUCT_NAME"));
-//			orEx.setOrderDate(rs.getString("ORDER_DATE"));
-//			orEx.setDueDate(rs.getString("DUE_DATE"));
-//			orEx.setDeliveryDate(rs.getNString("DELIVERY_DATE"));
-//			orEx.setOrderQty(rs.getInt("ORDER_QTY"));
-//			orEx.setSupplierName(rs.getString("SUPPLIER_NAME"));
-//			orEx.setSupplierNo(rs.getString("SUPPLIER_NO"));
-//			list.add(orEx);
-//		}
-//		st.close();
-//		con.close();
-//
-//		return list;
-//	}
-
-//	public List<OrderTable> searchNounyusumi(String productNo) throws Exception {
-//		List<OrderTable> list = new ArrayList<>();
-//
-//		Connection con = getConnection();
-//		PreparedStatement st = con.prepareStatement(
-//				"SELECT PR.PRODUCT_NO,PR.PRODUCT_NAME,OT.ORDER_DATE,OT.DUE_DATE,OT.DELIVERY_DATE,OT.ORDER_QTY,SU.SUPPLIER_NAME,SU.SUPPLIER_NO "
-//						+ "FROM ORDER_TABLE OT "
-//						+ "INNER JOIN SUPPLIER_MASTER SU "
-//						+ "ON OT.SUPPLIER_NO = SU.SUPPLIER_NO "
-//						+ "INNER JOIN PRODUCT_MASTER PR "
-//						+ "ON OT.PRODUCT_NO = PR.PRODUCT_NO "
-//						+ "WHERE PR.PRODUCT_NO = ? "
-//						+ "AND OT.DUE_DATE IS NOT NULL");
-//
-//		st.setString(1, productNo);//(何番目の?か,置き換えるキーワード)
-//		ResultSet rs = st.executeQuery();
-//
-//		while (rs.next()) {
-//			OrderTable orEx = new OrderTable();
-//			orEx.setProductNo(rs.getString("PRODUCT_NO"));
-//			orEx.setProductName(rs.getNString("PRODUCT_NAME"));
-//			orEx.setOrderDate(rs.getString("ORDER_DATE"));
-//			orEx.setDueDate(rs.getString("DUE_DATE"));
-//			orEx.setDeliveryDate(rs.getNString("DELIVERY_DATE"));
-//			orEx.setOrderQty(rs.getInt("ORDER_QTY"));
-//			orEx.setSupplierName(rs.getString("SUPPLIER_NAME"));
-//			orEx.setSupplierNo(rs.getString("SUPPLIER_NO"));
-//			list.add(orEx);
-//		}
-//		st.close();
-//		con.close();
-//
-//		return list;
-//	}
-
-//	public Supplier searchByOrdNo2(Supplier supp) {
-//		Supplier OrderTable = null;
-//		try {
-//			Connection con = getConnection();
-//
-//			PreparedStatement st = con.prepareStatement("SELECT OT.ORDER_NO, OT.ORDER_DATE, OT.PRODUCT_NO, PM.PRODUCT_NAME, OT.ORDER_QTY, OT.DUE_QTY, OT.DUE_DATE, OT.FIN_FLG\r\n" +
-//					"FROM ORDER_TABLE OT\r\n" +
-//					"INNER JOIN PRODUCT_MASTER PM\r\n" +
-//					"ON OT.PRODUCT_NO=PM.PRODUCT_NO\r\n" +
-//					"WHERE OT.ORDER_NO= ?");
-//			st.setString(1, supp.getOrderNo());
-//			ResultSet rs = st.executeQuery();
-//
-//			while (rs.next()) {
-//				OrderTable =new Supplier();
-//				OrderTable.setOrderNo(rs.getString("ORDER_NO"));
-//				OrderTable.setOrderDate(rs.getString("ORDER_DATE"));
-//				OrderTable.setProductNo(rs.getString("PRODUCT_NO"));
-//				OrderTable.setProductName(rs.getString("PRODUCT_NAME"));
-//				OrderTable.setOrderQty(rs.getInt("ORDER_QTY"));
-//				OrderTable.setDueQty(rs.getInt("DUE_QTY"));
-//				OrderTable.setDueDate(rs.getString("DUE_DATE"));
-//				OrderTable.setFinFlg(rs.getString("FIN_FLG"));
-//			}
-//			st.close();
-//			con.close();
-//		} catch (Exception e) {
-//			System.out.println("SQLでエラーが発生しました。");
-//			e.printStackTrace();
-//		}
-//		return OrderTable;
-//	}
 }

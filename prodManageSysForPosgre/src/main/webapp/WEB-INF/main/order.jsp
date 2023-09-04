@@ -115,6 +115,12 @@
 				</div>
 				<div class="row">
 					<div class="col-xs-2"></div>
+					<label class="form-label col-xs-3 text-left" for="leadTime">購買リードタイム</label>
+					<p class="col-xs-7">：<input type="text" style="width: 300px;" name="leadTime" id="leadTime" data-changeDisabled="0" 
+											placeholder="表示のみ(入力不可)" value="${ProductMaster.leadTime}" disabled></p>
+				</div>
+				<div class="row">
+					<div class="col-xs-2"></div>
 					<label class="form-label col-xs-3 text-left" for="deliveryDate">納期&nbsp;<span class="label label-danger">必須</span></label>
 					<p class="col-xs-7">：<input type="date" style="width: 300px;" name="deliveryDate" id="deliveryDate" class="inputRequired" data-changeDisabled="5"
 											onchange="docheck();" value="${G_Order.deliveryDate}"></p>

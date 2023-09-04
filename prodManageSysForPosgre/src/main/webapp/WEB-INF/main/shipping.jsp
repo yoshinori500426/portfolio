@@ -74,18 +74,6 @@
 				</div>
 				<div class="row">
 					<div class="col-xs-2"></div>
-					<label class="form-label col-xs-3 text-left" for="customerNo">顧客コード</label>
-					<p class="col-xs-7">：<input type="text" style="width: 300px;" name="customerNo" id="customerNo" data-changeDisabled="0" 
-											placeholder="表示のみ(入力不可)" value="${G_Shipping.customerNo}" disabled></p>
-				</div>
-				<div class="row">
-					<div class="col-xs-2"></div>
-					<label class="form-label col-xs-3 text-left" for="customerName">顧客名</label>
-					<p class="col-xs-7">：<input type="text" style="width: 300px;" name="customerName" id="customerName" data-changeDisabled="0" 
-											placeholder="表示のみ(入力不可)" value="${CustomerMaster.customerName}" disabled></p>
-				</div>
-				<div class="row">
-					<div class="col-xs-2"></div>
 					<label class="form-label col-xs-3 text-left" for="productNo">品番</label>
 					<p class="col-xs-7">：<input type="text" style="width: 300px;" name="productNo" id="productNo" data-changeDisabled="0" 
 											placeholder="表示のみ(入力不可)" value="${G_Shipping.productNo}" disabled></p>
@@ -95,6 +83,18 @@
 					<label class="form-label col-xs-3 text-left" for="productName">品名</label>
 					<p class="col-xs-7">：<input type="text" style="width: 300px;" name="productName" id="productName" data-changeDisabled="0" 
 											placeholder="表示のみ(入力不可)" value="${ProductMaster.productName}" disabled></p>
+				</div>
+				<div class="row">
+					<div class="col-xs-2"></div>
+					<label class="form-label col-xs-3 text-left" for="customerNo">顧客コード</label>
+					<p class="col-xs-7">：<input type="text" style="width: 300px;" name="customerNo" id="customerNo" data-changeDisabled="0" 
+											placeholder="表示のみ(入力不可)" value="${G_Shipping.customerNo}" disabled></p>
+				</div>
+				<div class="row">
+					<div class="col-xs-2"></div>
+					<label class="form-label col-xs-3 text-left" for="customerName">顧客名</label>
+					<p class="col-xs-7">：<input type="text" style="width: 300px;" name="customerName" id="customerName" data-changeDisabled="0" 
+											placeholder="表示のみ(入力不可)" value="${CustomerMaster.customerName}" disabled></p>
 				</div>
 				<div class="row">
 					<div class="col-xs-2"></div>

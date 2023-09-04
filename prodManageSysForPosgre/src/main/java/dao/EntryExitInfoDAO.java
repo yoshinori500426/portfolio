@@ -4,11 +4,14 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import action.MainAction;
 import bean.EntryExitInfo;
 import bean.G_EntryExitInfo;
 import bean.UserMaster;
@@ -238,12 +241,12 @@ public class EntryExitInfoDAO extends DAO {
 			while (rs.next()) {
 				EntryExitInfo = new EntryExitInfo();
 				EntryExitInfo.setEnExId(rs.getString("EN_EX_ID"));
-				EntryExitInfo.setEnExDate(rs.getString("EN_EX_DATE"));
+				EntryExitInfo.setEnExDate(new MainAction().dateChangeForHTML(rs.getString("EN_EX_DATE")));
 				EntryExitInfo.setProductNo(rs.getString("PRODUCT_NO"));
 				EntryExitInfo.setNyukoQty(rs.getInt("NYUKO_QTY"));
 				EntryExitInfo.setSyukoQty(rs.getInt("SYUKO_QTY"));
 				EntryExitInfo.setReason(rs.getString("REASON"));
-				EntryExitInfo.setRegistDate(rs.getString("REGIST_DATE"));
+				EntryExitInfo.setRegistDate(new MainAction().dateChangeForHTML(rs.getString("REGIST_DATE")));
 				EntryExitInfo.setRegistUser(rs.getString("REGIST_USER"));
 			}
 			st.close();
@@ -263,6 +266,44 @@ public class EntryExitInfoDAO extends DAO {
 	 */
 	public EntryExitInfo searchByEnId(G_EntryExitInfo G_EntryExitInfo) {
 		return searchByEnId(G_EntryExitInfo.getEnExId());
+	}
+	
+
+	/**
+	 * ENTRY_EXIT_INFOテーブル取得メソッド(検索条件なし)
+	 *  →EN_EX_IDリスト取得用メソッド
+	 *
+	 * @param 引数無し
+	 * @return List<EntryExitInfo> 「null：失敗」「null以外：成功」
+	 */
+	public List<EntryExitInfo> searchAll() {
+		// 戻り値用の変数宣言
+		List<EntryExitInfo> EntryExitInfoList = new ArrayList<>();
+		EntryExitInfo EntryExitInfo = null;
+		try {
+			Connection con = getConnection();
+			PreparedStatement st;
+			st = con.prepareStatement("SELECT * FROM ENTRY_EXIT_INFO ORDER BY EN_EX_ID DESC");
+			ResultSet rs = st.executeQuery();
+			while (rs.next()) {
+				EntryExitInfo = new EntryExitInfo();
+				EntryExitInfo.setEnExId(rs.getString("EN_EX_ID"));
+				EntryExitInfo.setEnExDate(new MainAction().dateChangeForHTML(rs.getString("EN_EX_DATE")));
+				EntryExitInfo.setProductNo(rs.getString("PRODUCT_NO"));
+				EntryExitInfo.setNyukoQty(rs.getInt("NYUKO_QTY"));
+				EntryExitInfo.setSyukoQty(rs.getInt("SYUKO_QTY"));
+				EntryExitInfo.setReason(rs.getString("REASON"));
+				EntryExitInfo.setRegistDate(new MainAction().dateChangeForHTML(rs.getString("REGIST_DATE")));
+				EntryExitInfo.setRegistUser(rs.getString("REGIST_USER"));
+				EntryExitInfoList.add(EntryExitInfo);
+			}
+			st.close();
+			con.close();
+		} catch (Exception e) {
+			System.out.println("SQLでエラーが発生しました。");
+			e.printStackTrace();
+		}
+		return EntryExitInfoList;
 	}
 	
 	/**

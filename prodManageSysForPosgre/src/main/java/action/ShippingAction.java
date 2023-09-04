@@ -129,7 +129,7 @@ public class ShippingAction extends Action {
 			break;
 		case "doBTNExecute":
 			// 分納未対応の為のチェック
-			// →受注数量=出荷数量になるようコードを書いている為､このifに該当するケースがありえないが､数値を取り扱うマナーとして記述する
+			// →受注数量=出荷数量になるようコードを書いている為､このifに該当するケースはありえないが､数値を取り扱うマナーとして記述する
 			if (!G_Shipping.getOrderQty().equals(G_Shipping.getShipQty().replace("-", ""))) {
 				session.setAttribute("message", "受注数量と出荷数量が一致しません｡\\n分納未対応の為､未処理で終了します｡");
 				break;
@@ -156,17 +156,17 @@ public class ShippingAction extends Action {
 				// 出荷取消処理：テーブル｢PURODUCT_STOCK｣の出荷月の｢当月出荷数｣を取消数分マイナスし､出荷月以降の｢現在在庫数｣を取消数分プラスする
 				// 入荷取消処理：テーブル｢PURODUCT_STOCK｣の入荷月の｢当月入荷数｣を取消数分マイナスし､入荷月以降の｢現在在庫数｣を取消数分マイナスする
 				// ･入庫/出庫の更新/取消処理時のテーブル｢PURODUCT_STOCK｣処理を以下とする
-				// 入庫の更新/取消処理：テーブル｢PURODUCT_STOCK｣の入出庫テーブルの日付月の｢当月入庫数｣を更新/取消数分増減させ､入出庫テーブルの日付月以降の｢現在倉庫在庫数｣を｢当月入庫数｣の増減と同じ増減を行う
-				// 出庫の更新/取消処理：テーブル｢PURODUCT_STOCK｣の入出庫テーブルの日付月の｢当月出庫数｣を更新/取消数分増減させ､入出庫テーブルの日付月以降の｢現在倉庫在庫数｣を｢当月出庫数｣の増減と逆の増減を行う
+				// 入庫の更新/取消処理：テーブル｢PURODUCT_STOCK｣の入出庫テーブルの日付月の｢当月入庫数｣を更新/取消数分増減させ､入出庫テーブルの日付月以降の｢現在倉庫在庫数｣を｢当月入庫数｣の増減と同じ符号の増減を行う
+				// 出庫の更新/取消処理：テーブル｢PURODUCT_STOCK｣の入出庫テーブルの日付月の｢当月出庫数｣を更新/取消数分増減させ､入出庫テーブルの日付月以降の｢現在倉庫在庫数｣を｢当月出庫数｣の増減と逆の符号の増減を行う
 				// ･DBで登録する日付は､テーブル毎に取得するのではなく､共通の日付を使用する
 				// →このシステムでは､登録日等の｢PCの日時を取得する処理｣はDAOにて取得としているが､在庫テーブル処理は､Actionで取得した日時を処理を行う複数のテーブル全てに使用する動作とする
 				// →稀なケースだが､テーブルを渡る処理が月またぎとなった場合､整合性が取れなくなる為､他のテーブルと年月を揃える事が目的
 				if (btnSelect.equals("update")) {
 					// テーブル｢PURCHASE_ORDER｣更新処理
-					line += poDAO.updateShipForShipByPoNo(G_Shipping, request);
+					line += poDAO.updateForShipByPoNo(G_Shipping, "1", request);
 				} else if (btnSelect.equals("delete")) {
 					// テーブル｢PURCHASE_ORDER｣更新処理
-					line += poDAO.updateCancelForShipByPoNo(G_Shipping, request);
+					line += poDAO.updateForShipByPoNo(G_Shipping, "0", request);
 				}
 				// テーブル｢PURODUCT_STOCK(=在庫テーブル)｣処理(登録/更新)
 				line += psDAO.productStockProcess(G_Shipping);

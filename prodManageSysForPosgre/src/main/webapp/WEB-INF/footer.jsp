@@ -377,6 +377,147 @@ if('${nextJsp}'=='/WEB-INF/main/shipping.jsp'){
 	}
 }
 
+//========================================================================================================================================================================================================================
+//'arrival.jsp'
+if('${nextJsp}'=='/WEB-INF/main/arrival.jsp'){
+	window.addEventListener('load', function(){
+		//｢更新｣｢削除｣時のorderLotの値算出
+		var orderLot = form.elements['orderLot'];
+		var lot = form.elements['lot'];
+		var orderQty = form.elements['orderQty'];
+		if(orderQty.value>=1 && lot.value>=1 && orderLot.value==''){
+			orderLot.value = orderQty.value/lot.value;
+		}
+		docheck();
+		var keyValue = ('${G_Arrival.orderNo}'!='' && '${G_Arrival.finFlg}'=='0')?'1':'';
+		doChangeDisabled(keyValue);
+		//dueDateの日付選択をorderDate以降とする
+		var orderDate = form.elements['orderDate'];
+		var dueDate = form.elements['dueDate'];
+		dueDate.setAttribute('min', orderDate.value);
+	})
+	function docheck() {
+		//dueDate
+		var dueDate = form.elements['dueDate'];
+		var judgeDueDate = (dueDate.value.length==10)?true:false;
+		if(judgeDueDate==true){
+			dueDate.setAttribute('data-inputRequired','true');
+		}else{
+			dueDate.setAttribute('data-inputRequired','false');
+		}
+		// doExecuteBTNのdisabled属性変更
+		if(document.getElementsByName('doExecuteBTN').length==1){
+			if((judgeDueDate==true)&&(('${G_Arrival.finFlg}'=='0' && btnSelect=='update') || ('${G_Arrival.finFlg}'=='1' &&  btnSelect=='delete'))){
+				form.elements['doExecuteBTN'].removeAttribute('disabled');
+			}else{
+				form.elements['doExecuteBTN'].setAttribute('disabled','disabled');
+			}
+		}
+	}
+}
+
+//========================================================================================================================================================================================================================
+//'entryExitInfo.jsp'
+if('${nextJsp}'=='/WEB-INF/main/entryExitInfo.jsp'){
+	window.addEventListener('load', function(){
+		docheck();
+		var keyValue = ('${G_EntryExitInfo.enExId}'!='')?'1':'';
+		doChangeDisabled(keyValue);
+		// 更新時のproductNoを有効にしない
+		if(btnSelect=='update' && keyValue=='1'){
+			var productNo = form.elements['productNo'];
+			productNo.setAttribute('disabled','disabled');
+		}
+		// 入出庫ラジオボタンのチェックを指定
+		var stockInOut = form.elements['stockInOut'];
+		for (var i = 0; i < stockInOut.length; i++) {
+			if (stockInOut[i].value=='${G_EntryExitInfo.stockInOut}') {
+				stockInOut[i].checked=true;
+				break;
+			}
+			if(i==1){
+				stockInOut[1].checked=true;
+				break;
+			}
+		}
+		// 入出庫ラジオボタンの有効無効切替
+		for (var i = 0; i < stockInOut.length; i++) {
+			if(btnSelect=='insert'){
+				stockInOut[i].removeAttribute('disabled');
+			}else if(btnSelect=='update' || btnSelect=='delete' || btnSelect==''){
+				stockInOut[i].setAttribute('disabled','disabled');
+			}
+		}
+	})
+	function docheck() {
+		//productNo
+		var productNo = form.elements['productNo'];
+		var productName = form.elements['productName'];
+		var wStockQty = form.elements['wStockQty'];
+		var oowStockQty = form.elements['oowStockQty'];
+		var judgeProductNo = (productNo.value.match(/^[0-9]{10}$/)!=null && productName.value.length>=1 && (wStockQty.value!=null || wStockQty.value!='') && (oowStockQty.value!=null || oowStockQty.value!=''))?true:false;
+		if(judgeProductNo==true){
+			productNo.setAttribute('data-inputRequired','true');
+		}else{
+			productNo.setAttribute('data-inputRequired','false');
+		}
+		// stockInOut
+		var stockInOut = form.elements['stockInOut'];
+		var judgeStockInOut = false;
+		for (var i = 0; i < stockInOut.length; i++) {
+			if (stockInOut[i].checked==true) {
+				judgeStockInOut=true;
+				break;
+			}
+		}
+		//enExDate
+		var enExDate = form.elements['enExDate'];
+		var judgeEnExDate = (enExDate.value.length==10)?true:false;
+		if(judgeEnExDate==true){
+			enExDate.setAttribute('data-inputRequired','true');
+		}else{
+			enExDate.setAttribute('data-inputRequired','false');
+		}
+		//enExNum
+		var enExNum = form.elements['enExNum'];
+		var judgeEnExNum = false;
+		var onkeyupValue = '';
+		var maxValue = '';
+		var info = '';
+		if('${G_EntryExitInfo.productNo}'==''){
+			maxValue = '99999999';
+			info = '品番入力後に入力可能';
+		}else{
+			if(stockInOut.value=='in'){
+				info = '1-'+oowStockQty.value;
+				maxValue = oowStockQty.value;
+				judgeEnExNum = (enExNum.value>=1 && enExNum.value<=oowStockQty.value)?true:false;
+			}else if(stockInOut.value=='out' || stockInOut.value==''){
+				judgeEnExNum = (enExNum.value>=1 && enExNum.value<=wStockQty.value)?true:false;
+				maxValue = wStockQty.value;
+				info = '1-'+wStockQty.value;
+			}
+		}
+		enExNum.setAttribute('max', maxValue);
+		enExNum.setAttribute('onkeydown', "befValue=this.value");
+		onkeyupValue = "this.value = ('${G_EntryExitInfo.productNo}'=='' || this.value=='')?'':(this.value>=1 && this.value<="+maxValue+")?this.value:befValue;"
+		enExNum.setAttribute('onkeyup', onkeyupValue);
+		enExNum.setAttribute('placeholder', info);
+		if(judgeEnExNum==true){
+			enExNum.setAttribute('data-inputRequired','true');
+		}else{
+			enExNum.setAttribute('data-inputRequired','false');
+		}
+		// doExecuteBTNのdisabled属性変更
+		if(document.getElementsByName('doExecuteBTN').length==1){
+			if((judgeProductNo && judgeStockInOut && judgeEnExDate && judgeEnExNum)==true){
+				form.elements['doExecuteBTN'].removeAttribute('disabled');
+			}else{
+				form.elements['doExecuteBTN'].setAttribute('disabled','disabled');
+			}
+		}
+	}
+}
 
 
 

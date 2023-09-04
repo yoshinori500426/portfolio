@@ -29,7 +29,7 @@
                 <br>
                 <div class="row">
                     <div class="col-xs-6"><button type="button" class="btn btn-primary btn-block" onclick="doExecute2('main/shipping.jsp')">出荷処理</button></div>
-                    <div class="col-xs-6"><button type="button" class="btn btn-primary btn-block" onclick="doExecute2('main/supplier.jsp')">入荷処理</button></div>
+                    <div class="col-xs-6"><button type="button" class="btn btn-primary btn-block" onclick="doExecute2('main/arrival.jsp')">入荷処理</button></div>
                 </div>
                 <br>
                 <div class="row">

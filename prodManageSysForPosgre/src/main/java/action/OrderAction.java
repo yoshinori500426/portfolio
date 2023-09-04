@@ -62,6 +62,7 @@ public class OrderAction extends Action {
 		G_Order.setLot(request.getParameter("lot"));
 		G_Order.setOrderLot(request.getParameter("orderLot"));
 		G_Order.setOrderQty(request.getParameter("orderQty"));
+		G_Order.setLeadTime(request.getParameter("leadTime"));
 		G_Order.setDeliveryDate(request.getParameter("deliveryDate"));
 		G_Order.setBiko(request.getParameter("biko"));
 		G_Order.setFinFlg(request.getParameter("finFlg"));

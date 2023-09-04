@@ -4,18 +4,17 @@ public class G_EntryExitInfo {
 	private String enExId; // 入出庫番号
 	private String productNo; // 品番
 	private String productName; // 品名
+	private String wStockQty; // 倉庫在庫数
+	private String oowStockQty; // 倉庫外在庫数
+	private String stockInOut; // 入庫･出庫(ラジオボタン)
+	private String enExDate; // 入出庫日(=登録/変更日)
+	private String enExNum; // 数量(入出庫数)
+	private String reason; // 理由
+	// 以下､隠し要素
 	private String nyukoQty; // 入庫数
 	private String syukoQty; // 出庫数
-	private String reason; // 理由
-	// 以降､画面に存在しない項目(不要の可能性あり)
-	private String enExDate; // 入出庫日(=登録/変更日)
-	private String registDate; // 登録日
-	private String registUser; // 登録者
-	private String judge;
-	private int count;
-	private int stockQty;
-	private int tNyuko;
-	private int tSyuko;
+	private String befEnExNum; // 更新時の更新前の値
+	private String registDate; // 登録日(更新/削除の際のテーブル｢PuroductStock｣のYYYY/MMに該当)
 
 	public String getEnExId() {
 		return enExId;
@@ -41,6 +40,54 @@ public class G_EntryExitInfo {
 		this.productName = productName;
 	}
 
+	public String getwStockQty() {
+		return wStockQty;
+	}
+
+	public void setwStockQty(String wStockQty) {
+		this.wStockQty = wStockQty;
+	}
+
+	public String getOowStockQty() {
+		return oowStockQty;
+	}
+
+	public void setOowStockQty(String oowStockQty) {
+		this.oowStockQty = oowStockQty;
+	}
+
+	public String getStockInOut() {
+		return stockInOut;
+	}
+
+	public void setStockInOut(String stockInOut) {
+		this.stockInOut = stockInOut;
+	}
+
+	public String getEnExDate() {
+		return enExDate;
+	}
+
+	public void setEnExDate(String enExDate) {
+		this.enExDate = enExDate;
+	}
+
+	public String getEnExNum() {
+		return enExNum;
+	}
+
+	public void setEnExNum(String enExNum) {
+		this.enExNum = enExNum;
+	}
+
+	public String getReason() {
+		return reason;
+	}
+
+	public void setReason(String reason) {
+		this.reason = reason;
+	}
+
 	public String getNyukoQty() {
 		return nyukoQty;
 	}
@@ -57,20 +104,12 @@ public class G_EntryExitInfo {
 		this.syukoQty = syukoQty;
 	}
 
-	public String getReason() {
-		return reason;
+	public String getBefEnExNum() {
+		return befEnExNum;
 	}
 
-	public void setReason(String reason) {
-		this.reason = reason;
-	}
-
-	public String getEnExDate() {
-		return enExDate;
-	}
-
-	public void setEnExDate(String enExDate) {
-		this.enExDate = enExDate;
+	public void setBefEnExNum(String befEnExNum) {
+		this.befEnExNum = befEnExNum;
 	}
 
 	public String getRegistDate() {
@@ -79,53 +118,5 @@ public class G_EntryExitInfo {
 
 	public void setRegistDate(String registDate) {
 		this.registDate = registDate;
-	}
-
-	public String getRegistUser() {
-		return registUser;
-	}
-
-	public void setRegistUser(String registUser) {
-		this.registUser = registUser;
-	}
-
-	public String getJudge() {
-		return judge;
-	}
-
-	public void setJudge(String judge) {
-		this.judge = judge;
-	}
-
-	public int getCount() {
-		return count;
-	}
-
-	public void setCount(int count) {
-		this.count = count;
-	}
-
-	public int getStockQty() {
-		return stockQty;
-	}
-
-	public void setStockQty(int stockQty) {
-		this.stockQty = stockQty;
-	}
-
-	public int gettNyuko() {
-		return tNyuko;
-	}
-
-	public void settNyuko(int tNyuko) {
-		this.tNyuko = tNyuko;
-	}
-
-	public int gettSyuko() {
-		return tSyuko;
-	}
-
-	public void settSyuko(int tSyuko) {
-		this.tSyuko = tSyuko;
 	}
 }

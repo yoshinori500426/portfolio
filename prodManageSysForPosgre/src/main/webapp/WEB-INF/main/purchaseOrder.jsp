@@ -63,6 +63,25 @@
 				</div>
 				<div class="row">
 					<div class="col-xs-2"></div>
+					<label class="form-label col-xs-3 text-left" for="productNo">品番&nbsp;<span class="label label-danger">必須</span></label>
+					<p class="col-xs-7">：<input type="number" style="width: 300px;" list="productNoList" name="productNo" id="productNo" class="inputRequired" data-changeDisabled="5" 
+											min="0" max="9999999999" onkeyup="javascript: this.value = this.value.slice(0, 10);" 
+											onchange="javascript: this.value = this.value==0?'':('0000000000'+this.value).slice(-10);doExecute2('searchProductNo');" 
+											placeholder="数字(最大10桁)" value="${G_PurchaseOrder.productNo}">
+											<datalist id="productNoList">
+												<c:forEach var="pml" items="${ProductMasterList}" >
+													<option value="${pml.productNo}" label="品番:${pml.productNo}, 品名:${pml.productName}">
+												</c:forEach>
+											</datalist></p>
+				</div>
+				<div class="row">
+					<div class="col-xs-2"></div>
+					<label class="form-label col-xs-3 text-left" for="productName">品名</label>
+					<p class="col-xs-7">：<input type="text" style="width: 300px;" name="productName" id="productName" data-changeDisabled="0" 
+											placeholder="表示のみ(入力不可)" value="${ProductMaster.productName}" disabled></p>
+				</div>
+				<div class="row">
+					<div class="col-xs-2"></div>
 					<label class="form-label col-xs-3 text-left" for="customerNo">顧客コード&nbsp;<span class="label label-danger">必須</span></label>
 					<p class="col-xs-7">：<input type="text" style="width: 300px;" list="customerNoList" name="customerNo" id="customerNo" class="inputRequired" data-changeDisabled="5" 
 											maxlength="5" onkeydown="befValue=this.value;" 
@@ -80,25 +99,6 @@
 					<label class="form-label col-xs-3 text-left" for="customerName">顧客名</label>
 					<p class="col-xs-7">：<input type="text" style="width: 300px;" name="customerName" id="customerName" data-changeDisabled="0" 
 											placeholder="表示のみ(入力不可)" value="${CustomerMaster.customerName}" disabled></p>
-				</div>
-				<div class="row">
-					<div class="col-xs-2"></div>
-					<label class="form-label col-xs-3 text-left" for="productNo">品番&nbsp;<span class="label label-danger">必須</span></label>
-					<p class="col-xs-7">：<input type="number" style="width: 300px;" list="productNoList" name="productNo" id="productNo" class="inputRequired" data-changeDisabled="5" 
-											min="0" max="9999999999" onkeyup="javascript: this.value = this.value.slice(0, 10);" 
-											onchange="javascript: this.value = this.value==0?'':('0000000000'+this.value).slice(-10);doExecute2('searchProductNo');" 
-											placeholder="数字(最大10桁)" value="${G_PurchaseOrder.productNo}">
-											<datalist id="productNoList">
-												<c:forEach var="pml" items="${ProductMasterList}" >
-													<option value="${pml.productNo}" label="品番:${pml.productNo}, 品名:${pml.productName}">
-												</c:forEach>
-											</datalist></p>
-				</div>
-				<div class="row">
-					<div class="col-xs-2"></div>
-					<label class="form-label col-xs-3 text-left" for="productName">品名</label>
-					<p class="col-xs-7">：<input type="text" style="width: 300px;" name="productName" id="productName" data-changeDisabled="0" 
-											placeholder="表示のみ(入力不可)" value="${ProductMaster.productName}" disabled></p>
 				</div>
 				<div class="row">
 					<div class="col-xs-2"></div>

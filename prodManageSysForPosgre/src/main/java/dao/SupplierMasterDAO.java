@@ -11,6 +11,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import bean.G_Arrival;
 import bean.G_SupplierMaster;
 import bean.SupplierMaster;
 import bean.UserMaster;
@@ -62,6 +63,16 @@ public class SupplierMasterDAO extends DAO {
 	 */
 	public SupplierMaster searchBySupNo(G_SupplierMaster G_SupplierMaster) {
 		return searchBySupNo(G_SupplierMaster.getSupplierNo());
+	}
+	
+	/**
+	 * SupplierMasterテーブル参照メソッド
+	 * →SUPPLIER_NOでサーチ
+	 * @param G_Supplierビーン
+	 * @return SupplierMasterビーン 「null：失敗」「インスタンス有：成功」
+	 */
+	public SupplierMaster searchBySupNo(G_Arrival G_Arrival) {
+		return searchBySupNo(G_Arrival.getSupplierNo());
 	}
 	
 	/**

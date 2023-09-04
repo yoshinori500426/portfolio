@@ -1,175 +1,152 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ include file="../header.jsp" %>
-
 <%--
-
 --%>
-
-
-
-	    <div class="box">
-
-                <div class="main">
-                    <%-- document.forms[1]; --%>
-                        <form action="Logout.action" method="post">
-                            <input type="hidden" name="toAction">
-                            <div class="row">
-                                <div class="col-sm-8 col-xs-12">
-                                    <h2>入出庫画面</h2>
-                                </div>
-                                <div class="col-sm-4 col-xs-12 text-right">
-                                    <a href="javascript:logout()" ></a>
-                                </div>
-                            </div>
-                        </form>
-                </div>
-
-
-            <hr>
-
-
-
-
-<script>
-function doExecute7(args) {
-	var form = document.forms[2];
-	if(args==null){
-		form.siji.value = form.dousa.value;
-	}else{
-	form.siji.value = args;
-	}
-	form.submit();
-
-}
-
-</script>
-
-<script>
-document.addEventListener('DOMContentLoaded',messageAlert());
-function messageAlert() {
-	var recvMSG = "${message}";
-	if (recvMSG !=null && recvMSG !=""){
-		alert(recvMSG);
-	}
-}
-</script>
-
-
-
-<script>
-function scrset(){
-	var recvProductName = "${productmaster.productName}"
-	var recvDousa = "${dousa}"
-	if(recvDousa=="nyukoregist" && recvProductName != null  ){
-		document.getElementById("name").removeAttribute("disabled")
-	}
-	if(recvDousa=="syukoregist" && recvProductName != null  ){
-		document.getElementById("name").removeAttribute("disabled")
-	}
-
-}
-</script>
-
-<script>
-
-function nyuko(){
-	var form = document.forms[2];
-	form.dousa.value = "nyukoregist";
-	document.getElementById("name").removeAttribute("disabled")
-	document.getElementById("name").setAttribute("ReadOnly", true)
-
-}
-
-function syuko(){
-	var form = document.forms[2];
-	form.dousa.value = "syukoregist";
-	document.getElementById("name").removeAttribute("disabled")
-	document.getElementById("name").setAttribute("ReadOnly", true)
-}
-
-</script>
-
-<script>
-function qtyzero(){
-	if(document.nyusyu.qty.value == 0){
-		alert("0より大きな数字を入力してください。");
-		return true;
-	}else{
-		return false;
-	}
-}
-</script>
-
-<script>
-function change() {
-	var element;
-
-	if(document.getElementById("review")){
-		element = document.getElementById("button");
-		element.disabled = false;
-	}else{
-		element = document.getElementById("button");
-		element.disabled = true;
-	}
-
-}
-</script>
-
-</head>
-
-
-<div>
-<div>
-<%-- document.forms[3]; --%>
-<form action="EntryExitInfo.action" method="post"  name="nyusyu" id="nyusyu">
-<input type="hidden" name="siji">
-<input type="hidden" name="dousa" value="${dousa}">
-<input type="hidden" name="ko">
-
-<div class="row">
-<div class="col-sm-6 col-xs-12">
-品番:<input type="text"  id="code" name="code"   onchange="doExecute7('idSearch')"  value="${productmaster.productNo}"  onblur="num()" required><br><br>
-</div>
-</div>
-
-<div class="row">
-<div class="col-sm-6 col-xs-12">
-品名:<input type="text" id="name" name="name" value="${productmaster.productName}" disabled ><br><br>
-</div>
-</div>
-
-<div class="row">
-<div class="col-sm-6 col-xs-12">
-<label><input type="radio" id="ko" name="ko" value="nyuko"  onclick="nyuko()" style="transform:scale(1.5);margin-left: 3em" required>入庫</label>
-<label><input type="radio" id="ko" name="ko" value="syuko"  onclick="syuko()" style="transform:scale(1.5);margin-left: 3em" required>出庫</label><br><br>
-</div>
-</div>
-
-<div class="row">
-<div class="col-sm-6 col-xs-12">
-数量:<input type="text" id="qty" name="qty" onblur="qtyzero()" required><br><br>
-</div>
-</div>
-
-<div class="row">
-<div class="col-sm-6 col-xs-12">
-理由:<textarea name="review" id="review" rows="1" cols="30" onchange="change()" placeholder="必須項目! 入力内容確認後 確定ｸﾘｯｸ" required  ></textarea><br><br>
-</div>
-</div>
-
-<div class="row">
-<div class="col-sm-6 col-xs-12">
-<button type="button" id="button" name="button"  onclick="doExecute7()" class=" btn-danger" disabled >確定</button>
-<button type="reset" onclick="doExecute7('init')"  class=" btn-primary">キャンセル</button>
-</div>
-</div>
-
-</form>
-</div>
-</div>
-</div>
+	<div class="box">
+		<header>
+			<div class="main">
+				<%-- document.forms[1]; --%>
+				<form action="Logout.action" method="post">
+					<input type="hidden" name="toAction">
+					<div class="row">
+						<h1 class="h2 col-xs-6">入出庫画面</h1>
+						<h1 class="h3 col-xs-4 text-left">
+							<c:choose>
+								<c:when test="${empty btnSelect}">
+									<span class="label label-primary">状態：未選択</span>
+								</c:when>
+								<c:when test="${btnSelect=='insert'}">
+									<span class="label label-warning">状態：登録</span>
+								</c:when>
+								<c:when test="${btnSelect=='update'}">
+									<span class="label label-success">状態：更新</span>
+								</c:when>
+								<c:when test="${btnSelect=='delete'}">
+									<span class="label btn-danger">状態：削除</span>
+								</c:when>
+							</c:choose>
+						</h1>
+						<div class="col-xs-2"><a href="javascript:logout()"></a></div>
+					</div>
+				</form>
+			</div>
+		</header>
+	<hr>
+		<div>
+			<%-- document.forms[2]; --%>
+			<form action="EntryExitInfo.action" method="post">
+			    <input type="hidden" name="toAction" data-changeDisabled="0">
+				<input type="hidden" name="btnSelect" data-changeDisabled="0" value="${btnSelect}" >
+				<input type="hidden" name="nyukoQty" data-changeDisabled="0" value="${G_EntryExitInfo.nyukoQty}" >
+				<input type="hidden" name="syukoQty" data-changeDisabled="0" value="${G_EntryExitInfo.syukoQty}" >
+				<input type="hidden" name="befEnExNum" data-changeDisabled="0" value="${G_EntryExitInfo.befEnExNum}" >
+				<input type="hidden" name="registDate" data-changeDisabled="0" value="${G_EntryExitInfo.registDate}" >
+				<div class="row">
+					<div class="col-xs-1"></div>
+					<div class="col-xs-4"><button type="button" class="btn btn-warning btn-block" name="insert" data-changeDisabled="1" onClick="btnChange('insert')">登録</button></div>
+					<div class="col-xs-4"><button type="button" class="btn btn-success btn-block" name="update" data-changeDisabled="2" onClick="btnChange('update')">更新</button></div>
+					<div class="col-xs-2"><button type="button" class="btn btn-danger btn-block" name="delete" data-changeDisabled="3" onClick="btnChange('delete')">削除</button></div>
+					<div class="col-xs-1"></div>
+				</div>
+	<hr>
+				<div class="row">
+					<div class="col-xs-2"></div>
+					<label class="form-label col-xs-3 text-left" for="enExId">入出庫番号</label>
+					<p class="col-xs-7">：<input type="text" style="width: 300px;" list="enExIdList" name="enExId" id="enExId" data-changeDisabled="4" 
+											min="0" max="99999999" onkeyup="javascript: this.value = this.value.slice(0, 8);" 
+											onchange="javascript: this.value = this.value==0?'':('00000000'+this.value).slice(-8);doExecute2('searchenExId');" 
+											placeholder="数字(最大8桁)" value="${G_EntryExitInfo.enExId}">
+											<datalist id="enExIdList">
+												<c:forEach var="eeil" items="${EntryExitInfoList}" >
+													<option value="${eeil.enExId}" label="入出庫番号:${eeil.enExId}, 入出庫:${(eeil.nyukoQty!=''&&eeil.nyukoQty!='0')?'入庫':(eeil.syukoQty!=''&&eeil.syukoQty!='0')?'出庫':'不明'}, 数量:${(eeil.nyukoQty!=''&&eeil.nyukoQty!='0')?eeil.nyukoQty:(eeil.syukoQty!=''&&eeil.syukoQty!='0')?eeil.syukoQty:'不明'}">
+												</c:forEach>
+											</datalist></p>
+				</div>
+				<div class="row">
+					<div class="col-xs-2"></div>
+					<label class="form-label col-xs-3 text-left" for="productNo">品番&nbsp;<span class="label label-danger">必須</span></label>
+					<p class="col-xs-7">：<input type="number" style="width: 300px;" list="productNoList" name="productNo" id="productNo" class="inputRequired" data-changeDisabled="5" 
+											min="0" max="9999999999" onkeyup="javascript: this.value = this.value.slice(0, 10);" 
+											onchange="javascript: this.value = this.value==0?'':('0000000000'+this.value).slice(-10);doExecute2('searchProductNo');" 
+											placeholder="数字(最大10桁)" value="${G_EntryExitInfo.productNo}">
+											<datalist id="productNoList">
+												<c:forEach var="pml" items="${ProductMasterList}" >
+													<option value="${pml.productNo}" label="品番:${pml.productNo}, 品名:${pml.productName}">
+												</c:forEach>
+											</datalist></p>
+				</div>
+				<div class="row">
+					<div class="col-xs-2"></div>
+					<label class="form-label col-xs-3 text-left" for="productName">品名</label>
+					<p class="col-xs-7">：<input type="text" style="width: 300px;" name="productName" id="productName" data-changeDisabled="0" 
+											placeholder="表示のみ(入力不可)" value="${ProductMaster.productName}" disabled></p>
+				</div>
+				<div class="row">
+					<div class="col-xs-2"></div>
+					<label class="form-label col-xs-3 text-left" for="wStockQty">倉庫在庫数&nbsp;<small>(出庫可能数)</small></label>
+					<p class="col-xs-7">：<input type="text" style="width: 300px;" name="wStockQty" id="wStockQty" data-changeDisabled="0" 
+											placeholder="表示のみ(入力不可)" value="${PuroductStock.wStockQty}" disabled></p>
+				</div>
+				<div class="row">
+					<div class="col-xs-2"></div>
+					<label class="form-label col-xs-3 text-left" for="oowStockQty">倉庫外在庫数&nbsp;<small>(入庫可能数)</small></label>
+					<p class="col-xs-7">：<input type="text" style="width: 300px;" name="oowStockQty" id="oowStockQty" data-changeDisabled="0" 
+											placeholder="表示のみ(入力不可)" value="${(PuroductStock.stockQty-PuroductStock.wStockQty)=='0'?'':PuroductStock.stockQty-PuroductStock.wStockQty}" disabled></p>
+				</div>
+				<div class="row">
+					<div class="col-xs-2"></div>
+					<label class="form-label col-xs-4 text-left">入庫･出庫&nbsp;<span class="label label-danger">必須</span></label>
+					<div class="form-check col-xs-2" style="height: 34px;">
+						<input class="form-check-input" type="radio" name="stockInOut" id="stockIn" onchange="docheck();" value="in">
+						<label class="form-check-label" for="stockIn">入庫</label>
+					</div>
+					<div class="form-check col-xs-4" style="height: 34px;">
+						<input class="form-check-input" type="radio" name="stockInOut" id="stockOut" onchange="docheck();" value="out">
+						<label class="form-check-label" for="stockOut">出庫</label>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-2"></div>
+					<label class="form-label col-xs-3 text-left" for="enExDate">入出庫日&nbsp;<span class="label label-danger">必須</span></label>
+					<p class="col-xs-7">：<input type="date" style="width: 300px;" name="enExDate" id="enExDate" class="inputRequired" data-changeDisabled="5"
+											 onchange="docheck();" value="${G_EntryExitInfo.enExDate}"></p>
+				</div>
+				<div class="row">
+					<div class="col-xs-2"></div>
+					<label class="form-label col-xs-3 text-left" for="enExNum">数量&nbsp;<span class="label label-danger">必須</span></label>
+					<p class="col-xs-7">：<input type="number" style="width: 300px;" name="enExNum" id="enExNum" class="inputRequired" data-inputRequired="false" data-changeDisabled="5" 
+											min="1" onchange="docheck();" value="${G_EntryExitInfo.enExNum}"></p>
+				</div>
+				<div class="row">
+					<div class="col-xs-2"></div>
+					<label class="form-label col-xs-3 text-left" for="reason">理由</label>
+					<p class="col-xs-7">：<textarea rows="2" style="width: 300px;" name="reason" id="reason" data-changeDisabled="5" 
+											placeholder="0−120文字">${G_EntryExitInfo.reason}</textarea></p>
+				</div>
+	<hr>
+				<div class="row">
+					<div class="col-xs-1"></div>
+					<div class="col-xs-5">
+						<c:choose>
+								<c:when test="${empty btnSelect}">
+										<button type="button" class="btn btn-primary btn-block" data-changeDisabled="0" disabled>未選択</button>
+								</c:when>
+								<c:when test="${btnSelect=='insert'}">
+										<button type="button" class="btn btn-warning btn-block" data-changeDisabled="0" name="doExecuteBTN" onClick="doExecute2('doBTNExecute')" disabled>登録</button>
+								</c:when>
+								<c:when test="${btnSelect=='update'}">
+										<button type="button" class="btn btn-success btn-block" data-changeDisabled="0" name="doExecuteBTN" onClick="doExecute2('doBTNExecute')" disabled>更新</button>
+								</c:when>
+								<c:when test="${btnSelect=='delete'}">
+										<button type="button" class="btn btn-danger btn-block" data-changeDisabled="0" name="doExecuteBTN" onClick="doExecute2('doBTNExecute')" disabled>削除</button>
+								</c:when>
+						</c:choose>
+					</div>
+					<div class="col-xs-5"><button type="button" class="btn btn-primary btn-block" data-changeDisabled="0" onClick="doExecute2('cancel')">リセット</button></div>
+					<div class="col-xs-1"></div>
+				</div>
+			</form>
+		</div>
 <%@ include file="../footer.jsp"%>

@@ -11,6 +11,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import bean.G_Arrival;
+import bean.G_EntryExitInfo;
 import bean.G_Order;
 import bean.G_ProductMaster;
 import bean.G_PurchaseOrder;
@@ -152,6 +154,26 @@ public class ProductMasterDAO extends DAO {
 	 */
 	public ProductMaster searchByProNo(G_Shipping G_Shipping) {
 		return searchByProNo(G_Shipping.getProductNo());
+	}
+	
+	/**
+	 * 品番に合致するレコード情報を取得するメソッド
+	 * 
+	 * @param G_Supplierのインスタンス
+	 * @return 該当レコードあり:ProductMasterクラスのインスタンス 無:null
+	 */
+	public ProductMaster searchByProNo(G_Arrival G_Arrival) {
+		return searchByProNo(G_Arrival.getProductNo());
+	}
+	
+	/**
+	 * 品番に合致するレコード情報を取得するメソッド
+	 * 
+	 * @param G_EntryExitInfoのインスタンス
+	 * @return 該当レコードあり:ProductMasterクラスのインスタンス 無:null
+	 */
+	public ProductMaster searchByProNo(G_EntryExitInfo G_EntryExitInfo) {
+		return searchByProNo(G_EntryExitInfo.getProductNo());
 	}
 
 	/**

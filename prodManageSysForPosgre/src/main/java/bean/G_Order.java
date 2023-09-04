@@ -9,6 +9,7 @@ public class G_Order implements java.io.Serializable {
 	private String lot; // 購買ロット
 	private String orderLot; // 発注ロット 入力必須
 	private String orderQty;
+	private String leadTime; // 購買リードタイム
 	private String deliveryDate; // 入力必須
 	private String arrivalQty; // 入荷数量
 	private String biko;
@@ -77,6 +78,14 @@ public class G_Order implements java.io.Serializable {
 
 	public void setOrderQty(String orderQty) {
 		this.orderQty = orderQty;
+	}
+
+	public String getLeadTime() {
+		return leadTime;
+	}
+
+	public void setLeadTime(String leadTime) {
+		this.leadTime = leadTime;
 	}
 
 	public String getDeliveryDate() {

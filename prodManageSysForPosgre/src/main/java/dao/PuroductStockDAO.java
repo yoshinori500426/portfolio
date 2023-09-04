@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import bean.G_Arrival;
+import bean.G_EntryExitInfo;
 import bean.G_Shipping;
 import bean.PuroductStock;
 
@@ -343,6 +345,7 @@ public class PuroductStockDAO extends DAO {
 				PuroductStock.settNyuka(rs.getInt("T_NYUKA"));
 				PuroductStock.settSyuka(rs.getInt("T_SYUKA"));
 				PuroductStock.setUpDate(rs.getString("UP_DATE"));
+				// ｢break;｣を入れることで､STOCK_INFO_DATE DESCで規定した指定年月以前の最新のレコードのみ取得
 				break;
 			}
 			st.close();
@@ -352,6 +355,55 @@ public class PuroductStockDAO extends DAO {
 			e.printStackTrace();
 		}
 		return PuroductStock;
+	}
+	
+	/**
+	 * PURODUCT_STOCKテーブル参照メソッド
+	 *  →指定品番の最も新しい年月のレコードを取得
+	 * 
+	 * @param String productNo
+	 * @return PuroductStockビーン 「null：失敗」「インスタンス有：成功」
+	 */
+	public PuroductStock searchByDate(String productNo) {
+		PuroductStock PuroductStock = null;
+		try {
+			Connection con = getConnection();
+			PreparedStatement st = con.prepareStatement(
+					"SELECT * FROM PURODUCT_STOCK WHERE PRODUCT_NO=? ORDER BY STOCK_INFO_DATE DESC");
+			st.setString(1, productNo);
+			ResultSet rs = st.executeQuery();
+			while (rs.next()) {
+				PuroductStock = new PuroductStock();
+				PuroductStock.setStockInfoDate(rs.getString("STOCK_INFO_DATE"));
+				PuroductStock.setProductNo(rs.getString("PRODUCT_NO"));
+				PuroductStock.setStockQty(rs.getInt("STOCK_QTY"));
+				PuroductStock.setwStockQty(rs.getInt("W_STOCK_QTY"));
+				PuroductStock.settNyuko(rs.getInt("T_NYUKO"));
+				PuroductStock.settSyuko(rs.getInt("T_SYUKO"));
+				PuroductStock.settNyuka(rs.getInt("T_NYUKA"));
+				PuroductStock.settSyuka(rs.getInt("T_SYUKA"));
+				PuroductStock.setUpDate(rs.getString("UP_DATE"));
+				// ｢break;｣を入れることで､STOCK_INFO_DATE DESCで規定した指定年月以前の最新のレコードのみ取得
+				break;
+			}
+			st.close();
+			con.close();
+		} catch (Exception e) {
+			System.out.println("SQLでエラーが発生しました。");
+			e.printStackTrace();
+		}
+		return PuroductStock;
+	}
+	
+	/**
+	 * PURODUCT_STOCKテーブル参照メソッド
+	 *  →指定品番の最も新しい年月のレコードを取得
+	 * 
+	 * @param G_EntryExitInfo
+	 * @return PuroductStockビーン 「null：失敗」「インスタンス有：成功」
+	 */
+	public PuroductStock searchByDate(G_EntryExitInfo G_EntryExitInfo) {
+		return searchByDate(G_EntryExitInfo.getProductNo());
 	}
 
 	/**
@@ -416,7 +468,7 @@ public class PuroductStockDAO extends DAO {
 		Calendar cl = Calendar.getInstance();
 		// 登録日用SimpleDateFormatクラスでフォーマットパターンを設定する
 		SimpleDateFormat sdfymd = new SimpleDateFormat("yyyy/MM/dd");
-		// 指定の品番で且つ指定年月以降のリスト取得
+		// 指定の品番で且つ指定年月以降のリスト取得(リストの年月は昇順)
 		List<PuroductStock> PuroductStockList = searchListByDateAndPrNo(stockInfoDate, productNo);
 		try {
 			Connection con = getConnection();
@@ -486,7 +538,26 @@ public class PuroductStockDAO extends DAO {
 	public int productStockProcess(G_Shipping G_Shipping) {
 		String stockInfoDate = G_Shipping.getShipDate().substring(0,7).replace("-", "/");
 		String productNo = 	G_Shipping.getProductNo();
+		int tNyuko = 0;
+		int tSyuko = 0;
+		int tNyuka = 0;
 		int tSyuka = Integer.parseInt(G_Shipping.getShipQty());
-		return productStockProcess(stockInfoDate, productNo, 0, 0, 0, tSyuka);
+		return productStockProcess(stockInfoDate, productNo, tNyuko, tSyuko, tNyuka, tSyuka);
+	}
+	
+	/**
+	 * PURODUCT_STOCKテーブル処理メソッド
+	 * 
+	 * @param G_Arrival
+	 * @return 0:処理失敗 1:処理成功
+	 */
+	public int productStockProcess(G_Arrival G_Arrival) {
+		String stockInfoDate = G_Arrival.getDueDate().substring(0,7).replace("-", "/");
+		String productNo = 	G_Arrival.getProductNo();
+		int tNyuko = 0;
+		int tSyuko = 0;
+		int tNyuka = Integer.parseInt(G_Arrival.getDueQty());
+		int tSyuka = 0;
+		return productStockProcess(stockInfoDate, productNo, tNyuko, tSyuko, tNyuka, tSyuka);
 	}
 }
