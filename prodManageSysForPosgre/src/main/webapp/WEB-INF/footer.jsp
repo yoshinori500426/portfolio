@@ -420,14 +420,6 @@ if('${nextJsp}'=='/WEB-INF/main/arrival.jsp'){
 //'entryExitInfo.jsp'
 if('${nextJsp}'=='/WEB-INF/main/entryExitInfo.jsp'){
 	window.addEventListener('load', function(){
-		docheck();
-		var keyValue = ('${G_EntryExitInfo.enExId}'!='')?'1':'';
-		doChangeDisabled(keyValue);
-		// 更新時のproductNoを有効にしない
-		if(btnSelect=='update' && keyValue=='1'){
-			var productNo = form.elements['productNo'];
-			productNo.setAttribute('disabled','disabled');
-		}
 		// 入出庫ラジオボタンのチェックを指定
 		var stockInOut = form.elements['stockInOut'];
 		for (var i = 0; i < stockInOut.length; i++) {
@@ -435,10 +427,15 @@ if('${nextJsp}'=='/WEB-INF/main/entryExitInfo.jsp'){
 				stockInOut[i].checked=true;
 				break;
 			}
-			if(i==1){
-				stockInOut[1].checked=true;
+			if(i==1 && '${G_EntryExitInfo.productNo}'!=''){
+				stockInOut[0].checked=true;
 				break;
 			}
+		}
+		// 更新時のproductNoを有効にしない
+		if(btnSelect=='update' && keyValue=='1'){
+			var productNo = form.elements['productNo'];
+			productNo.setAttribute('disabled','disabled');
 		}
 		// 入出庫ラジオボタンの有効無効切替
 		for (var i = 0; i < stockInOut.length; i++) {
@@ -448,6 +445,9 @@ if('${nextJsp}'=='/WEB-INF/main/entryExitInfo.jsp'){
 				stockInOut[i].setAttribute('disabled','disabled');
 			}
 		}
+		docheck();
+		var keyValue = ('${G_EntryExitInfo.enExId}'!='')?'1':'';
+		doChangeDisabled(keyValue);
 	})
 	function docheck() {
 		//productNo
@@ -491,9 +491,9 @@ if('${nextJsp}'=='/WEB-INF/main/entryExitInfo.jsp'){
 			if(stockInOut.value=='in'){
 				info = '1-'+oowStockQty.value;
 				maxValue = oowStockQty.value;
-				judgeEnExNum = (enExNum.value>=1 && enExNum.value<=oowStockQty.value)?true:false;
+				judgeEnExNum = (Number(enExNum.value)>=1 && Number(enExNum.value)<=Number(oowStockQty.value))?true:false;
 			}else if(stockInOut.value=='out' || stockInOut.value==''){
-				judgeEnExNum = (enExNum.value>=1 && enExNum.value<=wStockQty.value)?true:false;
+				judgeEnExNum = (Number(enExNum.value)>=1 && Number(enExNum.value)<=Number(wStockQty.value))?true:false;
 				maxValue = wStockQty.value;
 				info = '1-'+wStockQty.value;
 			}

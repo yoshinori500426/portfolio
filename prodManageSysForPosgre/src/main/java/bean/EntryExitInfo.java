@@ -7,8 +7,8 @@ public class EntryExitInfo {
 	private int nyukoQty; // 入庫数
 	private int syukoQty; // 出庫数
 	private String reason; // 理由
-	private String registDate; // 登録日
-	private String registUser; // 登録者
+	private String registDate; // 入出庫番号登録日(更新/削除の際のテーブル｢PuroductStock｣のYYYY/MMに該当)
+	private String registUser; // 入出庫番号登録者
 	// 以降､テーブルに存在しない項目
 	private String productName; // 品名
 	private String judge;

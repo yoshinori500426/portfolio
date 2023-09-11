@@ -1,6 +1,8 @@
 package action;
 
 import java.sql.Connection;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -63,7 +65,10 @@ public class EntryExitInfoAction extends Action {
 		G_EntryExitInfo.setEnExDate(request.getParameter("enExDate"));
 		G_EntryExitInfo.setEnExNum(request.getParameter("enExNum"));
 		G_EntryExitInfo.setReason(request.getParameter("reason"));
-		if (request.getParameter("stockInOut").equals("in")) {
+		if(request.getParameter("stockInOut")==null) {
+			G_EntryExitInfo.setNyukoQty("");
+			G_EntryExitInfo.setSyukoQty("");
+		}else if (request.getParameter("stockInOut").equals("in")) {
 			G_EntryExitInfo.setNyukoQty(request.getParameter("enExNum"));
 			G_EntryExitInfo.setSyukoQty("");
 		} else if (request.getParameter("stockInOut").equals("out")) {
@@ -117,8 +122,16 @@ public class EntryExitInfoAction extends Action {
 					G_EntryExitInfo.setEnExNum(String.valueOf(entryExitInfoForChange.getSyukoQty()));
 				}
 				G_EntryExitInfo.setReason(entryExitInfoForChange.getReason());
-				G_EntryExitInfo.setNyukoQty(String.valueOf(entryExitInfoForChange.getNyukoQty()));
-				G_EntryExitInfo.setSyukoQty(String.valueOf(entryExitInfoForChange.getSyukoQty()));
+				if (entryExitInfoForChange.getNyukoQty() > 0) {
+					G_EntryExitInfo.setNyukoQty(String.valueOf(entryExitInfoForChange.getNyukoQty()));
+				} else if (entryExitInfoForChange.getNyukoQty() == 0) {
+					G_EntryExitInfo.setNyukoQty("");
+				}
+				if (entryExitInfoForChange.getSyukoQty() > 0) {
+					G_EntryExitInfo.setSyukoQty(String.valueOf(entryExitInfoForChange.getSyukoQty()));
+				} else if (entryExitInfoForChange.getSyukoQty() > 0) {
+					G_EntryExitInfo.setSyukoQty("");
+				}
 				G_EntryExitInfo.setBefEnExNum(G_EntryExitInfo.getEnExNum());
 				G_EntryExitInfo.setRegistDate(entryExitInfoForChange.getRegistDate());
 				session.setAttribute("G_EntryExitInfo", G_EntryExitInfo);
@@ -175,25 +188,48 @@ public class EntryExitInfoAction extends Action {
 				// ･DBで登録する日付は､テーブル毎に取得するのではなく､共通の日付を使用する
 				// →このシステムでは､登録日等の｢PCの日時を取得する処理｣はDAOにて取得としているが､在庫テーブル処理は､Actionで取得した日時を処理を行う複数のテーブル全てに使用する動作とする
 				// →稀なケースだが､テーブルを渡る処理が月またぎとなった場合､整合性が取れなくなる為､他のテーブルと年月を揃える事が目的
-//				if (btnSelect.equals("update")) {
-//					// テーブル｢PURCHASE_ORDER｣更新処理
-//					line += eeiDAO.updateForShipByPoNo(G_EntryExitInfo, "1", request);
-//				} else if (btnSelect.equals("delete")) {
-//					// テーブル｢PURCHASE_ORDER｣更新処理
-//					line += eeiDAO.updateForShipByPoNo(G_EntryExitInfo, "0", request);
-//				}
-//				// テーブル｢PURODUCT_STOCK(=在庫テーブル)｣処理(登録/更新)
-//				line += psDAO.productStockProcess(G_EntryExitInfo);
-//				// 成功/失敗判定
-//				if (line == 2) {
-//					con.commit();
-//					// 各種セッション属性のnullクリア
-//					new MainAction().crearAttributeForScreenChange(session);
-//					session.setAttribute("message", "処理が正常に終了しました｡");
-//				} else {
-//					con.rollback();
-//					session.setAttribute("message", "処理中に異常が発生しました｡\\n処理は行われていません｡");
-//				}
+				if (btnSelect.equals("insert")) {
+					// インスタンス｢G_EntryExitInfo｣のフィールド｢registDate｣に入力日時を格納
+					// →テーブル｢ENTRY_EXIT_INFO｣の登録日､テーブル｢PURODUCT_STOCK｣の年月に共通の値となる為､DAOのメソッド中ではなく､このタイミングで日時を規定する
+					Calendar cl = Calendar.getInstance();
+					SimpleDateFormat sdfymd = new SimpleDateFormat("yyyy/MM/dd");
+					G_EntryExitInfo.setRegistDate(sdfymd.format(cl.getTime()));
+					// 新規登録のため､更新前の値は存在しないが､DAOの処理を統一させるため､更新前の値を｢0｣と規定する
+					// →テーブル｢PURODUCT_STOCK｣では､更新後‐更新前の値を加算する為
+					G_EntryExitInfo.setBefEnExNum("0");
+					// テーブル｢ENTRY_EXIT_INFO｣新規登録処理
+					line += eeiDAO.insert(G_EntryExitInfo, request);
+				} else if (btnSelect.equals("update")) {
+					// テーブル｢ENTRY_EXIT_INFO｣更新処理
+					line += eeiDAO.update(G_EntryExitInfo);
+				} else if (btnSelect.equals("delete")) {
+					// 削除のため､更新後の値を｢0｣に､更新前の値を｢request.getParameter("enExNum")｣と規定する
+					// →テーブル｢PURODUCT_STOCK｣では､更新後‐更新前の値を加算する為
+					if (request.getParameter("stockInOut").equals("in")) {
+						G_EntryExitInfo.setNyukoQty("0");
+						G_EntryExitInfo.setSyukoQty("");
+						G_EntryExitInfo.setBefEnExNum(request.getParameter("enExNum"));
+					} else if (request.getParameter("stockInOut").equals("out")) {
+						G_EntryExitInfo.setNyukoQty("");
+						G_EntryExitInfo.setSyukoQty("0");
+						G_EntryExitInfo.setBefEnExNum(request.getParameter("enExNum"));
+					}
+					// テーブル｢ENTRY_EXIT_INFO｣削除処理
+					line += eeiDAO.delete(G_EntryExitInfo);
+				}
+				session.setAttribute("G_EntryExitInfo", G_EntryExitInfo);
+				// テーブル｢PURODUCT_STOCK(=在庫テーブル)｣処理(登録/更新)
+				line += psDAO.productStockProcess(G_EntryExitInfo);
+				// 成功/失敗判定
+				if (line == 2) {
+					con.commit();
+					// 各種セッション属性のnullクリア
+					new MainAction().crearAttributeForScreenChange(session);
+					session.setAttribute("message", "処理が正常に終了しました｡");
+				} else {
+					con.rollback();
+					session.setAttribute("message", "処理中に異常が発生しました｡\\n処理は行われていません｡");
+				}
 				// トランザクション処理終了
 				con.setAutoCommit(true);
 			}

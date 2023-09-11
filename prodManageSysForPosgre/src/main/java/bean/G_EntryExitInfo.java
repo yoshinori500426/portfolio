@@ -14,7 +14,7 @@ public class G_EntryExitInfo {
 	private String nyukoQty; // 入庫数
 	private String syukoQty; // 出庫数
 	private String befEnExNum; // 更新時の更新前の値
-	private String registDate; // 登録日(更新/削除の際のテーブル｢PuroductStock｣のYYYY/MMに該当)
+	private String registDate; // 入出庫番号登録日(更新/削除の際のテーブル｢PuroductStock｣のYYYY/MMに該当)
 
 	public String getEnExId() {
 		return enExId;

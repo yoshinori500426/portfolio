@@ -456,9 +456,9 @@ public class PuroductStockDAO extends DAO {
 		int line = 0;
 		// 引数の妥当性確認(引数｢tNyuko｣｢tSyuko｣｢tNyuka｣｢tSyuka｣は､どれか1つのみ1以外の値でその他はゼロである必要あり)
 		if (!((tNyuko != 0 && tSyuko == 0 && tNyuka == 0 && tSyuka == 0)
-				|| (tNyuko == 0 && tSyuko != 0 && tNyuka == 0 && tSyuka == 0)
-				|| (tNyuko == 0 && tSyuko == 0 && tNyuka != 0 && tSyuka == 0)
-				|| (tNyuko == 0 && tSyuko == 0 && tNyuka == 0 && tSyuka != 0))) {
+			|| (tNyuko == 0 && tSyuko != 0 && tNyuka == 0 && tSyuka == 0)
+			|| (tNyuko == 0 && tSyuko == 0 && tNyuka != 0 && tSyuka == 0)
+			|| (tNyuko == 0 && tSyuko == 0 && tNyuka == 0 && tSyuka != 0))) {
 			return line;
 		}
 		// 使用変数宣言
@@ -474,6 +474,7 @@ public class PuroductStockDAO extends DAO {
 			Connection con = getConnection();
 			// 新規登録
 			if (PuroductStockList.size() == 0) {
+				//指定品番､指定年月以前の最も近いレコードを取得
 				PuroductStock = searchBefByDateAndPrNo(stockInfoDate, productNo);
 				PreparedStatement st = null;
 				st = con.prepareStatement("INSERT INTO PURODUCT_STOCK VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)");
@@ -505,7 +506,7 @@ public class PuroductStockDAO extends DAO {
 					if (count == 0) {
 						sta.setInt(3, ps.gettNyuko() + tNyuko); // tNyuko
 						sta.setInt(4, ps.gettSyuko() + tSyuko); // tSyuko
-						sta.setInt(5, ps.gettNyuka() + tNyuka); // tNyuka
+						sta.setInt(5, ps.gettNyuka() + tNyuka - (tNyuko - tSyuko)); // tNyuka
 						sta.setInt(6, ps.gettSyuka() + tSyuka); // tSyuka
 					} else {
 						sta.setInt(3, ps.gettNyuko()); // tNyuko
@@ -558,6 +559,34 @@ public class PuroductStockDAO extends DAO {
 		int tSyuko = 0;
 		int tNyuka = Integer.parseInt(G_Arrival.getDueQty());
 		int tSyuka = 0;
+		return productStockProcess(stockInfoDate, productNo, tNyuko, tSyuko, tNyuka, tSyuka);
+	}
+	/**
+	 * PURODUCT_STOCKテーブル処理メソッド
+	 * 
+	 * @param G_EntryExitInfo
+	 * @return 0:処理失敗 1:処理成功
+	 */
+	public int productStockProcess(G_EntryExitInfo G_EntryExitInfo) {
+		String stockInfoDate = G_EntryExitInfo.getRegistDate().substring(0,7).replace("-", "/");
+		String productNo = 	G_EntryExitInfo.getProductNo();
+		int tNyuko = 0;
+		int tSyuko = 0;
+		int tNyuka = 0;
+		int tSyuka = 0;
+		// tNyuko/tSyukoを規定
+		int nyukoQty = Integer.parseInt(G_EntryExitInfo.getNyukoQty().equals("")?"0":G_EntryExitInfo.getNyukoQty());
+		int syukoQty = Integer.parseInt(G_EntryExitInfo.getSyukoQty().equals("")?"0":G_EntryExitInfo.getSyukoQty());
+		int befEnExNum =  Integer.parseInt(G_EntryExitInfo.getBefEnExNum().equals("")?"0":G_EntryExitInfo.getBefEnExNum());
+		if (!G_EntryExitInfo.getNyukoQty().equals("")&&G_EntryExitInfo.getSyukoQty().equals("")) {
+			tNyuko = nyukoQty - befEnExNum;
+			tSyuko = 0;
+		} else if (G_EntryExitInfo.getNyukoQty().equals("")&&!G_EntryExitInfo.getSyukoQty().equals("")) {
+			tNyuko = 0;
+			tSyuko = syukoQty - befEnExNum;
+		}else {
+			return 0;
+		}
 		return productStockProcess(stockInfoDate, productNo, tNyuko, tSyuko, tNyuka, tSyuka);
 	}
 }
