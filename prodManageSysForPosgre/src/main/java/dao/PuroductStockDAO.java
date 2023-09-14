@@ -11,94 +11,11 @@ import java.util.List;
 import bean.G_Arrival;
 import bean.G_EntryExitInfo;
 import bean.G_Shipping;
+import bean.G_StockList;
 import bean.PuroductStock;
 
 public class PuroductStockDAO extends DAO {
 
-//	public PuroductStock searchByPrNoS(String productNo) throws Exception {
-//		PuroductStock prm = null;
-//
-//		Connection con = getConnection();
-//
-//		PreparedStatement st;
-//		st = con.prepareStatement(
-//				"SELECT * FROM PURODUCT_STOCK "
-//						+ "WHERE PRODUCT_NO= ? "
-//						+ "AND STOCK_INFO_DATE = TO_CHAR(SYSDATE,'YYYY/MM')");
-//
-//		st.setString(1, productNo);
-//
-//		ResultSet rs = st.executeQuery();
-//
-//		while (rs.next()) {
-//			prm = new PuroductStock();
-//			prm.setStockInfoDate(rs.getString("stock_info_date"));
-//			prm.setProductNo(rs.getString("product_no"));
-//			prm.setStockQty(rs.getInt("stock_qty"));
-//			prm.settNyuko(rs.getInt("t_nyuko"));
-//			prm.settSyuko(rs.getInt("t_syuko"));
-//			prm.settSyuka(rs.getInt("t_syuka"));
-//			prm.setUpDate(rs.getString("up_date"));
-//
-//		}
-//		st.close();
-//		con.close();
-//		return prm;
-//
-//	}
-//
-//	public List<Stock> searchBySchedule(String proNo) throws Exception {
-//		List<Stock> list = new ArrayList<>();
-//
-//		Connection con = getConnection();
-//		PreparedStatement st = con.prepareStatement(
-//				"SELECT PO.PRODUCT_NO, PO.DELIVERY_DATE, PO.CUSTOMER_NO, CM.CUSTOMER_NAME, PO.PO_NO, PO.ORDER_QTY, PO.FIN_FLG \r\n"
-//						+
-//						"FROM PURCHASE_ORDER PO\r\n" +
-//						"INNER JOIN CUSTOMER_MASTER CM\r\n" +
-//						"ON PO.CUSTOMER_NO = CM.CUSTOMER_NO \r\n" +
-//						"WHERE PRODUCT_NO = ?");
-//		st.setString(1, proNo);
-//		ResultSet rs = st.executeQuery();
-//
-//		while (rs.next()) {
-//			if (rs.getString("FIN_FLG").equals("0")) {
-//				Stock stock = new Stock();
-//				stock.setProductNo(rs.getString("PRODUCT_NO"));
-//				stock.setDeliveryDate(rs.getString("DELIVERY_DATE").replace("-", "/"));
-//				stock.setCustomerNo(rs.getString("CUSTOMER_NO"));
-//				stock.setCustomerName(rs.getString("CUSTOMER_NAME"));
-//				stock.setPoNo(rs.getString("PO_NO"));
-//				stock.setPoQty(rs.getInt("ORDER_QTY"));
-//				list.add(stock);
-//			}
-//		}
-//		st = con.prepareStatement(
-//				"SELECT OT.PRODUCT_NO, OT.DELIVERY_DATE, OT.ORDER_NO, OT.SUPPLIER_NO, SM.SUPPLIER_NAME, OT.ORDER_QTY ,OT.FIN_FLG\r\n"
-//						+
-//						" FROM ORDER_TABLE OT\r\n" +
-//						" INNER JOIN SUPPLIER_MASTER SM\r\n" +
-//						" ON OT.SUPPLIER_NO = SM.SUPPLIER_NO\r\n" +
-//						" WHERE PRODUCT_NO = ?");
-//		st.setString(1, proNo);
-//		rs = st.executeQuery();
-//
-//		while (rs.next()) {
-//			if (rs.getString("FIN_FLG").equals("0")) {
-//				Stock stock = new Stock();
-//				stock.setProductNo(rs.getString("PRODUCT_NO"));
-//				stock.setDeliveryDate(rs.getString("DELIVERY_DATE").replace("-", "/"));
-//				stock.setPoNo(rs.getString("ORDER_NO"));
-//				stock.setSupprierNo(rs.getString("SUPPLIER_NO"));
-//				stock.setSupprierName(rs.getString("SUPPLIER_NAME"));
-//				stock.setOrQty(rs.getInt("ORDER_QTY"));
-//				list.add(stock);
-//			}
-//		}
-//		st.close();
-//		con.close();
-//		return list;
-//	}
 //
 //	public int updateByNyukoStock(EntryExitInfo recv_data) {
 //
@@ -405,6 +322,18 @@ public class PuroductStockDAO extends DAO {
 	public PuroductStock searchByDate(G_EntryExitInfo G_EntryExitInfo) {
 		return searchByDate(G_EntryExitInfo.getProductNo());
 	}
+	
+	/**
+	 * PURODUCT_STOCKテーブル参照メソッド
+	 *  →指定品番の最も新しい年月のレコードを取得
+	 * 
+	 * @param G_StockList
+	 * @return PuroductStockビーン 「null：失敗」「インスタンス有：成功」
+	 */
+	public PuroductStock searchByDate(G_StockList G_StockList) {
+		return searchByDate(G_StockList.getProductNo());
+	}
+
 
 	/**
 	 * PURODUCT_STOCKテーブル参照メソッド
@@ -589,4 +518,89 @@ public class PuroductStockDAO extends DAO {
 		}
 		return productStockProcess(stockInfoDate, productNo, tNyuko, tSyuko, tNyuka, tSyuka);
 	}
+	
+//	public PuroductStock searchByPrNoS(String productNo) throws Exception {
+//	PuroductStock prm = null;
+//
+//	Connection con = getConnection();
+//
+//	PreparedStatement st;
+//	st = con.prepareStatement(
+//			"SELECT * FROM PURODUCT_STOCK "
+//					+ "WHERE PRODUCT_NO= ? "
+//					+ "AND STOCK_INFO_DATE = TO_CHAR(SYSDATE,'YYYY/MM')");
+//
+//	st.setString(1, productNo);
+//
+//	ResultSet rs = st.executeQuery();
+//
+//	while (rs.next()) {
+//		prm = new PuroductStock();
+//		prm.setStockInfoDate(rs.getString("stock_info_date"));
+//		prm.setProductNo(rs.getString("product_no"));
+//		prm.setStockQty(rs.getInt("stock_qty"));
+//		prm.settNyuko(rs.getInt("t_nyuko"));
+//		prm.settSyuko(rs.getInt("t_syuko"));
+//		prm.settSyuka(rs.getInt("t_syuka"));
+//		prm.setUpDate(rs.getString("up_date"));
+//
+//	}
+//	st.close();
+//	con.close();
+//	return prm;
+//
+//}
+//
+//public List<Stock> searchBySchedule(String proNo) throws Exception {
+//	List<Stock> list = new ArrayList<>();
+//
+//	Connection con = getConnection();
+//	PreparedStatement st = con.prepareStatement(
+//			"SELECT PO.PRODUCT_NO, PO.DELIVERY_DATE, PO.CUSTOMER_NO, CM.CUSTOMER_NAME, PO.PO_NO, PO.ORDER_QTY, PO.FIN_FLG \r\n"
+//					+
+//					"FROM PURCHASE_ORDER PO\r\n" +
+//					"INNER JOIN CUSTOMER_MASTER CM\r\n" +
+//					"ON PO.CUSTOMER_NO = CM.CUSTOMER_NO \r\n" +
+//					"WHERE PRODUCT_NO = ?");
+//	st.setString(1, proNo);
+//	ResultSet rs = st.executeQuery();
+//
+//	while (rs.next()) {
+//		if (rs.getString("FIN_FLG").equals("0")) {
+//			Stock stock = new Stock();
+//			stock.setProductNo(rs.getString("PRODUCT_NO"));
+//			stock.setDeliveryDate(rs.getString("DELIVERY_DATE").replace("-", "/"));
+//			stock.setCustomerNo(rs.getString("CUSTOMER_NO"));
+//			stock.setCustomerName(rs.getString("CUSTOMER_NAME"));
+//			stock.setPoNo(rs.getString("PO_NO"));
+//			stock.setPoQty(rs.getInt("ORDER_QTY"));
+//			list.add(stock);
+//		}
+//	}
+//	st = con.prepareStatement(
+//			"SELECT OT.PRODUCT_NO, OT.DELIVERY_DATE, OT.ORDER_NO, OT.SUPPLIER_NO, SM.SUPPLIER_NAME, OT.ORDER_QTY ,OT.FIN_FLG\r\n"
+//					+
+//					" FROM ORDER_TABLE OT\r\n" +
+//					" INNER JOIN SUPPLIER_MASTER SM\r\n" +
+//					" ON OT.SUPPLIER_NO = SM.SUPPLIER_NO\r\n" +
+//					" WHERE PRODUCT_NO = ?");
+//	st.setString(1, proNo);
+//	rs = st.executeQuery();
+//
+//	while (rs.next()) {
+//		if (rs.getString("FIN_FLG").equals("0")) {
+//			Stock stock = new Stock();
+//			stock.setProductNo(rs.getString("PRODUCT_NO"));
+//			stock.setDeliveryDate(rs.getString("DELIVERY_DATE").replace("-", "/"));
+//			stock.setPoNo(rs.getString("ORDER_NO"));
+//			stock.setSupprierNo(rs.getString("SUPPLIER_NO"));
+//			stock.setSupprierName(rs.getString("SUPPLIER_NAME"));
+//			stock.setOrQty(rs.getInt("ORDER_QTY"));
+//			list.add(stock);
+//		}
+//	}
+//	st.close();
+//	con.close();
+//	return list;
+//}
 }

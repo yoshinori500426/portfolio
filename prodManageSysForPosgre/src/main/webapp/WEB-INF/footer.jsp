@@ -432,11 +432,9 @@ if('${nextJsp}'=='/WEB-INF/main/entryExitInfo.jsp'){
 				break;
 			}
 		}
-		// 更新時のproductNoを有効にしない
-		if(btnSelect=='update' && keyValue=='1'){
-			var productNo = form.elements['productNo'];
-			productNo.setAttribute('disabled','disabled');
-		}
+		docheck();
+		var keyValue = ('${G_EntryExitInfo.enExId}'!='' && '${G_EntryExitInfo.registDate}'!='')?'1':'';
+		doChangeDisabled(keyValue);
 		// 入出庫ラジオボタンの有効無効切替
 		for (var i = 0; i < stockInOut.length; i++) {
 			if(btnSelect=='insert'){
@@ -445,9 +443,11 @@ if('${nextJsp}'=='/WEB-INF/main/entryExitInfo.jsp'){
 				stockInOut[i].setAttribute('disabled','disabled');
 			}
 		}
-		docheck();
-		var keyValue = ('${G_EntryExitInfo.enExId}'!='')?'1':'';
-		doChangeDisabled(keyValue);
+		// 更新時のproductNoを有効にしない
+		if(btnSelect=='update' && keyValue=='1'){
+			var productNo = form.elements['productNo'];
+			productNo.setAttribute('disabled','disabled');
+		}
 	})
 	function docheck() {
 		//productNo
@@ -484,7 +484,12 @@ if('${nextJsp}'=='/WEB-INF/main/entryExitInfo.jsp'){
 		var onkeyupValue = '';
 		var maxValue = '';
 		var info = '';
-		if('${G_EntryExitInfo.productNo}'==''){
+		if('${G_EntryExitInfo.productNo}'=='' || '${ProductMaster.productName}'==''){
+			for (var i = 0; i < stockInOut.length; i++) {
+				stockInOut[i].checked=false;
+			}
+			enExDate.value='';
+			enExNum.value='';
 			maxValue = '99999999';
 			info = '品番入力後に入力可能';
 		}else{
@@ -519,6 +524,29 @@ if('${nextJsp}'=='/WEB-INF/main/entryExitInfo.jsp'){
 	}
 }
 
+//========================================================================================================================================================================================================================
+//'stockList.jsp'
+if('${nextJsp}'=='/WEB-INF/main/stockList.jsp'){
+	window.addEventListener('load', function(){
+		if('${ProductMasterList}'==''){
+			doExecute2('searchProductMasterList');
+		}
+		docheck();
+		var keyValue='';
+		doChangeDisabled(keyValue);
+	})
+	function docheck() {
+		//productNo
+		var productNo = form.elements['productNo'];
+		var productName = form.elements['productName'];
+		var judgeProductNo = (productNo.value.match(/^[0-9]{10}$/)!=null && productName.value.length>=1)?true:false;
+		if(judgeProductNo==true){
+			productNo.setAttribute('data-inputRequired','true');
+		}else{
+			productNo.setAttribute('data-inputRequired','false');
+		}
+	}
+}
 
 
 

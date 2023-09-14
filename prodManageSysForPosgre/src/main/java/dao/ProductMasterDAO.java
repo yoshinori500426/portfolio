@@ -17,6 +17,7 @@ import bean.G_Order;
 import bean.G_ProductMaster;
 import bean.G_PurchaseOrder;
 import bean.G_Shipping;
+import bean.G_StockList;
 import bean.ProductMaster;
 import bean.UserMaster;
 
@@ -174,6 +175,16 @@ public class ProductMasterDAO extends DAO {
 	 */
 	public ProductMaster searchByProNo(G_EntryExitInfo G_EntryExitInfo) {
 		return searchByProNo(G_EntryExitInfo.getProductNo());
+	}
+	
+	/**
+	 * 品番に合致するレコード情報を取得するメソッド
+	 * 
+	 * @param G_StockListのインスタンス
+	 * @return 該当レコードあり:ProductMasterクラスのインスタンス 無:null
+	 */
+	public ProductMaster searchByProNo(G_StockList G_StockList) {
+		return searchByProNo(G_StockList.getProductNo());
 	}
 
 	/**

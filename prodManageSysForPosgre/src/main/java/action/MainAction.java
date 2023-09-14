@@ -41,7 +41,7 @@ public class MainAction extends Action {
 			line += ctDAO.insertPuroductStockTable();
 			line += ctDAO.insertEntryExitInfoTable();
 			line += ctDAO.insertOrderTable();
-			if (line != (9 + 7 + 10 + 8 + 10 + 8 + 32 + 16 + 15 + 32)) {
+			if (line != (10 + 7 + 10 + 8 + 10 + 8 + 32 + 16 + 15 + 32)) {
 				session.setAttribute("state", "動作確認用テーブルが正常に作成されていません｡\\n再度､生産管理システムに入り直して下さい｡");
 			}
 		} else if (loginStatusCheck == 0 && toAction != null && !toAction.equals("main/login.jsp")) {
@@ -112,6 +112,8 @@ public class MainAction extends Action {
 		session.setAttribute("G_ProductMaster", null);
 		session.setAttribute("G_PurchaseOrder", null);
 		session.setAttribute("G_Shipping", null);
+		session.setAttribute("G_StockList", null);
+		session.setAttribute("G_StockListAllByProductNo", null);
 		session.setAttribute("G_SupplierMaster", null);
 		session.setAttribute("G_UserMaster", null);
 		// 検索値削除
