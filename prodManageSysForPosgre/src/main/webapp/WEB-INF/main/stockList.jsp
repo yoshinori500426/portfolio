@@ -55,36 +55,42 @@
 				<c:when test="${empty G_StockList.productNo || empty ProductMaster.productName}"></c:when>
 				<c:otherwise>
 	<hr>
-					<table class="table table-bordered table-hover">
-						<thead class="thead-dark">
-							<tr>
-								<th scope="col" class="text-center">年月日</th>
-								<th scope="col" class="text-center">受発注番号</th>
-								<th scope="col" class="text-center">顧客先コード</th>
-								<th scope="col" class="text-center">受注数</th>
-								<th scope="col" class="text-center">発注先コード</th>
-								<th scope="col" class="text-center">発注数</th>
-								<th scope="col" class="text-center">在庫数</th>
-							</tr>
-						</thead>
-							<tbody>
-								<tr>
-									<td colspan="6" scope="col" class="text-right">現在庫</td>
-									<td class="text-right">${PuroductStock.stockQty}</td>
-								</tr>
-								<c:forEach var="stockInOut" items="${G_StockListAllByProductNo}" varStatus="s">
+					<div class="row">
+						<div class="col-xs-1"></div>
+						<div class="col-xs-10">
+							<table class="table table-bordered table-hover">
+								<thead class="thead-dark">
 									<tr>
-										<td class="text-left">${stockInOut.deliveryDate}</td>
-										<td class="text-left">${stockInOut.orderNo}</td>
-										<td title="${stockInOut.customerName}" class="text-left">${stockInOut.customerNo}</td>
-										<td class="text-right">${stockInOut.purchaseOrderQty==0?'':stockInOut.purchaseOrderQty}</td>
-										<td title="${stockInOut.supplierName}" class="text-left">${stockInOut.supplierNo}</td>
-										<td class="text-right">${stockInOut.orderQty==0?'':stockInOut.orderQty}</td>
-										<td class="text-right">${stockInOut.stockQtyEstimate}</td>
+										<th scope="col" class="text-center">年月日</th>
+										<th scope="col" class="text-center">受発注番号</th>
+										<th scope="col" class="text-center">顧客先コード</th>
+										<th scope="col" class="text-center">受注数</th>
+										<th scope="col" class="text-center">発注先コード</th>
+										<th scope="col" class="text-center">発注数</th>
+										<th scope="col" class="text-center">在庫数</th>
 									</tr>
-								</c:forEach>
-							</tbody>
-					</table>
+								</thead>
+									<tbody>
+										<tr>
+											<td colspan="6" scope="col" class="text-right">現在庫</td>
+											<td class="text-right">${PuroductStock.stockQty}</td>
+										</tr>
+										<c:forEach var="stockInOut" items="${G_StockListAllByProductNo}" varStatus="s">
+											<tr>
+												<td class="text-left">${stockInOut.deliveryDate}</td>
+												<td class="text-left">${stockInOut.orderNo}</td>
+												<td title="${stockInOut.customerName}" class="text-left">${stockInOut.customerNo}</td>
+												<td class="text-right">${stockInOut.purchaseOrderQty==0?'':stockInOut.purchaseOrderQty}</td>
+												<td title="${stockInOut.supplierName}" class="text-left">${stockInOut.supplierNo}</td>
+												<td class="text-right">${stockInOut.orderQty==0?'':stockInOut.orderQty}</td>
+												<td class="text-right">${stockInOut.stockQtyEstimate}</td>
+											</tr>
+										</c:forEach>
+									</tbody>
+							</table>
+						</div>
+						<div class="col-xs-1"></div>
+					</div>
 				</c:otherwise>
 			</c:choose>
 		</div>
