@@ -548,6 +548,30 @@ if('${nextJsp}'=='/WEB-INF/main/stockList.jsp'){
 	}
 }
 
+//========================================================================================================================================================================================================================
+//'orderList.jsp'
+if('${nextJsp}'=='/WEB-INF/main/orderList.jsp'){
+	window.addEventListener('load', function(){
+		if('${ProductMasterList}'==''){
+			doExecute2('searchProductMasterList');
+		}
+		docheck();
+		var keyValue='';
+		doChangeDisabled(keyValue);
+	})
+	function docheck() {
+		//productNo
+		var productNo = form.elements['productNo'];
+		var productName = form.elements['productName'];
+		var judgeProductNo = (productNo.value.match(/^[0-9]{10}$/)!=null && productName.value.length>=1)?true:false;
+		if(judgeProductNo==true){
+			productNo.setAttribute('data-inputRequired','true');
+		}else{
+			productNo.setAttribute('data-inputRequired','false');
+		}
+	}
+}
+
 
 
 
