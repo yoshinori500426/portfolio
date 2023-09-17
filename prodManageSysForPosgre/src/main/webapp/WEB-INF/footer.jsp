@@ -555,8 +555,33 @@ if('${nextJsp}'=='/WEB-INF/main/orderList.jsp'){
 		if('${ProductMasterList}'==''){
 			doExecute2('searchProductMasterList');
 		}
+		if('${!empty G_StockList.productNo && !empty ProductMaster.productName}' == true){
+			// チェックボックスのチェック指定
+			var alreadyInStock = form.elements['alreadyInStock'];
+			if('${G_OrderList.alreadyInStock}'=='alreadyInStock'){
+				alreadyInStock.setAttribute('checked', 'checked');
+			}else{
+				alreadyInStock.removeAttribute('checked');
+			}
+			var notInStock = form.elements['notInStock'];
+			if('${G_OrderList.notInStock}'=='notInStock'){
+				notInStock.setAttribute('checked', 'checked');
+			}else{
+				notInStock.removeAttribute('checked');
+			}
+			// ラジオボタンのチェック指定
+			var sort = form.elements['sort'];
+			for (var i = 0; i < sort.length; i++) {
+				if (sort[i].value=='${G_OrderList.sort}') {
+					sort[i].checked=true;
+					break;
+				}
+			}
+		}
 		docheck();
-		var keyValue='';
+		var productNo = form.elements['productNo'];
+		var productName = form.elements['productName'];
+		var keyValue = (productNo.value.match(/^[0-9]{10}$/)!=null && productName.value.length>=1)?'1':'';
 		doChangeDisabled(keyValue);
 	})
 	function docheck() {

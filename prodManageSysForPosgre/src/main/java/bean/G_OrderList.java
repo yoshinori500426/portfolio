@@ -5,7 +5,7 @@ public class G_OrderList {
 	private String productName;
 	// 検索条件格納用フィールド
 	private String startDate; // 開始日(発注日絞り込み用)
-	private String endtDate; // 終了日(発注日絞り込み用)
+	private String endDate; // 終了日(発注日絞り込み用)
 	private String alreadyInStock; // リスト対象(入荷済みをリストに加えるか否か←値が｢alreadyInStock｣の場合､入荷済みを含める)
 	private String notInStock; // リスト対象(未入荷をリストに加えるか否か←値が｢notInStock｣の場合､未入荷を含める)
 	private String sort; // 並び替え項目(値が｢supplierName｣なら仕入先名で､｢orderDate｣なら発注日で､｢orderQty｣なら発注数量で､｢deliveryDate｣なら納期で､｢dueDate｣なら入荷日で並び替えを行う(昇順のみ))
@@ -13,7 +13,7 @@ public class G_OrderList {
 	private String orderDate; // 発注日
 	private String deliveryDate; // 納期
 	private String dueDate; // 入荷日
-	private String orderQty; // 発注数量
+	private int orderQty; // 発注数量
 	private String supplierNo; // 仕入先コード
 	private String supplierName; // 仕入先名
 
@@ -41,12 +41,12 @@ public class G_OrderList {
 		this.startDate = startDate;
 	}
 
-	public String getEndtDate() {
-		return endtDate;
+	public String getEndDate() {
+		return endDate;
 	}
 
-	public void setEndtDate(String endtDate) {
-		this.endtDate = endtDate;
+	public void setEndDate(String endDate) {
+		this.endDate = endDate;
 	}
 
 	public String getAlreadyInStock() {
@@ -97,11 +97,11 @@ public class G_OrderList {
 		this.dueDate = dueDate;
 	}
 
-	public String getOrderQty() {
+	public int getOrderQty() {
 		return orderQty;
 	}
 
-	public void setOrderQty(String orderQty) {
+	public void setOrderQty(int orderQty) {
 		this.orderQty = orderQty;
 	}
 

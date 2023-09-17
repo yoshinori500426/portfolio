@@ -319,6 +319,48 @@ public class OrderTableDAO extends DAO {
 	}
 	
 	/**
+	 * OrderList作成の元レコード取得メソッド(検索条件なし)
+	 *
+	 * @param 引数無し
+	 * @return List<OrderTable> 「null：失敗」「null以外：成功」
+	 */
+	public List<OrderTable> searchAllWithProductNameAndSupplierName() {
+		// 戻り値用の変数宣言
+		List<OrderTable> OrderTableListWithProductNameAndSupplierName = new ArrayList<>();
+		OrderTable OrderTable = null;
+		try {
+			Connection con = getConnection();
+			PreparedStatement st;
+			st = con.prepareStatement("SELECT OT.*, PM.*, SM.* FROM ORDER_TABLE AS OT INNER JOIN PRODUCT_MASTER AS PM ON OT.SUPPLIER_NO=PM.SUPPLIER_NO INNER JOIN SUPPLIER_MASTER AS SM ON OT.SUPPLIER_NO=SM.SUPPLIER_NO ORDER BY ORDER_NO ASC");
+			ResultSet rs = st.executeQuery();
+			while (rs.next()) {
+				OrderTable = new OrderTable();
+				OrderTable.setOrderNo(rs.getString("ORDER_NO"));
+				OrderTable.setSupplierNo(rs.getString("SUPPLIER_NO"));
+				OrderTable.setProductNo(rs.getString("PRODUCT_NO"));
+				OrderTable.setOrderQty(rs.getInt("ORDER_QTY"));
+				OrderTable.setDeliveryDate(new MainAction().dateChangeForHTML(rs.getString("DELIVERY_DATE")));
+				OrderTable.setBiko(rs.getString("BIKO"));
+				OrderTable.setDueDate(new MainAction().dateChangeForHTML(rs.getString("DUE_DATE")));
+				OrderTable.setDueQty(rs.getInt("DUE_QTY"));
+				OrderTable.setFinFlg(rs.getString("FIN_FLG"));
+				OrderTable.setRegistUser(rs.getString("REGIST_USER"));
+				OrderTable.setOrderDate(new MainAction().dateChangeForHTML(rs.getString("ORDER_DATE")));
+				OrderTable.setOrderUser(rs.getString("ORDER_USER"));
+				OrderTable.setProductName(rs.getString("PRODUCT_NAME"));
+				OrderTable.setSupplierName(rs.getString("SUPPLIER_NAME"));
+				OrderTableListWithProductNameAndSupplierName.add(OrderTable);
+			}
+			st.close();
+			con.close();
+		} catch (Exception e) {
+			System.out.println("SQLでエラーが発生しました。");
+			e.printStackTrace();
+		}
+		return OrderTableListWithProductNameAndSupplierName;
+	}
+	
+	/**
 	 * OrderTableテーブル取得メソッド(検索条件なし)
 	 *  →ORDER_NOリスト取得用メソッド
 	 *

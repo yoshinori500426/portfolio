@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 import bean.G_Arrival;
 import bean.G_EntryExitInfo;
 import bean.G_Order;
+import bean.G_OrderList;
 import bean.G_ProductMaster;
 import bean.G_PurchaseOrder;
 import bean.G_Shipping;
@@ -187,6 +188,16 @@ public class ProductMasterDAO extends DAO {
 		return searchByProNo(G_StockList.getProductNo());
 	}
 
+	/**
+	 * 品番に合致するレコード情報を取得するメソッド
+	 * 
+	 * @param G_OrderListのインスタンス
+	 * @return 該当レコードあり:ProductMasterクラスのインスタンス 無:null
+	 */
+	public ProductMaster searchByProNo(G_OrderList G_OrderList) {
+		return searchByProNo(G_OrderList.getProductNo());
+	}
+	
 	/**
 	 * ProductMasterテーブル取得メソッド(検索条件なし) →PRODUCT_NOリスト取得用メソッド
 	 *

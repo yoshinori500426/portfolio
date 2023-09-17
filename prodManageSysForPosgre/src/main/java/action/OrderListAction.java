@@ -1,6 +1,6 @@
 package action;
 
-import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -42,12 +42,13 @@ public class OrderListAction extends Action {
 		// 使用インスタンスの格納変数を参照先「null」で宣言
 		ProductMaster ProductMaster = null;
 		List<ProductMaster> ProductMasterList = null;
-		List<G_OrderList> G_OrderListAll = null;
+		List<G_OrderList> G_OrderListAllBySearchConditions = null;
 		// テーブル｢OrderTable｣の全レコード取得
-		List<OrderTable> OrderTableList = (List<OrderTable>) session.getAttribute("OrderTableList");
-		if (OrderTableList == null) {
-			OrderTableList = otDAO.searchAll();
-			session.setAttribute("OrderTableList", OrderTableList);
+		List<OrderTable> OrderTableListWithProductNameAndSupplierName = (List<OrderTable>) session
+				.getAttribute("OrderTableListWithProductNameAndSupplierName");
+		if (OrderTableListWithProductNameAndSupplierName == null) {
+			OrderTableListWithProductNameAndSupplierName = otDAO.searchAllWithProductNameAndSupplierName();
+			session.setAttribute("OrderTableListWithProductNameAndSupplierName", OrderTableListWithProductNameAndSupplierName);
 		}
 		// このインスタンスで行う処理を取得(リクエストパラメータ取得)
 		String toAction = request.getParameter("toAction");
@@ -58,12 +59,59 @@ public class OrderListAction extends Action {
 		G_OrderList G_OrderList = new G_OrderList();
 		G_OrderList.setProductNo(request.getParameter("productNo"));
 		G_OrderList.setProductName(request.getParameter("productName"));
-		G_OrderList.setStartDate(request.getParameter("startDate"));
-		G_OrderList.setEndtDate(request.getParameter("endtDate"));
-		G_OrderList.setAlreadyInStock(request.getParameter("alreadyInStock"));
-		G_OrderList.setNotInStock(request.getParameter("notInStock"));
-		G_OrderList.setSort(request.getParameter("sort"));
+		G_OrderList.setStartDate(request.getParameter("startDate") == null ? "" : request.getParameter("startDate"));
+		G_OrderList.setEndDate(request.getParameter("endDate") == null ? "" : request.getParameter("endDate"));
+		G_OrderList.setAlreadyInStock(request.getParameter("alreadyInStock") == null ? "" : request.getParameter("alreadyInStock"));
+		G_OrderList.setNotInStock(request.getParameter("notInStock") == null ? "" : request.getParameter("notInStock"));
+		G_OrderList.setSort(request.getParameter("sort") == null ? "" : request.getParameter("sort"));
 		session.setAttribute("G_OrderList", G_OrderList);
+		switch (toAction) {
+		case "searchProductMasterList":
+			// ｢ProductMasterList｣取得のみの為､caseでは処理を行わない
+			break;
+		case "searchProductNo":
+			// ProductNoのクリア動作
+			if (G_OrderList.getProductNo().isEmpty()) {
+				// チェックボックスの初期化
+				G_OrderList = new G_OrderList();
+				G_OrderList.setAlreadyInStock("alreadyInStock");
+				G_OrderList.setNotInStock("notInStock");
+				session.setAttribute("ProductMaster", null);
+				session.setAttribute("G_OrderListAllBySearchConditions", null);
+				break;
+			} else if (!G_OrderList.getProductNo().isEmpty()) {
+				// テーブル検索
+				ProductMaster = pmDAO.searchByProNo(G_OrderList);
+				if (ProductMaster == null) {
+					session.setAttribute("message", "入力値に該当する品番は存在しません。\\n入力内容を確認ください。");
+					G_OrderList = new G_OrderList();
+					G_OrderList.setProductNo(request.getParameter("productNo"));
+					// チェックボックスの初期化
+					G_OrderList.setAlreadyInStock("alreadyInStock");
+					G_OrderList.setNotInStock("notInStock");
+				} else if (ProductMaster != null) {
+					G_OrderList.setProductName(ProductMaster.getProductName());
+					G_OrderListAllBySearchConditions = searchBySearchConditions(G_OrderList, request);
+				}
+				session.setAttribute("ProductMaster", ProductMaster);
+				session.setAttribute("G_OrderListAllBySearchConditions", G_OrderListAllBySearchConditions);
+			}
+			session.setAttribute("G_OrderList", G_OrderList);
+			break;
+		case "dummy":
+			session.setAttribute("message", null);
+			break;
+		case "cancel":
+		default:
+			// 各種セッション属性のnullクリア
+			new MainAction().crearAttributeForScreenChange(session);
+			// チェックボックスの初期化
+			G_OrderList = new G_OrderList();
+			G_OrderList.setAlreadyInStock("alreadyInStock");
+			G_OrderList.setNotInStock("notInStock");
+			session.setAttribute("G_OrderList", G_OrderList);
+			break;
+		}
 
 //ここから
 //		OrderListTable oList = new OrderListTable();
@@ -201,17 +249,85 @@ public class OrderListAction extends Action {
 		return "/WEB-INF/main/orderList.jsp";
 	}
 
-	public static boolean checkDate(String strDate) {
-		if (strDate == null || strDate.length() != 10) {
-			return false;
+	/**
+	 * テーブル｢OrderTable｣のListから条件に合致するレコードを抽出するメソッド
+	 * →セッション属性にUpしたListから条件に合致するレコードを抽出するメソッド
+	 * 
+	 * @param String productNo, HttpServletRequest request
+	 * @return List<G_OrderList> 「.size()==0：失敗」「.size()>0：成功」
+	 */
+	@SuppressWarnings("unchecked")
+	public List<G_OrderList> searchBySearchConditions(String productNo, String startDate, String endDate,
+			String alreadyInStock, String notInStock, HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		// テーブル｢OrderTable｣の全レコード取得
+		List<OrderTable> OrderTableListWithProductNameAndSupplierName = (List<OrderTable>) session.getAttribute("OrderTableListWithProductNameAndSupplierName");
+		if (OrderTableListWithProductNameAndSupplierName == null) {
+			OrderTableDAO otDAO = new OrderTableDAO();
+			OrderTableListWithProductNameAndSupplierName = otDAO.searchAllWithProductNameAndSupplierName();
+			session.setAttribute("OrderTableListWithProductNameAndSupplierName", OrderTableListWithProductNameAndSupplierName);
 		}
-		DateFormat format = DateFormat.getDateInstance();
-		format.setLenient(false);
-		try {
-			format.parse(strDate);
-			return true;
-		} catch (Exception e) {
-			return false;
+		// レコード抽出に必要な変数宣言
+		Boolean judgeProductNo = false, judgeStartAndEndDate = false, judgeFinFlg = false;
+		String StartDate = "", EndDate = "";
+		// 抽出レコード格納用変数宣言
+		G_OrderList G_OrderList = null;
+		List<G_OrderList> G_OrderListAllBySearchConditions = null;
+		// テーブル｢OrderTable｣の全レコードから､条件に合致するレコードを抽出
+		for (OrderTable OrderTable : OrderTableListWithProductNameAndSupplierName) {
+			// 品番確認
+			judgeProductNo = (OrderTable.getProductNo().equals(productNo));
+			// 発注日確認
+			StartDate = (startDate == "" ? "1970-01-01" : startDate);
+			EndDate = (endDate == "" ? "9999-12-31" : endDate);
+			judgeStartAndEndDate = (OrderTable.getOrderDate().compareTo(StartDate) >= 0 && OrderTable.getOrderDate().compareTo(EndDate) <= 0);
+			// 入荷済み/未入荷確認
+			if (alreadyInStock.equals("alreadyInStock") && notInStock.equals("notInStock")) {
+				judgeFinFlg = true;
+			} else if (alreadyInStock.equals("alreadyInStock") && !notInStock.equals("notInStock")) {
+				judgeFinFlg = OrderTable.getFinFlg().equals("1");
+			} else if (!alreadyInStock.equals("alreadyInStock") && notInStock.equals("notInStock")) {
+				judgeFinFlg = OrderTable.getFinFlg().equals("0");
+			} else if (!alreadyInStock.equals("alreadyInStock") && !notInStock.equals("notInStock")) {
+				judgeFinFlg = false;
+			}
+			// 抽出処理
+			if ((judgeProductNo && judgeStartAndEndDate && judgeFinFlg) == true) {
+				if (G_OrderListAllBySearchConditions == null) {
+					G_OrderListAllBySearchConditions = new ArrayList<>();
+				}
+				G_OrderList = new G_OrderList();
+				G_OrderList.setProductNo(OrderTable.getProductNo());
+				G_OrderList.setProductName(OrderTable.getProductName());
+				G_OrderList.setStartDate(startDate);
+				G_OrderList.setEndDate(endDate);
+				G_OrderList.setAlreadyInStock(alreadyInStock);
+				G_OrderList.setNotInStock(notInStock);
+				G_OrderList.setOrderDate(OrderTable.getOrderDate());
+				G_OrderList.setDeliveryDate(OrderTable.getDeliveryDate());
+				G_OrderList.setDueDate(OrderTable.getDueDate());
+				G_OrderList.setOrderQty(OrderTable.getOrderQty());
+				G_OrderList.setSupplierNo(OrderTable.getSupplierNo());
+				G_OrderList.setSupplierName(OrderTable.getSupplierName());
+				G_OrderListAllBySearchConditions.add(G_OrderList);
+			}
 		}
+		return G_OrderListAllBySearchConditions;
+	}
+
+	/**
+	 * テーブル｢OrderTable｣のListから条件に合致するレコードを抽出するメソッド
+	 * →セッション属性にUpしたListから条件に合致するレコードを抽出するメソッド
+	 * 
+	 * @param G_OrderList G_OrderList, HttpServletRequest request
+	 * @return List<G_OrderList> 「.size()==0：失敗」「.size()>0：成功」
+	 */
+	public List<G_OrderList> searchBySearchConditions(G_OrderList G_OrderList, HttpServletRequest request) {
+		String productNo = G_OrderList.getProductNo();
+		String startDate = G_OrderList.getStartDate();
+		String endDate = G_OrderList.getEndDate();
+		String alreadyInStock = G_OrderList.getAlreadyInStock();
+		String notInStock = G_OrderList.getNotInStock();
+		return searchBySearchConditions(productNo, startDate, endDate, alreadyInStock, notInStock, request);
 	}
 }

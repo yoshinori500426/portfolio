@@ -109,6 +109,8 @@ public class MainAction extends Action {
 		session.setAttribute("G_CustomerMaster", null);
 		session.setAttribute("G_EntryExitInfo", null);
 		session.setAttribute("G_Order", null);
+		session.setAttribute("G_OrderList", null);
+		session.setAttribute("G_OrderListAllBySearchConditions", null);
 		session.setAttribute("G_ProductMaster", null);
 		session.setAttribute("G_PurchaseOrder", null);
 		session.setAttribute("G_Shipping", null);
@@ -122,6 +124,7 @@ public class MainAction extends Action {
 		session.setAttribute("PurchaseOrderListFinFlg0", null);
 		session.setAttribute("OrderTable", null);
 		session.setAttribute("OrderTableList", null);
+		session.setAttribute("OrderTableListWithProductNameAndSupplierName", null);
 		session.setAttribute("OrderTableListFinFlg0", null);
 		session.setAttribute("EntryExitInfo", null);
 		session.setAttribute("PuroductStock", null);
@@ -155,7 +158,7 @@ public class MainAction extends Action {
 	/**
 	 * 日付記述方式変更用メソッド
 	 *
-	 * @param HTMLから渡される｢YYYY/MM/DD｣形式の日時
+	 * @param DBから渡される｢YYYY/MM/DD｣形式の日時
 	 * @return HTMLに入力する｢YYYY-MM-DD｣形式の日付
 	 */
 	public String dateChangeForHTML(String inputDate) {

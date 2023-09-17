@@ -31,7 +31,7 @@
 					<p class="col-xs-7">：<input type="number" style="width: 300px;" list="productNoList" name="productNo" id="productNo" class="inputRequired" data-changeDisabled="4" 
 											min="0" max="9999999999" onkeyup="javascript: this.value = this.value.slice(0, 10);" 
 											onchange="javascript: this.value = this.value==0?'':('0000000000'+this.value).slice(-10);doExecute2('searchProductNo');" 
-											placeholder="数字(最大10桁)" value="${G_StockList.productNo}">
+											placeholder="数字(最大10桁)" value="${G_OrderList.productNo}">
 											<datalist id="productNoList">
 												<c:forEach var="pml" items="${ProductMasterList}" >
 													<option value="${pml.productNo}" label="品番:${pml.productNo}, 品名:${pml.productName}">
@@ -49,29 +49,31 @@
 					<div class="col-xs-8"><button type="button"class="btn btn-primary btn-block" data-changeDisabled="0" onClick="doExecute2('cancel')">リセット</button></div>
 					<div class="col-xs-2"></div>
 				</div>
-<%-- 			<c:choose>
-				<c:when test="${empty G_StockList.productNo || empty ProductMaster.productName}"></c:when>
-				<c:otherwise> --%>
+			<c:choose>
+				<c:when test="${empty G_OrderList.productNo || empty ProductMaster.productName}"></c:when>
+				<c:otherwise>
 	<hr>
 				<div class="row">
 					<div class="col-xs-2"></div>
 					<label class="form-label col-xs-3 text-left">検索条件</label>
-					<p class="col-xs-7">：日付&nbsp;&nbsp;
+					<p class="col-xs-7">：発注日&nbsp;&nbsp;
 											<input type="date" style="width: 150px;"  name="startDate" id="startDate" class="inputRequired" data-changeDisabled="5" 
-											onchange="docheck();" value="${G_Shipping.shipDate}">
+											onchange="docheck();" value="${G_OrderList.startDate}">
 											&nbsp;~&nbsp;
 											<input type="date" style="width: 150px;"  name="endDate" id="endDate" class="inputRequired" data-changeDisabled="5" 
-											onchange="docheck();" value="${G_Shipping.shipDate}"></p>
+											onchange="docheck();" value="${G_OrderList.endDate}"></p>
 				</div>
 				<div class="row">
-					<div class="col-xs-2"></div>
+					<div class="col-xs-2"></div> 
 					<div class="col-xs-3"></div>
 					<p class="col-xs-7">：入荷状況&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 											<input type="checkbox" name="alreadyInStock" id="alreadyInStock" class="inputRequired" data-changeDisabled="5" 
-											value="alreadyInStock" checked="checked">&nbsp;&nbsp;入荷済み
+											onchange="docheck();" value="alreadyInStock" checked="checked">
+											<label class="form-label" for="alreadyInStock">&nbsp;&nbsp;入荷済み</label>
 											&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 											<input type="checkbox" name="notInStock" id="notInStock" class="inputRequired" data-changeDisabled="5" 
-											value="notInStock" checked="checked">&nbsp;&nbsp;未入荷</p>
+											onchange="docheck();" value="notInStock" checked="checked">
+											<label class="form-label" for="notInStock">&nbsp;&nbsp;未入荷</label></p>
 				</div>
 				<div class="row">
 					<div class="col-xs-2"></div>
@@ -83,15 +85,15 @@
 					<div class="col-xs-3"></div>
 					<div class="col-xs-1"></div>
 					<div class="form-check col-xs-2" style="height: 34px;">
-						<input class="form-check-input" type="radio" name="sort" id="supplierName" value="supplierName">
+						<input class="form-check-input" type="radio" name="sort" id="supplierName" onchange="docheck();" value="supplierName">
 						<label class="form-check-label" for="supplierName">仕入先名</label>
 					</div>
 					<div class="form-check col-xs-2" style="height: 34px;">
-						<input class="form-check-input" type="radio" name="sort" id="orderDate" value="orderDate">
+						<input class="form-check-input" type="radio" name="sort" id="orderDate" onchange="docheck();" value="orderDate">
 						<label class="form-check-label" for="orderDate">発注日</label>
 					</div>
 					<div class="form-check col-xs-2" style="height: 34px;">
-						<input class="form-check-input" type="radio" name="sort" id="orderQty" value="orderQty">
+						<input class="form-check-input" type="radio" name="sort" id="orderQty" onchange="docheck();" value="orderQty">
 						<label class="form-check-label" for="orderQty">発注数量</label>
 					</div>
 				</div>
@@ -100,19 +102,19 @@
 					<div class="col-xs-3"></div>
 					<div class="col-xs-1"></div>
 					<div class="form-check col-xs-2" style="height: 34px;">
-						<input class="form-check-input" type="radio" name="sort" id="deliveryDate" value="deliveryDate">
+						<input class="form-check-input" type="radio" name="sort" id="deliveryDate" onchange="docheck();" value="deliveryDate">
 						<label class="form-check-label" for="deliveryDate">納期</label>
 					</div>
 					<div class="form-check col-xs-4" style="height: 34px;">
-						<input class="form-check-input" type="radio" name="sort" id="dueDate" value="dueDate">
+						<input class="form-check-input" type="radio" name="sort" id="dueDate" onchange="docheck();" value="dueDate">
 						<label class="form-check-label" for="dueDate">入荷日</label>
 					</div>
 				</div>
-<%-- 				</c:otherwise>
-			</c:choose> --%>
+ 				</c:otherwise>
+			</c:choose>
 			</form>
 			<c:choose>
-				<c:when test="${empty G_StockList.productNo || empty ProductMaster.productName}"></c:when>
+				<c:when test="${empty G_OrderList.productNo || empty ProductMaster.productName}"></c:when>
 				<c:otherwise>
 	<hr>
 					<div class="row">
