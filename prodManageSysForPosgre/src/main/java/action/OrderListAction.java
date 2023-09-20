@@ -1,7 +1,9 @@
 package action;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -42,10 +44,10 @@ public class OrderListAction extends Action {
 		// 使用インスタンスの格納変数を参照先「null」で宣言
 		ProductMaster ProductMaster = null;
 		List<ProductMaster> ProductMasterList = null;
-		List<G_OrderList> G_OrderListAllBySearchConditions = null;
+		List<G_OrderList> G_OrderListSearchByConditions = null;
+		List<G_OrderList> G_OrderListSortByCondition = null;
 		// テーブル｢OrderTable｣の全レコード取得
-		List<OrderTable> OrderTableListWithProductNameAndSupplierName = (List<OrderTable>) session
-				.getAttribute("OrderTableListWithProductNameAndSupplierName");
+		List<OrderTable> OrderTableListWithProductNameAndSupplierName = (List<OrderTable>) session.getAttribute("OrderTableListWithProductNameAndSupplierName");
 		if (OrderTableListWithProductNameAndSupplierName == null) {
 			OrderTableListWithProductNameAndSupplierName = otDAO.searchAllWithProductNameAndSupplierName();
 			session.setAttribute("OrderTableListWithProductNameAndSupplierName", OrderTableListWithProductNameAndSupplierName);
@@ -77,7 +79,8 @@ public class OrderListAction extends Action {
 				G_OrderList.setAlreadyInStock("alreadyInStock");
 				G_OrderList.setNotInStock("notInStock");
 				session.setAttribute("ProductMaster", null);
-				session.setAttribute("G_OrderListAllBySearchConditions", null);
+				session.setAttribute("G_OrderListSearchByConditions", null);
+				session.setAttribute("G_OrderListSortByCondition", null);
 				break;
 			} else if (!G_OrderList.getProductNo().isEmpty()) {
 				// テーブル検索
@@ -91,12 +94,23 @@ public class OrderListAction extends Action {
 					G_OrderList.setNotInStock("notInStock");
 				} else if (ProductMaster != null) {
 					G_OrderList.setProductName(ProductMaster.getProductName());
-					G_OrderListAllBySearchConditions = searchBySearchConditions(G_OrderList, request);
+					G_OrderList.setAlreadyInStock("alreadyInStock");
+					G_OrderList.setNotInStock("notInStock");
+					G_OrderListSearchByConditions = searchByConditions(G_OrderList, request);
 				}
 				session.setAttribute("ProductMaster", ProductMaster);
-				session.setAttribute("G_OrderListAllBySearchConditions", G_OrderListAllBySearchConditions);
+				session.setAttribute("G_OrderListSearchByConditions", G_OrderListSearchByConditions);
+				session.setAttribute("G_OrderListSortByCondition", G_OrderListSearchByConditions);
 			}
 			session.setAttribute("G_OrderList", G_OrderList);
+			break;
+		case "searchByConditions":
+			G_OrderListSearchByConditions = searchByConditions(G_OrderList, request);
+			session.setAttribute("G_OrderListSearchByConditions", G_OrderListSearchByConditions);
+			// 引き続き､メソッド｢sortByConditions(G_OrderList, request);｣で処理を行う為､｢break;｣を設けない
+		case "sortByConditions":
+			G_OrderListSortByCondition = sortByConditions(G_OrderList, request);
+			session.setAttribute("G_OrderListSortByCondition", G_OrderListSortByCondition);
 			break;
 		case "dummy":
 			session.setAttribute("message", null);
@@ -253,14 +267,14 @@ public class OrderListAction extends Action {
 	 * テーブル｢OrderTable｣のListから条件に合致するレコードを抽出するメソッド
 	 * →セッション属性にUpしたListから条件に合致するレコードを抽出するメソッド
 	 * 
-	 * @param String productNo, HttpServletRequest request
+	 * @param String productNo, String startDate, String endDate, String
+	 *               alreadyInStock, String notInStock, HttpServletRequest request
 	 * @return List<G_OrderList> 「.size()==0：失敗」「.size()>0：成功」
 	 */
 	@SuppressWarnings("unchecked")
-	public List<G_OrderList> searchBySearchConditions(String productNo, String startDate, String endDate,
-			String alreadyInStock, String notInStock, HttpServletRequest request) {
+	public List<G_OrderList> searchByConditions(String productNo, String startDate, String endDate, String alreadyInStock, String notInStock, HttpServletRequest request) {
 		HttpSession session = request.getSession();
-		// テーブル｢OrderTable｣の全レコード取得
+		// 抽出対象のレコード取得(=テーブル｢OrderTable｣の全レコード取得)
 		List<OrderTable> OrderTableListWithProductNameAndSupplierName = (List<OrderTable>) session.getAttribute("OrderTableListWithProductNameAndSupplierName");
 		if (OrderTableListWithProductNameAndSupplierName == null) {
 			OrderTableDAO otDAO = new OrderTableDAO();
@@ -272,7 +286,7 @@ public class OrderListAction extends Action {
 		String StartDate = "", EndDate = "";
 		// 抽出レコード格納用変数宣言
 		G_OrderList G_OrderList = null;
-		List<G_OrderList> G_OrderListAllBySearchConditions = null;
+		List<G_OrderList> G_OrderListSearchByConditions = null;
 		// テーブル｢OrderTable｣の全レコードから､条件に合致するレコードを抽出
 		for (OrderTable OrderTable : OrderTableListWithProductNameAndSupplierName) {
 			// 品番確認
@@ -293,8 +307,8 @@ public class OrderListAction extends Action {
 			}
 			// 抽出処理
 			if ((judgeProductNo && judgeStartAndEndDate && judgeFinFlg) == true) {
-				if (G_OrderListAllBySearchConditions == null) {
-					G_OrderListAllBySearchConditions = new ArrayList<>();
+				if (G_OrderListSearchByConditions == null) {
+					G_OrderListSearchByConditions = new ArrayList<>();
 				}
 				G_OrderList = new G_OrderList();
 				G_OrderList.setProductNo(OrderTable.getProductNo());
@@ -309,10 +323,10 @@ public class OrderListAction extends Action {
 				G_OrderList.setOrderQty(OrderTable.getOrderQty());
 				G_OrderList.setSupplierNo(OrderTable.getSupplierNo());
 				G_OrderList.setSupplierName(OrderTable.getSupplierName());
-				G_OrderListAllBySearchConditions.add(G_OrderList);
+				G_OrderListSearchByConditions.add(G_OrderList);
 			}
 		}
-		return G_OrderListAllBySearchConditions;
+		return G_OrderListSearchByConditions;
 	}
 
 	/**
@@ -322,12 +336,73 @@ public class OrderListAction extends Action {
 	 * @param G_OrderList G_OrderList, HttpServletRequest request
 	 * @return List<G_OrderList> 「.size()==0：失敗」「.size()>0：成功」
 	 */
-	public List<G_OrderList> searchBySearchConditions(G_OrderList G_OrderList, HttpServletRequest request) {
+	public List<G_OrderList> searchByConditions(G_OrderList G_OrderList, HttpServletRequest request) {
 		String productNo = G_OrderList.getProductNo();
 		String startDate = G_OrderList.getStartDate();
 		String endDate = G_OrderList.getEndDate();
 		String alreadyInStock = G_OrderList.getAlreadyInStock();
 		String notInStock = G_OrderList.getNotInStock();
-		return searchBySearchConditions(productNo, startDate, endDate, alreadyInStock, notInStock, request);
+		return searchByConditions(productNo, startDate, endDate, alreadyInStock, notInStock, request);
+	}
+
+	/**
+	 * テーブル｢OrderTable｣のListをStreamインタフェースのAPIを元に並び替えるメソッド
+	 * →セッション属性にUpしたListの並び替えを行うメソッド
+	 * 
+	 * @param String sort, HttpServletRequest request
+	 * @return List<G_OrderList> 「.size()==0：失敗」「.size()>0：成功」
+	 */
+	@SuppressWarnings("unchecked")
+	public List<G_OrderList> sortByConditions(String sort, HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		// 並び替え対象のList取得
+		List<G_OrderList> G_OrderListSearchByConditions = (List<G_OrderList>) session.getAttribute("G_OrderListSearchByConditions");
+		if (G_OrderListSearchByConditions == null) {
+			G_OrderList G_OrderList = (G_OrderList) session.getAttribute("G_OrderList");
+			G_OrderListSearchByConditions = searchByConditions(G_OrderList, request);
+			session.setAttribute("G_OrderListSearchByConditions", G_OrderListSearchByConditions);
+		}
+		// 並び替えレコード格納用変数宣言
+		List<G_OrderList> G_OrderListSortByCondition = null;
+		// 並び替え
+		switch (sort) {
+		case "supplierName":
+			G_OrderListSortByCondition = G_OrderListSearchByConditions.stream()
+					.sorted(Comparator.comparing(G_OrderList::getSupplierName).reversed()).collect(Collectors.toList());
+			break;
+		case "orderDate":
+			G_OrderListSortByCondition = G_OrderListSearchByConditions.stream()
+					.sorted(Comparator.comparing(G_OrderList::getOrderDate).reversed()).collect(Collectors.toList());
+			break;
+		case "orderQty":
+			G_OrderListSortByCondition = G_OrderListSearchByConditions.stream()
+					.sorted(Comparator.comparingInt(G_OrderList::getOrderQty).reversed()).collect(Collectors.toList());
+			break;
+		case "deliveryDate":
+			G_OrderListSortByCondition = G_OrderListSearchByConditions.stream()
+					.sorted(Comparator.comparing(G_OrderList::getDeliveryDate).reversed()).collect(Collectors.toList());
+			break;
+		case "dueDate":
+			G_OrderListSortByCondition = G_OrderListSearchByConditions.stream()
+					.sorted(Comparator.comparing(G_OrderList::getDueDate).reversed()).collect(Collectors.toList());
+			break;
+		default:
+			// 並び替えしない
+			G_OrderListSortByCondition = G_OrderListSearchByConditions;
+			break;
+		}
+		return G_OrderListSortByCondition;
+	}
+
+	/**
+	 * テーブル｢OrderTable｣のListから条件に合致するレコードを抽出するメソッド
+	 * →セッション属性にUpしたListから条件に合致するレコードを抽出するメソッド
+	 * 
+	 * @param G_OrderList G_OrderList, HttpServletRequest request
+	 * @return List<G_OrderList> 「.size()==0：失敗」「.size()>0：成功」
+	 */
+	public List<G_OrderList> sortByConditions(G_OrderList G_OrderList, HttpServletRequest request) {
+		String sort = G_OrderList.getSort();
+		return sortByConditions(sort, request);
 	}
 }

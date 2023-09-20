@@ -110,7 +110,8 @@ public class MainAction extends Action {
 		session.setAttribute("G_EntryExitInfo", null);
 		session.setAttribute("G_Order", null);
 		session.setAttribute("G_OrderList", null);
-		session.setAttribute("G_OrderListAllBySearchConditions", null);
+		session.setAttribute("G_OrderListSearchByConditions", null);
+		session.setAttribute("G_OrderListSortByCondition", null);
 		session.setAttribute("G_ProductMaster", null);
 		session.setAttribute("G_PurchaseOrder", null);
 		session.setAttribute("G_Shipping", null);

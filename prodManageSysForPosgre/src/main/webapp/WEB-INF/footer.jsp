@@ -555,17 +555,17 @@ if('${nextJsp}'=='/WEB-INF/main/orderList.jsp'){
 		if('${ProductMasterList}'==''){
 			doExecute2('searchProductMasterList');
 		}
-		if('${!empty G_StockList.productNo && !empty ProductMaster.productName}' == true){
+		if('${G_OrderList.productNo}'!='' && '${ProductMaster.productName}'!=''){
 			// チェックボックスのチェック指定
 			var alreadyInStock = form.elements['alreadyInStock'];
 			if('${G_OrderList.alreadyInStock}'=='alreadyInStock'){
-				alreadyInStock.setAttribute('checked', 'checked');
+				alreadyInStock.setAttribute('checked', 'cheked');
 			}else{
 				alreadyInStock.removeAttribute('checked');
 			}
 			var notInStock = form.elements['notInStock'];
 			if('${G_OrderList.notInStock}'=='notInStock'){
-				notInStock.setAttribute('checked', 'checked');
+				notInStock.setAttribute('checked', 'cheked');
 			}else{
 				notInStock.removeAttribute('checked');
 			}

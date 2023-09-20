@@ -58,21 +58,21 @@
 					<label class="form-label col-xs-3 text-left">検索条件</label>
 					<p class="col-xs-7">：発注日&nbsp;&nbsp;
 											<input type="date" style="width: 150px;"  name="startDate" id="startDate" class="inputRequired" data-changeDisabled="5" 
-											onchange="docheck();" value="${G_OrderList.startDate}">
+											onchange="doExecute2('searchByConditions');" value="${G_OrderList.startDate}">
 											&nbsp;~&nbsp;
 											<input type="date" style="width: 150px;"  name="endDate" id="endDate" class="inputRequired" data-changeDisabled="5" 
-											onchange="docheck();" value="${G_OrderList.endDate}"></p>
+											onchange="doExecute2('searchByConditions');" value="${G_OrderList.endDate}"></p>
 				</div>
 				<div class="row">
 					<div class="col-xs-2"></div> 
 					<div class="col-xs-3"></div>
 					<p class="col-xs-7">：入荷状況&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 											<input type="checkbox" name="alreadyInStock" id="alreadyInStock" class="inputRequired" data-changeDisabled="5" 
-											onchange="docheck();" value="alreadyInStock" checked="checked">
+											onchange="doExecute2('searchByConditions');" value="alreadyInStock" checked="checked">
 											<label class="form-label" for="alreadyInStock">&nbsp;&nbsp;入荷済み</label>
 											&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 											<input type="checkbox" name="notInStock" id="notInStock" class="inputRequired" data-changeDisabled="5" 
-											onchange="docheck();" value="notInStock" checked="checked">
+											onchange="doExecute2('searchByConditions');" value="notInStock" checked="checked">
 											<label class="form-label" for="notInStock">&nbsp;&nbsp;未入荷</label></p>
 				</div>
 				<div class="row">
@@ -85,15 +85,15 @@
 					<div class="col-xs-3"></div>
 					<div class="col-xs-1"></div>
 					<div class="form-check col-xs-2" style="height: 34px;">
-						<input class="form-check-input" type="radio" name="sort" id="supplierName" onchange="docheck();" value="supplierName">
+						<input class="form-check-input" type="radio" name="sort" id="supplierName" onchange="doExecute2('sortByConditions');" value="supplierName">
 						<label class="form-check-label" for="supplierName">仕入先名</label>
 					</div>
 					<div class="form-check col-xs-2" style="height: 34px;">
-						<input class="form-check-input" type="radio" name="sort" id="orderDate" onchange="docheck();" value="orderDate">
+						<input class="form-check-input" type="radio" name="sort" id="orderDate" onchange="doExecute2('sortByConditions');" value="orderDate">
 						<label class="form-check-label" for="orderDate">発注日</label>
 					</div>
 					<div class="form-check col-xs-2" style="height: 34px;">
-						<input class="form-check-input" type="radio" name="sort" id="orderQty" onchange="docheck();" value="orderQty">
+						<input class="form-check-input" type="radio" name="sort" id="orderQty" onchange="doExecute2('sortByConditions');" value="orderQty">
 						<label class="form-check-label" for="orderQty">発注数量</label>
 					</div>
 				</div>
@@ -102,11 +102,11 @@
 					<div class="col-xs-3"></div>
 					<div class="col-xs-1"></div>
 					<div class="form-check col-xs-2" style="height: 34px;">
-						<input class="form-check-input" type="radio" name="sort" id="deliveryDate" onchange="docheck();" value="deliveryDate">
+						<input class="form-check-input" type="radio" name="sort" id="deliveryDate" onchange="doExecute2('sortByConditions');" value="deliveryDate">
 						<label class="form-check-label" for="deliveryDate">納期</label>
 					</div>
 					<div class="form-check col-xs-4" style="height: 34px;">
-						<input class="form-check-input" type="radio" name="sort" id="dueDate" onchange="docheck();" value="dueDate">
+						<input class="form-check-input" type="radio" name="sort" id="dueDate" onchange="doExecute2('sortByConditions');" value="dueDate">
 						<label class="form-check-label" for="dueDate">入荷日</label>
 					</div>
 				</div>
@@ -123,32 +123,24 @@
 							<table class="table table-bordered table-hover">
 								<thead class="thead-dark">
 									<tr>
-										<th scope="col" class="text-center">年月日</th>
-										<th scope="col" class="text-center">受発注番号</th>
-										<th scope="col" class="text-center">顧客先コード</th>
-										<th scope="col" class="text-center">受注数</th>
-										<th scope="col" class="text-center">発注先コード</th>
-										<th scope="col" class="text-center">発注数</th>
-										<th scope="col" class="text-center">在庫数</th>
+										<th scope="col" class="text-center">発注日</th>
+										<th scope="col" class="text-center">仕入先名</th>
+										<th scope="col" class="text-center">発注数量</th>
+										<th scope="col" class="text-center">納期</th>
+										<th scope="col" class="text-center">入荷日</th>
 									</tr>
 								</thead>
+								<c:forEach var="golsbc" items="${G_OrderListSortByCondition}" varStatus="s">
 									<tbody>
 										<tr>
-											<td colspan="6" scope="col" class="text-right">現在庫</td>
-											<td class="text-right">${PuroductStock.stockQty}</td>
+											<td class="text-left">${golsbc.orderDate}</td>
+											<td title="${golsbc.supplierNo}" class="text-left">${golsbc.supplierName}</td>
+											<td class="text-right">${golsbc.orderQty}</td>
+											<td class="text-left">${golsbc.deliveryDate}</td>
+											<td class="text-left">${golsbc.dueDate}</td>
 										</tr>
-										<c:forEach var="stockInOut" items="${G_StockListAllByProductNo}" varStatus="s">
-											<tr>
-												<td class="text-left">${stockInOut.deliveryDate}</td>
-												<td class="text-left">${stockInOut.orderNo}</td>
-												<td title="${stockInOut.customerName}" class="text-left">${stockInOut.customerNo}</td>
-												<td class="text-right">${stockInOut.purchaseOrderQty==0?'':stockInOut.purchaseOrderQty}</td>
-												<td title="${stockInOut.supplierName}" class="text-left">${stockInOut.supplierNo}</td>
-												<td class="text-right">${stockInOut.orderQty==0?'':stockInOut.orderQty}</td>
-												<td class="text-right">${stockInOut.stockQtyEstimate}</td>
-											</tr>
-										</c:forEach>
 									</tbody>
+								</c:forEach>
 							</table>
 						</div>
 						<div class="col-xs-1"></div>

@@ -339,13 +339,13 @@ public class OrderTableDAO extends DAO {
 				OrderTable.setSupplierNo(rs.getString("SUPPLIER_NO"));
 				OrderTable.setProductNo(rs.getString("PRODUCT_NO"));
 				OrderTable.setOrderQty(rs.getInt("ORDER_QTY"));
-				OrderTable.setDeliveryDate(new MainAction().dateChangeForHTML(rs.getString("DELIVERY_DATE")));
+				OrderTable.setDeliveryDate(rs.getString("DELIVERY_DATE"));
 				OrderTable.setBiko(rs.getString("BIKO"));
-				OrderTable.setDueDate(new MainAction().dateChangeForHTML(rs.getString("DUE_DATE")));
+				OrderTable.setDueDate(rs.getString("DUE_DATE"));
 				OrderTable.setDueQty(rs.getInt("DUE_QTY"));
 				OrderTable.setFinFlg(rs.getString("FIN_FLG"));
 				OrderTable.setRegistUser(rs.getString("REGIST_USER"));
-				OrderTable.setOrderDate(new MainAction().dateChangeForHTML(rs.getString("ORDER_DATE")));
+				OrderTable.setOrderDate(rs.getString("ORDER_DATE"));
 				OrderTable.setOrderUser(rs.getString("ORDER_USER"));
 				OrderTable.setProductName(rs.getString("PRODUCT_NAME"));
 				OrderTable.setSupplierName(rs.getString("SUPPLIER_NAME"));
