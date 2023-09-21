@@ -11,6 +11,8 @@ public class PurchaseOrder {
 	private String finFlg;
 	private String orderDate;
 	private String registUser;
+	private String customerName;
+	private String productName;
 
 	public String getPoNo() {
 		return poNo;
@@ -82,5 +84,21 @@ public class PurchaseOrder {
 
 	public void setRegistUser(String registUser) {
 		this.registUser = registUser;
+	}
+
+	public String getCustomerName() {
+		return customerName;
+	}
+
+	public void setCustomerName(String customerName) {
+		this.customerName = customerName;
+	}
+
+	public String getProductName() {
+		return productName;
+	}
+
+	public void setProductName(String productName) {
+		this.productName = productName;
 	}
 }

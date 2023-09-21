@@ -368,6 +368,45 @@ public class PurchaseOrderDAO extends DAO {
 	}
 	
 	/**
+	 * PurchaseOrderList作成の元レコード取得メソッド(検索条件なし)
+	 *
+	 * @param 引数無し
+	 * @return List<PurchaseOrder> 「null：失敗」「null以外：成功」
+	 */
+	public List<PurchaseOrder> searchAllWithProductNameAndCustomerName() {
+		// 戻り値用の変数宣言
+		List<PurchaseOrder> PurchaseOrderListWithProductNameAndSupplierName = new ArrayList<>();
+		PurchaseOrder PurchaseOrder = null;
+		try {
+			Connection con = getConnection();
+			PreparedStatement st;
+			st = con.prepareStatement("SELECT PO.*, PM.*, CM.* FROM PURCHASE_ORDER AS PO INNER JOIN PRODUCT_MASTER AS PM ON PO.PRODUCT_NO=PM.PRODUCT_NO INNER JOIN CUSTOMER_MASTER AS CM ON PO.CUSTOMER_NO=CM.CUSTOMER_NO ORDER BY PO_NO ASC");
+			ResultSet rs = st.executeQuery();
+			while (rs.next()) {
+				PurchaseOrder = new PurchaseOrder();
+				PurchaseOrder.setPoNo(rs.getString("PO_NO"));
+				PurchaseOrder.setCustomerNo(rs.getString("CUSTOMER_NO"));
+				PurchaseOrder.setProductNo(rs.getString("PRODUCT_NO"));
+				PurchaseOrder.setOrderQty(rs.getInt("ORDER_QTY"));
+				PurchaseOrder.setDeliveryDate(rs.getString("DELIVERY_DATE"));
+				PurchaseOrder.setShipDate(rs.getString("SHIP_DATE"));
+				PurchaseOrder.setFinFlg(rs.getString("FIN_FLG"));
+				PurchaseOrder.setRegistUser(rs.getString("REGIST_USER"));
+				PurchaseOrder.setOrderDate(rs.getString("ORDER_DATE"));
+				PurchaseOrder.setProductName(rs.getString("PRODUCT_NAME"));
+				PurchaseOrder.setCustomerName(rs.getString("CUSTOMER_NAME"));
+				PurchaseOrderListWithProductNameAndSupplierName.add(PurchaseOrder);
+			}
+			st.close();
+			con.close();
+		} catch (Exception e) {
+			System.out.println("SQLでエラーが発生しました。");
+			e.printStackTrace();
+		}
+		return PurchaseOrderListWithProductNameAndSupplierName;
+	}
+	
+	/**
 	 * PurchaseOrderテーブル取得メソッド(検索条件なし)
 	 *  →PO_NOリスト取得用メソッド
 	 *

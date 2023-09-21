@@ -331,7 +331,7 @@ public class OrderTableDAO extends DAO {
 		try {
 			Connection con = getConnection();
 			PreparedStatement st;
-			st = con.prepareStatement("SELECT OT.*, PM.*, SM.* FROM ORDER_TABLE AS OT INNER JOIN PRODUCT_MASTER AS PM ON OT.SUPPLIER_NO=PM.SUPPLIER_NO INNER JOIN SUPPLIER_MASTER AS SM ON OT.SUPPLIER_NO=SM.SUPPLIER_NO ORDER BY ORDER_NO ASC");
+			st = con.prepareStatement("SELECT OT.*, PM.*, SM.* FROM ORDER_TABLE AS OT INNER JOIN PRODUCT_MASTER AS PM ON OT.PRODUCT_NO=PM.PRODUCT_NO INNER JOIN SUPPLIER_MASTER AS SM ON OT.SUPPLIER_NO=SM.SUPPLIER_NO ORDER BY ORDER_NO ASC");
 			ResultSet rs = st.executeQuery();
 			while (rs.next()) {
 				OrderTable = new OrderTable();

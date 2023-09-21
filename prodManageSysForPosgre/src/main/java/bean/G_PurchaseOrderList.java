@@ -1,22 +1,22 @@
 package bean;
 
-public class G_OrderList {
+public class G_PurchaseOrderList {
 	private String productNo;
 	private String productName;
 	// 検索条件格納用フィールド
-	private String startDate; // 開始日(発注日絞り込み用)
-	private String endDate; // 終了日(発注日絞り込み用)
-	private String inStock; // リスト対象(入荷済みをリストに加えるか否か←値が｢inStock｣の場合､入荷済みを含める)
-	private String notInStock; // リスト対象(未入荷をリストに加えるか否か←値が｢notInStock｣の場合､未入荷を含める)
+	private String startDate; // 開始日(受注日絞り込み用)
+	private String endDate; // 終了日(受注日絞り込み用)
+	private String shipped; // リスト対象(出荷済みをリストに加えるか否か←値が｢inStock｣の場合､入荷済みを含める)
+	private String notShipped; // リスト対象(未出荷をリストに加えるか否か←値が｢notInStock｣の場合､未入荷を含める)
 	private String ascendingDescending; // 並び替えの昇順/降順の指定(値が｢ascending｣なら昇順､｢descending｣なら降順)
 	private String sort; // 並び替え項目(値が｢supplierName｣なら仕入先名で､｢orderDate｣なら発注日で､｢orderQty｣なら発注数量で､｢deliveryDate｣なら納期で､｢dueDate｣なら入荷日で並び替えを行う)
 	// 以下､テーブル用フィールド
-	private String orderDate; // 発注日
+	private String orderDate; // 受注日
 	private String deliveryDate; // 納期
-	private String dueDate; // 入荷日
-	private int orderQty; // 発注数量
-	private String supplierNo; // 仕入先コード
-	private String supplierName; // 仕入先名
+	private String shipDate; // 出荷日
+	private int orderQty; // 受注数量
+	private String customerNo; // 顧客コード
+	private String customerName; // 顧客名
 
 	public String getProductNo() {
 		return productNo;
@@ -50,20 +50,20 @@ public class G_OrderList {
 		this.endDate = endDate;
 	}
 
-	public String getInStock() {
-		return inStock;
+	public String getShipped() {
+		return shipped;
 	}
 
-	public void setInStock(String inStock) {
-		this.inStock = inStock;
+	public void setShipped(String shipped) {
+		this.shipped = shipped;
 	}
 
-	public String getNotInStock() {
-		return notInStock;
+	public String getNotShipped() {
+		return notShipped;
 	}
 
-	public void setNotInStock(String notInStock) {
-		this.notInStock = notInStock;
+	public void setNotShipped(String notShipped) {
+		this.notShipped = notShipped;
 	}
 
 	public String getAscendingDescending() {
@@ -98,12 +98,12 @@ public class G_OrderList {
 		this.deliveryDate = deliveryDate;
 	}
 
-	public String getDueDate() {
-		return dueDate;
+	public String getShipDate() {
+		return shipDate;
 	}
 
-	public void setDueDate(String dueDate) {
-		this.dueDate = dueDate;
+	public void setShipDate(String shipDate) {
+		this.shipDate = shipDate;
 	}
 
 	public int getOrderQty() {
@@ -114,19 +114,19 @@ public class G_OrderList {
 		this.orderQty = orderQty;
 	}
 
-	public String getSupplierNo() {
-		return supplierNo;
+	public String getCustomerNo() {
+		return customerNo;
 	}
 
-	public void setSupplierNo(String supplierNo) {
-		this.supplierNo = supplierNo;
+	public void setCustomerNo(String customerNo) {
+		this.customerNo = customerNo;
 	}
 
-	public String getSupplierName() {
-		return supplierName;
+	public String getCustomerName() {
+		return customerName;
 	}
 
-	public void setSupplierName(String supplierName) {
-		this.supplierName = supplierName;
+	public void setCustomerName(String customerName) {
+		this.customerName = customerName;
 	}
 }

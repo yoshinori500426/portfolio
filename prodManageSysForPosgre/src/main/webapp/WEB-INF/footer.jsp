@@ -549,6 +549,76 @@ if('${nextJsp}'=='/WEB-INF/main/stockList.jsp'){
 }
 
 //========================================================================================================================================================================================================================
+//'purchaseOrderList'
+if('${nextJsp}'=='/WEB-INF/main/purchaseOrderList.jsp'){
+	window.addEventListener('load', function(){
+		if('${ProductMasterList}'==''){
+			doExecute2('searchProductMasterList');
+		}
+		if('${G_PurchaseOrderList.productNo}'!='' && '${ProductMaster.productName}'!=''){
+			// チェックボックスのチェック指定
+			var shipped = form.elements['shipped'];
+			if('${G_PurchaseOrderList.shipped}'=='shipped'){
+				shipped.setAttribute('checked', 'cheked');
+			}else{
+				shipped.removeAttribute('checked');
+			}
+			var notShipped = form.elements['notShipped'];
+			if('${G_PurchaseOrderList.notShipped}'=='notShipped'){
+				notShipped.setAttribute('checked', 'cheked');
+			}else{
+				notShipped.removeAttribute('checked');
+			}
+			// ラジオボタンのチェック指定
+			var ascendingDescending = form.elements['ascendingDescending'];
+			if('${G_PurchaseOrderList.ascendingDescending}'==''){
+				ascendingDescending[0].checked=true;
+			}else if('${G_PurchaseOrderList.ascendingDescending}'!=''){
+				for (var i = 0; i < ascendingDescending.length; i++) {
+					if (ascendingDescending[i].value=='${G_PurchaseOrderList.ascendingDescending}') {
+						ascendingDescending[i].checked=true;
+						break;
+					}
+				}
+			}
+			// ラジオボタンのチェック指定
+			var sort = form.elements['sort'];
+			for (var i = 0; i < sort.length; i++) {
+				if (sort[i].value=='${G_PurchaseOrderList.sort}') {
+					sort[i].checked=true;
+					break;
+				}
+			}
+			//startDate endDateの日付選択を規定
+			var startDate = form.elements['startDate'];
+			var endDate = form.elements['endDate'];
+			if(startDate.value != ''){
+				endDate.setAttribute('min', startDate.value);
+			}
+			if(endDate.value != ''){
+				startDate.setAttribute('max', endDate.value);
+			}
+		}
+		docheck();
+		var productNo = form.elements['productNo'];
+		var productName = form.elements['productName'];
+		var keyValue = (productNo.value.match(/^[0-9]{10}$/)!=null && productName.value.length>=1)?'1':'';
+		doChangeDisabled(keyValue);
+	})
+	function docheck() {	
+		//productNo
+		var productNo = form.elements['productNo'];
+		var productName = form.elements['productName'];
+		var judgeProductNo = (productNo.value.match(/^[0-9]{10}$/)!=null && productName.value.length>=1)?true:false;
+		if(judgeProductNo==true){
+			productNo.setAttribute('data-inputRequired','true');
+		}else{
+			productNo.setAttribute('data-inputRequired','false');
+		}
+	}
+}
+
+//========================================================================================================================================================================================================================
 //'orderList.jsp'
 if('${nextJsp}'=='/WEB-INF/main/orderList.jsp'){
 	window.addEventListener('load', function(){
@@ -557,11 +627,11 @@ if('${nextJsp}'=='/WEB-INF/main/orderList.jsp'){
 		}
 		if('${G_OrderList.productNo}'!='' && '${ProductMaster.productName}'!=''){
 			// チェックボックスのチェック指定
-			var alreadyInStock = form.elements['alreadyInStock'];
-			if('${G_OrderList.alreadyInStock}'=='alreadyInStock'){
-				alreadyInStock.setAttribute('checked', 'cheked');
+			var inStock = form.elements['inStock'];
+			if('${G_OrderList.inStock}'=='inStock'){
+				inStock.setAttribute('checked', 'cheked');
 			}else{
-				alreadyInStock.removeAttribute('checked');
+				inStock.removeAttribute('checked');
 			}
 			var notInStock = form.elements['notInStock'];
 			if('${G_OrderList.notInStock}'=='notInStock'){
@@ -570,12 +640,33 @@ if('${nextJsp}'=='/WEB-INF/main/orderList.jsp'){
 				notInStock.removeAttribute('checked');
 			}
 			// ラジオボタンのチェック指定
+			var ascendingDescending = form.elements['ascendingDescending'];
+			if('${G_OrderList.ascendingDescending}'==''){
+				ascendingDescending[0].checked=true;
+			}else if('${G_OrderList.ascendingDescending}'!=''){
+				for (var i = 0; i < ascendingDescending.length; i++) {
+					if (ascendingDescending[i].value=='${G_OrderList.ascendingDescending}') {
+						ascendingDescending[i].checked=true;
+						break;
+					}
+				}
+			}
+			// ラジオボタンのチェック指定
 			var sort = form.elements['sort'];
 			for (var i = 0; i < sort.length; i++) {
 				if (sort[i].value=='${G_OrderList.sort}') {
 					sort[i].checked=true;
 					break;
 				}
+			}
+			//startDate endDateの日付選択を規定
+			var startDate = form.elements['startDate'];
+			var endDate = form.elements['endDate'];
+			if(startDate.value != ''){
+				endDate.setAttribute('min', startDate.value);
+			}
+			if(endDate.value != ''){
+				startDate.setAttribute('max', endDate.value);
 			}
 		}
 		docheck();

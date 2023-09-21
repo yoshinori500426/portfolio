@@ -114,6 +114,9 @@ public class MainAction extends Action {
 		session.setAttribute("G_OrderListSortByCondition", null);
 		session.setAttribute("G_ProductMaster", null);
 		session.setAttribute("G_PurchaseOrder", null);
+		session.setAttribute("G_PurchaseOrderList", null);
+		session.setAttribute("G_PurchaseOrderListSearchByConditions", null);
+		session.setAttribute("G_PurchaseOrderListSortByCondition", null);
 		session.setAttribute("G_Shipping", null);
 		session.setAttribute("G_StockList", null);
 		session.setAttribute("G_StockListAllByProductNo", null);
@@ -125,7 +128,7 @@ public class MainAction extends Action {
 		session.setAttribute("PurchaseOrderListFinFlg0", null);
 		session.setAttribute("OrderTable", null);
 		session.setAttribute("OrderTableList", null);
-		session.setAttribute("OrderTableListWithProductNameAndSupplierName", null);
+		session.setAttribute("OrderTableListWithProNameAndSupName", null);
 		session.setAttribute("OrderTableListFinFlg0", null);
 		session.setAttribute("EntryExitInfo", null);
 		session.setAttribute("PuroductStock", null);

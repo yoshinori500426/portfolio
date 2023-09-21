@@ -11,7 +11,7 @@
 				<form action="Logout.action" method="post">
 					<input type="hidden" name="toAction">
 					<div class="row">
-						<h1 class="h2 col-xs-6">発注一覧画面</h1>
+						<h1 class="h2 col-xs-6">受注一覧画面</h1>
 						<h1 class="h3 col-xs-4 text-left"></h1>
 						<div class="col-xs-2"><a href="javascript:logout()"></a></div>
 					</div>
@@ -21,7 +21,7 @@
 	<hr>
 		<div>
 			<%-- document.forms[2]; --%>
-			<form action="OrderList.action" method="post">
+			<form action="PurchaseOrderList.action" method="post">
 			    <input type="hidden" name="toAction" data-changeDisabled="0">
 			    <%-- 切り替えボタンは存在しないが､｢update｣と同様の動作を行わせる為､値｢update｣を固定値とする --%>
 				<input type="hidden" name="btnSelect" data-changeDisabled="0" value="update" >
@@ -31,7 +31,7 @@
 					<p class="col-xs-7">：<input type="number" style="width: 300px;" list="productNoList" name="productNo" id="productNo" class="inputRequired" data-changeDisabled="4" 
 											min="0" max="9999999999" onkeyup="javascript: this.value = this.value.slice(0, 10);" 
 											onchange="javascript: this.value = this.value==0?'':('0000000000'+this.value).slice(-10);doExecute2('searchProductNo');" 
-											placeholder="数字(最大10桁)" value="${G_OrderList.productNo}">
+											placeholder="数字(最大10桁)" value="${G_PurchaseOrderList.productNo}">
 											<datalist id="productNoList">
 												<c:forEach var="pml" items="${ProductMasterList}" >
 													<option value="${pml.productNo}" label="品番:${pml.productNo}, 品名:${pml.productName}">
@@ -50,30 +50,30 @@
 					<div class="col-xs-2"></div>
 				</div>
 			<c:choose>
-				<c:when test="${empty G_OrderList.productNo || empty ProductMaster.productName}"></c:when>
+				<c:when test="${empty G_PurchaseOrderList.productNo || empty ProductMaster.productName}"></c:when>
 				<c:otherwise>
 	<hr>
 				<div class="row">
 					<div class="col-xs-2"></div>
 					<label class="form-label col-xs-2 text-left">検索条件</label>
-					<p class="col-xs-8">：発注日&nbsp;&nbsp;
+					<p class="col-xs-8">：受注日&nbsp;&nbsp;
 											<input type="date" style="width: 150px;"  name="startDate" id="startDate" class="inputRequired" data-changeDisabled="5" 
-											onchange="doExecute2('searchByConditions');" value="${G_OrderList.startDate}">
+											onchange="doExecute2('searchByConditions');" value="${G_PurchaseOrderList.startDate}">
 											&nbsp;~&nbsp;
 											<input type="date" style="width: 150px;"  name="endDate" id="endDate" class="inputRequired" data-changeDisabled="5" 
-											onchange="doExecute2('searchByConditions');" value="${G_OrderList.endDate}"></p>
+											onchange="doExecute2('searchByConditions');" value="${G_PurchaseOrderList.endDate}"></p>
 				</div>
 				<div class="row">
 					<div class="col-xs-2"></div> 
 					<div class="col-xs-2"></div>
-					<p class="col-xs-8">：入荷状況&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-											<input type="checkbox" name="inStock" id="inStock" class="inputRequired" data-changeDisabled="5" 
-											onchange="doExecute2('searchByConditions');" value="inStock">
-											<label class="form-label" for="inStock">&nbsp;&nbsp;入荷済み</label>
+					<p class="col-xs-8">：出荷状況&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+											<input type="checkbox" name="shipped" id="shipped" class="inputRequired" data-changeDisabled="5" 
+											onchange="doExecute2('searchByConditions');" value="shipped">
+											<label class="form-label" for="shipped">&nbsp;&nbsp;出荷済み</label>
 											&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-											<input type="checkbox" name="notInStock" id="notInStock" class="inputRequired" data-changeDisabled="5" 
-											onchange="doExecute2('searchByConditions');" value="notInStock">
-											<label class="form-label" for="notInStock">&nbsp;&nbsp;未入荷</label></p>
+											<input type="checkbox" name="notShipped" id="notShipped" class="inputRequired" data-changeDisabled="5" 
+											onchange="doExecute2('searchByConditions');" value="notShipped">
+											<label class="form-label" for="notShipped">&nbsp;&nbsp;未出荷</label></p>
 				</div>
 				<div class="row">
 					<div class="col-xs-2"></div>
@@ -98,17 +98,17 @@
 					<div class="form-check col-xs-2" style="height: 34px;">
 						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 						<input class="form-check-input" type="radio" name="sort" id="orderDate" onchange="doExecute2('sortByConditions');" value="orderDate">
-						<label class="form-check-label" for="orderDate">発注日</label>
+						<label class="form-check-label" for="orderDate">受注日</label>
 					</div>
 					<div class="form-check col-xs-2" style="height: 34px;">
 						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-						<input class="form-check-input" type="radio" name="sort" id="supplierName" onchange="doExecute2('sortByConditions');" value="supplierName">
-						<label class="form-check-label" for="supplierName">仕入先名</label>
+						<input class="form-check-input" type="radio" name="sort" id="customerName" onchange="doExecute2('sortByConditions');" value="customerName">
+						<label class="form-check-label" for="customerName">顧客名</label>
 					</div>
 					<div class="form-check col-xs-2" style="height: 34px;">
 						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 						<input class="form-check-input" type="radio" name="sort" id="orderQty" onchange="doExecute2('sortByConditions');" value="orderQty">
-						<label class="form-check-label" for="orderQty">発注数量</label>
+						<label class="form-check-label" for="orderQty">受注数量</label>
 					</div>
 					<div class="col-xs-2"></div>
 				</div>
@@ -122,8 +122,8 @@
 					</div>
 					<div class="form-check col-xs-2" style="height: 34px;">
 						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-						<input class="form-check-input" type="radio" name="sort" id="dueDate" onchange="doExecute2('sortByConditions');" value="dueDate">
-						<label class="form-check-label" for="dueDate">入荷日</label>
+						<input class="form-check-input" type="radio" name="sort" id="shipDate" onchange="doExecute2('sortByConditions');" value="shipDate">
+						<label class="form-check-label" for="shipDate">出荷日</label>
 					</div>
 					<div class="col-xs-2"></div>
 					<div class="col-xs-2"></div>
@@ -137,7 +137,7 @@
 			</c:choose>
 			</form>
 			<c:choose>
-				<c:when test="${empty G_OrderList.productNo || empty ProductMaster.productName}"></c:when>
+				<c:when test="${empty G_PurchaseOrderList.productNo || empty ProductMaster.productName}"></c:when>
 				<c:otherwise>
 	<hr>
 					<div class="row">
@@ -146,21 +146,21 @@
 							<table class="table table-bordered table-hover">
 								<thead class="thead-dark">
 									<tr>
-										<th scope="col" class="text-center">発注日</th>
-										<th scope="col" class="text-center">仕入先名</th>
-										<th scope="col" class="text-center">発注数量</th>
+										<th scope="col" class="text-center">受注日</th>
+										<th scope="col" class="text-center">顧客名</th>
+										<th scope="col" class="text-center">受注数量</th>
 										<th scope="col" class="text-center">納期</th>
-										<th scope="col" class="text-center">入荷日</th>
+										<th scope="col" class="text-center">出荷日</th>
 									</tr>
 								</thead>
-								<c:forEach var="golsbc" items="${G_OrderListSortByCondition}" varStatus="s">
+								<c:forEach var="gpolsbc" items="${G_PurchaseOrderListSortByCondition}" varStatus="s">
 									<tbody>
 										<tr>
-											<td class="text-left">${golsbc.orderDate}</td>
-											<td title="${golsbc.supplierNo}" class="text-left">${golsbc.supplierName}</td>
-											<td class="text-right">${golsbc.orderQty}</td>
-											<td class="text-left">${golsbc.deliveryDate}</td>
-											<td class="text-left">${golsbc.dueDate}</td>
+											<td class="text-left">${gpolsbc.orderDate}</td>
+											<td title="${gpolsbc.customerNo}" class="text-left">${gpolsbc.customerName}</td>
+											<td class="text-right">${gpolsbc.orderQty}</td>
+											<td class="text-left">${gpolsbc.deliveryDate}</td>
+											<td class="text-left">${gpolsbc.shipDate}</td>
 										</tr>
 									</tbody>
 								</c:forEach>
