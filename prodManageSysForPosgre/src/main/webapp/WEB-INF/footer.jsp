@@ -688,9 +688,75 @@ if('${nextJsp}'=='/WEB-INF/main/orderList.jsp'){
 	}
 }
 
-
-
-
+//========================================================================================================================================================================================================================
+//'entryExitInfoList.jsp'
+if('${nextJsp}'=='/WEB-INF/main/entryExitInfoList.jsp'){
+	window.addEventListener('load', function(){
+		if('${ProductMasterList}'==''){
+			doExecute2('searchProductMasterList');
+		}
+		if('${G_EntryExitInfoList.productNo}'!='' && '${ProductMaster.productName}'!=''){
+			// チェックボックスのチェック指定
+			var stockIn = form.elements['stockIn'];
+			if('${G_EntryExitInfoList.stockIn}'=='stockIn'){
+				stockIn.setAttribute('checked', 'cheked');
+			}else{
+				stockIn.removeAttribute('checked');
+			}
+			var stockOut = form.elements['stockOut'];
+			if('${G_EntryExitInfoList.stockOut}'=='stockOut'){
+				stockOut.setAttribute('checked', 'cheked');
+			}else{
+				stockOut.removeAttribute('checked');
+			}
+			// ラジオボタンのチェック指定
+			var ascendingDescending = form.elements['ascendingDescending'];
+			if('${G_EntryExitInfoList.ascendingDescending}'==''){
+				ascendingDescending[0].checked=true;
+			}else if('${G_EntryExitInfoList.ascendingDescending}'!=''){
+				for (var i = 0; i < ascendingDescending.length; i++) {
+					if (ascendingDescending[i].value=='${G_EntryExitInfoList.ascendingDescending}') {
+						ascendingDescending[i].checked=true;
+						break;
+					}
+				}
+			}
+			// ラジオボタンのチェック指定
+			var sort = form.elements['sort'];
+			for (var i = 0; i < sort.length; i++) {
+				if (sort[i].value=='${G_EntryExitInfoList.sort}') {
+					sort[i].checked=true;
+					break;
+				}
+			}
+			//startDate endDateの日付選択を規定
+			var startDate = form.elements['startDate'];
+			var endDate = form.elements['endDate'];
+			if(startDate.value != ''){
+				endDate.setAttribute('min', startDate.value);
+			}
+			if(endDate.value != ''){
+				startDate.setAttribute('max', endDate.value);
+			}
+		}
+		docheck();
+		var productNo = form.elements['productNo'];
+		var productName = form.elements['productName'];
+		var keyValue = (productNo.value.match(/^[0-9]{10}$/)!=null && productName.value.length>=1)?'1':'';
+		doChangeDisabled(keyValue);
+	})
+	function docheck() {
+		//productNo
+		var productNo = form.elements['productNo'];
+		var productName = form.elements['productName'];
+		var judgeProductNo = (productNo.value.match(/^[0-9]{10}$/)!=null && productName.value.length>=1)?true:false;
+		if(judgeProductNo==true){
+			productNo.setAttribute('data-inputRequired','true');
+		}else{
+			productNo.setAttribute('data-inputRequired','false');
+		}
+	}
+}
 
 //========================================================================================================================================================================================================================
 //'productMaster.jsp'

@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 
 import bean.G_Arrival;
 import bean.G_EntryExitInfo;
+import bean.G_EntryExitInfoList;
 import bean.G_Order;
 import bean.G_OrderList;
 import bean.G_ProductMaster;
@@ -207,6 +208,16 @@ public class ProductMasterDAO extends DAO {
 	 */
 	public ProductMaster searchByProNo(G_PurchaseOrderList G_PurchaseOrderList) {
 		return searchByProNo(G_PurchaseOrderList.getProductNo());
+	}
+	
+	/**
+	 * 品番に合致するレコード情報を取得するメソッド
+	 * 
+	 * @param G_EntryExitInfoListのインスタンス
+	 * @return 該当レコードあり:ProductMasterクラスのインスタンス 無:null
+	 */
+	public ProductMaster searchByProNo(G_EntryExitInfoList G_EntryExitInfoList) {
+		return searchByProNo(G_EntryExitInfoList.getProductNo());
 	}
 	
 	/**

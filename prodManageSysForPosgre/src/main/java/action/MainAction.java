@@ -108,6 +108,9 @@ public class MainAction extends Action {
 		session.setAttribute("G_Arrival", null);
 		session.setAttribute("G_CustomerMaster", null);
 		session.setAttribute("G_EntryExitInfo", null);
+		session.setAttribute("G_EntryExitInfoList", null);
+		session.setAttribute("G_EntryExitInfoListSearchByConditions", null);
+		session.setAttribute("G_EntryExitInfoListSortByCondition", null);
 		session.setAttribute("G_Order", null);
 		session.setAttribute("G_OrderList", null);
 		session.setAttribute("G_OrderListSearchByConditions", null);
@@ -131,6 +134,7 @@ public class MainAction extends Action {
 		session.setAttribute("OrderTableListWithProNameAndSupName", null);
 		session.setAttribute("OrderTableListFinFlg0", null);
 		session.setAttribute("EntryExitInfo", null);
+		session.setAttribute("EntryExitInfoList", null);
 		session.setAttribute("PuroductStock", null);
 		// 検索値削除(~Master)
 		session.setAttribute("ProductMaster", null);
@@ -156,7 +160,7 @@ public class MainAction extends Action {
 	 * @return DBに入力する｢YYYY/MM/DD｣形式の日付
 	 */
 	public String dateChangeForDB(String inputDate) {
-		return (inputDate!=null && !inputDate.isEmpty())?inputDate.substring(0, 10).replace("-", "/"):"";
+		return (inputDate != null && !inputDate.isEmpty()) ? inputDate.substring(0, 10).replace("-", "/") : "";
 	}
 
 	/**
@@ -166,6 +170,6 @@ public class MainAction extends Action {
 	 * @return HTMLに入力する｢YYYY-MM-DD｣形式の日付
 	 */
 	public String dateChangeForHTML(String inputDate) {
-		return (inputDate!=null && !inputDate.isEmpty())?inputDate.replace("/", "-"):"";
+		return (inputDate != null && !inputDate.isEmpty()) ? inputDate.replace("/", "-") : "";
 	}
 }

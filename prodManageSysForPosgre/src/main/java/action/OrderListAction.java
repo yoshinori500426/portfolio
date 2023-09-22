@@ -170,7 +170,8 @@ public class OrderListAction extends Action {
 		}
 		// レコード抽出に必要な変数宣言
 		Boolean judgeProductNo = false, judgeStartAndEndDate = false, judgeFinFlg = false;
-		String StartDate = "", EndDate = "";
+		String StartDate = ((startDate == "" || startDate == null) ? "1970-01-01" : startDate);
+		String EndDate = ((endDate == "" || endDate == null) ? "9999-12-31" : endDate);
 		// 抽出レコード格納用変数宣言
 		G_OrderList G_OrderList = null;
 		List<G_OrderList> G_OrderListSearchByConditions = null;
@@ -179,8 +180,6 @@ public class OrderListAction extends Action {
 			// 品番確認
 			judgeProductNo = (OrderTable.getProductNo().equals(productNo));
 			// 発注日確認
-			StartDate = ((startDate == "" || startDate == null)? "1970-01-01" : startDate);
-			EndDate = ((endDate == "" || endDate ==null)? "9999-12-31" : endDate);
 			judgeStartAndEndDate = (new MainAction().dateChangeForHTML(OrderTable.getOrderDate())
 					.compareTo(StartDate) >= 0
 					&& new MainAction().dateChangeForHTML(OrderTable.getOrderDate()).compareTo(EndDate) <= 0);
