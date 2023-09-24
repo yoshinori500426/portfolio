@@ -759,6 +759,91 @@ if('${nextJsp}'=='/WEB-INF/main/entryExitInfoList.jsp'){
 }
 
 //========================================================================================================================================================================================================================
+//'amountCalc.jsp'
+if('${nextJsp}'=='/WEB-INF/main/amountCalc.jsp'){
+	window.addEventListener('load', function(){
+		 //「amountCalcProgFlg」は、
+		 //   0:途中終了、1:処理中、2:異常なし終了、3:異常あり終了
+		 if('${amountCalcProgFlg}' != '' && '${amountCalcProgFlg}' != '0' && '${amountCalcProgFlg}' != '2'){
+			 if('${amountCalcProgFlg}' == '3'){
+			 	form.elements['startAmountCalc'].setAttribute('disabled','disabled');
+			 	form.elements['cancel'].setAttribute('disabled','disabled');
+				window.setTimeout(function () {
+					doExecute2('goToAmountCalcOrderPage');
+				}, 3500);
+			 }else if ('${amountCalcProgFlg}' == '1'){
+				form.elements['startAmountCalc'].setAttribute('disabled','disabled');
+				form.elements['cancel'].removeAttribute('disabled');
+				window.setTimeout(function () {
+					doExecute2('processNow');
+				}, 800);
+			 }
+		 }else{
+		 	form.elements['startAmountCalc'].removeAttribute('disabled');
+		 	form.elements['cancel'].setAttribute('disabled','disabled');
+		 }
+	})
+}
+	
+//========================================================================================================================================================================================================================
+//'amountCalcOrder.jsp'
+if('${nextJsp}'=='/WEB-INF/main/amountCalcOrder.jsp'){
+	window.addEventListener('load', function(){
+		var productNo = document.forms[2].elements['gProductNo'];
+		var orderLotNum = document.forms[2].elements['gOrderLotNum'];
+		for(var i=0;i<productNo.length;i++){
+			if('${G_AmountCalcOrder.productNo}' != '' && productNo.options[i].value == '${G_AmountCalcOrder.productNo}'){
+				productNo.options[i].selected = true;
+				break;
+			}else if('${G_AmountCalcOrder.productNo}' == ''){
+				productNo.options[0].selected = true;
+				break;
+			}
+		}
+		docheck();
+	})
+	function docheck() {
+		// gProductNo
+		var gProductNo = form.elements['gProductNo'];
+		var judgeGProductNo = (gProductNo.value!='')?true:false;
+		if(judgeGProductNo==true){
+			gProductNo.setAttribute('data-inputRequired','true');
+		}else{
+			gProductNo.setAttribute('data-inputRequired','false');
+		}	
+		// gOrderLotNum
+		var gOrderLotNum = form.elements['gOrderLotNum'];
+		var judgeGOrderLotNum = false;
+		if(typeof gOrderLotNum!=undefined && gOrderLotNum!=null){
+			var orderNum = document.getElementById('orderNum');
+			var orderPrice = document.getElementById('orderPrice');
+			judgeGOrderLotNum = (gOrderLotNum.value>=1 && gOrderLotNum.value%1==0)?true:false;
+			if(judgeGOrderLotNum==true){
+				gOrderLotNum.setAttribute('data-inputRequired','true');
+				// 発注数[個]/発注額[円]の算出
+				var lotPcs = '${amountCalcAllListMap[productNoKey][0].lotPcs}'!=''?'${amountCalcAllListMap[productNoKey][0].lotPcs}':0;
+				var unitPrice = '${amountCalcAllListMap[productNoKey][0].unitPrice}'!=''?'${amountCalcAllListMap[productNoKey][0].unitPrice}':0;
+				orderNum.innerHTML = '：' + (gOrderLotNum.value * lotPcs);
+				orderPrice.innerHTML = '：' + (gOrderLotNum.value * lotPcs * unitPrice);
+			}else{
+				gOrderLotNum.setAttribute('data-inputRequired','false');
+				// 発注数[個]/発注額[円]の表示
+				orderNum.innerHTML = '：';
+				orderPrice.innerHTML = '：';
+			}
+		}
+		// doExecuteBTNのdisabled属性変更
+		if(document.getElementsByName('doExecuteBTN').length==1){
+			if((judgeGProductNo && judgeGOrderLotNum)==true){
+				form.elements['doExecuteBTN'].removeAttribute('disabled');
+			}else{
+				form.elements['doExecuteBTN'].setAttribute('disabled','disabled');
+			}
+		}
+	}
+}
+
+//========================================================================================================================================================================================================================
 //'productMaster.jsp'
 if('${nextJsp}'=='/WEB-INF/main/productMaster.jsp'){
 	window.addEventListener('load', function(){
@@ -968,91 +1053,6 @@ if('${nextJsp}'=='/WEB-INF/main/userMaster.jsp'){
 		// doExecuteBTNのdisabled属性変更
 		if(document.getElementsByName('doExecuteBTN').length==1){
 			if((judgeUserName && judgePassword && judgePasswordForCheck && judgeDept && judgeHireDate)==true){
-				form.elements['doExecuteBTN'].removeAttribute('disabled');
-			}else{
-				form.elements['doExecuteBTN'].setAttribute('disabled','disabled');
-			}
-		}
-	}
-}
-	
-//========================================================================================================================================================================================================================
-//'amountCalc.jsp'
-if('${nextJsp}'=='/WEB-INF/main/amountCalc.jsp'){
-	window.addEventListener('load', function(){
-		 //「amountCalcProgFlg」は、
-		 //   0:途中終了、1:処理中、2:異常なし終了、3:異常あり終了
-		 if('${amountCalcProgFlg}' != '' && '${amountCalcProgFlg}' != '0' && '${amountCalcProgFlg}' != '2'){
-			 if('${amountCalcProgFlg}' == '3'){
-			 	form.elements['startAmountCalc'].setAttribute('disabled','disabled');
-			 	form.elements['cancel'].setAttribute('disabled','disabled');
-				window.setTimeout(function () {
-					doExecute2('goToAmountCalcOrderPage');
-				}, 3500);
-			 }else if ('${amountCalcProgFlg}' == '1'){
-				form.elements['startAmountCalc'].setAttribute('disabled','disabled');
-				form.elements['cancel'].removeAttribute('disabled');
-				window.setTimeout(function () {
-					doExecute2('processNow');
-				}, 800);
-			 }
-		 }else{
-		 	form.elements['startAmountCalc'].removeAttribute('disabled');
-		 	form.elements['cancel'].setAttribute('disabled','disabled');
-		 }
-	})
-}
-	
-//========================================================================================================================================================================================================================
-//'amountCalcOrder.jsp'
-if('${nextJsp}'=='/WEB-INF/main/amountCalcOrder.jsp'){
-	window.addEventListener('load', function(){
-		var productNo = document.forms[2].elements['gProductNo'];
-		var orderLotNum = document.forms[2].elements['gOrderLotNum'];
-		for(var i=0;i<productNo.length;i++){
-			if('${G_AmountCalcOrder.productNo}' != '' && productNo.options[i].value == '${G_AmountCalcOrder.productNo}'){
-				productNo.options[i].selected = true;
-				break;
-			}else if('${G_AmountCalcOrder.productNo}' == ''){
-				productNo.options[0].selected = true;
-				break;
-			}
-		}
-		docheck();
-	})
-	function docheck() {
-		// gProductNo
-		var gProductNo = form.elements['gProductNo'];
-		var judgeGProductNo = (gProductNo.value!='')?true:false;
-		if(judgeGProductNo==true){
-			gProductNo.setAttribute('data-inputRequired','true');
-		}else{
-			gProductNo.setAttribute('data-inputRequired','false');
-		}	
-		// gOrderLotNum
-		var gOrderLotNum = form.elements['gOrderLotNum'];
-		var judgeGOrderLotNum = false;
-		if(typeof gOrderLotNum!=undefined && gOrderLotNum!=null){
-			var orderNum = document.getElementById('orderNum');
-			var orderPrice = document.getElementById('orderPrice');
-			judgeGOrderLotNum = (gOrderLotNum.value>=1 && gOrderLotNum.value%1==0)?true:false;
-			if(judgeGOrderLotNum==true){
-				gOrderLotNum.setAttribute('data-inputRequired','true');
-				// 発注数[個]/発注額[円]の算出
-				var lotPcs = '${amountCalcAllListMap[productNoKey][0].lotPcs}'!=''?'${amountCalcAllListMap[productNoKey][0].lotPcs}':0;
-				var unitPrice = '${amountCalcAllListMap[productNoKey][0].unitPrice}'!=''?'${amountCalcAllListMap[productNoKey][0].unitPrice}':0;
-				orderNum.innerHTML = '：' + (gOrderLotNum.value * lotPcs);
-				orderPrice.innerHTML = '：' + (gOrderLotNum.value * lotPcs * unitPrice);
-			}else{
-				gOrderLotNum.setAttribute('data-inputRequired','false');
-				// 発注数[個]/発注額[円]の表示
-				orderNum.innerHTML = '：';
-				orderPrice.innerHTML = '：';
-			}
-		}
-		// doExecuteBTNのdisabled属性変更
-		if(document.getElementsByName('doExecuteBTN').length==1){
-			if((judgeGProductNo && judgeGOrderLotNum)==true){
 				form.elements['doExecuteBTN'].removeAttribute('disabled');
 			}else{
 				form.elements['doExecuteBTN'].setAttribute('disabled','disabled');

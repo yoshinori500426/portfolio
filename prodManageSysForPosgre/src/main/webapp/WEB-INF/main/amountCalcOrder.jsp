@@ -48,11 +48,11 @@
 				<div class="row">
 					<p class="col-xs-2">品番&nbsp;<span class="label label-danger">必須</span></p>
 					<p class="col-xs-4">：<select style="width: 200px; height: 20.5px;" name="gProductNo" class="inputRequired" data-inputRequired="false" onChange="doExecute2('productNoCheck')">
-												<option value=""></option>
-												<c:forEach var="pmlf" items="${productMasterListFinal}" >
-													<option value="${pmlf.productNo}">${pmlf.productNo}</option>
-												</c:forEach>
-											</select>
+											<option value=""></option>
+											<c:forEach var="pmlf" items="${productMasterListFinal}" >
+												<option value="${pmlf.productNo}">${pmlf.productNo}</option>
+											</c:forEach>
+										 </select>
 					</p>
 					<p class="col-xs-2">
 						<%-- 以下、品番未入力で非表示にする --%>

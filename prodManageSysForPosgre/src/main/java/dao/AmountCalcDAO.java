@@ -50,7 +50,7 @@ public class AmountCalcDAO extends DAO {
 		Map<String, List<AmountCalcAll>> amountCalcAllListMap = null;
 		// Mapに代入するリストを宣言
 		List<AmountCalcAll> amountCalcAllList = null;
-		// 使用するbeanの宣言
+		// リストに格納するbeanの宣言
 		AmountCalcAll amountCalcAll = null;
 		// テーブル｢ProductMaster｣から､｢PRODUCT_NO｣リスト取得
 		List<ProductMaster> productMasterList = searchAll();
@@ -111,7 +111,7 @@ public class AmountCalcDAO extends DAO {
 					amountCalcAll.setForSumQty(rs.getInt("FOR_SUM_QTY"));
 					amountCalcAll.setCumulativeQty(rs.getInt("CUMULATIVE_QTY"));
 					// 基本在庫数を変数｢basestock｣へ格納
-					// →基本在庫数は､各品番の1行目のみに格納されている
+					// →View｢AMOUNT_CALC_ALL｣では､基本在庫数は､各品番の1行目のみに格納されている
 					if (countForRecord == 1) {
 						basestock = amountCalcAll.getBasestock();
 						// フィールド｢orderFinFlg｣は､
@@ -123,7 +123,7 @@ public class AmountCalcDAO extends DAO {
 						amountCalcAll.setOrderFinFlg("1");
 					}
 					// 処理している｢PRODUCT_NO｣が､在庫テーブル(PURODUCT_STOCK)にない場合の処理
-					if (countForRecord == 1 && rs.getString("STOCK_INFO_MONTH") == null) {
+					if ((countForRecord == 1) && (rs.getString("STOCK_INFO_MONTH")) == null) {
 						outPutMSG(session,
 								"テーブル｢PURODUCT_STOCK｣に､品目｢" + productMaster.getProductNo()
 										+ "｣がありません｡ <br>&emsp;&emsp;&emsp;&emsp;&emsp;管理者に連絡して下さい､処理を終了します｡",
