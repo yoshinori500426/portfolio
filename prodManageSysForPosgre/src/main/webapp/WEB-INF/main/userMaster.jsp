@@ -113,4 +113,33 @@
 				</div>
 			</form>
 		</div>
+	<hr>
+		<div class="row">
+			<div class="col-xs-1"></div>
+			<div class="col-xs-10">
+			    <h1 class="h5">登録済みユーザレコード(動作確認用)</h1>
+				<table class="table table-bordered table-hover">
+					<thead class="thead-dark">
+						<tr>
+							<th scope="col">ユーザID</th>
+							<th scope="col">ユーザ名</th>
+							<th scope="col">パスワード</th>
+							<th scope="col">分類</th>
+							<th scope="col">入社日</th>
+						</tr>
+					</thead>
+					<c:forEach var="umPF" items="${UmListPF}">
+						<tbody>
+							<tr>
+								<td>${umPF.userId}</td>
+								<td>${umPF.name}</td>
+								<td>${umPF.password}</td>
+								<td>${umPF.dept}</td>
+								<td>${umPF.hireDate}</td>
+							</tr>
+						</tbody>
+					</c:forEach>
+				</table>
+			</div>
+			<div class="col-xs-1"></div>
 <%@ include file="../footer.jsp"%>

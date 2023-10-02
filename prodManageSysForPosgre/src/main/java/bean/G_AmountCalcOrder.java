@@ -127,5 +127,4 @@ public class G_AmountCalcOrder implements java.io.Serializable {
 	public void setOrderPrice(String orderPrice) {
 		this.orderPrice = orderPrice;
 	}
-
 }

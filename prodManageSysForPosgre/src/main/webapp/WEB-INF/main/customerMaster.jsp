@@ -147,4 +147,31 @@
 				</div>
 			</form>
 		</div>
+	<hr>
+		<div class="row">
+			<div class="col-xs-1"></div>
+			<div class="col-xs-10">
+			    <h1 class="h5">登録済み顧客レコード(動作確認用)</h1>
+				<table class="table table-bordered table-hover">
+					<thead class="thead-dark">
+						<tr>
+							<th scope="col">顧客コード</th>
+							<th scope="col">会社名</th>
+							<th scope="col">電話番号</th>
+							<th scope="col">輸送リードタイム</th>
+						</tr>
+					</thead>
+					<c:forEach var="cmPF" items="${CmListPF}">
+						<tbody>
+							<tr>
+								<td>${cmPF.customerNo}</td>
+								<td>${cmPF.customerName}</td>
+								<td>${cmPF.tel}</td>
+								<td class="text-right">${cmPF.delivaryLeadtime}</td>
+							</tr>
+						</tbody>
+					</c:forEach>
+				</table>
+			</div>
+			<div class="col-xs-1"></div>
 <%@ include file="../footer.jsp"%>

@@ -20,8 +20,6 @@ public class LogoutAction extends Action {
 		session.setAttribute("loginState", null);
 		// 画面遷移時の接触属性クリア処理
 		new MainAction().crearAttributeForScreenChange(session);
-		// 遷移画面情報保存
-		session.setAttribute("nextJsp", "/WEB-INF/main/login.jsp");
 		return "/WEB-INF/main/login.jsp";
 	}
 }

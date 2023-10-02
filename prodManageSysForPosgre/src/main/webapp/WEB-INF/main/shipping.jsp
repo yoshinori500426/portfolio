@@ -147,4 +147,35 @@
 				</div>
 			</form>
 		</div>
+	<hr>
+		<div class="row">
+			<div class="col-xs-1"></div>
+			<div class="col-xs-10">
+			    <h1 class="h5">登録済み受注レコード(動作確認用)</h1>
+				<table class="table table-bordered table-hover">
+					<thead class="thead-dark">
+						<tr>
+							<th scope="col">受注番号</th>
+							<th scope="col">顧客コード</th>
+							<th scope="col">品番</th>
+							<th scope="col">数量</th>
+							<th scope="col">納期</th>
+							<th scope="col">状態</th>
+						</tr>
+					</thead>
+					<c:forEach var="poPF" items="${PoListPF}">
+						<tbody>
+							<tr>
+								<td>${poPF.poNo}</td>
+								<td>${poPF.customerNo}</td>
+								<td>${poPF.productNo}</td>
+								<td class="text-right">${poPF.orderQty}</td>
+								<td>${poPF.deliveryDate}</td>
+								<td>${poPF.finFlg=='1'?'出荷済':'未出荷'}</td>
+							</tr>
+						</tbody>
+					</c:forEach>
+				</table>
+			</div>
+			<div class="col-xs-1"></div>
 <%@ include file="../footer.jsp"%>

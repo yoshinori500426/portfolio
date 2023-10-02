@@ -2,6 +2,7 @@ package tool;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,6 +10,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import action.MainAction;
+import bean.ProductMaster;
+import dao.ProductMasterDAO;
 
 /**
  * Servlet implementation class FrontController
@@ -48,18 +53,21 @@ public class FrontController extends HttpServlet {
 			Action action = (Action) Class.forName(name).newInstance();
 			String url = action.execute(request, response);
 			session.setAttribute("nextJsp", url);
-
-//			// 動作確認用の処理(portfolioとして成立させる為､テーブル情報を公開する事が目的)
-//			// 以下項目をセッション属性として挙げる
-//			// 画面毎に必要な情報は変化するが､今回は､必要な全ての情報をセッション属性に挙げ､JSPファイルのEL式で表示内容を切り替える仕様とする
-//			// (セッション属性に挙げる段では場合分けしない)
-//			// ①登録済みJanコード
-//			List<ProductDrink> pdListPF = new ProductDrinkDAO().searchProductDrinkAll();
-//			session.setAttribute("pdListPF", pdListPF);
-//			// ②登録済みユーザ
-//			List<Users> usListPF = new UsersDAO().searchUsersAll();
-//			session.setAttribute("usListPF", usListPF);
-
+			// 初期画面遷移のタイミングで以下画面のプルダウン用リスト取得要の為､このStepにコードを記述
+			//   ｢/WEB-INF/main/stockList.jsp｣｢/WEB-INF/main/purchaseOrderList.jsp｣｢/WEB-INF/main/orderList.jsp｣｢/WEB-INF/main/entryExitInfoList.jsp｣
+			@SuppressWarnings("unchecked")
+			List<ProductMaster> ProductMasterList = (List<ProductMaster>) session.getAttribute("ProductMasterList");
+			if (ProductMasterList == null && (url.equals("/WEB-INF/main/stockList.jsp")
+											|| url.equals("/WEB-INF/main/purchaseOrderList.jsp")
+											|| url.equals("/WEB-INF/main/orderList.jsp")
+											|| url.equals("/WEB-INF/main/entryExitInfoList.jsp"))) {
+				// プルダウン用リスト取得
+				ProductMasterDAO pmDAO = new ProductMasterDAO();
+				ProductMasterList = pmDAO.searchAll();
+				session.setAttribute("ProductMasterList", ProductMasterList);
+			}
+			// 動作確認用の処理(portfolioとして成立させる事を目的とした､テーブル情報を取得メソッド)
+			new MainAction().getListsForPortfolio(request);
 			request.getRequestDispatcher(url).forward(request, response);
 		} catch (Exception e) {
 			e.printStackTrace(out);

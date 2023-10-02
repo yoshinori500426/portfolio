@@ -24,7 +24,7 @@
 			<form action="OrderList.action" method="post">
 			    <input type="hidden" name="toAction" data-changeDisabled="0">
 			    <%-- 切り替えボタンは存在しないが､｢update｣と同様の動作を行わせる為､値｢update｣を固定値とする --%>
-				<input type="hidden" name="btnSelect" data-changeDisabled="0" value="update" >
+				<input type="hidden" name="btnSelect" data-changeDisabled="0" value="update">
 				<div class="row">
 					<div class="col-xs-2"></div>
 					<label class="form-label col-xs-3 text-left" for="productNo">品番&nbsp;<span class="label label-danger">必須</span></label>

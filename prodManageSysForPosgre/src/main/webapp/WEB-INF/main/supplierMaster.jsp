@@ -139,4 +139,29 @@
 				</div>
 			</form>
 		</div>
+	<hr>
+		<div class="row">
+			<div class="col-xs-1"></div>
+			<div class="col-xs-10">
+			    <h1 class="h5">登録済み仕入先レコード(動作確認用)</h1>
+				<table class="table table-bordered table-hover">
+					<thead class="thead-dark">
+						<tr>
+							<th scope="col">仕入先コード</th>
+							<th scope="col">会社名</th>
+							<th scope="col">電話番号</th>
+						</tr>
+					</thead>
+					<c:forEach var="smPF" items="${SmListPF}">
+						<tbody>
+							<tr>
+								<td>${smPF.supplierNo}</td>
+								<td>${smPF.supplierName}</td>
+								<td>${smPF.tel}</td>
+							</tr>
+						</tbody>
+					</c:forEach>
+				</table>
+			</div>
+			<div class="col-xs-1"></div>
 <%@ include file="../footer.jsp"%>

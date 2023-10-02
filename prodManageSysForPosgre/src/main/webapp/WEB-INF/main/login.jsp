@@ -59,14 +59,14 @@
 				<table class="table table-bordered table-hover">
 					<thead class="thead-dark">
 						<tr>
-							<th scope="col">ログイン名</th>
+							<th scope="col">ログインID</th>
 							<th scope="col">パスワード</th>
 						</tr>
 					</thead>
-					<c:forEach var="usPF" items="${usListPF}">
+					<c:forEach var="usPF" items="${UmListPF}">
 						<tbody>
 							<tr>
-								<td>${usPF.userID}</td>
+								<td>${usPF.userId}</td>
 								<td>${usPF.password}</td>
 							</tr>
 						</tbody>

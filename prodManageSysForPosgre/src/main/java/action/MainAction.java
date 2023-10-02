@@ -1,5 +1,9 @@
 package action;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -7,9 +11,22 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import bean.CustomerMaster;
+import bean.EntryExitInfo;
+import bean.OrderTable;
+import bean.ProductMaster;
+import bean.PurchaseOrder;
+import bean.SupplierMaster;
 import bean.UserMaster;
 import dao.AmountCalcDAO;
 import dao.CreateTableDAO;
+import dao.CustomerMasterDAO;
+import dao.EntryExitInfoDAO;
+import dao.OrderTableDAO;
+import dao.ProductMasterDAO;
+import dao.PurchaseOrderDAO;
+import dao.SupplierMasterDAO;
+import dao.UserMasterDAO;
 import tool.Action;
 
 public class MainAction extends Action {
@@ -52,7 +69,6 @@ public class MainAction extends Action {
 		} else {
 			toAction = "/WEB-INF/" + toAction;
 		}
-		session.setAttribute("nextJsp", toAction);
 		return toAction;
 	}
 
@@ -128,6 +144,7 @@ public class MainAction extends Action {
 		// 検索値削除
 		session.setAttribute("PurchaseOrder", null);
 		session.setAttribute("PurchaseOrderList", null);
+		session.setAttribute("PurchaseOrderListWithProNameAndCusName", null);
 		session.setAttribute("PurchaseOrderListFinFlg0", null);
 		session.setAttribute("OrderTable", null);
 		session.setAttribute("OrderTableList", null);
@@ -147,9 +164,23 @@ public class MainAction extends Action {
 		session.setAttribute("UserMasterList", null);
 		// 画面「amountCalc.jsp」「amountCalcOrder.jsp」で使用したセッション属性のnullクリア
 		session.setAttribute("therad", null);
+		Connection con = (Connection) session.getAttribute("con");
+		PreparedStatement st = (PreparedStatement) session.getAttribute("st");
+		try {
+			if(con!=null) {
+				con.close();
+				session.setAttribute("con", null);
+			}
+			if(st!=null) {
+				st.close();
+				session.setAttribute("st", null);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		new AmountCalcDAO().outPutMSG(session, null, null, null, null);
 		new AmountCalcDAO().changeAttribute(session, null, null);
-		// 画面「*Master.jsp」で使用したセッション属性のnullクリア
+		// ボタン選択状態保持で使用したセッション属性のnullクリア
 		session.setAttribute("btnSelect", null);
 	}
 
@@ -171,5 +202,46 @@ public class MainAction extends Action {
 	 */
 	public String dateChangeForHTML(String inputDate) {
 		return (inputDate != null && !inputDate.isEmpty()) ? inputDate.replace("/", "-") : "";
+	}
+
+	/**
+	 * 動作確認用メソッド(portfolioとして成立させる為､テーブル情報を公開する事が目的のメソッド)
+	 *
+	 * @param DBから渡される｢YYYY/MM/DD｣形式の日時
+	 * @return HTMLに入力する｢YYYY-MM-DD｣形式の日付
+	 */
+	public void getListsForPortfolio(HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		// 動作確認用の処理(portfolioとして成立させる為､テーブル情報を公開する事が目的)
+		// 以下条件とする
+		// ･画面毎に必要な情報は変化するが､今回は､必要な全ての情報をセッション属性に挙げ､JSPファイルのEL式で表示内容を切り替える仕様とする
+		// ➔セッション属性に挙げる段では場合分けしない
+		// ･このセッション属性は､nullクリアしない
+		// ➔常に指定テーブルのインスタンスがUPされている状態とする
+		// ･在庫テーブル(PURODUCT_STOCK)は､直接編集する画面が存在しない為､セッション属性としてUPしない
+		// ･在庫確認画面用ビュー(STOCK_LIST_ALL)は参照のみの為､セッション属性としてUPしない
+		// ･所要量計算用ビュー(AMOUNT_CALC_ALL)は参照のみの為､セッション属性としてUPしない
+		// 以下項目をセッション属性として挙げる
+		// ①ユーザーマスタ（USER_MASTER)テーブル
+		List<UserMaster> UmListPF = new UserMasterDAO().searchAllForPortfolio();
+		session.setAttribute("UmListPF", UmListPF);
+		// ②品番マスタ（PRODUCT_MASTER)テーブル
+		List<ProductMaster> PmListPF = new ProductMasterDAO().searchAll();
+		session.setAttribute("PmListPF", PmListPF);
+		// ③顧客先マスタ(CUSTOMER_MASTER)テーブル
+		List<CustomerMaster> CmListPF = new CustomerMasterDAO().searchAll();
+		session.setAttribute("CmListPF", CmListPF);
+		// ④仕入先マスタ(SUPPLIER_MASTER)テーブル
+		List<SupplierMaster> SmListPF = new SupplierMasterDAO().searchAll();
+		session.setAttribute("SmListPF", SmListPF);
+		// ⑤受注テーブル(PURCHASE_ORDER)テーブル
+		List<PurchaseOrder> PoListPF = new PurchaseOrderDAO().searchAllForPortfolio();
+		session.setAttribute("PoListPF", PoListPF);
+		// ⑥入出庫テーブル(ENTRY_EXIT_INFO)テーブル
+		List<EntryExitInfo> EeiListPF = new EntryExitInfoDAO().searchAllForPortfolio();
+		session.setAttribute("EeiListPF", EeiListPF);
+		// ⑦発注テーブル(ORDER_TABLE)テーブル
+		List<OrderTable> OtListPF = new OrderTableDAO().searchAllForPortfolio();
+		session.setAttribute("OtListPF", OtListPF);
 	}
 }

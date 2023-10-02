@@ -30,8 +30,6 @@ public class PurchaseOrderListAction extends Action {
 			new MainAction().crearAttributeForScreenChange(session);
 			// メッセージ作成
 			session.setAttribute("message", "セッション切れの為､ログイン画面に移動しました｡");
-			// 画面遷移先登録
-			session.setAttribute("nextJsp", "/WEB-INF/main/login.jsp");
 			return "/WEB-INF/main/login.jsp";
 		}
 		// 各メッセージリセット
@@ -71,9 +69,6 @@ public class PurchaseOrderListAction extends Action {
 		G_PurchaseOrderList.setSort(request.getParameter("sort") == null ? "" : request.getParameter("sort"));
 		session.setAttribute("G_PurchaseOrderList", G_PurchaseOrderList);
 		switch (toAction) {
-		case "searchProductMasterList":
-			// ｢ProductMasterList｣取得のみの為､caseでは処理を行わない
-			break;
 		case "searchProductNo":
 			// ProductNoのクリア動作
 			if (G_PurchaseOrderList.getProductNo().isEmpty()) {
@@ -143,8 +138,6 @@ public class PurchaseOrderListAction extends Action {
 		// プルダウン用リスト取得
 		ProductMasterList = pmDAO.searchAll();
 		session.setAttribute("ProductMasterList", ProductMasterList);
-		// 遷移画面情報保存
-		session.setAttribute("nextJsp", "/WEB-INF/main/purchaseOrderList.jsp");
 		return "/WEB-INF/main/purchaseOrderList.jsp";
 	}
 

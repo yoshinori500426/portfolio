@@ -14,164 +14,6 @@ import bean.EntryExitInfo;
 import bean.G_EntryExitInfo;
 import bean.UserMaster;
 
-
-//public EntryExitInfo searchByProNo(String proNo) throws Exception {
-//	EntryExitInfo enEx = null;
-//
-//	Connection con = getConnection();
-//
-//	PreparedStatement st;
-//	st = con.prepareStatement(
-//			"SELECT EEI.EN_EX_ID, PM.PRODUCT_NAME, EEI.EN_EX_DATE, EEI.PRODUCT_NO, EEI.NYUKO_QTY, EEI.SYUKO_QTY, EEI.REASON FROM ENTRY_EXIT_INFO EEI INNER JOIN PRODUCT_MASTER PM ON EEI.PRODUCT_NO = PM.PRODUCT_NO WHERE EEI.PRODUCT_NO = ?");
-//	st.setString(1, proNo);
-//	ResultSet rs = st.executeQuery();
-//
-//	while (rs.next()) {
-//		enEx = new EntryExitInfo();
-//		enEx.setEnExId(rs.getString("EN_EX_ID"));
-//		enEx.setEnExDate(rs.getString("EN_EX_DATE"));
-//		enEx.setProductNo(rs.getString("PRODUCT_NO"));
-//		enEx.setNyukoQty(rs.getInt("NYUKO_QTY"));
-//		enEx.setSyukoQty(rs.getInt("SYUKO_QTY"));
-//		enEx.setReason(rs.getString("REASON"));
-//		enEx.setProductName(rs.getString("PRODUCT_NAME"));
-//
-//	}
-//
-//	st.close();
-//	con.close();
-//	return enEx;
-//}
-//
-//	public List<EntryExitInfo> execution(String productNo) throws Exception {
-//		List<EntryExitInfo> list = new ArrayList<>();
-//
-//		Connection con = getConnection();
-//		PreparedStatement st = con.prepareStatement("SELECT * FROM ENTRY_EXIT_INFO WHERE PRODUCT_NO = ?");
-//		st.setString(1, productNo);//(何番目の?か,置き換えるキーワード)
-//		ResultSet rs = st.executeQuery();
-//
-//		while (rs.next()) {
-//			EntryExitInfo enEx = new EntryExitInfo();
-//			enEx.setEnExId(rs.getString("EN_EX_ID"));
-//			enEx.setEnExDate(rs.getString("EN_EX_DATE"));
-//			if (rs.getInt("NYUKO_QTY") >=1) {
-//				enEx.setJudge("入");
-//				enEx.setCount(rs.getInt("NYUKO_QTY"));
-//			} else if (rs.getInt("SYUKO_QTY") >=1) {
-//				enEx.setCount(rs.getInt("SYUKO_QTY"));
-//				enEx.setJudge("出");
-//			}
-//			enEx.setReason(rs.getString("REASON"));
-//			list.add(enEx);
-//		}
-//		st.close();
-//		con.close();
-//
-//		return list;
-//	}
-//	public List<EntryExitInfo> searchEntry(String productNo) throws Exception {
-//		List<EntryExitInfo> list = new ArrayList<>();
-//
-//		Connection con = getConnection();
-//		PreparedStatement st = con.prepareStatement("SELECT * FROM ENTRY_EXIT_INFO WHERE PRODUCT_NO = ? AND SYUKO_QTY >= 1");
-//		st.setString(1, productNo);//(何番目の?か,置き換えるキーワード)
-//		ResultSet rs = st.executeQuery();
-//
-//		while (rs.next()) {
-//			EntryExitInfo enEx = new EntryExitInfo();
-//			enEx.setEnExId(rs.getString("EN_EX_ID"));
-//			enEx.setEnExDate(rs.getString("EN_EX_DATE"));
-//			enEx.setJudge("出");
-//			enEx.setCount(rs.getInt("SYUKO_QTY"));
-//			enEx.setReason(rs.getString("REASON"));
-//			list.add(enEx);
-//		}
-//		st.close();
-//		con.close();
-//
-//		return list;
-//	}
-//
-//	public List<EntryExitInfo> searchIssue(String productNo) throws Exception {
-//		List<EntryExitInfo> list = new ArrayList<>();
-//
-//		Connection con = getConnection();
-//		PreparedStatement st = con.prepareStatement("SELECT * FROM ENTRY_EXIT_INFO WHERE PRODUCT_NO = ? AND NYUKO_QTY >= 1");
-//		st.setString(1, productNo);//(何番目の?か,置き換えるキーワード)
-//		ResultSet rs = st.executeQuery();
-//
-//		while (rs.next()) {
-//			EntryExitInfo enEx = new EntryExitInfo();
-//			enEx.setEnExId(rs.getString("EN_EX_ID"));
-//			enEx.setEnExDate(rs.getString("EN_EX_DATE"));
-//			enEx.setJudge("入");
-//			enEx.setCount(rs.getInt("NYUKO_QTY"));
-//			enEx.setReason(rs.getString("REASON"));
-//			list.add(enEx);
-//		}
-//		st.close();
-//		con.close();
-//
-//		return list;
-//	}
-//	public List<EntryExitInfo> searchStDate(EntryExitInfo eei) throws Exception {
-//		List<EntryExitInfo> list = new ArrayList<>();
-//
-//		Connection con = getConnection();
-//		PreparedStatement st = con.prepareStatement("SELECT * FROM ENTRY_EXIT_INFO WHERE PRODUCT_NO = ? AND EN_EX_DATE >= ?");
-//		st.setString(1, eei.getProductNo());//(何番目の?か,置き換えるキーワード)
-//		st.setString(2, eei.getEnExDate());//(何番目の?か,置き換えるキーワード)
-//		ResultSet rs = st.executeQuery();
-//
-//		while (rs.next()) {
-//			EntryExitInfo enEx = new EntryExitInfo();
-//			enEx.setEnExDate(rs.getString("EN_EX_DATE"));
-//			if (rs.getInt("NYUKO_QTY") >= 1) {
-//				enEx.setJudge("入");
-//				enEx.setCount(rs.getInt("NYUKO_QTY"));
-//			}else {
-//				enEx.setJudge("出");
-//				enEx.setCount(rs.getInt("SYUKO_QTY"));
-//			}
-//			enEx.setReason(rs.getString("REASON"));
-//			list.add(enEx);
-//		}
-//		st.close();
-//		con.close();
-//
-//		return list;
-//	}
-//
-//	public List<EntryExitInfo> searchEdDate(EntryExitInfo eei) throws Exception {
-//		List<EntryExitInfo> list = new ArrayList<>();
-//
-//		Connection con = getConnection();
-//		PreparedStatement st = con.prepareStatement("SELECT * FROM ENTRY_EXIT_INFO WHERE PRODUCT_NO = ? AND EN_EX_DATE <= ?");
-//		st.setString(1, eei.getProductNo());
-//		st.setString(2, eei.getEnExDate());
-//		ResultSet rs = st.executeQuery();
-//
-//		while (rs.next()) {
-//			EntryExitInfo enEx = new EntryExitInfo();
-//			enEx.setEnExDate(rs.getString("EN_EX_DATE"));
-//			if (rs.getInt("NYUKO_QTY") >= 1) {
-//				enEx.setJudge("入");
-//				enEx.setCount(rs.getInt("NYUKO_QTY"));
-//			}else {
-//				enEx.setJudge("出");
-//				enEx.setCount(rs.getInt("SYUKO_QTY"));
-//			}
-//			enEx.setReason(rs.getString("REASON"));
-//			list.add(enEx);
-//		}
-//		st.close();
-//		con.close();
-//
-//		return list;
-//	}
-//
-
 public class EntryExitInfoDAO extends DAO {
 	/**
 	 * ENTRY_EXIT_INFOテーブル参照メソッド
@@ -205,7 +47,7 @@ public class EntryExitInfoDAO extends DAO {
 		}
 		return EntryExitInfo;
 	}
-	
+
 	/**
 	 * ENTRY_EXIT_INFOテーブル参照メソッド
 	 * 
@@ -215,7 +57,6 @@ public class EntryExitInfoDAO extends DAO {
 	public EntryExitInfo searchByEnId(G_EntryExitInfo G_EntryExitInfo) {
 		return searchByEnId(G_EntryExitInfo.getEnExId());
 	}
-	
 
 	/**
 	 * ENTRY_EXIT_INFOテーブル取得メソッド(検索条件なし)
@@ -253,7 +94,7 @@ public class EntryExitInfoDAO extends DAO {
 		}
 		return EntryExitInfoList;
 	}
-	
+
 	/**
 	 * ENTRY_EXIT_INFOテーブルへの新規登録メソッド
 	 * 
@@ -309,17 +150,17 @@ public class EntryExitInfoDAO extends DAO {
 			st.setString(1, EN_EX_ID);
 			st.setString(2, G_EntryExitInfo.getEnExDate()); // 入出庫日
 			st.setString(3, G_EntryExitInfo.getProductNo());
-			if(!G_EntryExitInfo.getNyukoQty().equals("")&&G_EntryExitInfo.getSyukoQty().equals("")) {
+			if (!G_EntryExitInfo.getNyukoQty().equals("") && G_EntryExitInfo.getSyukoQty().equals("")) {
 				st.setInt(4, Integer.parseInt(G_EntryExitInfo.getNyukoQty()));
 				st.setNull(5, java.sql.Types.INTEGER);
-			}else if(G_EntryExitInfo.getNyukoQty().equals("")&&!G_EntryExitInfo.getSyukoQty().equals("")) {
+			} else if (G_EntryExitInfo.getNyukoQty().equals("") && !G_EntryExitInfo.getSyukoQty().equals("")) {
 				st.setNull(4, java.sql.Types.INTEGER);
 				st.setInt(5, Integer.parseInt(G_EntryExitInfo.getSyukoQty()));
-			}else {
+			} else {
 				return line;
 			}
 			st.setString(6, G_EntryExitInfo.getReason());
-			st.setString(7, G_EntryExitInfo.getRegistDate()); //登録日
+			st.setString(7, G_EntryExitInfo.getRegistDate()); // 登録日
 			st.setString(8, user.getUserId());
 			line = st.executeUpdate();
 			st.close();
@@ -345,13 +186,13 @@ public class EntryExitInfoDAO extends DAO {
 			PreparedStatement st = null;
 			st = con.prepareStatement("UPDATE ENTRY_EXIT_INFO SET EN_EX_DATE=?, NYUKO_QTY=?, SYUKO_QTY=?, REASON=? WHERE EN_EX_ID=?");
 			st.setString(1, G_EntryExitInfo.getEnExDate());
-			if(!G_EntryExitInfo.getNyukoQty().equals("")&&G_EntryExitInfo.getSyukoQty().equals("")) {
+			if (!G_EntryExitInfo.getNyukoQty().equals("") && G_EntryExitInfo.getSyukoQty().equals("")) {
 				st.setInt(2, Integer.parseInt(G_EntryExitInfo.getNyukoQty()));
 				st.setNull(3, java.sql.Types.INTEGER);
-			}else if(G_EntryExitInfo.getNyukoQty().equals("")&&!G_EntryExitInfo.getSyukoQty().equals("")) {
+			} else if (G_EntryExitInfo.getNyukoQty().equals("") && !G_EntryExitInfo.getSyukoQty().equals("")) {
 				st.setNull(2, java.sql.Types.INTEGER);
 				st.setInt(3, Integer.parseInt(G_EntryExitInfo.getSyukoQty()));
-			}else {
+			} else {
 				return line;
 			}
 			st.setString(4, G_EntryExitInfo.getReason());
@@ -365,7 +206,7 @@ public class EntryExitInfoDAO extends DAO {
 		}
 		return line;
 	}
-	
+
 	/**
 	 * ENTRY_EXIT_INFOテーブルへの更新メソッド
 	 * 
@@ -388,5 +229,42 @@ public class EntryExitInfoDAO extends DAO {
 			e.printStackTrace();
 		}
 		return line;
+	}
+
+	/**
+	 * ENTRY_EXIT_INFOテーブル取得メソッド(検索条件なし)
+	 *  →動作確認用メソッド(=portfolioとして成立させる為､テーブル情報を公開する事が目的)
+	 *
+	 * @param 引数無し
+	 * @return List<EntryExitInfo> 「null：失敗」「null以外：成功」
+	 */
+	public List<EntryExitInfo> searchAllForPortfolio() {
+		// 戻り値用の変数宣言
+		List<EntryExitInfo> EntryExitInfoList = new ArrayList<>();
+		EntryExitInfo EntryExitInfo = null;
+		try {
+			Connection con = getConnection();
+			PreparedStatement st;
+			st = con.prepareStatement("SELECT * FROM ENTRY_EXIT_INFO ORDER BY EN_EX_ID DESC");
+			ResultSet rs = st.executeQuery();
+			while (rs.next()) {
+				EntryExitInfo = new EntryExitInfo();
+				EntryExitInfo.setEnExId(rs.getString("EN_EX_ID"));
+				EntryExitInfo.setEnExDate(rs.getString("EN_EX_DATE"));
+				EntryExitInfo.setProductNo(rs.getString("PRODUCT_NO"));
+				EntryExitInfo.setNyukoQty(rs.getInt("NYUKO_QTY"));
+				EntryExitInfo.setSyukoQty(rs.getInt("SYUKO_QTY"));
+				EntryExitInfo.setReason(rs.getString("REASON"));
+				EntryExitInfo.setRegistDate(rs.getString("REGIST_DATE"));
+				EntryExitInfo.setRegistUser(rs.getString("REGIST_USER"));
+				EntryExitInfoList.add(EntryExitInfo);
+			}
+			st.close();
+			con.close();
+		} catch (Exception e) {
+			System.out.println("SQLでエラーが発生しました。");
+			e.printStackTrace();
+		}
+		return EntryExitInfoList;
 	}
 }

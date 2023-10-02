@@ -15,31 +15,6 @@ import bean.G_UserMaster;
 import bean.UserMaster;
 
 public class UserMasterDAO extends DAO {
-//	public boolean checkUserExist(G_UserMaster G_UserMaster) {
-//		boolean judge = false;
-//		int count = 0;
-//		try {
-//			Connection con = getConnection();
-//			PreparedStatement st = con.prepareStatement("SELECT * FROM USER_MASTER WHERE USER_ID=? AND PASSWORD=?");
-//			st.setString(1, G_UserMaster.getUserId());
-//			st.setString(2, G_UserMaster.getPassword());
-//
-//			ResultSet rs = st.executeQuery();
-//			while (rs.next()) {
-//				count++;
-//			}
-//			if (count == 1) {
-//				judge = true;
-//			}
-//			st.close();
-//			con.close();
-//		} catch (Exception e) {
-//			System.out.println("SQLでエラーが発生しました。");
-//			e.printStackTrace();
-//		}
-//		return judge;
-//	}
-
 	/**
 	 * 引数のユーザID/パスワードに合致するレコード情報を取得するメソッド
 	 * 
@@ -100,7 +75,8 @@ public class UserMasterDAO extends DAO {
 	}
 
 	/**
-	 * UserMasterテーブル取得メソッド(検索条件なし) →USER_IDリスト取得用メソッド
+	 * UserMasterテーブル取得メソッド(検索条件なし)
+	 *  →USER_IDリスト取得用メソッド
 	 *
 	 * @param 引数無し
 	 * @return List<UserMaster> 「null：失敗」「null以外：成功」
@@ -239,5 +215,42 @@ public class UserMasterDAO extends DAO {
 			e.printStackTrace();
 		}
 		return line;
+	}
+	
+	/**
+	 * UserMasterテーブル取得メソッド(検索条件なし)
+	 *  →動作確認用メソッド(=portfolioとして成立させる為､テーブル情報を公開する事が目的)
+	 *
+	 * @param 引数無し
+	 * @return List<UserMaster> 「null：失敗」「null以外：成功」
+	 */
+	public List<UserMaster> searchAllForPortfolio() {
+		// 戻り値用の変数宣言
+		List<UserMaster> UserMasterList = new ArrayList<>();
+		UserMaster UserMaster = null;
+		try {
+			Connection con = getConnection();
+			PreparedStatement st;
+			st = con.prepareStatement("SELECT * FROM USER_MASTER ORDER BY USER_ID ASC");
+			ResultSet rs = st.executeQuery();
+			while (rs.next()) {
+				UserMaster = new UserMaster();
+				UserMaster.setUserId(rs.getString("USER_ID"));
+				UserMaster.setName(rs.getString("NAME"));
+				UserMaster.setPassword(rs.getString("PASSWORD"));
+				UserMaster.setDept(rs.getString("DEPT"));
+				UserMaster.setEtc(rs.getString("ETC"));
+				UserMaster.setHireDate(rs.getString("HIRE_DATE"));
+				UserMaster.setRegistDate(rs.getString("REGIST_DATE"));
+				UserMaster.setRegistUser(rs.getString("REGIST_USER"));
+				UserMasterList.add(UserMaster);
+			}
+			st.close();
+			con.close();
+		} catch (Exception e) {
+			System.out.println("SQLでエラーが発生しました。");
+			e.printStackTrace();
+		}
+		return UserMasterList;
 	}
 }

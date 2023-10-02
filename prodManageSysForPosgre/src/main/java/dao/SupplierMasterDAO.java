@@ -19,7 +19,8 @@ import bean.UserMaster;
 public class SupplierMasterDAO extends DAO {
 	/**
 	 * SupplierMasterテーブル参照メソッド
-	 * →SUPPLIER_NOでサーチ
+	 *  →SUPPLIER_NOでサーチ
+	 * 
 	 * @param 仕入先コード
 	 * @return SupplierMasterビーン 「null：失敗」「インスタンス有：成功」
 	 */
@@ -54,29 +55,31 @@ public class SupplierMasterDAO extends DAO {
 		}
 		return SupplierMaster;
 	}
-	
+
 	/**
 	 * SupplierMasterテーブル参照メソッド
-	 * →SUPPLIER_NOでサーチ
+	 *  →SUPPLIER_NOでサーチ
+	 * 
 	 * @param G_SupplierMasterビーン
 	 * @return SupplierMasterビーン 「null：失敗」「インスタンス有：成功」
 	 */
 	public SupplierMaster searchBySupNo(G_SupplierMaster G_SupplierMaster) {
 		return searchBySupNo(G_SupplierMaster.getSupplierNo());
 	}
-	
+
 	/**
 	 * SupplierMasterテーブル参照メソッド
-	 * →SUPPLIER_NOでサーチ
+	 *  →SUPPLIER_NOでサーチ
+	 * 
 	 * @param G_Supplierビーン
 	 * @return SupplierMasterビーン 「null：失敗」「インスタンス有：成功」
 	 */
 	public SupplierMaster searchBySupNo(G_Arrival G_Arrival) {
 		return searchBySupNo(G_Arrival.getSupplierNo());
 	}
-	
+
 	/**
-	 * SupplierMasterテーブル取得メソッド(検索条件なし) →SUPPLIER_NOリスト取得用メソッド
+	 * SupplierMasterテーブル取得メソッド(検索条件なし)
 	 *
 	 * @param 引数無し
 	 * @return List<SupplierMaster> 「null：失敗」「null以外：成功」
@@ -115,20 +118,21 @@ public class SupplierMasterDAO extends DAO {
 		}
 		return SupplierMasterList;
 	}
-	
+
 	/**
 	 * SupplierMasterテーブル登録メソッド
+	 * 
 	 * @param SupplierMasterビーン
 	 * @return 整数 「0：失敗」「1：成功」
 	 */
 	public int insert(G_SupplierMaster G_SupplierMaster, HttpServletRequest request) {
 		int line = 0;
-		//SUPPLIER_NO取得用カウンタ
+		// SUPPLIER_NO取得用カウンタ
 		int count = 0;
 		String SUPPLIER_NO = "";
-		//登録日用にCalendarクラスのオブジェクトを生成する
+		// 登録日用にCalendarクラスのオブジェクトを生成する
 		Calendar cl = Calendar.getInstance();
-		//登録日用SimpleDateFormatクラスでフォーマットパターンを設定する
+		// 登録日用SimpleDateFormatクラスでフォーマットパターンを設定する
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
 		// ｢REGIST_USER｣が格納されたインスタンス取得
 		HttpSession session = request.getSession();
@@ -138,15 +142,15 @@ public class SupplierMasterDAO extends DAO {
 			SupplierMaster SupplierMaster = null;
 			PreparedStatement st = null;
 			ResultSet rs = null;
-			//仕入先コード作成
+			// 仕入先コード作成
 			do {
-				//仕入先コードのシーケンス値取得
+				// 仕入先コードのシーケンス値取得
 				st = con.prepareStatement("SELECT NEXTVAL('SUPPLIER_NO')");
 				rs = st.executeQuery();
 				while (rs.next()) {
 					SUPPLIER_NO = String.valueOf(rs.getInt("NEXTVAL"));
 				}
-				//仕入先コードを左ゼロ埋めで6桁にする処理
+				// 仕入先コードを左ゼロ埋めで6桁にする処理
 				do {
 					if (SUPPLIER_NO.length() < 6) {
 						SUPPLIER_NO = "0" + SUPPLIER_NO;
@@ -154,19 +158,19 @@ public class SupplierMasterDAO extends DAO {
 						break;
 					}
 				} while (true);
-				//作成した注文番号の未使用確認
+				// 作成した注文番号の未使用確認
 				SupplierMaster = searchBySupNo(SUPPLIER_NO);
 				if (SupplierMaster == null) {
-					//使用可能
+					// 使用可能
 					break;
 				} else if (count >= 100000) {
 					session.setAttribute("state", "使用可能な仕入先コードがありません。\\n処理を終了します｡");
 					return line;
 				}
-				//SUPPLIER_NO取得用カウンタ、カウントアップ
+				// SUPPLIER_NO取得用カウンタ、カウントアップ
 				count++;
 			} while (true);
-			//新規登録処理 13項目
+			// 新規登録処理 13項目
 			st = con.prepareStatement("INSERT INTO SUPPLIER_MASTER VALUES(? ,? ,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 			st.setString(1, SUPPLIER_NO);
 			st.setString(2, G_SupplierMaster.getSupplierName());
@@ -190,19 +194,20 @@ public class SupplierMasterDAO extends DAO {
 		}
 		return line;
 	}
-	
+
 	/**
 	 * SupplierMasterテーブル更新メソッド
 	 *  →SUPPLIER_NOで更新
+	 * 
 	 * @param SupplierMaster
 	 * @param SupplierMasterビーン
 	 * @return 整数 「0：失敗」「1：成功」
 	 */
 	public int updateBySupNo(G_SupplierMaster G_SupplierMaster, HttpServletRequest request) {
 		int line = 0;
-		//登録日用にCalendarクラスのオブジェクトを生成する
+		// 登録日用にCalendarクラスのオブジェクトを生成する
 		Calendar cl = Calendar.getInstance();
-		//登録日用SimpleDateFormatクラスでフォーマットパターンを設定する
+		// 登録日用SimpleDateFormatクラスでフォーマットパターンを設定する
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
 		// ｢REGIST_USER｣が格納されたインスタンス取得
 		HttpSession session = request.getSession();
@@ -210,7 +215,7 @@ public class SupplierMasterDAO extends DAO {
 		try {
 			Connection con = getConnection();
 			PreparedStatement st = con.prepareStatement("UPDATE SUPPLIER_MASTER SET SUPPLIER_NAME=?, BRANCH_NAME=?, ZIP_NO=?, ADDRESS1=?, ADDRESS2=?, ADDRESS3=?, "
-															+ "TEL=?, FAX=?, MANAGER = ?, ETC=?, REGIST_DATE=?, REGIST_USER=? WHERE SUPPLIER_NO=? ");
+														+ "TEL=?, FAX=?, MANAGER = ?, ETC=?, REGIST_DATE=?, REGIST_USER=? WHERE SUPPLIER_NO=? ");
 			st.setString(1, G_SupplierMaster.getSupplierName());
 			st.setString(2, G_SupplierMaster.getBranchName());
 			st.setString(3, G_SupplierMaster.getZipNo());

@@ -27,8 +27,6 @@ public class StockListAction extends Action {
 			new MainAction().crearAttributeForScreenChange(session);
 			// メッセージ作成
 			session.setAttribute("message", "セッション切れの為､ログイン画面に移動しました｡");
-			// 画面遷移先登録
-			session.setAttribute("nextJsp", "/WEB-INF/main/login.jsp");
 			return "/WEB-INF/main/login.jsp";
 		}
 		// 各メッセージリセット
@@ -58,9 +56,6 @@ public class StockListAction extends Action {
 		}
 		session.setAttribute("G_StockList", G_StockList);
 		switch (toAction) {
-		case "searchProductMasterList":
-			// ｢ProductMasterList｣取得のみの為､caseでは処理を行わない
-			break;
 		case "searchProductNo":
 			// ProductNoのクリア動作
 			if (G_StockList.getProductNo().isEmpty()) {
@@ -100,8 +95,6 @@ public class StockListAction extends Action {
 		// プルダウン用リスト取得
 		ProductMasterList = pmDAO.searchAll();
 		session.setAttribute("ProductMasterList", ProductMasterList);
-		// 遷移画面情報保存
-		session.setAttribute("nextJsp", "/WEB-INF/main/stockList.jsp");
 		return "/WEB-INF/main/stockList.jsp";
 	}
 

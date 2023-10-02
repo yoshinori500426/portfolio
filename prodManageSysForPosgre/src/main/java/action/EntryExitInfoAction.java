@@ -31,8 +31,6 @@ public class EntryExitInfoAction extends Action {
 			new MainAction().crearAttributeForScreenChange(session);
 			// メッセージ作成
 			session.setAttribute("message", "セッション切れの為､ログイン画面に移動しました｡");
-			// 画面遷移先登録
-			session.setAttribute("nextJsp", "/WEB-INF/main/login.jsp");
 			return "/WEB-INF/main/login.jsp";
 		}
 		// 各メッセージリセット
@@ -65,10 +63,10 @@ public class EntryExitInfoAction extends Action {
 		G_EntryExitInfo.setEnExDate(request.getParameter("enExDate"));
 		G_EntryExitInfo.setEnExNum(request.getParameter("enExNum"));
 		G_EntryExitInfo.setReason(request.getParameter("reason"));
-		if(request.getParameter("stockInOut")==null) {
+		if (request.getParameter("stockInOut") == null) {
 			G_EntryExitInfo.setNyukoQty("");
 			G_EntryExitInfo.setSyukoQty("");
-		}else if (request.getParameter("stockInOut").equals("in")) {
+		} else if (request.getParameter("stockInOut").equals("in")) {
 			G_EntryExitInfo.setNyukoQty(request.getParameter("enExNum"));
 			G_EntryExitInfo.setSyukoQty("");
 		} else if (request.getParameter("stockInOut").equals("out")) {
@@ -233,6 +231,9 @@ public class EntryExitInfoAction extends Action {
 				// トランザクション処理終了
 				con.setAutoCommit(true);
 			}
+			// コネクションクローズ処理
+			//　➔このコネクションClose処理が抜けると､複数回の動作でプールを使い果たし､コネクションが取得できずにフリーズする
+			con.close();
 			break;
 		case "dummy":
 			session.setAttribute("message", null);
@@ -248,8 +249,6 @@ public class EntryExitInfoAction extends Action {
 		session.setAttribute("EntryExitInfoList", EntryExitInfoList);
 		ProductMasterList = pmDAO.searchAll();
 		session.setAttribute("ProductMasterList", ProductMasterList);
-		// 遷移画面情報保存
-		session.setAttribute("nextJsp", "/WEB-INF/main/entryExitInfo.jsp");
 		return "/WEB-INF/main/entryExitInfo.jsp";
 	}
 }

@@ -30,8 +30,8 @@
 
 <!-- PostgreSQL(ローカルPC用) -->
 <!-- 
- -->
 	password="postgres"
+ -->
 <Resource 
 	name="jdbc/yaoya"
 	auth="Container" 

@@ -19,8 +19,6 @@ public class CustomerMaster implements Serializable {
 	private String registdate;
 	private String registuser;
 
-
-
 	public String getCustomerNo() {
 		return customerNo;
 	}

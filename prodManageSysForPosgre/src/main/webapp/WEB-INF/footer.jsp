@@ -127,6 +127,7 @@ function doChangeDisabled(keyValue) {
 		}
 	}
 }
+
 //ボタン押下時､Java動作用メソッド(=｢delete｣ボタンありなしどちらでも対応可能)
 function btnChange(atype) {
 	//隠しデータ｢btnSelect｣の値変更
@@ -528,9 +529,6 @@ if('${nextJsp}'=='/WEB-INF/main/entryExitInfo.jsp'){
 //'stockList.jsp'
 if('${nextJsp}'=='/WEB-INF/main/stockList.jsp'){
 	window.addEventListener('load', function(){
-		if('${ProductMasterList}'==''){
-			doExecute2('searchProductMasterList');
-		}
 		docheck();
 		var keyValue='';
 		doChangeDisabled(keyValue);
@@ -552,9 +550,6 @@ if('${nextJsp}'=='/WEB-INF/main/stockList.jsp'){
 //'purchaseOrderList'
 if('${nextJsp}'=='/WEB-INF/main/purchaseOrderList.jsp'){
 	window.addEventListener('load', function(){
-		if('${ProductMasterList}'==''){
-			doExecute2('searchProductMasterList');
-		}
 		if('${G_PurchaseOrderList.productNo}'!='' && '${ProductMaster.productName}'!=''){
 			// チェックボックスのチェック指定
 			var shipped = form.elements['shipped'];
@@ -622,9 +617,6 @@ if('${nextJsp}'=='/WEB-INF/main/purchaseOrderList.jsp'){
 //'orderList.jsp'
 if('${nextJsp}'=='/WEB-INF/main/orderList.jsp'){
 	window.addEventListener('load', function(){
-		if('${ProductMasterList}'==''){
-			doExecute2('searchProductMasterList');
-		}
 		if('${G_OrderList.productNo}'!='' && '${ProductMaster.productName}'!=''){
 			// チェックボックスのチェック指定
 			var inStock = form.elements['inStock'];
@@ -692,9 +684,6 @@ if('${nextJsp}'=='/WEB-INF/main/orderList.jsp'){
 //'entryExitInfoList.jsp'
 if('${nextJsp}'=='/WEB-INF/main/entryExitInfoList.jsp'){
 	window.addEventListener('load', function(){
-		if('${ProductMasterList}'==''){
-			doExecute2('searchProductMasterList');
-		}
 		if('${G_EntryExitInfoList.productNo}'!='' && '${ProductMaster.productName}'!=''){
 			// チェックボックスのチェック指定
 			var stockIn = form.elements['stockIn'];

@@ -29,8 +29,6 @@ public class OrderAction extends Action {
 			new MainAction().crearAttributeForScreenChange(session);
 			// メッセージ作成
 			session.setAttribute("message", "セッション切れの為､ログイン画面に移動しました｡");
-			// 画面遷移先登録
-			session.setAttribute("nextJsp", "/WEB-INF/main/login.jsp");
 			return "/WEB-INF/main/login.jsp";
 		}
 		// 各メッセージリセット
@@ -159,6 +157,9 @@ public class OrderAction extends Action {
 				// トランザクション処理終了
 				con.setAutoCommit(true);
 			}
+			// コネクションクローズ処理
+			//　➔このコネクションClose処理が抜けると､複数回の動作でプールを使い果たし､コネクションが取得できずにフリーズする
+			con.close();
 			break;
 		case "dummy":
 			session.setAttribute("message", null);
@@ -174,8 +175,6 @@ public class OrderAction extends Action {
 		session.setAttribute("OrderTableList", OrderTableList);
 		ProductMasterList = pmDAO.searchAll();
 		session.setAttribute("ProductMasterList", ProductMasterList);
-		// 遷移画面情報保存
-		session.setAttribute("nextJsp", "/WEB-INF/main/order.jsp");
 		return "/WEB-INF/main/order.jsp";
 	}
 }

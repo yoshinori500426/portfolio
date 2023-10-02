@@ -25,63 +25,6 @@ import bean.ProductMaster;
 import bean.UserMaster;
 
 public class ProductMasterDAO extends DAO {
-//	public ProductMaster searchByProNoS(String productNo) throws Exception {
-//	ProductMaster ProductMaster = null;
-//
-//	Connection con = getConnection();
-//
-//	PreparedStatement st;
-//	st = con.prepareStatement("SELECT * FROM PRODUCT_MASTER WHERE PRODUCT_NO=? ");
-//	st.setString(1, productNo);
-//	ResultSet rs = st.executeQuery();
-//
-//	while (rs.next()) {
-//		ProductMaster = new ProductMaster();
-//		ProductMaster.setProductNo(rs.getString("product_No"));
-//		ProductMaster.setProductName(rs.getString("product_Name"));
-//		ProductMaster.setSupplierNo(rs.getString("supplier_No"));
-//		ProductMaster.setUnitPrice(rs.getInt("unit_Price"));
-//		ProductMaster.setSellingPrice(rs.getInt("selling_Price"));
-//		ProductMaster.setLeadTime(rs.getInt("leadtime"));
-//		ProductMaster.setLot(rs.getInt("lot"));
-//		ProductMaster.setLocation(rs.getString("location"));
-//		ProductMaster.setEtc(rs.getString("etc"));
-//		ProductMaster.setRegistDate(rs.getString("regist_Date"));
-//		ProductMaster.setRegistUser(rs.getString("regist_User"));
-//	}
-//	st.close();
-//	con.close();
-//	return ProductMaster;
-//}
-
-//public ProductMaster searchBySireNo(String No) throws Exception {
-//	ProductMaster ProductMaster = null;
-//
-//	Connection con = getConnection();
-//
-//	PreparedStatement st;
-//	st = con.prepareStatement("SELECT * FROM PRODUCT_MASTER WHERE PRODUCT_NO  = ?");
-//	st.setString(1, No);
-//	ResultSet rs = st.executeQuery();
-//
-//	while (rs.next()) {
-//		ProductMaster = new ProductMaster();
-//		ProductMaster.setProductNo(rs.getString("PRODUCT_NO"));
-//		ProductMaster.setProductName(rs.getString("PRODUCT_NAME"));
-//		ProductMaster.setSupplierNo(rs.getString("SUPPLIER_NO"));
-//		ProductMaster.setUnitPrice(rs.getInt("UNIT_PRICE"));
-//		ProductMaster.setSellingPrice(rs.getInt("SELLING_PRICE"));
-//		ProductMaster.setLeadTime(rs.getInt("LEADTIME"));
-//		ProductMaster.setLot(rs.getInt("LOT"));
-//		ProductMaster.setLocation(rs.getString("LOCATION"));
-//		ProductMaster.setBaseStock(rs.getInt("BASESTOCK"));
-//		ProductMaster.setEtc(rs.getString("ETC"));
-//	}
-//	st.close();
-//	con.close();
-//	return ProductMaster;
-//}
-
 	/**
 	 * 品番に合致するレコード情報を取得するメソッド
 	 * 
@@ -119,7 +62,7 @@ public class ProductMasterDAO extends DAO {
 		}
 		return ProductMaster;
 	}
-	
+
 	/**
 	 * 品番に合致するレコード情報を取得するメソッド
 	 * 
@@ -139,7 +82,7 @@ public class ProductMasterDAO extends DAO {
 	public ProductMaster searchByProNo(G_PurchaseOrder G_PurchaseOrder) {
 		return searchByProNo(G_PurchaseOrder.getProductNo());
 	}
-	
+
 	/**
 	 * 品番に合致するレコード情報を取得するメソッド
 	 * 
@@ -149,7 +92,7 @@ public class ProductMasterDAO extends DAO {
 	public ProductMaster searchByProNo(G_Order G_Order) {
 		return searchByProNo(G_Order.getProductNo());
 	}
-	
+
 	/**
 	 * 品番に合致するレコード情報を取得するメソッド
 	 * 
@@ -159,7 +102,7 @@ public class ProductMasterDAO extends DAO {
 	public ProductMaster searchByProNo(G_Shipping G_Shipping) {
 		return searchByProNo(G_Shipping.getProductNo());
 	}
-	
+
 	/**
 	 * 品番に合致するレコード情報を取得するメソッド
 	 * 
@@ -169,7 +112,7 @@ public class ProductMasterDAO extends DAO {
 	public ProductMaster searchByProNo(G_Arrival G_Arrival) {
 		return searchByProNo(G_Arrival.getProductNo());
 	}
-	
+
 	/**
 	 * 品番に合致するレコード情報を取得するメソッド
 	 * 
@@ -179,7 +122,7 @@ public class ProductMasterDAO extends DAO {
 	public ProductMaster searchByProNo(G_EntryExitInfo G_EntryExitInfo) {
 		return searchByProNo(G_EntryExitInfo.getProductNo());
 	}
-	
+
 	/**
 	 * 品番に合致するレコード情報を取得するメソッド
 	 * 
@@ -199,7 +142,7 @@ public class ProductMasterDAO extends DAO {
 	public ProductMaster searchByProNo(G_OrderList G_OrderList) {
 		return searchByProNo(G_OrderList.getProductNo());
 	}
-	
+
 	/**
 	 * 品番に合致するレコード情報を取得するメソッド
 	 * 
@@ -209,7 +152,7 @@ public class ProductMasterDAO extends DAO {
 	public ProductMaster searchByProNo(G_PurchaseOrderList G_PurchaseOrderList) {
 		return searchByProNo(G_PurchaseOrderList.getProductNo());
 	}
-	
+
 	/**
 	 * 品番に合致するレコード情報を取得するメソッド
 	 * 
@@ -219,9 +162,10 @@ public class ProductMasterDAO extends DAO {
 	public ProductMaster searchByProNo(G_EntryExitInfoList G_EntryExitInfoList) {
 		return searchByProNo(G_EntryExitInfoList.getProductNo());
 	}
-	
+
 	/**
-	 * ProductMasterテーブル取得メソッド(検索条件なし) →PRODUCT_NOリスト取得用メソッド
+	 * ProductMasterテーブル取得メソッド(検索条件なし)
+	 *  →PRODUCT_NOリスト取得用メソッド
 	 *
 	 * @param 引数無し
 	 * @return List<ProductMaster> 「null：失敗」「null以外：成功」
@@ -357,8 +301,9 @@ public class ProductMasterDAO extends DAO {
 		try {
 			Connection con = getConnection();
 			PreparedStatement st;
-			st = con.prepareStatement("UPDATE PRODUCT_MASTER SET PRODUCT_NAME=?, SUPPLIER_NO=?, UNIT_PRICE=?, SELLING_PRICE=?, LEADTIME=?,"
-										+ " LOT=?, LOCATION=?, BASESTOCK=?, ETC=?, REGIST_DATE=?, REGIST_USER=? WHERE PRODUCT_NO=?");
+			st = con.prepareStatement(
+					"UPDATE PRODUCT_MASTER SET PRODUCT_NAME=?, SUPPLIER_NO=?, UNIT_PRICE=?, SELLING_PRICE=?, LEADTIME=?,"
+							+ " LOT=?, LOCATION=?, BASESTOCK=?, ETC=?, REGIST_DATE=?, REGIST_USER=? WHERE PRODUCT_NO=?");
 			st.setString(1, G_ProductMaster.getProductName());
 			st.setString(2, G_ProductMaster.getSupplierNo());
 			st.setInt(3, Integer.parseInt(G_ProductMaster.getUnitPrice()));

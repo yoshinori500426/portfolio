@@ -25,8 +25,6 @@ public class UserMasterAction extends Action {
 			new MainAction().crearAttributeForScreenChange(session);
 			// メッセージ作成
 			session.setAttribute("message", "セッション切れの為､ログイン画面に移動しました｡");
-			// 画面遷移先登録
-			session.setAttribute("nextJsp", "/WEB-INF/main/login.jsp");
 			return "/WEB-INF/main/login.jsp";
 		}
 		// 各メッセージリセット
@@ -102,6 +100,9 @@ public class UserMasterAction extends Action {
 				// トランザクション処理終了
 				con.setAutoCommit(true);
 			}
+			// コネクションクローズ処理
+			//　➔このコネクションClose処理が抜けると､複数回の動作でプールを使い果たし､コネクションが取得できずにフリーズする
+			con.close();
 			break;
 		case "dummy":
 			session.setAttribute("message", null);
@@ -115,8 +116,6 @@ public class UserMasterAction extends Action {
 		// プルダウン用リスト取得
 		UserMasterList = umDAO.searchAll();
 		session.setAttribute("UserMasterList", UserMasterList);
-		// 遷移画面情報保存
-		session.setAttribute("nextJsp", "/WEB-INF/main/userMaster.jsp");
 		return "/WEB-INF/main/userMaster.jsp";
 	}
 }

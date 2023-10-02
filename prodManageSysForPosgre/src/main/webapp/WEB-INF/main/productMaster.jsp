@@ -151,4 +151,37 @@
 				</div>
 			</form>
 		</div>
+	<hr>
+		<div class="row">
+			<div class="col-xs-1"></div>
+			<div class="col-xs-10">
+			    <h1 class="h5">登録済み品番レコード(動作確認用)</h1>
+				<table class="table table-bordered table-hover">
+					<thead class="thead-dark">
+						<tr>
+							<th scope="col">品番</th>
+							<th scope="col">仕入先コード</th>
+							<th scope="col">単価</th>
+							<th scope="col">リードタイム</th>
+							<th scope="col">ロット</th>
+							<th scope="col">ロケーション</th>
+							<th scope="col">基本在庫</th>
+						</tr>
+					</thead>
+					<c:forEach var="pmPF" items="${PmListPF}">
+						<tbody>
+							<tr>
+								<td>${pmPF.productNo}</td>
+								<td>${pmPF.supplierNo}</td>
+								<td class="text-right">${pmPF.unitPrice}</td>
+								<td class="text-right">${pmPF.leadTime}</td>
+								<td class="text-right">${pmPF.lot}</td>
+								<td>${pmPF.location}</td>
+								<td class="text-right">${pmPF.baseStock}</td>
+							</tr>
+						</tbody>
+					</c:forEach>
+				</table>
+			</div>
+			<div class="col-xs-1"></div>
 <%@ include file="../footer.jsp"%>

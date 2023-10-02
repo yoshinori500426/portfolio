@@ -155,4 +155,35 @@
 				</div>
 			</form>
 		</div>
+	<hr>
+		<div class="row">
+			<div class="col-xs-1"></div>
+			<div class="col-xs-10">
+			    <h1 class="h5">登録済み発注レコード(動作確認用)</h1>
+				<table class="table table-bordered table-hover">
+					<thead class="thead-dark">
+						<tr>
+							<th scope="col">発注番号</th>
+							<th scope="col">仕入先コード</th>
+							<th scope="col">品番</th>
+							<th scope="col">発注数量</th>
+							<th scope="col">納期</th>
+							<th scope="col">状態</th>
+						</tr>
+					</thead>
+					<c:forEach var="otPF" items="${OtListPF}">
+						<tbody>
+							<tr>
+								<td>${otPF.orderNo}</td>
+								<td>${otPF.supplierNo}</td>
+								<td>${otPF.productNo}</td>
+								<td class="text-right">${otPF.orderQty}</td>
+								<td>${otPF.deliveryDate}</td>
+								<td>${otPF.finFlg=='1'?'入荷済':'未入荷'}</td>
+							</tr>
+						</tbody>
+					</c:forEach>
+				</table>
+			</div>
+			<div class="col-xs-1"></div>
 <%@ include file="../footer.jsp"%>

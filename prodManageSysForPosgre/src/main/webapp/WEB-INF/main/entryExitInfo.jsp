@@ -149,4 +149,33 @@
 				</div>
 			</form>
 		</div>
+	<hr>
+		<div class="row">
+			<div class="col-xs-1"></div>
+			<div class="col-xs-10">
+			    <h1 class="h5">登録済み入出庫レコード(動作確認用)</h1>
+				<table class="table table-bordered table-hover">
+					<thead class="thead-dark">
+						<tr>
+							<th scope="col">入出庫番号</th>
+							<th scope="col">品番</th>
+							<th scope="col">入出庫</th>
+							<th scope="col">入出庫日</th>
+							<th scope="col">数量</th>
+						</tr>
+					</thead>
+					<c:forEach var="eeiPF" items="${EeiListPF}">
+						<tbody>
+							<tr>
+								<td>${eeiPF.enExId}</td>
+								<td>${eeiPF.productNo}</td>
+								<td>${eeiPF.nyukoQty!=''?'入庫':eeiPF.syukoQty!=''?'出庫':''}</td>
+								<td>${eeiPF.enExDate}</td>
+								<td class="text-right">${eeiPF.nyukoQty!=''?eeiPF.nyukoQty:eeiPF.syukoQty!=''?eeiPF.syukoQty:''}</td>
+							</tr>
+						</tbody>
+					</c:forEach>
+				</table>
+			</div>
+			<div class="col-xs-1"></div>
 <%@ include file="../footer.jsp"%>

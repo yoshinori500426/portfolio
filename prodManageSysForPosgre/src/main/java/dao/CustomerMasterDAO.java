@@ -18,25 +18,6 @@ import bean.G_Shipping;
 import bean.UserMaster;
 
 public class CustomerMasterDAO extends DAO {
-//	public int deleteByCstNo(String customerNo) {
-//	int result = 0;
-//	try {
-//		Connection con = getConnection();
-//		PreparedStatement st;
-//		st = con.prepareStatement("DELETE FROM CUSTOMER_MASTER WHERE CUSTOMER_NO=?");
-//		st.setString(1, customerNo);
-//
-//		result = st.executeUpdate();
-//		st.close();
-//		con.close();
-//
-//	} catch (Exception e) {
-//		e.printStackTrace();
-//	}
-//	return result;
-//
-//}
-
 	/**
 	 * 顧客先番号に合致するレコード情報を取得するメソッド
 	 * 
@@ -75,7 +56,7 @@ public class CustomerMasterDAO extends DAO {
 		}
 		return CustomerMaster;
 	}
-	
+
 	/**
 	 * 顧客先番号に合致するレコード情報を取得するメソッド
 	 * 
@@ -95,7 +76,7 @@ public class CustomerMasterDAO extends DAO {
 	public CustomerMaster searchByCusNo(G_PurchaseOrder G_PurchaseOrder) {
 		return searchByCusNo(G_PurchaseOrder.getCustomerNo());
 	}
-	
+
 	/**
 	 * 顧客先番号に合致するレコード情報を取得するメソッド
 	 * 
@@ -107,7 +88,8 @@ public class CustomerMasterDAO extends DAO {
 	}
 
 	/**
-	 * CustomerMasterテーブル取得メソッド(検索条件なし) →CUSTOMER_NOリスト取得用メソッド
+	 * CustomerMasterテーブル取得メソッド(検索条件なし)
+	 *  →CUSTOMER_NOリスト取得用メソッド
 	 *
 	 * @param 引数無し
 	 * @return List<CustomerMaster> 「null：失敗」「null以外：成功」
@@ -282,7 +264,7 @@ public class CustomerMasterDAO extends DAO {
 		}
 		return line;
 	}
-	
+
 	/**
 	 * 引数の顧客先番号に合致するレコードを更新するメソッド
 	 * 

@@ -50,8 +50,6 @@ public class AmountCalcAction extends Action implements Runnable {
 			new MainAction().crearAttributeForScreenChange(session);
 			// メッセージ作成
 			session.setAttribute("message", "セッション切れの為､ログイン画面に移動しました｡");
-			// 画面遷移先登録
-			session.setAttribute("nextJsp", "/WEB-INF/main/login.jsp");
 			return "/WEB-INF/main/login.jsp";
 		}
 
@@ -87,16 +85,12 @@ public class AmountCalcAction extends Action implements Runnable {
 			// AmountCalcDAOで使用したセッション属性のnullクリア
 			session.setAttribute("therad", null);
 			new AmountCalcDAO().outPutMSG(session, null, null, null, null);
-			// 画面「amountCalcOrder.jsp」へ遷移
-			session.setAttribute("nextJsp", "/WEB-INF/main/amountCalcOrder.jsp");
 			return "/WEB-INF/main/amountCalcOrder.jsp";
 		case "productNoCheck":
 		case "orderLotNumCheck":
 		case "":
 			// ページ｢amountCalcOrder.jsp｣の値をbean｢G_AmountCalcOrder.java｣に格納
 			G_AmountCalcOrder = getG_AmountCalcOrderParam(request, response);
-			// 画面「amountCalcOrder.jsp」へ遷移
-			session.setAttribute("nextJsp", "/WEB-INF/main/amountCalcOrder.jsp");
 			return "/WEB-INF/main/amountCalcOrder.jsp";
 		case "doOrder":
 			// 入力値再確認
@@ -133,6 +127,9 @@ public class AmountCalcAction extends Action implements Runnable {
 				// トランザクション処理終了
 				con.setAutoCommit(true);
 			}
+			// コネクションクローズ処理
+			//　➔このコネクションClose処理が抜けると､複数回の動作でプールを使い果たし､コネクションが取得できずにフリーズする
+			con.close();
 			// 発注処理後の所要量取得
 			// →排他処理/トランザクション処理不要の為､分けて記述
 			// 成功/失敗判定
@@ -143,13 +140,11 @@ public class AmountCalcAction extends Action implements Runnable {
 			// 発注ロット数をクリアする
 			G_AmountCalcOrder.setOrderLotNum(null);
 			session.setAttribute("G_AmountCalcOrder", G_AmountCalcOrder);
-			session.setAttribute("nextJsp", "/WEB-INF/main/amountCalcOrder.jsp");
 			return "/WEB-INF/main/amountCalcOrder.jsp";
 		// 「case "doOrder":」実施後、Webブラウザの「更新」で「case "doOrder":」が走ってしまう。
 		// その回避の為、「case "doOrder":」後のアラートダイヤログ「OK」押下で「case "aftDoOrder":」を走らせる事で、
 		// Webブラウザの「更新」動作を「case "doOrder":」から「case "aftDoOrder":」へ切り替える
 		case "aftDoOrder":
-			session.setAttribute("nextJsp", "/WEB-INF/main/amountCalcOrder.jsp");
 			return "/WEB-INF/main/amountCalcOrder.jsp";
 		case "cancel":
 			// キャンセルを行う為、セッション属性に保存指定している
@@ -172,7 +167,6 @@ public class AmountCalcAction extends Action implements Runnable {
 			new MainAction().crearAttributeForScreenChange(session);
 			break;
 		}
-		session.setAttribute("nextJsp", "/WEB-INF/main/amountCalc.jsp");
 		return "/WEB-INF/main/amountCalc.jsp";
 	}
 
