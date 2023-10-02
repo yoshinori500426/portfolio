@@ -30,7 +30,11 @@
 
 <!-- PostgreSQL(ローカルPC用) -->
 <!-- 
-	password="postgres"
+	以下を指定しないと､繰り返し動作を20回程度を行うと､コネクションプールが枯渇し､だんまり停止する
+		maxTotal="256"
+		maxIdle="512"
+		maxWaitMillis="10000"
+		validationQuery="SELECT 1"
  -->
 <Resource 
 	name="jdbc/yaoya"
@@ -39,10 +43,19 @@
 	driverClassName="org.postgresql.Driver"
 	url="jdbc:postgresql://localhost:5432/portfolio"
 	username="T.Yoshinori"
+	maxTotal="256"
+	maxIdle="512"
+	maxWaitMillis="10000"
+	validationQuery="SELECT 1"
 /> 
 
 <!-- PostgreSQL(公開用) -->
 <!-- 
+	以下を指定しないと､繰り返し動作を20回程度を行うと､コネクションプールが枯渇し､だんまり停止する
+		maxTotal="256"
+		maxIdle="512"
+		maxWaitMillis="10000"
+		validationQuery="SELECT 1"
 <Resource 
 	name="jdbc/yaoya"
 	auth="Container" 
@@ -51,6 +64,10 @@
 	url="jdbc:postgresql://dpg-cino9h5gkuvudi9noilg-a:5432/free_db_7own_oo74"
 	username="free_db_7own_oo74_user"
 	password="0QeTJ5CViRui6Tn5Ujr1PUSmbMdYUx2J"
+	maxTotal="256"
+	maxIdle="512"
+	maxWaitMillis="10000"
+	validationQuery="SELECT 1"
 /> 
 -->
 

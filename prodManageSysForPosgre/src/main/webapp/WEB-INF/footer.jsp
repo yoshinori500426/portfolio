@@ -493,15 +493,33 @@ if('${nextJsp}'=='/WEB-INF/main/entryExitInfo.jsp'){
 			enExNum.value='';
 			maxValue = '99999999';
 			info = '品番入力後に入力可能';
-		}else{
+		}else if(btnSelect=='insert'){
 			if(stockInOut.value=='in'){
-				info = '1-'+oowStockQty.value;
-				maxValue = oowStockQty.value;
+				if(oowStockQty.value>1){
+					info = '1-'+oowStockQty.value;
+				}else{
+					info = '入庫可能な在庫数量はゼロです｡';
+				}
+				maxValue = Number(oowStockQty.value);
 				judgeEnExNum = (Number(enExNum.value)>=1 && Number(enExNum.value)<=Number(oowStockQty.value))?true:false;
 			}else if(stockInOut.value=='out' || stockInOut.value==''){
+				if(oowStockQty.value>1){
+					info = '1-'+wStockQty.value;
+				}else{
+					info = '出庫可能な在庫数量はゼロです｡';
+				}
+				maxValue = Number(wStockQty.value);
 				judgeEnExNum = (Number(enExNum.value)>=1 && Number(enExNum.value)<=Number(wStockQty.value))?true:false;
-				maxValue = wStockQty.value;
-				info = '1-'+wStockQty.value;
+			}
+		}else if(btnSelect!='insert'){
+			if(stockInOut.value=='in'){
+				info = '1-'+(Number(oowStockQty.value)+Number('${G_EntryExitInfo.enExNum}'));
+				maxValue = Number(oowStockQty.value)+Number('${G_EntryExitInfo.enExNum}');
+				judgeEnExNum = (Number(enExNum.value)>=1 && Number(enExNum.value)<=maxValue)?true:false;
+			}else if(stockInOut.value=='out' || stockInOut.value==''){
+				info = '1-'+(Number(wStockQty.value)+Number('${G_EntryExitInfo.enExNum}'));
+				maxValue = Number(wStockQty.value)+Number('${G_EntryExitInfo.enExNum}');
+				judgeEnExNum = (Number(enExNum.value)>=1 && Number(enExNum.value)<=maxValue)?true:false;
 			}
 		}
 		enExNum.setAttribute('max', maxValue);

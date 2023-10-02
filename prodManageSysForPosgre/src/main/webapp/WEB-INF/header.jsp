@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta charset="UTF-8">
 <title>Production Management System</title>
+<link rel="icon" href="../img/favicon.ico">
 <link type="text/css" rel="stylesheet" href="../css/bootstrap/css/bootstrap.min.css">
 <link type="text/css" rel="stylesheet" href="../css/bootstrap/css/bootstrap-theme.min.css">
 <link type="text/css" rel="stylesheet" href="../css/style.css">
