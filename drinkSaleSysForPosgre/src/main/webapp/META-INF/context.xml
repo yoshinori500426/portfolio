@@ -49,7 +49,7 @@
 	auth="Container" 
 	type="javax.sql.DataSource"
 	driverClassName="org.postgresql.Driver"
-	url="postgres://dbforoperationcheck2_user:X7TSdqc5Ix9ny4ZsOqVFC9WwtYYbxKbd@dpg-ckl1ht2v7m0s73d85mtg-a/dbforoperationcheck2"
+	url="jdbc:postgresql://dpg-ckl1ht2v7m0s73d85mtg-a:5432/dbforoperationcheck2"
 	username="dbforoperationcheck2_user"
 	password="X7TSdqc5Ix9ny4ZsOqVFC9WwtYYbxKbd"
 /> 
